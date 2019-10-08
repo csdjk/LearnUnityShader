@@ -6,9 +6,7 @@
 		_NoiseTex("Noise", 2D) = "white" {}
 		_Threshold("Threshold", Range(0.0, 1.0)) = 0.5
 		_EdgeLength("Edge Length", Range(0.0, 0.2)) = 0.1
-		_EdgeFirstColor("Edge Color", Color) = (1,1,1,1)
-		_EdgeSecondColor("Edge Color", Color) = (1,1,1,1)
-
+		_RampTex("Ramp", 2D) = "white" {}
 		_StartPoint("Start Point", Vector) = (0, 0, 0, 0)
 		_MaxDistance("Max Distance", Float) = 0
 		_DistanceEffect("Distance Effect", Range(0.0, 1.0)) = 0.5
@@ -19,7 +17,7 @@
 
 		Pass
 		{
-			Cull Off //要渲染背面保证效果正确
+			Cull Off 
 
 			CGPROGRAM
 			#pragma vertex vert
@@ -38,7 +36,9 @@
 				float4 vertex : SV_POSITION;
 				float2 uvMainTex : TEXCOORD0;
 				float2 uvNoiseTex : TEXCOORD1;
-				float3 worldPos : TEXCOORD3;
+				float2 uvRampTex : TEXCOORD2;
+				float3 objPos : TEXCOORD3;
+				float3 objStartPos : TEXCOORD4;
 			};
 
 			sampler2D _MainTex;
@@ -47,33 +47,37 @@
 			float4 _NoiseTex_ST;
 			float _Threshold;
 			float _EdgeLength;
-			fixed4 _EdgeFirstColor;
-			fixed4 _EdgeSecondColor;
+			sampler2D _RampTex;
+			float4 _RampTex_ST;
 			float _MaxDistance;
 			float4 _StartPoint;
 			float _DistanceEffect;
-
+			
 			v2f vert (appdata v)
 			{
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
+
 				o.uvMainTex = TRANSFORM_TEX(v.uv, _MainTex);
 				o.uvNoiseTex = TRANSFORM_TEX(v.uv, _NoiseTex);
-				o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+				o.uvRampTex = TRANSFORM_TEX(v.uv, _RampTex);
+
+				o.objPos = v.vertex;
+				o.objStartPos = mul(unity_WorldToObject, _StartPoint);
+
 				return o;
 			}
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
+				float dist = length(i.objPos.xyz - i.objStartPos.xyz);
+				float normalizedDist =  saturate(dist / _MaxDistance);
 
-				float dist = length(i.worldPos.xyz - _StartPoint.xyz);
-				float normalizedDist = saturate(dist / _MaxDistance);
-				//镂空
 				fixed cutout = tex2D(_NoiseTex, i.uvNoiseTex).r * (1 - _DistanceEffect) + normalizedDist * _DistanceEffect;
 				clip(cutout - _Threshold);
-				//边缘颜色
-				float degree = saturate((cutout - _Threshold) / _EdgeLength); //需要保证在[0,1]以免后面插值时颜色过亮
-				fixed4 edgeColor = lerp(_EdgeFirstColor, _EdgeSecondColor, degree);
+
+				float degree = saturate((cutout - _Threshold) / _EdgeLength);
+				fixed4 edgeColor = tex2D(_RampTex, float2(degree, degree));
 
 				fixed4 col = tex2D(_MainTex, i.uvMainTex);
 
@@ -84,3 +88,4 @@
 		}
 	}
 }
+
