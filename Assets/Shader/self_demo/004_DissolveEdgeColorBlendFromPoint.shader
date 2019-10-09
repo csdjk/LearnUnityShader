@@ -1,6 +1,6 @@
 ﻿Shader "lcl/selfDemo/004_DissolveEdgeColorBlendFromPoint"
 {
-	Properties
+Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
 		_NoiseTex("Noise", 2D) = "white" {}
@@ -17,6 +17,7 @@
 
 		Pass
 		{
+			Tags {"LightMode" = "ForwardBase"}
 			Cull Off 
 
 			CGPROGRAM
@@ -24,10 +25,12 @@
 			#pragma fragment frag
 			
 			#include "UnityCG.cginc"
+			#include "Lighting.cginc"
 
 			struct appdata
 			{
 				float4 vertex : POSITION;
+				float3 normal : NORMAL;
 				float2 uv : TEXCOORD0;
 			};
 
@@ -37,8 +40,8 @@
 				float2 uvMainTex : TEXCOORD0;
 				float2 uvNoiseTex : TEXCOORD1;
 				float2 uvRampTex : TEXCOORD2;
-				float3 objPos : TEXCOORD3;
-				float3 objStartPos : TEXCOORD4;
+				float3 worldPos : TEXCOORD3;
+				float3 worldNormal : TEXCOORD4;
 			};
 
 			sampler2D _MainTex;
@@ -62,16 +65,16 @@
 				o.uvNoiseTex = TRANSFORM_TEX(v.uv, _NoiseTex);
 				o.uvRampTex = TRANSFORM_TEX(v.uv, _RampTex);
 
-				o.objPos = v.vertex;
-				o.objStartPos = mul(unity_WorldToObject, _StartPoint);
+				o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+				o.worldNormal = UnityObjectToWorldNormal(v.normal);
 
 				return o;
 			}
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-				float dist = length(i.objPos.xyz - i.objStartPos.xyz);
-				float normalizedDist =  saturate(dist / _MaxDistance);
+				float dist = length(i.worldPos.xyz - _StartPoint.xyz);
+				float normalizedDist = saturate(dist / _MaxDistance);
 
 				fixed cutout = tex2D(_NoiseTex, i.uvNoiseTex).r * (1 - _DistanceEffect) + normalizedDist * _DistanceEffect;
 				clip(cutout - _Threshold);
@@ -79,13 +82,16 @@
 				float degree = saturate((cutout - _Threshold) / _EdgeLength);
 				fixed4 edgeColor = tex2D(_RampTex, float2(degree, degree));
 
-				fixed4 col = tex2D(_MainTex, i.uvMainTex);
+				//加点漫反射
+				fixed4 albedo = tex2D(_MainTex, i.uvMainTex);
+				float3 worldNormal = normalize(i.worldNormal);
+				float3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
+				fixed3 diffuse = _LightColor0.rgb * albedo.rgb * saturate(dot(worldNormal, worldLightDir));
 
-				fixed4 finalColor = lerp(edgeColor, col, degree);
+				fixed4 finalColor = lerp(edgeColor, fixed4(diffuse, 1), degree);
 				return fixed4(finalColor.rgb, 1);
 			}
 			ENDCG
 		}
 	}
 }
-
