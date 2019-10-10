@@ -53,16 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Demo\Editor\LightmapExport.cs" />
-     <Compile Include="Assets\Demo\Editor\ObjExporter.cs" />
-     <Compile Include="Assets\Demo\Standard Assets\Editor\Water (Pro Only)\Water4\GerstnerDisplaceEditor.cs" />
-     <Compile Include="Assets\Demo\Standard Assets\Editor\Water (Pro Only)\Water4\PlanarReflectionEditor.cs" />
-     <Compile Include="Assets\Demo\Standard Assets\Editor\Water (Pro Only)\Water4\SpecularLightingEditor.cs" />
-     <Compile Include="Assets\Demo\Standard Assets\Editor\Water (Pro Only)\Water4\WaterBaseEditor.cs" />
-     <Compile Include="Assets\Demo\Standard Assets\Editor\Water (Pro Only)\Water4\WaterEditorUtility.cs" />
- <Reference Include="Assembly-UnityScript">
- <HintPath>E:/UnityProject/UnityShader/Library/ScriptAssemblies/Assembly-UnityScript.dll</HintPath>
- </Reference>
+     <Compile Include="Assets\Editor\RenderCubemapWizard.cs" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>E:/UnityProject/UnityShader/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>
