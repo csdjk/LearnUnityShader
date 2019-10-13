@@ -65,6 +65,8 @@
      <None Include="Assets\Shader\learnShader1\001_Diffuse_vertex.shader" />
      <None Include="Assets\Shader\self_demo\004_DissolveEdgeColorBlendFromPoint.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaBlend.shader" />
+     <None Include="Assets\Shader\learnShader2\010_billboard.shader" />
+     <None Include="Assets\Shader\learnShader2\009_water.shader" />
      <None Include="Assets\Shader\learnShader1\007_rampTexture.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaBlendZWriteMat.shader" />
      <None Include="Assets\Shader\self_demo\002_uvShader.shader" />
@@ -86,6 +88,7 @@
      <None Include="Assets\Shader\self_demo\004_DissolveEdgeColor.shader" />
      <None Include="Assets\Shader\self_demo\004_DissolveEdgeColorBlend1.shader" />
      <None Include="Assets\Shader\self_demo\004_DissolveEdgeColorBlend.shader" />
+     <None Include="Assets\Shader\learnShader2\004_GlassRefraction.shader" />
      <None Include="Assets\Shader\self_demo\001_vertexAndUvAnim.shader" />
      <None Include="Assets\Shader\learnShader1\002_Diffuse_fargment.shader" />
  <Reference Include="Unity.TextMeshPro.Editor">
@@ -94,11 +97,11 @@
  <Reference Include="Unity.PackageManagerUI.Editor">
  <HintPath>E:/UnityProject/UnityShader/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
  </Reference>
- <Reference Include="Unity.TextMeshPro">
- <HintPath>E:/UnityProject/UnityShader/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
- </Reference>
  <Reference Include="Unity.CollabProxy.Editor">
  <HintPath>E:/UnityProject/UnityShader/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.TextMeshPro">
+ <HintPath>E:/UnityProject/UnityShader/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.DataPrivacy">
  <HintPath>E:/UnityProject/UnityShader/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
