@@ -5,7 +5,8 @@ Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: 004_dissolve4
   m_Shader: {fileID: 4800000, guid: ab82e2835bc186f479da67793983cc03, type: 3}
   m_ShaderKeywords: 

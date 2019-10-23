@@ -6,8 +6,8 @@
 		_NoiseTex("Noise", 2D) = "white" {}
 		_Threshold("Threshold", Range(0.0, 1.0)) = 0.5
 		_EdgeLength("Edge Length", Range(0.0, 0.2)) = 0.1
-		_EdgeFirstColor("Edge Color", Color) = (1,1,1,1)
-		_EdgeSecondColor("Edge Color", Color) = (1,1,1,1)
+		_EdgeFirstColor("EdgeFirstColor", Color) = (1,1,1,1)
+		_EdgeSecondColor("EdgeSecondColor", Color) = (1,1,1,1)
 	}
 	SubShader
 	{

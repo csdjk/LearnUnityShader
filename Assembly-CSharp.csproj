@@ -55,11 +55,19 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\ColorPicker.cs" />
      <Compile Include="Assets\Scripts\Dissolve.cs" />
+     <Compile Include="Assets\Scripts\learnShader3\BrightnessSaturationAndContrast.cs" />
+     <Compile Include="Assets\Scripts\learnShader3\EdgeDetection.cs" />
+     <Compile Include="Assets\Scripts\learnShader3\GaussianBlur.cs" />
+     <Compile Include="Assets\Scripts\learnShader3\MotionBlur.cs" />
+     <Compile Include="Assets\Scripts\learnShader3\PostEffectsbase.cs" />
      <None Include="Assets\Shader\self_demo\004_Dissolve.shader" />
      <None Include="Assets\Shader\learnShader1\003_Diffuse_fargment_half.shader" />
+     <None Include="Assets\Shader\self_demo\wave.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaTestBothSided.shader" />
+     <None Include="Assets\Shader\learnShader3\002_EdgeDetection.shader" />
      <None Include="Assets\Shader\learnShader1\006_Specular_fargment_BlinnPnone.shader" />
      <None Include="Assets\Shader\self_demo\003_uvScaleShader.shader" />
+     <None Include="Assets\Shader\learnShader3\005_Water.shader" />
      <None Include="Assets\Shader\Common\BumpedSpecular.shader" />
      <None Include="Assets\Shader\learnShader1\007_rampTextureMask.shader" />
      <None Include="Assets\Shader\learnShader1\001_Diffuse_vertex.shader" />
@@ -67,14 +75,18 @@
      <None Include="Assets\Shader\learnShader1\008_alphaBlend.shader" />
      <None Include="Assets\Shader\learnShader2\010_billboard.shader" />
      <None Include="Assets\Shader\learnShader2\009_water.shader" />
+     <None Include="Assets\Shader\self_demo\book.shader" />
      <None Include="Assets\Shader\learnShader1\007_rampTexture.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaBlendZWriteMat.shader" />
      <None Include="Assets\Shader\self_demo\002_uvShader.shader" />
      <None Include="Assets\Shader\learnShader2\004_refraction.shader" />
+     <None Include="Assets\Shader\learnShader3\001_BrightnessSaturationAndContrast.shader" />
      <None Include="Assets\Shader\learnShader2\007_imageSquenceAnimation.shader" />
+     <None Include="Assets\Shader\self_demo\flipBook.shader" />
      <None Include="Assets\Shader\learnShader2\001_forwardRendering.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaTest.shader" />
      <None Include="Assets\Shader\learnShader2\002_AlphaTestWithShadow.shader" />
+     <None Include="Assets\Shader\learnShader3\003_GaussianBlur.shader" />
      <None Include="Assets\Shader\learnShader2\006_Mirror.shader" />
      <None Include="Assets\Shader\self_demo\005_screenCaptrue.shader" />
      <None Include="Assets\Shader\self_demo\001_vertexAnim.shader" />
@@ -82,6 +94,7 @@
      <None Include="Assets\Shader\learnShader2\008_Scrolling.shader" />
      <None Include="Assets\Shader\learnShader2\003_reflection.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaBlendBothSided.shader" />
+     <None Include="Assets\Shader\learnShader3\004_MotionBlur.shader" />
      <None Include="Assets\Shader\learnShader1\004_Specular_vertex.shader" />
      <None Include="Assets\Shader\learnShader1\005_Specular_fargment.shader" />
      <None Include="Assets\Shader\learnShader2\005_Fresnel.shader" />
