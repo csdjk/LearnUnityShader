@@ -1,12 +1,19 @@
 # cd ./Assets
+echo -n "Enter commit description: "
+read str
+
+if [ -z "$str" ]; then
+    echo "commit description is empty string! please recommit"
+    exit
+fi   
 echo "begin it ..."
 
 git pull
 git add .
 
-git commit -m "$*"  
+git commit -m "$str"  
 
-echo $*
+echo $str
         
 git push origin master
 git push gitee master
