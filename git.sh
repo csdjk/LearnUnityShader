@@ -1,7 +1,7 @@
 # cd ./Assets
 echo -n "Enter commit description: "
 read str
-
+# 判断如果提交内容为空就退出!
 if [ -z "$str" ]; then
     echo "commit description is empty string! please recommit"
     exit

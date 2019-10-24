@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\learnShader3\GaussianBlur.cs" />
      <Compile Include="Assets\Scripts\learnShader3\MotionBlur.cs" />
      <Compile Include="Assets\Scripts\learnShader3\PostEffectsbase.cs" />
+     <Compile Include="Assets\Scripts\slefDemo\playerShadow.cs" />
      <None Include="Assets\Shader\self_demo\004_Dissolve.shader" />
      <None Include="Assets\Shader\learnShader1\003_Diffuse_fargment_half.shader" />
      <None Include="Assets\Shader\self_demo\wave.shader" />
@@ -83,6 +84,7 @@
      <None Include="Assets\Shader\learnShader3\001_BrightnessSaturationAndContrast.shader" />
      <None Include="Assets\Shader\learnShader2\007_imageSquenceAnimation.shader" />
      <None Include="Assets\Shader\self_demo\flipBook.shader" />
+     <None Include="Assets\Shader\self_demo\playerShadow.shader" />
      <None Include="Assets\Shader\learnShader2\001_forwardRendering.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaTest.shader" />
      <None Include="Assets\Shader\learnShader2\002_AlphaTestWithShadow.shader" />
@@ -98,6 +100,7 @@
      <None Include="Assets\Shader\learnShader1\004_Specular_vertex.shader" />
      <None Include="Assets\Shader\learnShader1\005_Specular_fargment.shader" />
      <None Include="Assets\Shader\learnShader2\005_Fresnel.shader" />
+     <None Include="Assets\Shader\self_demo\fog.shader" />
      <None Include="Assets\Shader\self_demo\004_DissolveEdgeColor.shader" />
      <None Include="Assets\Shader\self_demo\004_DissolveEdgeColorBlend1.shader" />
      <None Include="Assets\Shader\self_demo\004_DissolveEdgeColorBlend.shader" />
