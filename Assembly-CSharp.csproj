@@ -59,15 +59,19 @@
      <Compile Include="Assets\Scripts\learnShader3\EdgeDetection.cs" />
      <Compile Include="Assets\Scripts\learnShader3\GaussianBlur.cs" />
      <Compile Include="Assets\Scripts\learnShader3\MotionBlur.cs" />
-     <Compile Include="Assets\Scripts\learnShader3\PostEffectsbase.cs" />
+     <Compile Include="Assets\Scripts\PostEffectsbase.cs" />
+     <Compile Include="Assets\Scripts\slefDemo\MyGaussianBlur.cs" />
      <Compile Include="Assets\Scripts\slefDemo\playerShadow.cs" />
+     <Compile Include="Assets\Scripts\SpriteShaderBase.cs" />
      <None Include="Assets\Shader\self_demo\004_Dissolve.shader" />
      <None Include="Assets\Shader\learnShader1\003_Diffuse_fargment_half.shader" />
      <None Include="Assets\Shader\self_demo\wave.shader" />
+     <None Include="Assets\Shader\self_demo\myGaussianBlur.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaTestBothSided.shader" />
      <None Include="Assets\Shader\learnShader3\002_EdgeDetection.shader" />
      <None Include="Assets\Shader\learnShader1\006_Specular_fargment_BlinnPnone.shader" />
      <None Include="Assets\Shader\self_demo\003_uvScaleShader.shader" />
+     <None Include="Assets\Shader\self_demo\fire.shader" />
      <None Include="Assets\Shader\learnShader3\005_Water.shader" />
      <None Include="Assets\Shader\Common\BumpedSpecular.shader" />
      <None Include="Assets\Shader\learnShader1\007_rampTextureMask.shader" />
@@ -87,6 +91,7 @@
      <None Include="Assets\Shader\self_demo\playerShadow.shader" />
      <None Include="Assets\Shader\learnShader2\001_forwardRendering.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaTest.shader" />
+     <None Include="Assets\Allegorithmic\Plugins\engine_build_info.txt" />
      <None Include="Assets\Shader\learnShader2\002_AlphaTestWithShadow.shader" />
      <None Include="Assets\Shader\learnShader3\003_GaussianBlur.shader" />
      <None Include="Assets\Shader\learnShader2\006_Mirror.shader" />
@@ -96,10 +101,12 @@
      <None Include="Assets\Shader\learnShader2\008_Scrolling.shader" />
      <None Include="Assets\Shader\learnShader2\003_reflection.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaBlendBothSided.shader" />
+     <None Include="Assets\Shader\self_demo\outline.shader" />
      <None Include="Assets\Shader\learnShader3\004_MotionBlur.shader" />
      <None Include="Assets\Shader\learnShader1\004_Specular_vertex.shader" />
      <None Include="Assets\Shader\learnShader1\005_Specular_fargment.shader" />
      <None Include="Assets\Shader\learnShader2\005_Fresnel.shader" />
+     <None Include="Assets\Allegorithmic\Plugins\EULA.txt" />
      <None Include="Assets\Shader\self_demo\fog.shader" />
      <None Include="Assets\Shader\self_demo\004_DissolveEdgeColor.shader" />
      <None Include="Assets\Shader\self_demo\004_DissolveEdgeColorBlend1.shader" />
@@ -359,6 +366,10 @@
  <Reference Include="Boo.Lang">
  <HintPath>D:/Program Files/Unity2018.4.2/Editor/Data/MonoBleedingEdge/lib/mono/unity/Boo.Lang.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Substance.Platform.csproj">
+      <Project>{49E84162-3EEC-D62B-E43E-FB9121E47A4B}</Project>      <Name>Substance.Platform</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
