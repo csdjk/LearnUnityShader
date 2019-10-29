@@ -81,12 +81,15 @@
      <None Include="Assets\Shader\learnShader2\010_billboard.shader" />
      <None Include="Assets\Shader\learnShader2\009_water.shader" />
      <None Include="Assets\Shader\self_demo\book.shader" />
+     <None Include="Assets\Shader\self_demo\fireTexNoise.shader" />
      <None Include="Assets\Shader\learnShader1\007_rampTexture.shader" />
+     <None Include="Assets\Shader\shaderToy\water.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaBlendZWriteMat.shader" />
      <None Include="Assets\Shader\self_demo\002_uvShader.shader" />
      <None Include="Assets\Shader\learnShader2\004_refraction.shader" />
      <None Include="Assets\Shader\learnShader3\001_BrightnessSaturationAndContrast.shader" />
      <None Include="Assets\Shader\learnShader2\007_imageSquenceAnimation.shader" />
+     <None Include="Assets\Shader\shaderToy\fog.shader" />
      <None Include="Assets\Shader\self_demo\flipBook.shader" />
      <None Include="Assets\Shader\self_demo\playerShadow.shader" />
      <None Include="Assets\Shader\learnShader2\001_forwardRendering.shader" />
@@ -113,6 +116,7 @@
      <None Include="Assets\Shader\self_demo\004_DissolveEdgeColorBlend.shader" />
      <None Include="Assets\Shader\learnShader2\004_GlassRefraction.shader" />
      <None Include="Assets\Shader\self_demo\001_vertexAndUvAnim.shader" />
+     <None Include="Assets\Shader\shaderToy\sun.shader" />
      <None Include="Assets\Shader\learnShader1\002_Diffuse_fargment.shader" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>E:/UnityProject/UnityShader/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

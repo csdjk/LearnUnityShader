@@ -5,7 +5,8 @@ Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: bg
   m_Shader: {fileID: 4800000, guid: 091506f50705fc248ae0960e26763e43, type: 3}
   m_ShaderKeywords: 
@@ -19,11 +20,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f3c963a03daa8b8459ef0c316e82d01d, type: 3}
+        m_Texture: {fileID: 2800000, guid: dc4b78174bb4f41e5bea9fb1d63a2f6c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _rippleTex:
-        m_Texture: {fileID: 2800000, guid: 13a8cca93c9a06b49a1414239d7012ab, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3f572f07a56a0c7478e78ae1c3feb9bb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
