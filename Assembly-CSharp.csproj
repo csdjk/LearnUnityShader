@@ -60,13 +60,17 @@
      <Compile Include="Assets\Scripts\learnShader3\GaussianBlur.cs" />
      <Compile Include="Assets\Scripts\learnShader3\MotionBlur.cs" />
      <Compile Include="Assets\Scripts\PostEffectsbase.cs" />
-     <Compile Include="Assets\Scripts\slefDemo\MyGaussianBlur.cs" />
+     <Compile Include="Assets\Scripts\screenEffect\MyGaussianBlur.cs" />
+     <Compile Include="Assets\Scripts\screenEffect\WaterWaveEffect.cs" />
+     <Compile Include="Assets\Scripts\screenEffect\WaterWaveEffect_L.cs" />
+     <Compile Include="Assets\Scripts\SimplePostEffectsBase.cs" />
      <Compile Include="Assets\Scripts\slefDemo\playerShadow.cs" />
+     <Compile Include="Assets\Scripts\slefDemo\ShaderToyHelper.cs" />
      <Compile Include="Assets\Scripts\SpriteShaderBase.cs" />
      <None Include="Assets\Shader\self_demo\004_Dissolve.shader" />
      <None Include="Assets\Shader\learnShader1\003_Diffuse_fargment_half.shader" />
      <None Include="Assets\Shader\self_demo\wave.shader" />
-     <None Include="Assets\Shader\self_demo\myGaussianBlur.shader" />
+     <None Include="Assets\Shader\screenEffect\myGaussianBlur.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaTestBothSided.shader" />
      <None Include="Assets\Shader\learnShader3\002_EdgeDetection.shader" />
      <None Include="Assets\Shader\learnShader1\006_Specular_fargment_BlinnPnone.shader" />
@@ -96,6 +100,7 @@
      <None Include="Assets\Shader\learnShader1\008_alphaTest.shader" />
      <None Include="Assets\Allegorithmic\Plugins\engine_build_info.txt" />
      <None Include="Assets\Shader\learnShader2\002_AlphaTestWithShadow.shader" />
+     <None Include="Assets\Shader\screenEffect\clickWave.shader" />
      <None Include="Assets\Shader\learnShader3\003_GaussianBlur.shader" />
      <None Include="Assets\Shader\learnShader2\006_Mirror.shader" />
      <None Include="Assets\Shader\self_demo\005_screenCaptrue.shader" />
@@ -106,6 +111,7 @@
      <None Include="Assets\Shader\learnShader1\008_alphaBlendBothSided.shader" />
      <None Include="Assets\Shader\self_demo\outline.shader" />
      <None Include="Assets\Shader\learnShader3\004_MotionBlur.shader" />
+     <None Include="Assets\Shader\screenEffect\waterWave_L.shader" />
      <None Include="Assets\Shader\learnShader1\004_Specular_vertex.shader" />
      <None Include="Assets\Shader\learnShader1\005_Specular_fargment.shader" />
      <None Include="Assets\Shader\learnShader2\005_Fresnel.shader" />

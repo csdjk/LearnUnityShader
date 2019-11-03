@@ -24,7 +24,6 @@ public class EdgeDetection : PostEffectsBase {
 			material.SetFloat("_EdgeOnly", edgesOnly);
 			material.SetColor("_EdgeColor", edgeColor);
 			material.SetColor("_BackgroundColor", backgroundColor);
-
 			Graphics.Blit(src, dest, material);
 		} else {
 			Graphics.Blit(src, dest);

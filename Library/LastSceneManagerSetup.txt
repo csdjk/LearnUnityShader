@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/learnShader2.unity
+- path: Assets/Scenes/Demo/Demo4.unity
   isLoaded: 1
   isActive: 1
