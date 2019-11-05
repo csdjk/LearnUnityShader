@@ -117,6 +117,7 @@
      <None Include="Assets\Shader\learnShader2\005_Fresnel.shader" />
      <None Include="Assets\Allegorithmic\Plugins\EULA.txt" />
      <None Include="Assets\Shader\self_demo\fog.shader" />
+     <None Include="Assets\Shader\self_demo\outline3D.shader" />
      <None Include="Assets\Shader\self_demo\004_DissolveEdgeColor.shader" />
      <None Include="Assets\Shader\self_demo\004_DissolveEdgeColorBlend1.shader" />
      <None Include="Assets\Shader\self_demo\004_DissolveEdgeColorBlend.shader" />
