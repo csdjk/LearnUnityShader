@@ -32,7 +32,8 @@
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
 				fixed3 normalDir = normalize(f.worldNormalDir);
 				fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
-				fixed3 halfLambert = dot(normalDir,lightDir)*0.5+0.5;	//半兰伯特漫反射  值范围0-1
+				//半兰伯特漫反射  值范围0-1
+				fixed3 halfLambert = dot(normalDir,lightDir)*0.5+0.5;	
 				fixed3 diffuse = _LightColor0.rgb * halfLambert;
 				fixed3 resultColor = diffuse+ambient;
 
