@@ -76,6 +76,7 @@
      <None Include="Assets\Shader\learnShader1\006_Specular_fargment_BlinnPnone.shader" />
      <None Include="Assets\Shader\self_demo\003_uvScaleShader.shader" />
      <None Include="Assets\Shader\self_demo\fire.shader" />
+     <None Include="Assets\Shader\otherShader\Outline.shader" />
      <None Include="Assets\Shader\learnShader3\005_Water.shader" />
      <None Include="Assets\Shader\Common\BumpedSpecular.shader" />
      <None Include="Assets\Shader\learnShader1\007_rampTextureMask.shader" />
@@ -103,6 +104,7 @@
      <None Include="Assets\Shader\screenEffect\clickWave.shader" />
      <None Include="Assets\Shader\learnShader3\003_GaussianBlur.shader" />
      <None Include="Assets\Shader\learnShader2\006_Mirror.shader" />
+     <None Include="Assets\Shader\self_demo\outLine3D_swell.shader" />
      <None Include="Assets\Shader\self_demo\005_screenCaptrue.shader" />
      <None Include="Assets\Shader\self_demo\001_vertexAnim.shader" />
      <None Include="Assets\Shader\Common\BumpedDiffuse.shader" />
