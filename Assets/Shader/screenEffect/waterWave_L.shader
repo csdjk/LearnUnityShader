@@ -1,4 +1,4 @@
-﻿Shader "lcl/screenEffect/waterWave_L"
+﻿Shader "lcl/ScreenEffect/waterWave_L"
 {
     Properties
     {

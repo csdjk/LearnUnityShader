@@ -18,7 +18,7 @@ Shader "lcl/learnShader3/003 Gaussian Blur" {
 			float4 pos : SV_POSITION;
 			half2 uv[5]: TEXCOORD0;
 		};
-		  
+		//垂直方向的模糊
 		v2f vertBlurVertical(appdata_img v) {
 			v2f o;
 			o.pos = UnityObjectToClipPos(v.vertex);
@@ -33,7 +33,7 @@ Shader "lcl/learnShader3/003 Gaussian Blur" {
 					 
 			return o;
 		}
-		
+		//水平方向的模糊
 		v2f vertBlurHorizontal(appdata_img v) {
 			v2f o;
 			o.pos = UnityObjectToClipPos(v.vertex);
