@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LangVersion>4</LangVersion>
-  </PropertyGroup>
+</PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -16,7 +16,8 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
-  </PropertyGroup>
+	<LangVersion>default</LangVersion>
+</PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -27,7 +28,8 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<LangVersion>default</LangVersion>
+</PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -36,14 +38,16 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<LangVersion>default</LangVersion>
+</PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
     <NoStdLib>true</NoStdLib>
     <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
     <ImplicitlyExpandNETStandardFacades>false</ImplicitlyExpandNETStandardFacades>
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
-  </PropertyGroup>
+	<LangVersion>default</LangVersion>
+</PropertyGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
       <HintPath>D:\Program Files\Unity2018.4.2\Editor\Data\Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -59,10 +63,12 @@
      <Compile Include="Assets\Scripts\learnShader3\EdgeDetection.cs" />
      <Compile Include="Assets\Scripts\learnShader3\GaussianBlur.cs" />
      <Compile Include="Assets\Scripts\learnShader3\MotionBlur.cs" />
+     <Compile Include="Assets\Scripts\otherScripts\GaussianBlur_qianmo.cs" />
      <Compile Include="Assets\Scripts\PostEffectsbase.cs" />
      <Compile Include="Assets\Scripts\screenEffect\MyGaussianBlur.cs" />
      <Compile Include="Assets\Scripts\screenEffect\OutLine.cs" />
      <Compile Include="Assets\Scripts\screenEffect\OutlinePostEffect.cs" />
+     <Compile Include="Assets\Scripts\screenEffect\RadialBlur.cs" />
      <Compile Include="Assets\Scripts\screenEffect\WaterWaveEffect.cs" />
      <Compile Include="Assets\Scripts\screenEffect\WaterWaveEffect_L.cs" />
      <Compile Include="Assets\Scripts\SimplePostEffectsBase.cs" />
@@ -104,6 +110,7 @@
      <None Include="Assets\Shader\learnShader2\001_forwardRendering.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaTest.shader" />
      <None Include="Assets\Allegorithmic\Plugins\engine_build_info.txt" />
+     <None Include="Assets\Shader\ScreenEffect\RadialBlur.shader" />
      <None Include="Assets\Shader\learnShader2\002_AlphaTestWithShadow.shader" />
      <None Include="Assets\Shader\ScreenEffect\clickWave.shader" />
      <None Include="Assets\Shader\ScreenEffect\outLine.shader" />
@@ -116,6 +123,7 @@
      <None Include="Assets\Shader\learnShader2\008_Scrolling.shader" />
      <None Include="Assets\Shader\learnShader2\003_reflection.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaBlendBothSided.shader" />
+     <None Include="Assets\Shader\otherShader\GaussianBlur_qianmo.shader" />
      <None Include="Assets\Shader\Shader_2D\outline.shader" />
      <None Include="Assets\Shader\learnShader3\004_MotionBlur.shader" />
      <None Include="Assets\Shader\ScreenEffect\waterWave_L.shader" />
@@ -397,5 +405,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
 </Project>

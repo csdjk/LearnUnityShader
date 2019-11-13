@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/ScreenEffect/outLine.unity
+- path: Assets/Scenes/ScreenEffect/RadialBlur.unity
   isLoaded: 1
   isActive: 1

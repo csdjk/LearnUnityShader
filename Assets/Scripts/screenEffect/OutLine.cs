@@ -73,6 +73,5 @@ public class OutLine : PostEffectsBase {
         outlineMaterial.SetTexture ("_BlurTex", temp1);
         outlineMaterial.SetTexture ("_SrcTex", renderTexture);
         Graphics.Blit (source, destination, outlineMaterial, 2);
-
     }
 }
