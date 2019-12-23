@@ -2,7 +2,7 @@
 
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "lcl/008_alphaTestBothSided" {
+Shader "lcl/learnShader1/008_alphaTestBothSided" {
 
 	Properties {
 		_Color ("Color Tint", Color) = (1, 1, 1, 1)

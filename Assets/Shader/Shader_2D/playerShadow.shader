@@ -1,4 +1,4 @@
-﻿Shader "lcl/selfDemo/playerShadow"
+﻿Shader "lcl/shader2D/playerShadow"
 {
     Properties
     {

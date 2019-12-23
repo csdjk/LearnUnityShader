@@ -208,8 +208,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurShader: {fileID: 4800000, guid: a25e98cb59940d949811fc24309fd69a, type: 3}
-  DownSampleNum: 0
-  BlurSpreadSize: 3
+  DownSampleNum: 1
+  BlurSpreadSize: 0
   BlurIterations: 2
 --- !u!1 &939496788
 GameObject:

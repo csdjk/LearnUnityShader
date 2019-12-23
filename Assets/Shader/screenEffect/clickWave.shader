@@ -1,4 +1,4 @@
-﻿Shader "Hidden/clickWave"
+﻿Shader "lcl/screenEffect/waterWave"
 {
     Properties
     {

@@ -1,4 +1,4 @@
-﻿Shader "lcl/001_Diffuse_vertex" {
+﻿Shader "lcl/learnShader1/001_Diffuse_vertex" {
 	
 	SubShader {
 		Pass{

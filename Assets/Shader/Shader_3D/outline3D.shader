@@ -1,4 +1,4 @@
-﻿Shader "lcl/selfDemo/outline3D"
+﻿Shader "lcl/shader3D/outline3D"
 {
     Properties
     {

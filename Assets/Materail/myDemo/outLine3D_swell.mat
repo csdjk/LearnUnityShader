@@ -26,12 +26,12 @@ Material:
     m_Floats:
     - _OffsetFactor: 0
     - _OffsetUnits: 0
-    - _blurPower: 4.4
+    - _blurPower: 3.56
     - _lineWidth: 0.5
-    - _power: 0.033
+    - _power: 0.022
     - _strength: 2.6
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Diffuse: {r: 1, g: 1, b: 1, a: 1}
-    - _lineColor: {r: 0.05022796, g: 0, b: 0.8773585, a: 1}
+    - _lineColor: {r: 0.8392157, g: 0.3306143, b: 0.27450985, a: 1}
     - _strength: {r: 0.07539308, g: 1, b: 0, a: 1}

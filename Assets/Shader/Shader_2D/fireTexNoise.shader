@@ -1,4 +1,4 @@
-﻿Shader "lcl/selfDemo/fireTexNoise"
+﻿Shader "lcl/shader2D/fireTexNoise"
 {
     Properties
     {

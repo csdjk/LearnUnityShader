@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "lcl/006_Specular_fargment_BlinnPnone" {
+Shader "lcl/learnShader1/006_Specular_fargment_BlinnPnone" {
 	//高光反射计算
 
 	Properties{

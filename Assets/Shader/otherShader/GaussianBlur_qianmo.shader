@@ -1,6 +1,6 @@
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "Learning Unity Shader/Lecture 15/GaussianBlur_qianmo" 
+Shader "lcl/otherShader/GaussianBlur_qianmo" 
 {  
     //-----------------------------------【属性 || Properties】------------------------------------------    
     Properties  

@@ -1,4 +1,4 @@
-﻿Shader "lcl/selfDemo/003_uvScaleShader"
+﻿Shader "lcl/shader3D/003_uvScaleShader"
 {
 	Properties
 	{

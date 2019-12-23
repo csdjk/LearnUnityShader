@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "lcl/selfDemo/005_screenCaptrue" {
+Shader "lcl/shader3D/005_screenCaptrue" {
 	Properties {
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
 	}

@@ -1,4 +1,4 @@
-﻿Shader "lcl/selfDemo/fire"
+﻿Shader "lcl/shader2D/fire"
 {
     Properties
     {
