@@ -1,4 +1,4 @@
-﻿Shader "lcl/002_Diffuse_fargment" {
+﻿Shader "lcl/learnShader1/002_Diffuse_fargment" {
 	//在片元着色器计算漫反射
 	SubShader {
 		Pass{

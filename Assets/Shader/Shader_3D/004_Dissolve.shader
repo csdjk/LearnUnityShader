@@ -1,4 +1,4 @@
-﻿Shader "lcl/selfDemo/004_Dissolve"
+﻿Shader "lcl/shader3D/004_Dissolve"
 {
 	Properties
 	{

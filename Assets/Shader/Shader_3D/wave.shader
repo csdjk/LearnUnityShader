@@ -1,4 +1,4 @@
-﻿Shader "lcl/selfDemo/wave"
+﻿Shader "lcl/shader3D/wave"
 {
     Properties
     {

@@ -1,4 +1,4 @@
-﻿Shader "lcl/003_Diffuse_fargment_half" {
+﻿Shader "lcl/learnShader1/003_Diffuse_fargment_half" {
 	//在片元着色器计算漫反射
 	//半兰伯特漫反射
 	SubShader {

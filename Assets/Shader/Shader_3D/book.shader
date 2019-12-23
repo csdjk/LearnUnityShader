@@ -1,4 +1,4 @@
-﻿Shader "lcl/selfDemo/book"
+﻿Shader "lcl/shader3D/book"
 {
     Properties
     {

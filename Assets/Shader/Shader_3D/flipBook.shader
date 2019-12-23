@@ -1,4 +1,4 @@
-Shader "lcl/selfDemo/flipBook" {
+Shader "lcl/shader3D/flipBook" {
 	Properties 
 	{
 		_Color ("Color", Color) = (1,1,1,1)

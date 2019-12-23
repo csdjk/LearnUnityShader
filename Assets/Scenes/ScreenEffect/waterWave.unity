@@ -210,10 +210,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 7acdff1923d2da942a140b6fcdc7b6d0, type: 3}
   distanceFactor: 25.6
-  timeFactor: -20.2
-  totalFactor: 11.5
+  timeFactor: -19.1
+  totalFactor: 4.1
   waveWidth: 0.057
-  waveSpeed: 0.24
+  waveSpeed: 0.76
 --- !u!114 &724608544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 724608539}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3da641fb947a2d4ab57b7b55dc92feb, type: 3}
   m_Name: 

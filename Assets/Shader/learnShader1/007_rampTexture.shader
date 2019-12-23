@@ -2,7 +2,7 @@
 
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "lcl/007_rampTexture" {
+Shader "lcl/learnShader1/007_rampTexture" {
 
 	Properties {
 		_Color ("Color Tint", Color) = (1, 1, 1, 1)

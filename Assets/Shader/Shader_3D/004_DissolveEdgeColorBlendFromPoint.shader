@@ -1,4 +1,4 @@
-﻿Shader "lcl/selfDemo/004_DissolveEdgeColorBlendFromPoint"
+﻿Shader "lcl/shader3D/004_DissolveEdgeColorBlendFromPoint"
 {
 Properties
 	{

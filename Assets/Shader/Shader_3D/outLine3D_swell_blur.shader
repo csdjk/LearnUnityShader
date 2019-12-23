@@ -1,4 +1,4 @@
-﻿Shader "lcl/selfDemo/outLine3D_swell_blur"
+﻿Shader "lcl/shader3D/outLine3D_swell_blur"
 {
     Properties
     {

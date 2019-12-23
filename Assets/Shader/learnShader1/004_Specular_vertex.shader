@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "lcl/004_Specular_vertex" {
+Shader "lcl/learnShader1/004_Specular_vertex" {
 	//高光反射计算
 
 	Properties{

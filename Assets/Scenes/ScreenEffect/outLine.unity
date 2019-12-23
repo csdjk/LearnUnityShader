@@ -979,7 +979,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1977041581}
   m_LocalRotation: {x: 0.12972182, y: 0.68965286, z: -0.12763776, w: 0.70089924}
-  m_LocalPosition: {x: -4.6664762, y: 2.4354918, z: -0.52246666}
+  m_LocalPosition: {x: -4.68, y: 2.44, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1001,5 +1001,5 @@ MonoBehaviour:
   purecolorShader: {fileID: 4800000, guid: a8199633424c0da4d847dba8764e894d, type: 3}
   shader: {fileID: 4800000, guid: 29444aa999f346645aa7312da427c4b4, type: 3}
   iterations: 2
-  blurSpread: 0.2
-  outlineColor: {r: 1, g: 0, b: 0.036976814, a: 1}
+  blurSpread: 3
+  outlineColor: {r: 0.061502695, g: 1, b: 0, a: 1}

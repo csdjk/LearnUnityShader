@@ -1,5 +1,5 @@
-﻿//径向模糊shader by 
-Shader "Learn Unity Shader/LCL/ScreenEffect/RadialBlur"
+﻿//径向模糊
+Shader "lcl/screenEffect/RadialBlur"
 {
     Properties 
     {
@@ -52,4 +52,3 @@ Shader "Learn Unity Shader/LCL/ScreenEffect/RadialBlur"
     }
     Fallback off
 }
-

@@ -1,4 +1,4 @@
-﻿Shader "lcl/selfDemo/004_DissolveEdgeColor"
+﻿Shader "lcl/shader3D/004_DissolveEdgeColor"
 {
 	Properties
 	{

@@ -4,13 +4,13 @@ using UnityEngine;
 //设置在编辑模式下也执行该脚本  
 [ExecuteInEditMode]
 //添加选项到菜单中  
-[AddComponentMenu ("Learning Unity Shader/Lecture 15/GaussianBlur_qianmo")]
+[AddComponentMenu ("lcl/otherShader/GaussianBlur_qianmo")]
 public class GaussianBlur_qianmo : MonoBehaviour {
     //-------------------变量声明部分-------------------  
     #region Variables  
 
     //指定Shader名称  
-    private string ShaderName = "Learning Unity Shader/Lecture 15/GaussianBlur_qianmo";
+    private string ShaderName = "lcl/otherShader/GaussianBlur_qianmo";
 
     //着色器和材质实例  
     public Shader CurShader;

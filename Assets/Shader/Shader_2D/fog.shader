@@ -1,4 +1,4 @@
-﻿Shader "lcl/selfDemo/fog"
+﻿Shader "lcl/shader2D/fog"
 {
     Properties
     {

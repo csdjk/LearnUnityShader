@@ -5,7 +5,7 @@
 //by：puppet_master
 //2017.1.5
  
-Shader "ApcShader/Outline"
+Shader "lcl/otherShader/Outline"
 {
 	//属性
 	Properties{
