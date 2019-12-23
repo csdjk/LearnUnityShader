@@ -1,2 +1,103 @@
 Base path: D:/Program Files/Unity2018.4.2/Editor/Data
 Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: preprocess
+  insize=8507 outsize=1827 ok=1
+Cmd: preprocess
+  insize=4058 outsize=1204 ok=1
+Cmd: initializeCompiler
+Cmd: preprocess
+  insize=2923 outsize=315 ok=1
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: preprocess
+  insize=3583 outsize=956 ok=1
+Cmd: preprocess
+  insize=3583 outsize=956 ok=1
+Cmd: preprocess
+  insize=3587 outsize=960 ok=1
+Cmd: preprocess
+  insize=3587 outsize=960 ok=1
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: preprocess
+  insize=1637 outsize=451 ok=1
+Cmd: preprocess
+  insize=3094 outsize=525 ok=1
+Cmd: preprocess
+  insize=1994 outsize=445 ok=1
+Cmd: preprocess
+  insize=2493 outsize=399 ok=1
+Cmd: preprocess
+  insize=1297 outsize=353 ok=1
+Cmd: preprocess
+  insize=1886 outsize=580 ok=1
+Cmd: initializeCompiler
+Cmd: preprocess
+  insize=1145 outsize=278 ok=1
+Cmd: preprocess
+  insize=1223 outsize=382 ok=1
+Cmd: preprocess
+  insize=1645 outsize=544 ok=1
+Cmd: preprocess
+  insize=1442 outsize=408 ok=1
+Cmd: preprocess
+  insize=1481 outsize=493 ok=1
+Cmd: preprocess
+  error: 1 plat 21 at (26): Duplicate #pragma vertex found, ignoring: #pragma vertex vert
+  error: 1 plat 21 at (27): Duplicate #pragma fragment found, ignoring: #pragma fragment frag
+  insize=2157 outsize=573 ok=1
+Cmd: preprocess
+  insize=1111 outsize=377 ok=1
+Cmd: preprocess
+  insize=1211 outsize=289 ok=1
+Cmd: preprocess
+  insize=3393 outsize=1219 ok=1
+Cmd: preprocess
+  insize=2716 outsize=484 ok=1
+Cmd: preprocess
+  insize=1789 outsize=564 ok=1
+Cmd: preprocess
+  insize=2633 outsize=655 ok=1
+Cmd: preprocess
+  insize=3746 outsize=1129 ok=1
+Cmd: preprocess
+  insize=2241 outsize=428 ok=1
+Cmd: preprocess
+  insize=1335 outsize=367 ok=1
+Cmd: preprocess
+  insize=1590 outsize=450 ok=1
+Cmd: preprocess
+  insize=6681 outsize=511 ok=1
+Cmd: preprocess
+  insize=6681 outsize=511 ok=1
+Cmd: preprocess
+  insize=6058 outsize=646 ok=1
+Cmd: preprocess
+  insize=8293 outsize=469 ok=1
+Cmd: preprocess
+  insize=2131 outsize=551 ok=1
+Cmd: preprocess
+  insize=1017 outsize=230 ok=1
+Cmd: preprocess
+  insize=1737 outsize=465 ok=1
+Cmd: preprocess
+  insize=1130 outsize=259 ok=1
+Cmd: preprocess
+  insize=3378 outsize=861 ok=1
+Cmd: preprocess
+  insize=2668 outsize=737 ok=1
+Cmd: preprocess
+  insize=1966 outsize=577 ok=1
+Cmd: preprocess
+  insize=1538 outsize=452 ok=1
+Cmd: preprocess
+  insize=2002 outsize=638 ok=1
+Cmd: preprocess
+  insize=913 outsize=193 ok=1
+Cmd: preprocess
+  insize=1672 outsize=452 ok=1
+Cmd: preprocess
+  insize=1932 outsize=671 ok=1
+Cmd: preprocess
+  insize=2035 outsize=774 ok=1
