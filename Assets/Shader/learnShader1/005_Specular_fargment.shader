@@ -2,7 +2,6 @@
 
 Shader "lcl/005_Specular_fargment" {
 	//高光反射计算
-
 	Properties{
 		_Diffuse("Diffuse Color",Color) = (1,1,1,1)
 		_Specular("_Specular Color",Color) = (1,1,1,1)

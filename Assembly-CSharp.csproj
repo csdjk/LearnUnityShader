@@ -1,23 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LangVersion>4</LangVersion>
-</PropertyGroup>
+  </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{90859E49-38CD-48BA-6558-20E4D1423903}</ProjectGuid>
+    <ProjectGuid>{FFA46BAF-F6FA-3B6D-6651-B43FBE71CB2F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
-	<LangVersion>default</LangVersion>
-</PropertyGroup>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -28,8 +27,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
-	<LangVersion>default</LangVersion>
-</PropertyGroup>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -38,16 +36,14 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
-	<LangVersion>default</LangVersion>
-</PropertyGroup>
+  </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
     <NoStdLib>true</NoStdLib>
     <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
     <ImplicitlyExpandNETStandardFacades>false</ImplicitlyExpandNETStandardFacades>
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
-	<LangVersion>default</LangVersion>
-</PropertyGroup>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
       <HintPath>D:\Program Files\Unity2018.4.2\Editor\Data\Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -78,7 +74,7 @@
      <None Include="Assets\Shader\Shader_3D\004_Dissolve.shader" />
      <None Include="Assets\Shader\learnShader1\003_Diffuse_fargment_half.shader" />
      <None Include="Assets\Shader\Shader_3D\wave.shader" />
-     <None Include="Assets\Shader\ScreenEffect\myGaussianBlur.shader" />
+     <None Include="Assets\Shader\screenEffect\myGaussianBlur.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaTestBothSided.shader" />
      <None Include="Assets\Shader\learnShader3\002_EdgeDetection.shader" />
      <None Include="Assets\Shader\learnShader1\006_Specular_fargment_BlinnPnone.shader" />
@@ -89,12 +85,13 @@
      <None Include="Assets\Shader\learnShader3\005_Water.shader" />
      <None Include="Assets\Shader\Common\BumpedSpecular.shader" />
      <None Include="Assets\Shader\learnShader1\007_rampTextureMask.shader" />
-     <None Include="Assets\Shader\ScreenEffect\outLine_purecolor.shader" />
+     <None Include="Assets\Shader\screenEffect\outLine_purecolor.shader" />
      <None Include="Assets\Shader\learnShader1\001_Diffuse_vertex.shader" />
      <None Include="Assets\Shader\Shader_3D\004_DissolveEdgeColorBlendFromPoint.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaBlend.shader" />
      <None Include="Assets\Shader\learnShader2\010_billboard.shader" />
      <None Include="Assets\Shader\learnShader2\009_water.shader" />
+     <None Include="Assets\Shader\Shader_3D\funTest.shader" />
      <None Include="Assets\Shader\Shader_3D\book.shader" />
      <None Include="Assets\Shader\Shader_2D\fireTexNoise.shader" />
      <None Include="Assets\Shader\learnShader1\007_rampTexture.shader" />
@@ -110,10 +107,10 @@
      <None Include="Assets\Shader\learnShader2\001_forwardRendering.shader" />
      <None Include="Assets\Shader\learnShader1\008_alphaTest.shader" />
      <None Include="Assets\Allegorithmic\Plugins\engine_build_info.txt" />
-     <None Include="Assets\Shader\ScreenEffect\RadialBlur.shader" />
+     <None Include="Assets\Shader\screenEffect\RadialBlur.shader" />
      <None Include="Assets\Shader\learnShader2\002_AlphaTestWithShadow.shader" />
-     <None Include="Assets\Shader\ScreenEffect\clickWave.shader" />
-     <None Include="Assets\Shader\ScreenEffect\outLine.shader" />
+     <None Include="Assets\Shader\screenEffect\clickWave.shader" />
+     <None Include="Assets\Shader\screenEffect\outLine.shader" />
      <None Include="Assets\Shader\learnShader3\003_GaussianBlur.shader" />
      <None Include="Assets\Shader\learnShader2\006_Mirror.shader" />
      <None Include="Assets\Shader\Shader_3D\outLine3D_swell.shader" />
@@ -126,7 +123,7 @@
      <None Include="Assets\Shader\otherShader\GaussianBlur_qianmo.shader" />
      <None Include="Assets\Shader\Shader_2D\outline.shader" />
      <None Include="Assets\Shader\learnShader3\004_MotionBlur.shader" />
-     <None Include="Assets\Shader\ScreenEffect\waterWave_L.shader" />
+     <None Include="Assets\Shader\screenEffect\waterWave_L.shader" />
      <None Include="Assets\Shader\learnShader1\004_Specular_vertex.shader" />
      <None Include="Assets\Shader\learnShader1\005_Specular_fargment.shader" />
      <None Include="Assets\Shader\learnShader2\005_Fresnel.shader" />
@@ -141,19 +138,19 @@
      <None Include="Assets\Shader\shaderToy\sun.shader" />
      <None Include="Assets\Shader\learnShader1\002_Diffuse_fargment.shader" />
  <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>E:/UnityProject/UnityShader/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ <HintPath>E:/unityProjects/LearnUnityShader/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.PackageManagerUI.Editor">
- <HintPath>E:/UnityProject/UnityShader/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+ <HintPath>E:/unityProjects/LearnUnityShader/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.CollabProxy.Editor">
- <HintPath>E:/UnityProject/UnityShader/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+ <HintPath>E:/unityProjects/LearnUnityShader/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
- <HintPath>E:/UnityProject/UnityShader/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <HintPath>E:/unityProjects/LearnUnityShader/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.DataPrivacy">
- <HintPath>E:/UnityProject/UnityShader/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+ <HintPath>E:/unityProjects/LearnUnityShader/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>D:/Program Files/Unity2018.4.2/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -357,13 +354,13 @@
  <HintPath>D:/Program Files/Unity2018.4.2/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.Editor">
- <HintPath>E:/UnityProject/UnityShader/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
+ <HintPath>E:/unityProjects/LearnUnityShader/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.StandardEvents">
- <HintPath>E:/UnityProject/UnityShader/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
+ <HintPath>E:/unityProjects/LearnUnityShader/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.Tracker">
- <HintPath>E:/UnityProject/UnityShader/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
+ <HintPath>E:/unityProjects/LearnUnityShader/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>D:/Program Files/Unity2018.4.2/Editor/Data/MonoBleedingEdge/lib/mono/unity/mscorlib.dll</HintPath>
@@ -395,7 +392,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Substance.Platform.csproj">
-      <Project>{49E84162-3EEC-D62B-E43E-FB9121E47A4B}</Project>      <Name>Substance.Platform</Name>    </ProjectReference>
+      <Project>{6CD204A0-7C58-44E1-A2DE-EBA666596076}</Project>      <Name>Substance.Platform</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -405,4 +402,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  
 </Project>
