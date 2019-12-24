@@ -21,7 +21,7 @@ public class RadialBlur : PostEffectsBase {
     public Vector2 blurCenter = new Vector2 (0.5f, 0.5f);
 
     void Start() {
-        gaussianBlurShader = Shader.Find ("Learn Unity Shader/LCL/ScreenEffect/RadialBlur");
+        gaussianBlurShader = Shader.Find ("lcl/screenEffect/RadialBlur");
     }
     void OnRenderImage (RenderTexture source, RenderTexture destination) {
         if (material) {

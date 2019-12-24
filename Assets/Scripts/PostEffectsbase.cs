@@ -36,7 +36,7 @@ public class PostEffectsBase : MonoBehaviour {
 	// Called when need to create the material used by this effect
 	protected Material CheckShaderAndCreateMaterial(Shader shader, Material material) {
 		if (shader == null) {
-			Debug.Log("shader is null");
+			// Debug.Log("shader is null");
 			return null;
 		}
 		
@@ -46,7 +46,7 @@ public class PostEffectsBase : MonoBehaviour {
 		}
 		
 		if (!shader.isSupported) {
-			Debug.Log("isSupported is false");
+			// Debug.Log("isSupported is false");
 			return null;
 		}
 		else {
