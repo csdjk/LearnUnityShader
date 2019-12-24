@@ -74,6 +74,39 @@
                 return float3(col,col,col );
             }
 
+            // 水滴
+            float3 createWaterDrop(float2 pos,float scale,float2 uv){
+                float2 dir = pos - uv;
+                float radius = length(dir)*scale;
+                float angle = atan2(dir.y,dir.x);
+                //造型函数
+                float f = 1.0 - pow(abs(angle+-1.548),2.416);
+                float col = 1.-smoothstep(f,f+0.02,radius);
+                return float3(col,col,col );
+            }
+
+            // 风车
+            float3 createWindmill(float2 pos,float scale,float2 uv){
+                float2 dir = pos-uv;
+                float radius = length(dir)*scale;
+                float angle = atan2(dir.y,dir.x);
+                
+                float f = frac(angle*1.273)*0.956;
+                 float col = 1.-smoothstep(f,f+0.02,radius);
+                return float3(col,col,col );
+            }
+
+            // ...
+            float3 createD(float2 pos,float scale,float2 uv){
+                float2 dir = pos - uv;
+                float radius = length(dir)*scale;
+                float angle = atan2(dir.y,dir.x);
+                //造型函数
+                float f = abs(cos(angle*13.136)*sin(angle*3.))*.8+.1;
+                float col = 1.-smoothstep(f,f+0.02,radius);
+                return float3(col,col,col );
+            }
+
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
