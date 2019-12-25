@@ -4,9 +4,8 @@ using System.Collections;
 //编辑状态下也运行  
 [ExecuteInEditMode]  
 //继承自PostEffectsbase
-public class MyGaussianBlur : PostEffectsBase  
+public class GaussBlur : PostEffectsBase  
 {  
-
     public Shader gaussianBlurShader;
 	private Material gaussianBlurMaterial = null;
 
@@ -26,7 +25,9 @@ public class MyGaussianBlur : PostEffectsBase
     //迭代次数  
 	[Range(0, 4)]
     public int iteration = 1;  
-  
+	[Range(0, 400)]
+    public float sigma = 1;  
+
     void OnRenderImage(RenderTexture source, RenderTexture destination)  
     {  
         if (material)  
@@ -43,9 +44,11 @@ public class MyGaussianBlur : PostEffectsBase
             {  
                 //第一次高斯模糊，设置offsets，竖向模糊  
                 material.SetVector("_offsets", new Vector4(0, BlurRadius, 0, 0));  
+                material.SetFloat("_sigma", sigma);  
                 Graphics.Blit(rt1, rt2, material);  
                 //第二次高斯模糊，设置offsets，横向模糊  
                 material.SetVector("_offsets", new Vector4(BlurRadius, 0, 0, 0));  
+                material.SetFloat("_sigma", sigma);  
                 Graphics.Blit(rt2, rt1, material);  
             }  
   
