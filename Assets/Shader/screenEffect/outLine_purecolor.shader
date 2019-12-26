@@ -1,4 +1,4 @@
-﻿Shader "lcl/ScreenEffect/outLine_purecolor"
+﻿Shader "lcl/screenEffect/outLine_purecolor"
 {
     SubShader
     {

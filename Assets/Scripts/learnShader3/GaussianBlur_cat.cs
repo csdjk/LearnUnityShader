@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GaussianBlur : PostEffectsBase {
+public class GaussianBlur_cat : PostEffectsBase {
 
 	public Shader gaussianBlurShader;
 	private Material gaussianBlurMaterial = null;
