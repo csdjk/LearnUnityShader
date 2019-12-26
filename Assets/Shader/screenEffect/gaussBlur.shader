@@ -1,5 +1,5 @@
 //create by 长生但酒狂
-Shader "lcl/shader2D/gaussBlur"  
+Shader "lcl/screenEffect/gaussBlur"  
 {  
     Properties  
     {  
@@ -48,8 +48,6 @@ Shader "lcl/shader2D/gaussBlur"
         return o;  
     }  
 
-    float _sigma;  
-
     float computerBluGauss(float x,float sigma) {
         return 0.39894*exp(-0.5*x*x/(0.20*sigma))/sigma*sigma;
     }
@@ -61,25 +59,22 @@ Shader "lcl/shader2D/gaussBlur"
         //将像素本身以及像素左右（或者上下，取决于vertex shader传进来的uv坐标）像素值的加权平均  
         //这里的权值由高斯公式计算而来:
         // y = 0.39894*exp(-0.5*x*x/(sigma*sigma))/sigma;  sigma = 7;
-        float w0 = computerBluGauss(0,_sigma);
-        float w1 = computerBluGauss(1,_sigma);
-        float w2 = computerBluGauss(2,_sigma);
-        float sum = w0+w1*2+w2*2;
+        // 例如:
+        // float w0 = computerBluGauss(0,8);
+        // float w1 = computerBluGauss(1,8);
+        // float w2 = computerBluGauss(2,8);
+        // float sum = w0+w1*2+w2*2;
+        // color += w0/sum * tex2D(_MainTex, i.uv);  
+        // color += w1/sum * tex2D(_MainTex, i.uv01.xy);  
+        // color += w1/sum * tex2D(_MainTex, i.uv01.zw);  
+        // color += w2/sum * tex2D(_MainTex, i.uv23.xy);  
+        // color += w2/sum * tex2D(_MainTex, i.uv23.zw);  
 
-        color += w0/sum * tex2D(_MainTex, i.uv);  
-        color += w1/sum * tex2D(_MainTex, i.uv01.xy);  
-        color += w1/sum * tex2D(_MainTex, i.uv01.zw);  
-        color += w2/sum * tex2D(_MainTex, i.uv23.xy);  
-        color += w2/sum * tex2D(_MainTex, i.uv23.zw);  
-
-        // color += 0.05 * tex2D(_MainTex, i.uv45.xy);  
-        // color += 0.05 * tex2D(_MainTex, i.uv45.zw);  
-
-        // color += 0.4026 * tex2D(_MainTex, i.uv);  
-        // color += 0.2442 * tex2D(_MainTex, i.uv01.xy);  
-        // color += 0.2442 * tex2D(_MainTex, i.uv01.zw);  
-        // color += 0.0545 * tex2D(_MainTex, i.uv23.xy);  
-        // color += 0.0545 * tex2D(_MainTex, i.uv23.zw);  
+        color += 0.4026 * tex2D(_MainTex, i.uv);  
+        color += 0.2442 * tex2D(_MainTex, i.uv01.xy);  
+        color += 0.2442 * tex2D(_MainTex, i.uv01.zw);  
+        color += 0.0545 * tex2D(_MainTex, i.uv23.xy);  
+        color += 0.0545 * tex2D(_MainTex, i.uv23.zw);  
         return color;  
     }
     

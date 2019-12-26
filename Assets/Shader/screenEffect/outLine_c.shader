@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "lcl/screenEffect/outLine"
+Shader "lcl/screenEffect/outLine_c"
 {
     Properties
     {
@@ -12,60 +12,55 @@ Shader "lcl/screenEffect/outLine"
         #include "UnityCG.cginc"
         sampler2D _MainTex;
         half4 _MainTex_TexelSize;
-        float _BlurSize;
-        sampler2D _BlurTex;
-        sampler2D _SrcTex;
-        fixed4 _OutlineColor;
+        float4 _offsets;
+       
         //高斯模糊-------------start-----------------
-        struct v2f
-        {
-            float4 pos : SV_POSITION;
-            half2 uv[5]: TEXCOORD0;
-        };
+        struct v2f_blur  
+        {  
+            float4 pos : SV_POSITION;   //顶点位置  
+            float2 uv  : TEXCOORD0;     //纹理坐标  
+            float4 uv01 : TEXCOORD1;    //一个vector4存储两个纹理坐标  
+            float4 uv23 : TEXCOORD2;    //一个vector4存储两个纹理坐标  
+            float4 uv45 : TEXCOORD3;    //一个vector4存储两个纹理坐标  
+        };  
 
-        //垂直方向的高斯模糊
-        v2f vertBlurVertical(appdata_img v) {
-            v2f o;
-            o.pos = UnityObjectToClipPos(v.vertex);
+        //高斯模糊顶点着色器
+        v2f_blur vert_blur(appdata_img v)  
+        {  
+            v2f_blur o;  
+            o.pos = UnityObjectToClipPos(v.vertex);  
+            //uv坐标  
+            o.uv = v.texcoord.xy;  
             
-            half2 uv = v.texcoord;
+            //计算一个偏移值，offset可能是（1，0，0，0）也可能是（0，1，0，0）这样就表示了横向或者竖向取像素周围的点  
+            _offsets *= _MainTex_TexelSize.xyxy;  
             
-            o.uv[0] = uv;
-            o.uv[1] = uv + float2(0.0, _MainTex_TexelSize.y * 1.0) * _BlurSize;
-            o.uv[2] = uv - float2(0.0, _MainTex_TexelSize.y * 1.0) * _BlurSize;
-            o.uv[3] = uv + float2(0.0, _MainTex_TexelSize.y * 2.0) * _BlurSize;
-            o.uv[4] = uv - float2(0.0, _MainTex_TexelSize.y * 2.0) * _BlurSize;
-            
-            return o;
-        }
-        //水平方向的高斯模糊
-        v2f vertBlurHorizontal(appdata_img v) {
-            v2f o;
-            o.pos = UnityObjectToClipPos(v.vertex);
-            
-            half2 uv = v.texcoord;
-            
-            o.uv[0] = uv;
-            o.uv[1] = uv + float2(_MainTex_TexelSize.x * 1.0, 0.0) * _BlurSize;
-            o.uv[2] = uv - float2(_MainTex_TexelSize.x * 1.0, 0.0) * _BlurSize;
-            o.uv[3] = uv + float2(_MainTex_TexelSize.x * 2.0, 0.0) * _BlurSize;
-            o.uv[4] = uv - float2(_MainTex_TexelSize.x * 2.0, 0.0) * _BlurSize;
-            
-            return o;
-        }
+            //由于uv可以存储4个值，所以一个uv保存两个vector坐标，_offsets.xyxy * float4(1,1,-1,-1)可能表示(0,1,0-1)，表示像素上下两个  
+            //坐标，也可能是(1,0,-1,0)，表示像素左右两个像素点的坐标，下面*2.0，*3.0同理  
+            o.uv01 = v.texcoord.xyxy + _offsets.xyxy * float4(1, 1, -1, -1);  
+            o.uv23 = v.texcoord.xyxy + _offsets.xyxy * float4(1, 1, -1, -1) * 2.0;  
+            // o.uv45 = v.texcoord.xyxy + _offsets.xyxy * float4(1, 1, -1, -1) * 3.0;  
+            return o;  
+        }  
+        
         //高斯模糊片段着色器
-        fixed4 fragBlur(v2f i) : SV_Target {
-            float weight[3] = {0.4026, 0.2442, 0.0545};
-            fixed3 sum = tex2D(_MainTex, i.uv[0]).rgb * weight[0];
-            for (int it = 1; it < 3; it++) {
-                sum += tex2D(_MainTex, i.uv[it*2-1]).rgb * weight[it];
-                sum += tex2D(_MainTex, i.uv[it*2]).rgb * weight[it];
-            }
-            return fixed4(sum, 1.0);
+        fixed4 frag_blur(v2f_blur i) : SV_Target  
+        {  
+            fixed4 color = fixed4(0,0,0,0);  
+            color += 0.4026 * tex2D(_MainTex, i.uv);  
+            color += 0.2442 * tex2D(_MainTex, i.uv01.xy);  
+            color += 0.2442 * tex2D(_MainTex, i.uv01.zw);  
+            color += 0.0545 * tex2D(_MainTex, i.uv23.xy);  
+            color += 0.0545 * tex2D(_MainTex, i.uv23.zw);  
+            return color;  
         }
         //高斯模糊-------------end-----------------
 
         //Blur图和原图进行相减获得轮廓
+        sampler2D _BlurTex;
+        sampler2D _SrcTex;
+        fixed4 _OutlineColor;
+
         struct v2f_cull
         {
             float4 pos : SV_POSITION;
@@ -102,30 +97,20 @@ Shader "lcl/screenEffect/outLine"
             return final;
         }
 
-
-
-
-
         ENDCG
 
         
         // No culling or depth
         Cull Off ZWrite Off ZTest Always
         
-        //垂直高斯模糊
+        //高斯模糊
         Pass {
             CGPROGRAM
-            #pragma vertex vertBlurVertical  
-            #pragma fragment fragBlur
+            #pragma vertex vert_blur  
+            #pragma fragment frag_blur
             ENDCG  
         }
-        //水平高斯模糊
-        Pass {  
-            CGPROGRAM  
-            #pragma vertex vertBlurHorizontal  
-            #pragma fragment fragBlur
-            ENDCG
-        }
+        
         //轮廓图
         Pass {  
             CGPROGRAM  

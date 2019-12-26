@@ -209,9 +209,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gaussianBlurShader: {fileID: 4800000, guid: ed197ed7e8d07ad4191ca1123c29de04, type: 3}
   BlurRadius: 1
-  downSample: 2
-  iteration: 1
-  sigma: 8
+  downSample: 1
+  iteration: 2
+  sigma: 10
 --- !u!1 &939496788
 GameObject:
   m_ObjectHideFlags: 0

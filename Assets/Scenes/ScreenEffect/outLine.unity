@@ -914,6 +914,7 @@ GameObject:
   - component: {fileID: 1977041583}
   - component: {fileID: 1977041582}
   - component: {fileID: 1977041585}
+  - component: {fileID: 1977041586}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -992,7 +993,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1977041581}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a35d833af4584e42947c36389fdc892, type: 3}
   m_Name: 
@@ -1003,3 +1004,21 @@ MonoBehaviour:
   iterations: 2
   blurSpread: 3
   outlineColor: {r: 0.061502695, g: 1, b: 0, a: 1}
+--- !u!114 &1977041586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977041581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64994d5ab8720814d9be12349336b602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineCamera: {fileID: 1632790050}
+  purecolorShader: {fileID: 4800000, guid: a8199633424c0da4d847dba8764e894d, type: 3}
+  shader: {fileID: 4800000, guid: 8cddd5daa4920254eaea04fc0e619f9e, type: 3}
+  iterations: 2
+  blurSpread: 0.67
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
