@@ -1,7 +1,6 @@
 ﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
 Shader "lcl/learnShader1/007_rampTextureMask" {
 Properties {
 		_Color ("Color Tint", Color) = (1, 1, 1, 1)

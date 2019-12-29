@@ -1,7 +1,7 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
+﻿//create by 长生但酒狂
+//高光反射计算 - 片元着色器计算
 Shader "lcl/learnShader1/005_Specular_fargment" {
-	//高光反射计算
+	
 	Properties{
 		_Diffuse("Diffuse Color",Color) = (1,1,1,1)
 		_Specular("_Specular Color",Color) = (1,1,1,1)

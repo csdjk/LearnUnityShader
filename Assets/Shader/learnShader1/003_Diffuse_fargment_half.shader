@@ -1,6 +1,10 @@
-﻿Shader "lcl/learnShader1/003_Diffuse_fargment_half" {
-	//在片元着色器计算漫反射
-	//半兰伯特漫反射
+﻿//create by 长生但酒狂
+//半兰伯特漫反射
+Shader "lcl/learnShader1/003_Diffuse_fargment_half" {
+	//属性
+	Properties{
+		_Diffuse("Diffuse Color",Color) = (1,1,1,1)
+	}
 	SubShader {
 		Pass{
 			Tags { "LightMode"="ForwardBase" }
@@ -27,6 +31,7 @@
 				return f;
 			};
 
+			float4 _Diffuse;
 
 			fixed4 frag(v2f f):SV_TARGET{
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
@@ -35,7 +40,7 @@
 				//半兰伯特漫反射  值范围0-1
 				fixed3 halfLambert = dot(normalDir,lightDir)*0.5+0.5;	
 				fixed3 diffuse = _LightColor0.rgb * halfLambert;
-				fixed3 resultColor = diffuse+ambient;
+				fixed3 resultColor = (diffuse + ambient) * _Diffuse;
 
 				return fixed4(resultColor,1);
 			};

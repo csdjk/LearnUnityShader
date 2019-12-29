@@ -5,7 +5,8 @@ Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: refractionMat
   m_Shader: {fileID: 4800000, guid: b7680f069ed4be6479c2e14d594f135e, type: 3}
   m_ShaderKeywords: 

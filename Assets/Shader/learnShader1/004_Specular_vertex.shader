@@ -1,7 +1,7 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
+﻿//create by 长生但酒狂
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+//高光反射 - 顶点着色器计算
 Shader "lcl/learnShader1/004_Specular_vertex" {
-	//高光反射计算
 
 	Properties{
 		_Diffuse("Diffuse Color",Color) = (1,1,1,1)
