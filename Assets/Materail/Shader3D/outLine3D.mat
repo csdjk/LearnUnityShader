@@ -25,7 +25,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _lineWidth: 0.5
-    - _power: 2.5
+    - _newPower: 0.307
+    - _power: 2.58
     - _strength: 2.6
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

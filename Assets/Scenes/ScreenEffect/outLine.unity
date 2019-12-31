@@ -496,7 +496,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400150, guid: fd90776b8bbd2024688389d8b0767cd4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.323
       objectReference: {fileID: 0}
     - target: {fileID: 400150, guid: fd90776b8bbd2024688389d8b0767cd4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1022,5 +1022,5 @@ MonoBehaviour:
   purecolorShader: {fileID: 4800000, guid: a8199633424c0da4d847dba8764e894d, type: 3}
   shader: {fileID: 4800000, guid: 8cddd5daa4920254eaea04fc0e619f9e, type: 3}
   iterations: 2
-  blurSpread: 0.67
+  blurSpread: 1.46
   outlineColor: {r: 1, g: 0, b: 0, a: 1}

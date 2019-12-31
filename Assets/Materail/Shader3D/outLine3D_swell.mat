@@ -28,7 +28,7 @@ Material:
     - _OffsetUnits: 0
     - _blurPower: 3.56
     - _lineWidth: 0.5
-    - _power: 0.022
+    - _power: 0.0197
     - _strength: 2.6
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

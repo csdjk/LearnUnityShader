@@ -2721,7 +2721,7 @@ GameObject:
   - component: {fileID: 577577448}
   - component: {fileID: 577577447}
   m_Layer: 0
-  m_Name: TS_N_WALK (3)
+  m_Name: outLineSwell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

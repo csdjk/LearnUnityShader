@@ -1,6 +1,5 @@
 ﻿//--------------------------- 【描边】 - 法线扩张---------------------
 //create by 长生但酒狂
-
 Shader "lcl/shader3D/outLine3D_swell"
 {
     //---------------------------【属性】---------------------------
@@ -55,7 +54,7 @@ Shader "lcl/shader3D/outLine3D_swell"
         v.normal = normalize(v.normal);
         //顶点沿着法线方向扩张
         v.vertex.xyz +=  v.normal * _power;
-        //由模型坐标系转换到裁剪空间
+        //由模型空间坐标系转换到裁剪空间
         o.vertex = UnityObjectToClipPos(v.vertex);
         //输出结果
         return o;
@@ -74,9 +73,13 @@ Shader "lcl/shader3D/outLine3D_swell"
         //正常渲染
         v2f o;
         o.uv = v.uv;
+        //法线从模型空间坐标系转换到世界坐标系
         o.worldNormalDir = mul(v.normal,(float3x3) unity_WorldToObject);
-        o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;  
+        //顶点从模型空间坐标系转换到世界坐标系
+        o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz; 
+        //归一化
         v.normal = normalize(v.normal);
+        //由模型空间坐标系转换到裁剪空间
         o.vertex = UnityObjectToClipPos(v.vertex);
         return o;
     }
@@ -106,17 +109,18 @@ Shader "lcl/shader3D/outLine3D_swell"
     // ------------------------【子着色器】---------------------------
     SubShader
     {
+        //透明度混合模式
         Blend SrcAlpha OneMinusSrcAlpha
+        //渲染队列
         Tags{ "Queue" = "Transparent"}
         
         // ------------------------【背面通道】---------------------------
         Pass
         {
+            //剔除正面
             Cull Front
-            //防止背面模型穿透正面模型有两种方法：
-            //1.控制深度偏移，描边pass远离相机一些，防止与正常pass穿插（这个方法效果不是很好）
-            // Offset [_OffsetFactor],1
-            //2.关闭深度写入，为了让正面的pass完全覆盖背面，同时要把渲染队列改成Transparent，此时物体渲染顺序是从后到前的
+            //防止背面模型穿透正面模型
+            //关闭深度写入，为了让正面的pass完全覆盖背面，同时要把渲染队列改成Transparent，此时物体渲染顺序是从后到前的
             ZWrite Off
 
             CGPROGRAM
@@ -128,6 +132,7 @@ Shader "lcl/shader3D/outLine3D_swell"
         // ------------------------【正面通道】---------------------------
         Pass
         {
+            //剔除背面
             Cull Back
             CGPROGRAM
             #pragma vertex vert_front
