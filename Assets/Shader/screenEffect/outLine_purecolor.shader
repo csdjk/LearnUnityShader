@@ -1,5 +1,9 @@
 ﻿Shader "lcl/screenEffect/outLine_purecolor"
 {
+    Properties
+    {
+        _OutlineColor ("_OutlineColor", Color) = (1,0,0,1)
+    }
     SubShader
     {
         Pass

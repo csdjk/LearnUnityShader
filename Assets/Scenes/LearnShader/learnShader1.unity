@@ -1018,7 +1018,7 @@ GameObject:
   - component: {fileID: 1173789944}
   - component: {fileID: 1173789943}
   m_Layer: 0
-  m_Name: Specular_fargment_BlinnPnone
+  m_Name: Specular_fargment_BlinnPhong
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

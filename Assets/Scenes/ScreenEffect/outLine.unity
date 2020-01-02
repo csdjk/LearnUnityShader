@@ -1021,6 +1021,6 @@ MonoBehaviour:
   outlineCamera: {fileID: 1632790050}
   purecolorShader: {fileID: 4800000, guid: a8199633424c0da4d847dba8764e894d, type: 3}
   shader: {fileID: 4800000, guid: 8cddd5daa4920254eaea04fc0e619f9e, type: 3}
-  iterations: 2
-  blurSpread: 1.46
+  iterations: 4
+  blurSpread: 3
   outlineColor: {r: 1, g: 0, b: 0, a: 1}

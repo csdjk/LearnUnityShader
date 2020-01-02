@@ -28,7 +28,6 @@ Shader "lcl/learnShader1/005_Specular_fargment" {
 				float4 position:SV_POSITION;
 				float3 worldNormal: TEXCOORD0;
 				float3 worldVertex: TEXCOORD1;
-
 			};
 
 			v2f vert(a2v v){

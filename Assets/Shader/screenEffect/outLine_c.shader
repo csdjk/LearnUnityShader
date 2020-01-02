@@ -21,7 +21,6 @@ Shader "lcl/screenEffect/outLine_c"
             float2 uv  : TEXCOORD0;     //纹理坐标  
             float4 uv01 : TEXCOORD1;    //一个vector4存储两个纹理坐标  
             float4 uv23 : TEXCOORD2;    //一个vector4存储两个纹理坐标  
-            float4 uv45 : TEXCOORD3;    //一个vector4存储两个纹理坐标  
         };  
 
         //高斯模糊顶点着色器
@@ -39,7 +38,6 @@ Shader "lcl/screenEffect/outLine_c"
             //坐标，也可能是(1,0,-1,0)，表示像素左右两个像素点的坐标，下面*2.0，*3.0同理  
             o.uv01 = v.texcoord.xyxy + _offsets.xyxy * float4(1, 1, -1, -1);  
             o.uv23 = v.texcoord.xyxy + _offsets.xyxy * float4(1, 1, -1, -1) * 2.0;  
-            // o.uv45 = v.texcoord.xyxy + _offsets.xyxy * float4(1, 1, -1, -1) * 3.0;  
             return o;  
         }  
         
