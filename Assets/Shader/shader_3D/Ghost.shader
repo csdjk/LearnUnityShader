@@ -4,7 +4,8 @@ Shader "lcl/shader3D/Ghost" {
 	/// ------------------------【属性】---------------------------
 	Properties{
 		_Diffuse("Diffuse Color",Color) = (1,1,1,1)
-		_Power("Power",Range(1,20)) = 10
+		_Direction("Direction",vector) = (0,0,0)
+		_Power("Power",Range(0,1)) = 0.1
 	}
 	// ------------------------【子着色器】---------------------------
 	SubShader {
@@ -12,9 +13,11 @@ Shader "lcl/shader3D/Ghost" {
 			Tags { "LightMode"="ForwardBase" }
 			CGPROGRAM
 			#include "../ShaderLibs/LightingModel.cginc"
+			#include "../ShaderLibs/Noise.cginc"
+
 			#pragma vertex vert
 			#pragma fragment frag
-
+			// defined (USING_SIMPLEX_NOISE)	
 
 			struct a2v {
 				float4 vertex : POSITION;
@@ -24,38 +27,21 @@ Shader "lcl/shader3D/Ghost" {
 			struct v2f{
 				float4 position:SV_POSITION;
 				float3 worldNormal:COLOR0;
-				float3 worldVertex: TEXCOORD1;
+				float3 worldVertex: TEXCOORD0;
+				float isOffset:TEXCOORD1;
 			};
-
-			float mod289(float x){return x - floor(x * (1.0 / 289.0)) * 289.0;}
-			float4 mod289(float4 x){return x - floor(x * (1.0 / 289.0)) * 289.0;}
-			float4 perm(float4 x){return mod289(((x * 34.0) + 1.0) * x);}
-
-			float noise(float3 p){
-				float3 a = floor(p);
-				float3 d = p - a;
-				d = d * d * (3.0 - 2.0 * d);
-
-				float4 b = a.xxyy + float4(0.0, 1.0, 0.0, 1.0);
-				float4 k1 = perm(b.xyxy);
-				float4 k2 = perm(k1.xyxy + b.zzww);
-
-				float4 c = k2 + a.zzzz;
-				float4 k3 = perm(c);
-				float4 k4 = perm(c + 1.0);
-
-				float4 o1 = frac(k3 * (1.0 / 41.0));
-				float4 o2 = frac(k4 * (1.0 / 41.0));
-
-				float4 o3 = o2 * d.z + o1 * (1.0 - d.z);
-				float2 o4 = o3.yw * d.x + o3.xz * (1.0 - d.x);
-
-				return o4.y * d.y + o4.x * (1.0 - d.y);
-			}
-		
-
+			
 			float4 _Diffuse;
+			float3 _Direction;
 			half _Power;
+			
+			// 2D Random
+			float random (in float2 st) {
+				return frac(sin(dot(st.xy,
+				float2(12.9898,78.233)))
+				* 43758.5453123);
+			}
+			
 			// ------------------------【顶点着色器】---------------------------
 			v2f vert(a2v v){
 				v2f f;
@@ -64,8 +50,17 @@ Shader "lcl/shader3D/Ghost" {
 				f.worldVertex = mul(v.vertex,unity_WorldToObject).xyz;
 
 				//
-				v.vertex.xyz += float3(-1,0,0) * noise(v.vertex.xyz) * _Power; 
+				float isOffsetX = 1 - step(0,v.vertex.x * - _Direction.x);
+				float isOffsetY = 1 - step(0,v.vertex.y * - _Direction.y);
+				float isOffsetZ = 1 - step(0,v.vertex.z * - _Direction.z);
 
+				// float3 isOffset = float3(1,1,1)-step(float3(0,0,0),v.vertex * - _Direction);
+
+				float isOffset = saturate(isOffsetX + isOffsetY + isOffsetZ);
+				// float isOffset = isOffsetX * isOffsetY * isOffsetZ;
+				v.vertex.xyz += _Direction * random(v.vertex.xy) * _Power * isOffset; 
+				
+				f.isOffset = isOffset;
 				f.position = UnityObjectToClipPos(v.vertex);
 				return f;
 			};
@@ -75,6 +70,8 @@ Shader "lcl/shader3D/Ghost" {
 			fixed4 frag(v2f f):SV_TARGET{
 				//兰伯特
 				fixed3 resultColor = ComputeLambertLighting(f.worldNormal,_Diffuse);
+
+				resultColor = resultColor + f.isOffset * float3(0,1,1);
 
 				return fixed4(resultColor,1);
 			};
