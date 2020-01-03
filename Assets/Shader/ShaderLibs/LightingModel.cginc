@@ -1,8 +1,7 @@
 // create by 长生但酒狂
 // create time 2020-1-2
 #include "Lighting.cginc"
-
-// 计算兰伯特光照模型 - compute Lambert
+// ------------------------------【计算兰伯特光照模型 - compute Lambert】-----------------------------
 inline fixed3 ComputeLambertLighting (float3 worldNormal,float4 DiffuseCol = float4(1,1,1,1)) {
     // 环境光
     fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
@@ -16,7 +15,7 @@ inline fixed3 ComputeLambertLighting (float3 worldNormal,float4 DiffuseCol = flo
     return resultColor;
 }
 
-// 计算半兰伯特光照模型 - compute half Lambert
+// ------------------------------【计算半兰伯特光照模型 - compute half Lambert】-----------------------------
 inline fixed3 ComputeHalfLambertLighting (float3 worldNormal,float4 DiffuseCol = float4(1,1,1,1)) {
     // 环境光
     fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
@@ -32,7 +31,7 @@ inline fixed3 ComputeHalfLambertLighting (float3 worldNormal,float4 DiffuseCol =
     return resultColor;
 }
 
-// 计算Phong光照模型 - compute Phong Lighting
+// ------------------------------【计算Phong光照模型 - compute Phong Lighting】-----------------------------
 // worldNormal: 世界空间坐标系的法线
 // worldVertex: 世界空间坐标系的顶点坐标
 // gloss: 高光强度
@@ -58,7 +57,7 @@ inline fixed3 ComputePhongLighting (float3 worldNormal,float3 worldVertex , floa
 }
 
 
-// 计算BlinnPhong光照模型 - compute BlinnPhong Lighting
+// ------------------------------【计算BlinnPhong光照模型 - compute BlinnPhong Lighting】-----------------------------
 // worldNormal: 世界空间坐标系的法线
 // worldVertex: 世界空间坐标系的顶点坐标
 // gloss: 高光强度
@@ -83,4 +82,28 @@ inline fixed3 ComputeBlinnPhongLighting (float3 worldNormal,float3 worldVertex ,
 	fixed3 specular = _LightColor0.rgb * pow(max(0,dot(normalDir,halfDir)),gloss) * specularCol;
     fixed3 resultColor = diffuse+ambient+specular;
     return resultColor;
+}
+
+// ------------------------------【计算法线贴图 - Compute Normal Map】-----------------------------
+//BumpMap: 法线贴图
+//uv: 法线纹理坐标
+//lightDir: 切线空间下的光线方向, lightDir = mul(rotation, ObjSpaceLightDir(v.vertex));
+//diffuseCol: 材质颜色
+inline fixed3 ComputeNormalMap (sampler2D BumpMap,float2 uv,float3 lightDir, float4 diffuseCol = float4(1,1,1,1)) {
+    //环境光
+    fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * diffuseCol.xyz;
+    //求出切线空间下的法线
+    float3 tangentNormal = UnpackNormal(tex2D(BumpMap, uv));
+    //法线强度调整
+    tangentNormal.xy *= _BumpScale;
+    //normalize一下切线空间的光照方向
+    float3 tangentLight = normalize(i.lightDir);
+    //根据半兰伯特模型计算像素的光照信息
+    fixed3 lambert = 0.5 * dot(tangentNormal, tangentLight) + 0.5;
+    //最终输出颜色为lambert光强*材质diffuse颜色*光颜色
+    fixed3 diffuse = lambert * diffuseCol.xyz * _LightColor0.xyz + ambient;
+    //进行纹理采样
+    fixed4 color = tex2D(_MainTex, i.uv);
+
+	return diffuse * color.rgb;
 }
