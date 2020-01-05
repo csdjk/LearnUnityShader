@@ -77,8 +77,8 @@ Shader "lcl/shader3D/outLine3D_swell"
         o.worldNormalDir = mul(v.normal,(float3x3) unity_WorldToObject);
         //顶点从模型空间坐标系转换到世界坐标系
         o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz; 
-        //归一化
-        v.normal = normalize(v.normal);
+        // //归一化
+        // v.normal = normalize(v.normal);
         //由模型空间坐标系转换到裁剪空间
         o.vertex = UnityObjectToClipPos(v.vertex);
         return o;

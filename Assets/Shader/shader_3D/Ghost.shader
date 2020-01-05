@@ -1,5 +1,7 @@
 ﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 //create by 长生但酒狂
 // ------------------------【残影】---------------------------
 Shader "lcl/shader3D/Ghost" {
@@ -34,7 +36,7 @@ Shader "lcl/shader3D/Ghost" {
 			};
 			//片元着色器输入结构体
 			struct v2f{
-				float4 position:SV_POSITION;
+				float4 vertex:SV_POSITION;
 				float3 worldNormal:COLOR0;
 				float3 worldVertex: TEXCOORD0;
 				float isOffset:TEXCOORD1;
@@ -55,29 +57,21 @@ Shader "lcl/shader3D/Ghost" {
 			
 			// ------------------------【顶点着色器】---------------------------
 			v2f vert(a2v v){
-				v2f f;
+				v2f o;
 				// 计算世界空间下的法线和坐标
-				f.worldNormal = mul(v.normal,(float3x3) unity_WorldToObject);
-				f.worldVertex = mul(v.vertex,unity_WorldToObject).xyz;
-				//
-				// float isOffsetX = 1 - step(0,v.vertex.x * - _Direction.x);
-				// float isOffsetY = 1 - step(0,v.vertex.y * - _Direction.y);
-				// float isOffsetZ = 1 - step(0,v.vertex.z * - _Direction.z);
-				// float isOffset = saturate(isOffsetX + isOffsetY + isOffsetZ);
+				o.worldNormal = mul(unity_ObjectToWorld,v.normal);
+				float4 worldVertex = mul(unity_ObjectToWorld,v.vertex);
 				// 通过计算法线与残影方向的夹角,判断该顶点是否在运动方向的背面(需要偏移的顶点)；
-				f.radian = dot(normalize(v.normal),_Direction);
-				float isOffset = step(0,f.radian);
-				// if(length(_Direction) == 0){
-				// 	isOffset = 0;
-				// }
+				o.radian = dot(normalize(o.worldNormal),_Direction);
+				float isOffset = step(0,o.radian);
 				// 通过残影方向,强度,随机数计算偏移量；
-				v.vertex.xyz += _Direction * random(v.vertex.xy) * _Power * isOffset; 
+				worldVertex.xyz += _Direction * random(worldVertex.xy) * _Power * isOffset; 
 				// 传递给片元着色器
-				f.isOffset = isOffset;
+				o.isOffset = isOffset;
 				// 转换坐标到裁剪空间
-				f.position = UnityObjectToClipPos(v.vertex);
-				return f;
-
+				o.vertex = mul(UNITY_MATRIX_VP,worldVertex);
+				// o.vertex = UnityObjectToClipPos(v.vertex);
+				return o;
 			};
 
 			

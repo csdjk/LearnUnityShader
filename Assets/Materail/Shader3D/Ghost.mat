@@ -74,10 +74,12 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
+    - _power: 1
     m_Colors:
     - _Color: {r: 1, g: 0.05929719, b: 0, a: 1}
     - _Diffuse: {r: 1, g: 0, b: 0, a: 1}
     - _Direction: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GhostColor: {r: 0, g: 0.96275425, b: 1, a: 1}
+    - _GhostColor: {r: 1, g: 1, b: 1, a: 1}
     - _Specular: {r: 1, g: 1, b: 1, a: 1}
+    - _lineColor: {r: 1, g: 1, b: 1, a: 1}

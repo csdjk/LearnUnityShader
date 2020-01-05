@@ -29,7 +29,7 @@ Material:
     - _power: 2.58
     - _strength: 2.6
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.8207547, g: 0.8207547, b: 0.8207547, a: 1}
     - _Diffuse: {r: 1, g: 1, b: 1, a: 1}
     - _lineColor: {r: 0, g: 1, b: 0.105882406, a: 1}
     - _strength: {r: 0.07539308, g: 1, b: 0, a: 1}

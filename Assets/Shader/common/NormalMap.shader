@@ -1,7 +1,9 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //Bump Map
 //by：puppet_master
 //2016.12.14
-Shader "ApcShader/NormalMap"
+Shader "lcl/Common/NormalMap"
 {
 	//属性
 	Properties{
@@ -44,7 +46,7 @@ Shader "ApcShader/NormalMap"
 			v2f vert(appdata_tan v)
 			{
 				v2f o;
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.pos = UnityObjectToClipPos(v.vertex);
 				//这个宏为我们定义好了模型空间到切线空间的转换矩阵rotation，注意后面有个；
 				TANGENT_SPACE_ROTATION;
 				//ObjectSpaceLightDir可以把光线方向转化到模型空间，然后通过rotation再转化到切线空间
@@ -65,7 +67,7 @@ Shader "ApcShader/NormalMap"
 				//normalize一下切线空间的光照方向
 				float3 tangentLight = normalize(i.lightDir);
 				//根据半兰伯特模型计算像素的光照信息
-				fixed3 lambert = 0.5 * dot(tangentNormal, tangentLight) + 0.5;
+				fixed3 lambert = dot(tangentNormal, tangentLight);
 				//最终输出颜色为lambert光强*材质diffuse颜色*光颜色
 				fixed3 diffuse = lambert * _Diffuse.xyz * _LightColor0.xyz + ambient;
 				//进行纹理采样
