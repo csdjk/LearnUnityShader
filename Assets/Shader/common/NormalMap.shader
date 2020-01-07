@@ -67,7 +67,7 @@ Shader "lcl/Common/NormalMap"
 				//normalize一下切线空间的光照方向
 				float3 tangentLight = normalize(i.lightDir);
 				//根据半兰伯特模型计算像素的光照信息
-				fixed3 lambert = dot(tangentNormal, tangentLight);
+				fixed3 lambert = max(0,dot(tangentNormal, tangentLight));
 				//最终输出颜色为lambert光强*材质diffuse颜色*光颜色
 				fixed3 diffuse = lambert * _Diffuse.xyz * _LightColor0.xyz + ambient;
 				//进行纹理采样

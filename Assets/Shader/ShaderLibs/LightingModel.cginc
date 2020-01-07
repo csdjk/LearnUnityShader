@@ -91,7 +91,7 @@ inline fixed3 ComputeBlinnPhongLighting (float3 worldNormal,float3 worldVertex ,
 //diffuseCol: 材质颜色
 inline fixed3 ComputeNormalMap (sampler2D _MainTex,sampler2D BumpMap,float2 uv,float3 lightDir, float _BumpScale = 1.0,float4 diffuseCol = float4(1,1,1,1)) {
     //环境光
-    fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
+    fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz *diffuseCol.xyz;
     //求出切线空间下的法线
     float3 tangentNormal = UnpackNormal(tex2D(BumpMap, uv));
     //法线强度调整
@@ -99,7 +99,8 @@ inline fixed3 ComputeNormalMap (sampler2D _MainTex,sampler2D BumpMap,float2 uv,f
     //normalize一下切线空间的光照方向
     float3 tangentLight = normalize(lightDir);
     //根据半兰伯特模型计算像素的光照信息
-    fixed3 lambert = dot(tangentNormal, tangentLight);
+    // fixed3 lambert = dot(tangentNormal, tangentLight);
+    fixed3 lambert = dot(tangentNormal, tangentLight)*0.5+0.5;
     //最终输出颜色为lambert光强*材质diffuse颜色*光颜色
     fixed3 diffuse = lambert * diffuseCol.xyz * _LightColor0.xyz + ambient;
     //进行纹理采样

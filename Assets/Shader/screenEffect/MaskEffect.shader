@@ -27,7 +27,7 @@
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-                // float4 srcPos : TEXCOORD1;
+                float4 srcPos : TEXCOORD1;
             };
 
             v2f vert (appdata v)
@@ -35,7 +35,7 @@
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
-                // o.srcPos = ComputeScreenPos(o.pos); 
+                o.srcPos = ComputeScreenPos(o.vertex); 
                 return o;
             }
 
@@ -92,7 +92,7 @@
                 float angle = atan2(dir.y,dir.x);
                 
                 float f = frac(angle*1.273)*0.956;
-                 float col = 1.-smoothstep(f,f+0.02,radius);
+                float col = 1.-smoothstep(f,f+0.02,radius);
                 return float3(col,col,col );
             }
 
@@ -109,8 +109,11 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
+                // float2 coord = (i.srcPos.xy/i.srcPos.w)*_ScreenParams.xy;
+                // float2 uv = (2.0*coord.xy - _ScreenParams.xy)/min(_ScreenParams.x,_ScreenParams.y);
+
                 fixed4 col = tex2D(_MainTex, i.uv);
-                fixed3 mask = createCircle(_Pos,_Size,i.uv);
+                fixed3 mask = createD(_Pos,_Size,i.uv);
 
                 return col * fixed4(mask,1.0);
             }

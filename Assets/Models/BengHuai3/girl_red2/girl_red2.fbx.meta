@@ -154,7 +154,42 @@ ModelImporter:
     13700000: Body014
     13700002: Face014
     13700004: Hair014
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Monster_BOSS_040_Material_Body_Cloth
+    second: {fileID: 2100000, guid: 452195d9d3b6cb1449bc8218df49db96, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Monster_BOSS_040_Material_Body_Skin
+    second: {fileID: 2100000, guid: 184bd675d157ee742bc4f27e15b6873b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Monster_BOSS_040_Material_Face
+    second: {fileID: 2100000, guid: e535f8bc6720ed04bbdc00cb844bea55, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Monster_BOSS_040_Material_Hair
+    second: {fileID: 2100000, guid: aabc14629538341479f99e173a50a4a9, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Boss_040_Body_Color
+    second: {fileID: 2800000, guid: 3693ed987effc6c4189286c8623dc16c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Boss_040_Face_Color
+    second: {fileID: 2800000, guid: 6df3d6afe9f1d4e40b69d4096b84be1b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Boss_040_Hair_Color
+    second: {fileID: 2800000, guid: 0d6f2761bdeac8a48bae0dc218c2aea9, type: 3}
   materials:
     importMaterials: 1
     materialName: 0

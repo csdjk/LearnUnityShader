@@ -278,8 +278,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myShader: {fileID: 4800000, guid: d25c4c35539944241a1e1bf58cbd4440, type: 3}
-  size: 0.26
-  edgeBlurLength: 0.0983
+  size: 3
+  edgeBlurLength: 0.1
 --- !u!1 &1524013279
 GameObject:
   m_ObjectHideFlags: 0
