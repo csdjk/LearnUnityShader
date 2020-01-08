@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NormalMapWorldSpace
-  m_Shader: {fileID: 4800000, guid: ab4e77b59a93daa4d99158c32824883a, type: 3}
+  m_Name: outLine
+  m_Shader: {fileID: 4800000, guid: 5fc2875e758746247becfdf86028641d, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -64,7 +64,6 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Gloss: 20
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -77,8 +76,9 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
+    - _power: 0.033
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Diffuse: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Specular: {r: 0, g: 0.07881689, b: 1, a: 1}
+    - _lineColor: {r: 1, g: 0, b: 0, a: 1}

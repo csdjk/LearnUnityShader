@@ -1,89 +1,99 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "lcl/Common/NormalMapWorldSpace"
-{
-	Properties
-	{
-		_MainTex ("Texture", 2D) = "white" {}
-		_BumpTex("BumpTex",2D)="white"{}
-		_BumpScale("BumpScale",Range(-2.0,2.0))=-1.0
+Shader "lcl/Common/Normal Map In World Space" {
+	Properties {
+		_Color ("Color Tint", Color) = (1, 1, 1, 1)
+		_MainTex ("Main Tex", 2D) = "white" {}
+		_BumpMap ("Normal Map", 2D) = "bump" {}
+		_BumpScale ("Bump Scale", Float) = 1.0
+		_Specular ("Specular", Color) = (1, 1, 1, 1)
+		_Gloss ("Gloss", Range(8.0, 256)) = 20
 	}
-	SubShader
-	{
-		Tags { "RenderType"="Opaque" }
-
-		Pass
-		{
+	SubShader {
+		Pass { 
+			Tags { "LightMode"="ForwardBase" }
+		
 			CGPROGRAM
+			
 			#pragma vertex vert
 			#pragma fragment frag
 			
-			#include "UnityCG.cginc"
 			#include "Lighting.cginc"
-
-			struct appdata
-			{
-				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
-				float3 normal:NORMAL;
-				float4 tangent:TANGENT;
-			};
-
-			struct v2f
-			{
-				float2 uv : TEXCOORD0;
-				float4 vertex : SV_POSITION;
-				float3 T2W0:TEXCOORD1;
-				float3 T2W1:TEXCOORD2;
-				float3 T2W2:TEXCOORD3;
-				float3 worldViewDir:TEXCOORD4;
-			};
-
+			
+			fixed4 _Color;
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
-			sampler2D _BumpTex;
+			sampler2D _BumpMap;
+			float4 _BumpMap_ST;
 			float _BumpScale;
+			fixed4 _Specular;
+			float _Gloss;
 			
-			v2f vert (appdata v)
-			{
+			struct a2v {
+				float4 vertex : POSITION;
+				float3 normal : NORMAL;
+				float4 tangent : TANGENT;
+				float4 texcoord : TEXCOORD0;
+			};
+			
+			struct v2f {
+				float4 pos : SV_POSITION;
+				float4 uv : TEXCOORD0;
+				float4 TtoW0 : TEXCOORD1;  
+				float4 TtoW1 : TEXCOORD2;  
+				float4 TtoW2 : TEXCOORD3; 
+			};
+			
+			v2f vert(a2v v) {
 				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-				float3 worldNormal=UnityObjectToWorldNormal(v.normal);
-				float3 worldTangent=UnityObjectToWorldDir(v.tangent.xyz);
-				//切线，法线都垂直的方向有两个，而w决定了我们选择哪一个方向
-				float3 worldBinormal=cross(worldNormal,worldTangent)*v.tangent.w;
-				//构建变换矩阵
-				//z轴是法线方向(n)，x轴是切线方向(t)，y轴可由法线和切线叉积得到，也称为副切线（bitangent, b）
-				o.T2W0=float3(worldTangent.x,worldBinormal.x,worldNormal.x);
-				o.T2W1=float3(worldTangent.y,worldBinormal.y,worldNormal.y);
-				o.T2W2=float3(worldTangent.z,worldBinormal.z,worldNormal.z);
-				o.worldViewDir=WorldSpaceViewDir(v.vertex);
+				o.pos = UnityObjectToClipPos(v.vertex);
+				
+				o.uv.xy = v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+				o.uv.zw = v.texcoord.xy * _BumpMap_ST.xy + _BumpMap_ST.zw;
+				
+				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;  
+				fixed3 worldNormal = UnityObjectToWorldNormal(v.normal);  
+				fixed3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);  
+				fixed3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w; 
+				
+				// Compute the matrix that transform directions from tangent space to world space
+				// Put the world position in w component for optimization
+				o.TtoW0 = float4(worldTangent.x, worldBinormal.x, worldNormal.x, worldPos.x);
+				o.TtoW1 = float4(worldTangent.y, worldBinormal.y, worldNormal.y, worldPos.y);
+				o.TtoW2 = float4(worldTangent.z, worldBinormal.z, worldNormal.z, worldPos.z);
+				
 				return o;
 			}
 			
-			float4 frag (v2f i) : SV_Target
-			{
-				float4 packedNormal = tex2D(_BumpTex, i.uv);
-				//解析法线贴图的采样
-                float3 tangentNormal = UnpackNormal(packedNormal);
-				//乘以凹凸系数
-                tangentNormal.xy *= _BumpScale;
-				//向量点乘自身算出x2+y2，再求出z的值
-                tangentNormal.z = sqrt(1.0 - saturate(dot(tangentNormal.xy, tangentNormal.xy)));
-				//向量变换只需要3*3
-				float3x3 T2WMatrix=float3x3(i.T2W0,i.T2W1,i.T2W2);								
-				float3 worldNormal=mul(T2WMatrix,tangentNormal);
-				worldNormal=normalize(worldNormal);
-				float3 worldLightDir=normalize(-_WorldSpaceLightPos0.xyz);
-				float3 col = tex2D(_MainTex, i.uv).xyz;
-				float3 diffuse=_LightColor0.rgb*col*saturate(dot(worldNormal,worldLightDir));
-				float3 ambient=col*UNITY_LIGHTMODEL_AMBIENT.xyz;
-				float3 worldHalfDir=normalize(worldLightDir+normalize(i.worldViewDir));
-				float3 specular=_LightColor0.rgb*pow(saturate(dot(worldHalfDir,worldNormal)),20);
-				specular*=smoothstep(0.0,0.5,dot(worldNormal,worldLightDir));
-				return float4(specular+diffuse+ambient,1.0);
+			fixed4 frag(v2f i) : SV_Target {
+				// Get the position in world space		
+				float3 worldPos = float3(i.TtoW0.w, i.TtoW1.w, i.TtoW2.w);
+				// Compute the light and view dir in world space
+				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
+				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
+				
+				// Get the normal in tangent space
+				fixed3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));
+				bump.xy *= _BumpScale;
+				bump.z = sqrt(1.0 - saturate(dot(bump.xy, bump.xy)));
+				// Transform the narmal from tangent space to world space
+				bump = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz, bump), dot(i.TtoW2.xyz, bump)));
+				
+				fixed3 albedo = tex2D(_MainTex, i.uv).rgb * _Color.rgb;
+				
+				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
+				
+				fixed3 diffuse = _LightColor0.rgb * albedo * max(0, dot(bump, lightDir));
+
+				fixed3 halfDir = normalize(lightDir + viewDir);
+				fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0, dot(bump, halfDir)), _Gloss);
+				
+				return fixed4(ambient + diffuse + specular, 1.0);
 			}
+			
 			ENDCG
 		}
-	}
+	} 
+	FallBack "Specular"
 }
