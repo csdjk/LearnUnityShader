@@ -43,7 +43,7 @@ Shader "lcl/learnShader2/010_billboard" {
             v2f vert (a2v v) {
                 v2f o;
                 
-                // Suppose the center in object space is fixed
+                // 假设物体空间的中心是固定的 -  Suppose the center in object space is fixed
                 float3 center = float3(0, 0, 0);
                 float3 viewer = mul(unity_WorldToObject,float4(_WorldSpaceCameraPos, 1));
                 
@@ -63,12 +63,11 @@ Shader "lcl/learnShader2/010_billboard" {
                 // Use the three vectors to rotate the quad
                 float3 centerOffs = v.vertex.xyz - center;
                 //以下所有方法计算结果都相同
-
                 // float3 localPos = center + rightDir * centerOffs.x + upDir * centerOffs.y + normalDir * centerOffs.z;
 
                 // float3 localPos = center+mul(centerOffs,float3x3(rightDir,upDir,normalDir));
                 //左乘一个基向量矩阵    由于CG是行优先,所有需要 transpose 转置矩阵
-                float3 localPos = center+mul(transpose(float3x3(rightDir,upDir,normalDir)),centerOffs);
+                float3 localPos = center + mul(transpose(float3x3(rightDir,upDir,normalDir)),centerOffs);
 
                 // float3 localPos = center+mul(float3x3(
                 //     rightDir.x,upDir.x,normalDir.x,

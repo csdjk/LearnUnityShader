@@ -43,6 +43,8 @@ Shader "lcl/Common/Normal Map In World Space" {
 				float4 TtoW0 : TEXCOORD1;  
 				float4 TtoW1 : TEXCOORD2;  
 				float4 TtoW2 : TEXCOORD3; 
+				float3 worldPos: TEXCOORD4;
+				float3x3 mtrixWorld:float3x3;
 			};
 			
 			v2f vert(a2v v) {
@@ -59,27 +61,37 @@ Shader "lcl/Common/Normal Map In World Space" {
 				
 				// Compute the matrix that transform directions from tangent space to world space
 				// Put the world position in w component for optimization
-				o.TtoW0 = float4(worldTangent.x, worldBinormal.x, worldNormal.x, worldPos.x);
-				o.TtoW1 = float4(worldTangent.y, worldBinormal.y, worldNormal.y, worldPos.y);
-				o.TtoW2 = float4(worldTangent.z, worldBinormal.z, worldNormal.z, worldPos.z);
-				
+				// o.TtoW0 = float4(worldTangent.x, worldBinormal.x, worldNormal.x, worldPos.x);
+				// o.TtoW1 = float4(worldTangent.y, worldBinormal.y, worldNormal.y, worldPos.y);
+				// o.TtoW2 = float4(worldTangent.z, worldBinormal.z, worldNormal.z, worldPos.z);
+
+				o.worldPos = worldPos;
+				// 切线空间转换到世界空间的矩阵
+				o.mtrixWorld = float3x3(
+                    worldTangent.x,worldBinormal.x,worldNormal.x,
+                    worldTangent.y,worldBinormal.y,worldNormal.y,
+                    worldTangent.z,worldBinormal.z,worldNormal.z
+                    );
 				return o;
 			}
 			
 			fixed4 frag(v2f i) : SV_Target {
-				// Get the position in world space		
-				float3 worldPos = float3(i.TtoW0.w, i.TtoW1.w, i.TtoW2.w);
-				// Compute the light and view dir in world space
+				// 获取世界空间下的坐标 - Get the position in world space		
+				// float3 worldPos = float3(i.TtoW0.w, i.TtoW1.w, i.TtoW2.w);
+				float3 worldPos = i.worldPos;
+				// 计算 世界空间下的光线方向和视野方向 - Compute the light and view dir in world space
 				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
 				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
 				
-				// Get the normal in tangent space
+				// 得到切线空间中的法向量 - Get the normal in tangent space
 				fixed3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));
 				bump.xy *= _BumpScale;
 				bump.z = sqrt(1.0 - saturate(dot(bump.xy, bump.xy)));
-				// Transform the narmal from tangent space to world space
-				bump = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz, bump), dot(i.TtoW2.xyz, bump)));
-				
+				// 
+				// 将narmal由切线空间转换为世界空间 - Transform the narmal from tangent space to world space
+				// bump = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz, bump), dot(i.TtoW2.xyz, bump)));
+				bump = normalize(half3(mul(i.mtrixWorld, bump)));
+
 				fixed3 albedo = tex2D(_MainTex, i.uv).rgb * _Color.rgb;
 				
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;

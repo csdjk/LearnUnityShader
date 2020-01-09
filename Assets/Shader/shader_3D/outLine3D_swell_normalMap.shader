@@ -84,7 +84,8 @@ Shader "lcl/shader3D/outLine3D_swell_normalMap"
 	// ------------------------【正面-片元着色器】---------------------------
 	fixed4 frag_front(v2f i) : SV_Target
 	{
-		fixed3 result = ComputeNormalMap(_MainTex, _BumpMap, i.uv, i.lightDir, _BumpScale,_Diffuse);
+		// fixed3 result = ComputeNormalMapInTangentSpace(_MainTex, _BumpMap, i.uv, i.lightDir, _BumpScale,_Diffuse);
+		fixed3 result = ComputeNormalMapInTangentSpace(_MainTex, _BumpMap, i.uv, i.lightDir, _BumpScale,_Diffuse);
 		return fixed4(result , 1.0);
 	}
 	ENDCG

@@ -1,5 +1,6 @@
 // create by 长生但酒狂
 // create time 2020-1-2
+#include "UnityCG.cginc"
 #include "Lighting.cginc"
 // ------------------------------【计算兰伯特光照模型 - compute Lambert】-----------------------------
 inline fixed3 ComputeLambertLighting (float3 worldNormal,float4 DiffuseCol = float4(1,1,1,1)) {
@@ -79,17 +80,17 @@ inline fixed3 ComputeBlinnPhongLighting (float3 worldNormal,float3 worldVertex ,
     //光方向和视角方向平分线
     fixed3 halfDir = normalize(lightDir+viewDir);
     //BlinnPhong
-	fixed3 specular = _LightColor0.rgb * pow(max(0,dot(normalDir,halfDir)),gloss) * specularCol;
+    fixed3 specular = _LightColor0.rgb * pow(max(0,dot(normalDir,halfDir)),gloss) * specularCol;
     fixed3 resultColor = diffuse+ambient+specular;
     return resultColor;
 }
 
-// ------------------------------【计算法线贴图 - Compute Normal Map】-----------------------------
+// ------------------------------【在切线空间下计算法线贴图 - Compute Normal Map】-----------------------------
 //BumpMap: 法线贴图
 //uv: 法线纹理坐标
 //lightDir: 切线空间下的光线方向, lightDir = mul(rotation, ObjSpaceLightDir(v.vertex));
 //diffuseCol: 材质颜色
-inline fixed3 ComputeNormalMap (sampler2D _MainTex,sampler2D BumpMap,float2 uv,float3 lightDir, float _BumpScale = 1.0,float4 diffuseCol = float4(1,1,1,1)) {
+inline fixed3 ComputeNormalMapInTangentSpace (sampler2D _MainTex,sampler2D BumpMap,float2 uv,float3 lightDir, float _BumpScale = 1.0,float4 diffuseCol = float4(1,1,1,1)) {
     //环境光
     fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz *diffuseCol.xyz;
     //求出切线空间下的法线
@@ -106,5 +107,41 @@ inline fixed3 ComputeNormalMap (sampler2D _MainTex,sampler2D BumpMap,float2 uv,f
     //进行纹理采样
     fixed4 color = tex2D(_MainTex, uv);
 
-	return diffuse * color.rgb;
+    return diffuse * color.rgb;
+}
+
+// ------------------------------【在世界空间下计算法线贴图 - Compute Normal Map in World Space】-----------------------------
+
+// 获取切线空间到世界空间的转换矩阵
+inline float3x3 GetTangentToWorldMatrix(float3 normal,float4 tangent){
+    fixed3 worldNormal = UnityObjectToWorldNormal(normal); 
+    fixed3 worldTangent = UnityObjectToWorldDir(tangent.xyz);  
+    fixed3 worldBinormal = cross(worldNormal, worldTangent) * tangent.w; 
+    return transpose(float3x3( worldTangent, worldBinormal, worldNormal ));
+}
+
+//BumpMap: 法线贴图
+//uv: 法线纹理坐标
+//lightDir: 世界空间下的光线方向 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
+//diffuseCol: 材质颜色
+inline fixed3 ComputeNormalMapInWorldSpace (sampler2D _MainTex,sampler2D BumpMap,float2 uv,float3x3 mtrixWorld, float3 lightDir, float _BumpScale = 1.0,float4 diffuseCol = float4(1,1,1,1)) {
+    //进行纹理采样
+    fixed3 color = tex2D(_MainTex, uv).rgb * diffuseCol.rgb;
+    //环境光
+    fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * color;
+    //求出切线空间下的法线
+    float3 normal = UnpackNormal(tex2D(BumpMap, uv));
+    //法线强度调整
+    normal.xy *= _BumpScale;
+    // 转换到世界空间下
+    normal = normalize(half3(mul(mtrixWorld, normal)));
+    //normalize一下切线空间的光照方向
+    float3 worldLight = normalize(lightDir);
+    //根据半兰伯特模型计算像素的光照信息
+    fixed3 lambert = max(0,dot(normal, worldLight));
+    // fixed3 lambert = dot(normal, worldLight)*0.5+0.5;
+    //最终输出颜色为lambert光强*材质diffuse颜色*光颜色
+    fixed3 diffuse = lambert  * _LightColor0.xyz * color;
+
+    return ambient + diffuse;
 }

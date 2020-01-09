@@ -113,7 +113,7 @@
                 // float2 uv = (2.0*coord.xy - _ScreenParams.xy)/min(_ScreenParams.x,_ScreenParams.y);
 
                 fixed4 col = tex2D(_MainTex, i.uv);
-                fixed3 mask = createD(_Pos,_Size,i.uv);
+                fixed3 mask = createCircle(_Pos,_Size,i.uv);
 
                 return col * fixed4(mask,1.0);
             }
