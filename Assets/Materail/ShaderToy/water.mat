@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: shaderToy-water
+  m_Name: water
   m_Shader: {fileID: 4800000, guid: b7ad61d5f3efa4e4eb5a559417b213ff, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
