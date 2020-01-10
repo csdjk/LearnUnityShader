@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0731203b2ecb5884cb2eb14ccb190f55
+guid: 9c7ceb30238b1814d83e674db16d3b63
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -8,7 +8,7 @@ ModelImporter:
     2100000: No Name
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Cone001
+    4300000: "\u67F1\u4F53"
   externalObjects: {}
   materials:
     importMaterials: 1

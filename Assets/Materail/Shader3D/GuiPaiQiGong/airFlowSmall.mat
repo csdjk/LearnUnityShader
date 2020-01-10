@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: airFlow
+  m_Name: airFlowSmall
   m_Shader: {fileID: 4800000, guid: caffec9600ed21d4396b06dc4d304dc2, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -69,11 +69,11 @@ Material:
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 1.05
+    - _Speed: -1.92
     - _SrcBlend: 1
     - _TexScale: 4
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.78273743, g: 0.8509804, b: 0.32549027, a: 1}
+    - _Color: {r: 0.8509804, g: 0.53148484, b: 0.32549027, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
