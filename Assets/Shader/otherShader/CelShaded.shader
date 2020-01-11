@@ -1,4 +1,4 @@
-﻿Shader "lcl/otherShader/CelShaded"
+﻿Shader "lcl/otherShader/emission/CelShaded"
 {
     Properties
     {
