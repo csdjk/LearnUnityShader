@@ -1,5 +1,5 @@
 
-Shader "lcl/shader3D/outLine3D_swell_normalMap"
+Shader "lcl/shader3D/outline/outLine3D_swell_normalMap"
 {
 	//属性
 	Properties{
@@ -12,11 +12,9 @@ Shader "lcl/shader3D/outLine3D_swell_normalMap"
 		// 描边颜色
 		_lineColor("lineColor",Color)=(1,1,1,1)
 	}
-	
-	
 	CGINCLUDE
 	//引入头文件
-	#include "../ShaderLibs/LightingModel.cginc"
+	#include "../../ShaderLibs/LightingModel.cginc"
 
 	sampler2D _MainTex;
 	sampler2D _BumpMap;

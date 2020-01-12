@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hair
-  m_Shader: {fileID: 4800000, guid: 5fc2875e758746247becfdf86028641d, type: 3}
+  m_Shader: {fileID: 4800000, guid: 4fdc9dbac303fb948a166aa94cbe650a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0

@@ -1,4 +1,6 @@
-﻿Shader "lcl/shader2D/outline"
+﻿// ---------------------------【2D 描边效果】---------------------------
+// create by 长生但酒狂
+Shader "lcl/shader2D/outline"
 {
     Properties
     {

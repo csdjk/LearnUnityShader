@@ -30,7 +30,7 @@ public class Ghost : MonoBehaviour {
         // 残影方向，即移动的反方向。
         dir = prevPos - transform.position;
         for (int i = 0; i < renderers.Length; i++) {
-            Material mat = renderers[i].material;
+            Material mat = renderers[i].sharedMaterial;
             //设置方向,并且归一化
             mat.SetVector ("_Direction", dir.normalized);
             //设置强度, 即 速度越快,残影越长
@@ -38,6 +38,7 @@ public class Ghost : MonoBehaviour {
             // 设置颜色
             mat.SetColor ("_GhostColor", ghostColor);
         }
+
         //存储当前位置
         prevPos = transform.position;
     }

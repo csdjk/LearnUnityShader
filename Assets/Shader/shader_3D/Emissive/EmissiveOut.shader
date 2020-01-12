@@ -1,15 +1,13 @@
-﻿// 能量球 - 中心
-Shader "lcl/shader3D/GuiPaiQiGong/energyBallCenter"
+// ---------------------------【自发光球】---------------------------
+// create by 长生但酒狂
+// create time 2020.1.11
+Shader "lcl/shader3D/Emissive/EmissiveOut"
 {
     // ---------------------------【属性】---------------------------
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _NoiseTex ("NoiseTex", 2D) = "white" {}
         _Color("Color",Color) = (1,1,1,1)
-        _Color1("Color1",Color) = (1,1,1,1)
-        _Speed("Speed",Range(-5,5)) = 1
-        _Area("Area",Range(0,1)) = 0
         // 光晕相关参数
         [Header(Glow)]
         _GlowRange("GlowRange",Range(0,1)) = 0
@@ -19,15 +17,10 @@ Shader "lcl/shader3D/GuiPaiQiGong/energyBallCenter"
     // ---------------------------【公共部分】---------------------------
     CGINCLUDE
     #include "UnityCG.cginc"
+    #include "../ShaderLibs/LightingModel.cginc"
     sampler2D _MainTex;
     float4 _MainTex_ST;
-    float4 _MainTex_TexelSize;
-    sampler2D _NoiseTex;
-    float4 _NoiseTex_ST;
     float4 _Color;
-    float4 _Color1;
-    float _Speed;
-    float _Area;
     // 光晕相关参数
     float4 _GlowColor;
     float _GlowRange;
@@ -48,7 +41,6 @@ Shader "lcl/shader3D/GuiPaiQiGong/energyBallCenter"
         float strength = abs(dot(normalize(worldViewDir), normalize(worldNormalDir)));
         float opacity = pow(strength, _Strength);
         o.col = float4(_GlowColor.xyz, opacity);
-
         // 向法线方向扩张
         float3 pos = v.vertex + (v.normal * _GlowRange);
         // 转换到裁剪空间
@@ -66,6 +58,7 @@ Shader "lcl/shader3D/GuiPaiQiGong/energyBallCenter"
     {
         float2 uv : TEXCOORD0;
         float4 vertex : SV_POSITION;
+        float3 worldNormal: TEXCOORD1;
     };
 
     v2f_front vert_front (appdata_base v)
@@ -73,25 +66,19 @@ Shader "lcl/shader3D/GuiPaiQiGong/energyBallCenter"
         v2f_front o;
         o.vertex = UnityObjectToClipPos(v.vertex);
         o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+        o.worldNormal = mul(v.normal,unity_WorldToObject);
         return o;
     }
 
     fixed4 frag_front (v2f_front i) : SV_Target
     {
-        float2 uv_offset = float2(0,0);
-        float angle = _Time.y * _Speed;
-        uv_offset.x = sin(angle);
-        uv_offset.y = cos(angle);
-        i.uv += uv_offset;
-        
-        // 获取噪声纹理
-        fixed3 col = tex2D(_NoiseTex,i.uv);
-        float opacity = step(_Area,col.x);
-        fixed3 result = lerp(_Color,_Color1,pow(col.x,1));
-        // fixed3 result = smoothstep(_Color,_Color1,(col.x));
+        // 获取纹理
+        fixed3 col = tex2D(_MainTex,i.uv);
+        fixed3 result = col * _Color;
 
-
-        return fixed4(result.rgb,opacity);
+        // fixed3 result = ComputeLambertLighting(i.worldNormal,_Color);
+        // result = result * col;
+        return fixed4(result.rgb,1);
     }
     ENDCG
 

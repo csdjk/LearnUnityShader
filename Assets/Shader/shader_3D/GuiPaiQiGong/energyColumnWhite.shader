@@ -1,10 +1,9 @@
-﻿// 能量球 - 中心
-Shader "lcl/shader3D/GuiPaiQiGong/energyBallCenter"
+﻿// ---------------------------【能量柱】---------------------------
+Shader "lcl/shader3D/GuiPaiQiGong/energyColumnWhite"
 {
     // ---------------------------【属性】---------------------------
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
         _NoiseTex ("NoiseTex", 2D) = "white" {}
         _Color("Color",Color) = (1,1,1,1)
         _Color1("Color1",Color) = (1,1,1,1)
@@ -12,6 +11,8 @@ Shader "lcl/shader3D/GuiPaiQiGong/energyBallCenter"
         _Area("Area",Range(0,1)) = 0
         // 光晕相关参数
         [Header(Glow)]
+        // 光晕开关
+        // [Toggle]_GlowSwith("Clow Switch",Float) = 0
         _GlowRange("GlowRange",Range(0,1)) = 0
         [HDR]_GlowColor("Glow Color", Color) = (1,1,0,1)
         _Strength("Glow Strength", Range(5.0, 1.0)) = 2.0
@@ -19,9 +20,7 @@ Shader "lcl/shader3D/GuiPaiQiGong/energyBallCenter"
     // ---------------------------【公共部分】---------------------------
     CGINCLUDE
     #include "UnityCG.cginc"
-    sampler2D _MainTex;
-    float4 _MainTex_ST;
-    float4 _MainTex_TexelSize;
+   
     sampler2D _NoiseTex;
     float4 _NoiseTex_ST;
     float4 _Color;
@@ -29,6 +28,7 @@ Shader "lcl/shader3D/GuiPaiQiGong/energyBallCenter"
     float _Speed;
     float _Area;
     // 光晕相关参数
+    float _GlowSwith;
     float4 _GlowColor;
     float _GlowRange;
     float _Strength;
@@ -72,25 +72,20 @@ Shader "lcl/shader3D/GuiPaiQiGong/energyBallCenter"
     {
         v2f_front o;
         o.vertex = UnityObjectToClipPos(v.vertex);
-        o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+        o.uv = TRANSFORM_TEX(v.texcoord, _NoiseTex);
         return o;
     }
 
     fixed4 frag_front (v2f_front i) : SV_Target
     {
         float2 uv_offset = float2(0,0);
-        float angle = _Time.y * _Speed;
-        uv_offset.x = sin(angle);
-        uv_offset.y = cos(angle);
+        uv_offset.y = _Time.y * _Speed;
         i.uv += uv_offset;
         
         // 获取噪声纹理
         fixed3 col = tex2D(_NoiseTex,i.uv);
         float opacity = step(_Area,col.x);
         fixed3 result = lerp(_Color,_Color1,pow(col.x,1));
-        // fixed3 result = smoothstep(_Color,_Color1,(col.x));
-
-
         return fixed4(result.rgb,opacity);
     }
     ENDCG
@@ -100,7 +95,7 @@ Shader "lcl/shader3D/GuiPaiQiGong/energyBallCenter"
     {
         Blend SrcAlpha OneMinusSrcAlpha
         Tags{ "Queue" = "Transparent"}
-        
+
         // ---------------------------【背面 - 光晕】---------------------------
         Pass
         {
@@ -115,7 +110,7 @@ Shader "lcl/shader3D/GuiPaiQiGong/energyBallCenter"
         Pass
         {
             ZWrite Off 
-            Cull Off
+            // Cull Off
             CGPROGRAM
             #pragma vertex vert_front
             #pragma fragment frag_front

@@ -1,4 +1,4 @@
-﻿Shader "lcl/shader3D/outLine3D_s"
+﻿Shader "lcl/shader3D/outline/outLine3D_s"
 {
     Properties
     {

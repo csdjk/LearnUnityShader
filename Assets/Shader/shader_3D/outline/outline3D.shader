@@ -1,6 +1,6 @@
 ﻿//--------------------------- 【描边】 - 基于法线与视角夹角---------------------
 //create by 长生但酒狂
-Shader "lcl/shader3D/outline3D"
+Shader "lcl/shader3D/outline/outline3D"
 {
     //---------------------------【属性】---------------------------
     Properties
