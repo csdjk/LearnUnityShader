@@ -202,16 +202,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 257354562}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e32b2d2ef7c4124bb1f5e2c992df646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gaussianBlurShader: {fileID: 4800000, guid: ed197ed7e8d07ad4191ca1123c29de04, type: 3}
   BlurRadius: 1
-  downSample: 1
+  downSample: 2
   iteration: 2
-  sigma: 10
 --- !u!1 &939496788
 GameObject:
   m_ObjectHideFlags: 0

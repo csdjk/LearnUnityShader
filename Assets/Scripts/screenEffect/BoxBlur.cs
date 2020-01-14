@@ -4,7 +4,7 @@ using UnityEngine;
 //编辑状态下也运行  
 [ExecuteInEditMode]
 //继承自PostEffectsbase
-public class SimpleBlur : PostEffectsBase {
+public class BoxBlur : PostEffectsBase {
     public Shader myShader;
     private Material _material = null;
 
@@ -31,7 +31,7 @@ public class SimpleBlur : PostEffectsBase {
     //-----------------------------------------【Start()函数】---------------------------------------------    
     void Start () {
         //找到当前的Shader文件  
-        myShader = Shader.Find ("lcl/screenEffect/SimpleBlur");
+        myShader = Shader.Find ("lcl/screenEffect/BoxBlur");
     }
     //-------------------------------------【OnRenderImage函数】------------------------------------    
     // 说明：此函数在当完成所有渲染图片后被调用，用来渲染图片后期效果

@@ -16,16 +16,25 @@ public class GaussBlur : PostEffectsBase {
     }
 
     //模糊半径  
+    [Header("模糊半径")]
     [Range (0.2f, 3.0f)]
     public float BlurRadius = 1.0f;
-    //降分辨率  
+    //降采样次数  
+    [Header("降采样次数")]
     [Range (1, 8)]
     public int downSample = 2;
     //迭代次数  
+    [Header("迭代次数")]
     [Range (0, 4)]
     public int iteration = 1;
-    [Range (0, 400)]
-    public float sigma = 1;
+    // [Range (0, 100)]
+    // public float sigma = 1;
+    //-----------------------------------------【Start()函数】---------------------------------------------    
+    void Start () {
+        //找到当前的Shader文件  
+        gaussianBlurShader = Shader.Find ("lcl/screenEffect/gaussBlur");
+    }
+
     //-------------------------------------【OnRenderImage函数】------------------------------------    
     // 说明：此函数在当完成所有渲染图片后被调用，用来渲染图片后期效果
     //--------------------------------------------------------------------------------------------------------  
@@ -42,11 +51,11 @@ public class GaussBlur : PostEffectsBase {
             for (int i = 0; i < iteration; i++) {
                 //第一次高斯模糊，设置offsets，竖向模糊  
                 material.SetVector ("_offsets", new Vector4 (0, BlurRadius, 0, 0));
-                material.SetFloat ("_sigma", sigma);
+                // material.SetFloat ("_sigma", sigma);
                 Graphics.Blit (rt1, rt2, material);
                 //第二次高斯模糊，设置offsets，横向模糊  
                 material.SetVector ("_offsets", new Vector4 (BlurRadius, 0, 0, 0));
-                material.SetFloat ("_sigma", sigma);
+                // material.SetFloat ("_sigma", sigma);
                 Graphics.Blit (rt2, rt1, material);
             }
 

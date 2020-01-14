@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myShader: {fileID: 4800000, guid: b8bd3831fb1a6574d847b52b0f984ddf, type: 3}
-  BlurRadius: 1.39
+  BlurRadius: 1
   downSample: 2
   iteration: 2
 --- !u!1 &939496788
