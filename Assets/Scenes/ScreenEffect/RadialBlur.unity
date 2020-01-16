@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gaussianBlurShader: {fileID: 4800000, guid: d989ea18d717e4a40b2971c8e86a233c, type: 3}
-  blurFactor: 0.0202
+  blurFactor: 0.0163
   blurCenter: {x: 0.5, y: 0.5}
 --- !u!1 &640104146
 GameObject:

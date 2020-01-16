@@ -20,12 +20,11 @@ public class OutLine : PostEffectsBase {
     //迭代次数
     [Range (0, 4)]
     public int iterations = 3;
-    // Blur spread for each iteration - larger value means more blur
     //模糊扩散范围
     [Range (0.2f, 3.0f)]
     public float blurSpread = 0.6f;
     private int downSample = 1;
-    public Color outlineColor = new Color(1,1,1,1);
+    public Color outlineColor = new Color (1, 1, 1, 1);
 
     public Material outlineMaterial {
         get {
@@ -41,6 +40,7 @@ public class OutLine : PostEffectsBase {
         createPurecolorRenderTexture ();
     }
 
+    // ---------------------------【创建一个RenderTexture】---------------------------
     private void createPurecolorRenderTexture () {
         outlineCamera.cullingMask = 1 << LayerMask.NameToLayer ("Player");
         int width = outlineCamera.pixelWidth >> downSample;
@@ -48,12 +48,18 @@ public class OutLine : PostEffectsBase {
         renderTexture = RenderTexture.GetTemporary (width, height, 0);
     }
 
+    // ---------------------------【渲染之前调用】---------------------------
     private void OnPreRender () {
         if (outlineCamera.enabled) {
+            //设置创建好的RenderTexture
             outlineCamera.targetTexture = renderTexture;
-            outlineCamera.RenderWithShader (purecolorShader, ""); //渲染了一张纯色RT
+            //渲染了一张纯色RenderTexture
+            outlineCamera.RenderWithShader (purecolorShader, "");
         }
     }
+    //-------------------------------------【OnRenderImage函数】------------------------------------    
+    // 说明：此函数在当完成所有渲染图片后被调用，用来渲染图片后期效果
+    //--------------------------------------------------------------------------------------------------------  
     private void OnRenderImage (RenderTexture source, RenderTexture destination) {
         int rtW = source.width >> downSample;
         int rtH = source.height >> downSample;
@@ -69,7 +75,7 @@ public class OutLine : PostEffectsBase {
             Graphics.Blit (temp2, temp1, outlineMaterial, 1);
         }
         //用模糊图和原始图计算出轮廓图
-        outlineMaterial.SetColor("_OutlineColor", outlineColor);
+        outlineMaterial.SetColor ("_OutlineColor", outlineColor);
         outlineMaterial.SetTexture ("_BlurTex", temp1);
         outlineMaterial.SetTexture ("_SrcTex", renderTexture);
         Graphics.Blit (source, destination, outlineMaterial, 2);

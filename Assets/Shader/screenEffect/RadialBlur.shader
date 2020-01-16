@@ -1,4 +1,4 @@
-﻿//径向模糊
+﻿// ---------------------------【径向模糊】---------------------------
 Shader "lcl/screenEffect/RadialBlur"
 {
     Properties 
