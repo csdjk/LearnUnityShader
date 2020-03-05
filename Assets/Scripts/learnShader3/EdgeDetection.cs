@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//-----------------------------【边缘检测】-----------------------------
 public class EdgeDetection : PostEffectsBase {
 
 	public Shader edgeDetectShader;
@@ -11,10 +12,8 @@ public class EdgeDetection : PostEffectsBase {
 			return edgeDetectMaterial;
 		}  
 	}
-
 	[Range(0.0f, 1.0f)]
 	public float edgesOnly = 0.0f;
-
 	public Color edgeColor = Color.black;
 	
 	public Color backgroundColor = Color.white;
