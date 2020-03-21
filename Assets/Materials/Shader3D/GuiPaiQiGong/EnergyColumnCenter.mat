@@ -48,7 +48,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseTex:
-        m_Texture: {fileID: 2800000, guid: 9c7206360f1a18249a95a817eaafffaf, type: 3}
+        m_Texture: {fileID: 2800000, guid: ea99c5a60bf73f844a9316c1f5fdc96b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Area: 0.512
+    - _Area: 0.5
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -68,22 +68,24 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GlowRange: 0.416
+    - _GlowRange: 0.011
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 0.72
+    - _Speed: 0.32
     - _SrcBlend: 1
-    - _Strength: 3.77
+    - _Strength: 8.96
     - _UVSec: 0
     - _ZWrite: 1
-    - _power: 0.9
+    - _power: 0
     m_Colors:
+    - _CenterColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0.9960785, g: 0.9294118, b: 0.6117647, a: 1}
     - _Color1: {r: 0, g: 0, b: 0, a: 1}
+    - _EdgeColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GlowColor: {r: 0.9999999, g: 0.041884813, b: 0, a: 1}
+    - _GlowColor: {r: 0.627451, g: 0.8117647, b: 1, a: 1}
     - _lineColor: {r: 1.5157166, g: 0.2199275, b: 0, a: 1}

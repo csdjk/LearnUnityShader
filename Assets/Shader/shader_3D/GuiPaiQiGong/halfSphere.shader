@@ -1,5 +1,5 @@
 ﻿// ---------------------------【能量柱】---------------------------
-Shader "lcl/shader3D/GuiPaiQiGong/energyColumnWhite"
+Shader "lcl/shader3D/GuiPaiQiGong/halfSphere"
 {
     // ---------------------------【属性】---------------------------
     Properties
