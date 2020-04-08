@@ -111,9 +111,11 @@
             {
                 // float2 coord = (i.srcPos.xy/i.srcPos.w)*_ScreenParams.xy;
                 // float2 uv = (2.0*coord.xy - _ScreenParams.xy)/min(_ScreenParams.x,_ScreenParams.y);
+                // 根据屏幕比例缩放
+                float2 scale = float2(_ScreenParams.x / _ScreenParams.y, 1);
 
                 fixed4 col = tex2D(_MainTex, i.uv);
-                fixed3 mask = createCircle(_Pos,_Size,i.uv);
+                fixed3 mask = createCircle(_Pos * scale,_Size,i.uv * scale);
 
                 return col * fixed4(mask,1.0);
             }

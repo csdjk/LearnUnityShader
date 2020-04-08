@@ -1,7 +1,4 @@
-﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-
+﻿
 //create by 长生但酒狂
 // ------------------------【残影】---------------------------
 Shader "lcl/shader3D/Ghost" {
