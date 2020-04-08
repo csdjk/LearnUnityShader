@@ -41,8 +41,11 @@
 ## 高斯模糊
 ![GaussBlur.png](https://i.loli.net/2020/03/11/lXaxwGe4bo3ji7n.png)
 
-## 镜像模糊
+## 径向模糊
 ![RadialBlur.png](https://i.loli.net/2020/03/11/nm9ZeaAo6EG2H8x.png)
+
+## 放大镜
+![Zoom3.gif](https://i.loli.net/2020/04/08/REiPqfXO52SLghx.gif)
 
 # Shader 2D
 
@@ -78,4 +81,5 @@
 
 ## 海洋
 ![sea.gif](https://i.loli.net/2020/03/11/p5MgibcNUrhDV4z.gif)
+
 
