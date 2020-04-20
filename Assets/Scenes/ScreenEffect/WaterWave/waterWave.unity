@@ -307,7 +307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 4bd894ac85a866244b464fc855130da9, type: 3}
-  _waveLength: 116
+  _waveLength: 92.5
   _waveHeight: 0.28
   _waveWidth: 0.05
   waveSpeed: 0.951

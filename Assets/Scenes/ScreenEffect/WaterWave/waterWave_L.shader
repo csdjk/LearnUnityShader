@@ -49,10 +49,13 @@
             float4 _startPos;
 
 
+
             fixed4 frag (v2f i) : SV_Target
             {
+
+                float2 scale = float2(_ScreenParams.x / _ScreenParams.y, 1);
                 //计算该片元到中心点的距离
-                float dis = distance(i.uv,_startPos);
+                float dis = distance(i.uv*scale,_startPos*scale);
                 //通过sin计算偏移
                 float offsetX = sin(dis * _waveLength) * _waveHeight * 0.05;
                 
