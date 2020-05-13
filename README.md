@@ -47,6 +47,9 @@
 ## 放大镜
 ![Zoom3.gif](https://i.loli.net/2020/04/08/REiPqfXO52SLghx.gif)
 
+## Bloom 泛光
+![bloom.png](https://i.loli.net/2020/05/13/mPvF612b4nsJa78.png)
+
 # Shader 2D
 
 ## 2D描边

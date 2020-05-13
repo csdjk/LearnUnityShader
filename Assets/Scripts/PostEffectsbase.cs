@@ -46,7 +46,7 @@ public class PostEffectsBase : MonoBehaviour {
 		}
 		
 		if (!shader.isSupported) {
-			// Debug.Log("isSupported is false");
+			Debug.Log("isSupported is false");
 			return null;
 		}
 		else {
