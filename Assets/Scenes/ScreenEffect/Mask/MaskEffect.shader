@@ -8,6 +8,7 @@
     {
         // No culling or depth
         Cull Off ZWrite Off ZTest Always
+        Tags{   "Queue"="Transparent" }
 
         Pass
         {
