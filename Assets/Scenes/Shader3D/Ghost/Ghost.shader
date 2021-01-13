@@ -21,8 +21,8 @@ Shader "lcl/shader3D/Ghost" {
 			Tags { "LightMode"="ForwardBase" }
 			CGPROGRAM
 
-			#include "../ShaderLibs/LightingModel.cginc"
-			#include "../ShaderLibs/Noise.cginc"
+			#include "Assets/Shader/ShaderLibs/LightingModel.cginc"
+			#include "Assets/Shader/ShaderLibs/Noise.cginc"
 
 			#pragma vertex vert
 			#pragma fragment frag
