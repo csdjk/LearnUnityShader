@@ -19,7 +19,7 @@ Shader "lcl/Common/FrameTest" {
 			#pragma vertex vert
 			#pragma fragment frag
 			
-			#include "../ShaderLibs/LightingModel.cginc"
+			#include "Assets/Shader/ShaderLibs/LightingModel.cginc"
 			
 			fixed4 _Color;
 			sampler2D _MainTex;

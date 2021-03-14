@@ -14,7 +14,7 @@ Shader "lcl/shader3D/outline/outLine3D_swell_normalMap"
 	}
 	CGINCLUDE
 	//引入头文件
-	#include "../../ShaderLibs/LightingModel.cginc"
+	#include "Assets/Shader/ShaderLibs/LightingModel.cginc"
 
 	sampler2D _MainTex;
 	sampler2D _BumpMap;

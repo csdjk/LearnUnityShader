@@ -17,7 +17,7 @@ Shader "lcl/shader3D/Emissive/EmissiveOut"
     // ---------------------------【公共部分】---------------------------
     CGINCLUDE
     #include "UnityCG.cginc"
-    #include "../../ShaderLibs/LightingModel.cginc"
+    #include "Assets/Shader/ShaderLibs/LightingModel.cginc"
     sampler2D _MainTex;
     float4 _MainTex_ST;
     float4 _Color;
