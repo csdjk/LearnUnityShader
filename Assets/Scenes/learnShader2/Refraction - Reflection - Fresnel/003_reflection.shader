@@ -77,7 +77,7 @@ Shader "lcl/learnShader2/003_reflection" {
 				UNITY_LIGHT_ATTENUATION(atten, i, i.worldPos);
 				
 				// Mix the diffuse color with the reflected color
-				fixed3 color = ambient + lerp(diffuse, reflection, _ReflectAmount) * atten;
+				fixed3 color = ambient + lerp(diffuse, reflection, _ReflectAmount);
 				
 				return fixed4(color, 1.0);
 			}
