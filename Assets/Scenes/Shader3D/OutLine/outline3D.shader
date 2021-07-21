@@ -89,7 +89,7 @@ Shader "lcl/shader3D/outline/outline3D"
                 //通过_power调节描边强度
                 value = pow(value,_power);
                 //源颜色值和描边颜色做插值
-                result =lerp(result,_lineColor,value) ;
+                result =lerp(result,_lineColor,value);
 
                 return float4(result,1);
             }

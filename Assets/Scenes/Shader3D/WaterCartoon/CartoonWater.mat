@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Cubemap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 8900000, guid: 5e6d2cc25beb34a998784c5dc7e8fe9c, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -36,18 +36,18 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _WaveMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a196c6d8ed77e483ebb42e38ab5992e7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _DepthMaxDistance: 0
-    - _Distortion: 10
+    - _DepthMaxDistance: 0.595
+    - _Distortion: 90.2
     - _FoamDistance: 0.03
-    - _SurfaceDistortionAmount: 0.198
-    - _SurfaceNoiseCutoff: 0.699
-    - _WaterAlpha: 0.286
-    - _WaveXSpeed: 0.01
-    - _WaveYSpeed: 0.01
+    - _SurfaceDistortionAmount: 0.659
+    - _SurfaceNoiseCutoff: 0.784
+    - _WaterAlpha: 0.727
+    - _WaveXSpeed: -0.0107
+    - _WaveYSpeed: -0.0252
     - _distanceFactor: -10
     - _timeFactor: -1.2
     - _totalFactor: -10
@@ -55,6 +55,6 @@ Material:
     - _DeepColor: {r: 0.086, g: 0.407, b: 1, a: 0.749}
     - _DepthGradientDeep: {r: 0.086, g: 0.407, b: 1, a: 0.749}
     - _DepthGradientShallow: {r: 0.33490568, g: 0.8307031, b: 1, a: 0.725}
-    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FoamColor: {r: 0.9528302, g: 0.9528302, b: 0.9528302, a: 1}
     - _ShallowColor: {r: 0.325, g: 0.807, b: 0.971, a: 0.725}
-    - _SurfaceNoiseScroll: {r: -0.06, g: 0.03, b: 0, a: 0}
+    - _SurfaceNoiseScroll: {r: -0.02, g: 0.02, b: 0, a: 0}

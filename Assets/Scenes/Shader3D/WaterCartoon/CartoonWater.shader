@@ -29,13 +29,6 @@
         // _distanceFactor("distanceFactor", Range(-10, 10)) = 0.5
         // _timeFactor("timeFactor", Range(-10, 10)) = 0.5
         // _totalFactor("totalFactor", Range(-10, 10)) = 0.5
-
-        // 法线贴图测试
-        _WaveMap ("Wave Map", 2D) = "bump" {}
-        _Cubemap ("Environment Cubemap", Cube) = "_Skybox" {}
-        _WaveXSpeed ("Wave Horizontal Speed", Range(-0.1, 0.1)) = 0.01
-        _WaveYSpeed ("Wave Vertical Speed", Range(-0.1, 0.1)) = 0.01
-        _Distortion ("Distortion", Range(0, 100)) = 10
     }
     SubShader
     {
@@ -72,13 +65,6 @@
             // fixed _timeFactor;
             // fixed _totalFactor;
             
-            // 法线贴图测试
-            sampler2D _WaveMap;
-            float4 _WaveMap_ST;
-            samplerCUBE _Cubemap;
-            fixed _WaveXSpeed;
-            fixed _WaveYSpeed;
-            float _Distortion;
 
             struct appdata
             {
