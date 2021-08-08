@@ -1,4 +1,4 @@
-﻿Shader "Unlit/WorldNormal"
+﻿Shader "lcl/Common/WorldNormal"
 {
 	Properties
 	{
