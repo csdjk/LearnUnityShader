@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Cold Sunset
+  m_Shader: {fileID: 10700, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BackTex:
+        m_Texture: {fileID: 2800000, guid: 0c96697ef1fc74d8d90d3e2f7345366d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DownTex:
+        m_Texture: {fileID: 2800000, guid: 6458ffa0dcd6b4ea5b30ac5085d8c68a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FrontTex:
+        m_Texture: {fileID: 2800000, guid: 6774108631deb4532b5f7df6e4f779a7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LeftTex:
+        m_Texture: {fileID: 2800000, guid: ce026dfecbc694085a1d87a22f3bb49d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RightTex:
+        m_Texture: {fileID: 2800000, guid: 1f225a337fa434ec1b937d9c8b70a667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UpTex:
+        m_Texture: {fileID: 2800000, guid: c9658c52dbf374bf6aeeb26310f71145, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors: []

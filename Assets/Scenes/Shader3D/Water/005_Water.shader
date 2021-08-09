@@ -85,17 +85,17 @@ Shader "lcl/learnShader3/005_Water" {
 				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
 				float2 speed = _Time.y * float2(_WaveXSpeed, _WaveYSpeed);
 				
-				// Get the normal in tangent space
+				// 在切空间中得到法线
 				fixed3 bump1 = UnpackNormal(tex2D(_WaveMap, i.uv.zw + speed)).rgb;
 				fixed3 bump2 = UnpackNormal(tex2D(_WaveMap, i.uv.zw - speed)).rgb;
 				fixed3 bump = normalize(bump1 + bump2);
 				
-				// Compute the offset in tangent space
+				//计算切线空间中的偏移量
 				float2 offset = bump.xy * _Distortion * _RefractionTex_TexelSize.xy;
 				i.scrPos.xy = offset * i.scrPos.z + i.scrPos.xy;
 				fixed3 refrCol = tex2D( _RefractionTex, i.scrPos.xy/i.scrPos.w).rgb;
 				
-				// Convert the normal to world space
+				//将法线转换为世界空间
 				bump = normalize(mul(fixed3x3(i.TtoW0.xyz,i.TtoW1.xyz,i.TtoW2.xyz),bump));
 				// bump = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz, bump), dot(i.TtoW2.xyz, bump)));
 				fixed4 texColor = tex2D(_MainTex, i.uv.xy + speed);
