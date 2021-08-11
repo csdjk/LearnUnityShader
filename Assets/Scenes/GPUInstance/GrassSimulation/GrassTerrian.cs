@@ -81,23 +81,9 @@ public class GrassTerrian : MonoBehaviour
 
     public void UpdateMaterialProperties()
     {
-        // materialPropertyBlock.SetMatrix(ShaderProperties.TerrianLocalToWorld, transform.localToWorldMatrix);
-        // materialPropertyBlock.SetBuffer(ShaderProperties.GrassInfos, grassBuffer);
-        // materialPropertyBlock.SetVector(ShaderProperties.GrassQuadSize, _grassQuadSize);
-
-
-        //  positionBuffer = new ComputeBuffer(instanceCount, 16);
-        // Vector4[] positions = new Vector4[instanceCount];
-        // for (int i = 0; i < instanceCount; i++)
-        // {
-        //     float angle = Random.Range(0.0f, Mathf.PI * 2.0f);
-        //     float distance = Random.Range(20.0f, 100.0f);
-        //     float height = Random.Range(-2.0f, 2.0f);
-        //     float size = Random.Range(0.05f, 0.25f);
-        //     positions[i] = new Vector4(Mathf.Sin(angle) * distance, height, Mathf.Cos(angle) * distance, size);
-        // }
-        // positionBuffer.SetData(positions);
-        // instanceMaterial.SetBuffer("positionBuffer", positionBuffer);
+        materialPropertyBlock.SetMatrix(ShaderProperties.TerrianLocalToWorld, transform.localToWorldMatrix);
+        materialPropertyBlock.SetBuffer(ShaderProperties.GrassInfos, grassBuffer);
+        materialPropertyBlock.SetVector(ShaderProperties.GrassQuadSize, _grassQuadSize);
     }
 
     public MaterialPropertyBlock materialPropertyBlock
@@ -122,10 +108,7 @@ public class GrassTerrian : MonoBehaviour
     {
         // Render
         UpdateMaterialProperties();
-        // Graphics.DrawMeshInstancedIndirect(terrianMesh, 0, grassMaterial,);
-        // Graphics.DrawMeshInstancedIndirect(terrianMesh, 0, grassMaterial, new Bounds(Vector3.zero, new Vector3(100.0f, 100.0f, 100.0f)), );
         Graphics.DrawMeshInstancedProcedural(terrianMesh, 0, grassMaterial, new Bounds(Vector3.zero, new Vector3(100.0f, 100.0f, 100.0f)), 10, materialPropertyBlock);
-        // Graphics.DrawMeshInstancedProcedural(terrianMesh, 0, grassMaterial, new Bounds(Vector3.zero, new Vector3(100.0f, 100.0f, 100.0f)), grassCount, materialPropertyBlock);
     }
 
 
