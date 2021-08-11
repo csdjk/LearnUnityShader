@@ -26,7 +26,7 @@ Material:
     m_Floats:
     - _OffsetFactor: 0
     - _OffsetUnits: 0
-    - _OutLinePower: 0.066
+    - _OutLinePower: 0.28
     - _Outline: 0.03
     - _OutlineFactor: 0.17
     - _blurPower: 3.18

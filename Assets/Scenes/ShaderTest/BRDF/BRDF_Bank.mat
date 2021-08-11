@@ -25,9 +25,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _FresnelScale: 0.992
-    - _MirrorFatcor: 0.36
+    - _MirrorFatcor: 6.66
     - _Power: 1
-    - _SpecularFactor: 1.69
+    - _SpecularFactor: 8.17
     m_Colors:
     - _Color: {r: 1, g: 0.44879463, b: 0, a: 1}
     - _Diffuse: {r: 0, g: 0.41914654, b: 0.754717, a: 1}
