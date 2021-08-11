@@ -2,8 +2,6 @@
     Properties {
         _Color ("Color", Color) = (1, 1, 1, 1)
         _TessellationFactors("_TessellationFactors", Vector) = (1, 1, 1, 1)
-        [Enum(UnityEngine.Rendering.CompareFunction)]_StencilComp ("Stencil Comparison", Float) = 8
-        // [Enum(First,1,Second,2,Third,3,Fourth,4,Fifth,5,Sixth,6)] _ColorType ("Color Type", Int) = 1   
     }
     SubShader {
         Pass { 
@@ -54,22 +52,34 @@
 
 
                 float4 _TessellationFactors;
+
+                //InputPatch<v2t, 3> 表示输入的数据有3个v2t结构体，即对于三角形三个顶点
                 UnityTessellationFactors hsConstFunc(InputPatch<v2t, 3> v) {
                     //定义曲面细分的参数
                     UnityTessellationFactors o;
+                    // 对三角形的三条边进行分割，每条边都分割成对应份数(_TessellationFactors)
                     o.edge[0] = _TessellationFactors.x; 
                     o.edge[1] = _TessellationFactors.y; 
                     o.edge[2] = _TessellationFactors.z;
+                    // 指定三角形内部有多少个点，计算方式：对于三角形的每个顶点，将他们的临边分割，然后在分割点上做垂线，得到的交点即为内部点
                     o.inside = _TessellationFactors.w;
                     return o;
                 }
 
+                // domain: 指定patch的类型，可选的有：tri(三角形)、quad（四边形）、isoline（线段，苹果的metal api不支持：2018/8/21）。
                 [UNITY_domain("tri")]
-                [UNITY_partitioning("fractional_odd")]//拆分edge的规则，equal_spacing,fractional_odd,fractional_even
+                //拆分edge的规则，integer,fractional_odd,fractional_even
+                [UNITY_partitioning("integer")]
+                //输出拓扑结构 有三种：triangle_cw（顺时针环绕三角形）、triangle_ccw（逆时针环绕三角形）、line（线段）
                 [UNITY_outputtopology("triangle_cw")]
-                [UNITY_patchconstantfunc("hsConstFunc")]//一个patch一共有三个点，但是这三个点都共用这个函数
+                //一个patch一共有三个点，但是这三个点都共用这个函数
+                [UNITY_patchconstantfunc("hsConstFunc")]
+                // 输出的控制点的数量（每个图元），不一定与输入数量相同，也可以新增控制点。
                 [UNITY_outputcontrolpoints(3)]
-                // hull 着色器
+                // 最大细分度，告知驱动程序shader用到的最大细分度，硬件可能会针对这个做出优化。Direct3D 11和OpenGL Core都至少支持64。
+                [maxtessfactor(64.0f)]
+                // hull 着色器（细分控制着色器）函数 hs 
+                // 虽然输入参数是一个三角形 patch 的三个顶点数据，但是 hs 每次只输出一个顶点，需要处理的顶点通过参数 id 指定。
                 v2t hs(InputPatch<v2t, 3> v, uint id : SV_OutputControlPointID) {
                     return v[id];
                 }
@@ -80,7 +90,8 @@
                     return o;
                 }
 
-                // domain 着色器
+                // domain 着色器 （细分计算着色器）
+                // bary: 重心坐标
                 [UNITY_domain("tri")]
                 v2f ds(UnityTessellationFactors tessFactors, const OutputPatch<v2t, 3> vi, float3 bary : SV_DomainLocation) {
                     a2v v;
@@ -99,5 +110,5 @@
             ENDCG
         }
     } 
-    FallBack "Specular"
+    FallBack "Diffuse"
 }
