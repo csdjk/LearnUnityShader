@@ -11,7 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: f4728caaceaac944d860baaf2ebbac9b, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -57,7 +57,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _Cutoff: 0.702
+    - _Cutoff: 0.79
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
