@@ -18,21 +18,40 @@ Material:
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _HDRTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BlendOp: 0
     - _ColorMask: 15
     - _CullMode: 2
     - _CustomEnum: 1
     - _DstBlend: 0
+    - _Invert: 0
+    - _MaterialToggle: 0
+    - _Overlay: 0
+    - _Prop1: 0
+    - _Prop2: 0
+    - _Shininess: 0.08
     - _SrcBlend: 1
-    - _Stencil: 0
+    - _Stencil: 131
     - _StencilComp: 8
     - _StencilFail: 0
     - _StencilPass: 0
-    - _StencilReadMask: 255
+    - _StencilReadMask: 193
     - _StencilWriteMask: 255
     - _StencilZFail: 0
+    - _Toggle: 0
     - _ZTestMode: 4
     - _ZWriteMode: 1
     m_Colors: []

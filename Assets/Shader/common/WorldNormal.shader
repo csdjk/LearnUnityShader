@@ -1,4 +1,5 @@
-﻿Shader "lcl/Common/WorldNormal"
+﻿// 打印World Normal
+Shader "lcl/Common/WorldNormal"
 {
 	Properties
 	{

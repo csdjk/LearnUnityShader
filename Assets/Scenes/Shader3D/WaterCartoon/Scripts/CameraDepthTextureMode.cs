@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class CameraDepthTextureMode : MonoBehaviour 
 {
     [SerializeField]
