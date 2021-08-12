@@ -3,6 +3,7 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Color("Color",Color) = (1,1,1,1)
         _Cutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.5
     }
     SubShader
@@ -22,13 +23,19 @@
             #pragma multi_compile_instancing
             // 表示每次实例渲染的时候，都会执行以下setup这个函数
             // #pragma instancing_options procedural:setup
+
+            // 光照阴影
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+
             #include "UnityCG.cginc"
+            #include "Lighting.cginc"
 
             struct appdata
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                float3 normalOS     : NORMAL;
+                float3 normal : NORMAL;
 
             };
 
@@ -54,13 +61,14 @@
             float4 _MainTex_ST;
 
             float _Cutoff;
+            float3 _Color;
 
             v2f vert (appdata input, uint instanceID : SV_InstanceID)
             {
                 v2f output;
                 float2 uv = input.uv;
                 float4 positionOS = input.vertex;
-                float3 normalOS = input.normalOS;
+                float3 normalOS = input.normal;
                 // positionOS.xy = positionOS.xy * _GrassQuadSize;
 
 
@@ -79,17 +87,27 @@
 
                 //输出到片段着色器
                 output.uv = uv;
-                // output.worldPosition = positionWS;
-                // output.worldNormal = mul(unity_ObjectToWorld, float4(normalOS, 0.0 )).xyz;
+                output.worldPosition = positionWS;
+                output.worldNormal = mul(unity_ObjectToWorld, float4(normalOS, 0.0 )).xyz;
                 output.vertex = mul(UNITY_MATRIX_VP,positionWS);
                 return output;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
-                clip (col.a-_Cutoff);
-                return col;
+                fixed4 color = tex2D(_MainTex, i.uv);
+                clip (color.a-_Cutoff);
+
+
+                //计算光照和阴影，光照采用Lembert Diffuse.
+                fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                float3 lightColor = _LightColor0.rgb;
+                float3 worldNormal = normalize(i.worldNormal);
+
+                fixed3 diffuse = lightColor * max(dot(worldNormal,lightDir),0);
+
+                color.rgb *= diffuse * _Color;
+                return color;
             }
             ENDCG
         }

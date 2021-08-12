@@ -45,16 +45,27 @@ Shader "lcl/Depth/DepthScan"
             half4 frag(v2f i) : SV_Target
             {
                 float depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv);
-                float linear01Depth = Linear01Depth(depth); //转换成[0,1]内的线性变化深度值
+                depth = Linear01Depth(depth); //转换成[0,1]内的线性变化深度值
                 
                 fixed4 screenCol = tex2D(_MainTex, i.uv);
 
-                if (depth > _ScanValue && depth < _ScanValue + _ScanLineWidth)
-                {
-                    return screenCol * _ScanLightStrength * _ScanLineColor;
-                }
+                float dif = abs(depth - _ScanValue);
+                
+                float smoothFactor = 0.005f;
 
-                return screenCol;
+                float line1 = _ScanValue;
+                float lineEdge1 = line1 + smoothFactor;
+
+                float line2 = _ScanValue + _ScanLineWidth;
+                float lineEdge2 = line2 + smoothFactor;
+                float value = smoothstep(line1,lineEdge1,dif) - smoothstep(line2,lineEdge2,dif);
+                return lerp(screenCol,_ScanLineColor*_ScanLightStrength,value);
+
+                // if (depth > _ScanValue && depth < _ScanValue + _ScanLineWidth)
+                // {
+                //     return screenCol * _ScanLightStrength * _ScanLineColor;
+                // }
+                // return screenCol;
             }
             ENDCG
         }
