@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WorldNormal 1
-  m_Shader: {fileID: 4800000, guid: aa7ad282d56051c43a6987b4df9fbb25, type: 3}
+  m_Name: DepthIntersectionHighlight
+  m_Shader: {fileID: 4800000, guid: 78d7f968b82b7034f873602c2e920610, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -20,10 +20,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 2428ddb8ed35a3a4ea99c3f59864343e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Thickness: 1
+    - _IntersectionWidth: 0.1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 0, b: 0, a: 1}
+    - _IntersectionColor: {r: 1, g: 1, b: 0, a: 0}

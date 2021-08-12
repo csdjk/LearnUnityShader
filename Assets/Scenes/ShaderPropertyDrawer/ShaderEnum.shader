@@ -31,8 +31,8 @@
 
         // Toggle
         [Header(Toggle)]
-        [Toggle] _Invert("Invert color?", Float) = 0
-
+        [Toggle] _Toggle("Toggle", Float) = 0
+        [MaterialToggle] _MaterialToggle("Material Toggle", Float) = 0
         
         [Header(KeywordEnum)]
         // 每个选项都将被设置 _OVERLAY_NONE, _OVERLAY_ADD, _OVERLAY_MULTIPLY shader keywords.

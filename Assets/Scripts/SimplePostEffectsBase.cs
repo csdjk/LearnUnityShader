@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
  
 //非运行时也触发效果
-// [ExecuteInEditMode]
+[ExecuteInEditMode]
 //屏幕后处理特效一般都需要绑定在摄像机上
 [RequireComponent(typeof(Camera))]
 //提供一个后处理的基类，主要功能在于直接通过Inspector面板拖入shader，生成shader对应的材质
