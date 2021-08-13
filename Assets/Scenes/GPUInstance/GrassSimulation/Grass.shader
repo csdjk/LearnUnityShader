@@ -104,7 +104,8 @@
                 float3 lightColor = _LightColor0.rgb;
                 float3 worldNormal = normalize(i.worldNormal);
 
-                fixed3 diffuse = lightColor * max(dot(worldNormal,lightDir),0);
+                fixed3 halfLambert = dot(worldNormal,lightDir)*0.5+0.5;	
+                fixed3 diffuse = lightColor * max(halfLambert,0);
 
                 color.rgb *= diffuse * _Color;
                 return color;
