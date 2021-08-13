@@ -1,18 +1,13 @@
-﻿Shader "Roystan/Unlit/Shadow Caster"
+// 深度图获取
+Shader "lcl/Projection/ProjectionMatrix"
 {
     Properties
     {
-		_Color("Color", Color) = (1,1,1,1)
-        _MainTex ("Texture", 2D) = "white" {}
+        _MainTex("Base (RGB)", 2D) = "white" {}
     }
     SubShader
     {
-		Tags
-		{
-			"RenderType" = "Opaque"
-		}
-
-		UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
+        Tags { "RenderType"="Opaque" }
 
         Pass
         {
@@ -30,29 +25,31 @@
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                float2 uv : TEXCOORD0;
             };
-
+            float4x4 _ProjectionMatx;
             sampler2D _MainTex;
-            float4 _MainTex_ST;
 
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv = v.uv;
+
+                o.vertex = mul(mul(_ProjectionMatx, unity_ObjectToWorld), v.vertex);
+                // o.vertex = mul(mul(_ProjectionMatx, UNITY_MATRIX_MV), v.vertex);
+                // o.vertex = mul(mul(UNITY_MATRIX_P, unity_ObjectToWorld), v.vertex);
+                // o.vertex = UnityObjectToClipPos(v.vertex);
                 return o;
             }
-
-			float4 _Color;
-
+            
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
-                return col * _Color;
+                fixed4 screenCol = tex2D(_MainTex, i.uv);
+                return screenCol;
             }
             ENDCG
         }
     }
 }
+
