@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Wind
+  m_Shader: {fileID: 4800000, guid: 0e4d460164148bd4b93d6ea347332add, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 88aa624205d8ed449a600b3650c90c9a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 810e66f5932464145bd8a17197f7d218, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Angle: 0
+    - _Cutoff: 0.632
+    - _Shininess: 4.07
+    - _TessellationFactors: 2.7
+    - _TimeDelay: 2
+    - _TimeScale: 2
+    - _b_influence: 0.107
+    - _branches_disp: 0.087
+    - _leaves_wiggle_disp: 0.26
+    - _leaves_wiggle_speed: 37.34
+    - _r_influence: 0.632
+    - _tree_sway_disp: 0.038
+    - _tree_sway_speed: 0.58
+    - _tree_sway_stutter: 0
+    - _tree_sway_stutter_influence: 0.343
+    - _wind_size: 11.3
+    m_Colors:
+    - _Color: {r: 0.02422252, g: 0.5377358, b: 0.012682447, a: 1}
+    - _Direction: {r: 0, g: 0, b: 0.6, a: 0}
+    - _RotateVector: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecColor: {r: 1, g: 0.11792451, b: 0.11792451, a: 0}
+    - _Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _WindDir: {r: 0, g: 0, b: 0, a: 0}
+    - _wind_dir: {r: 0.24, g: 0, b: 0, a: 0}

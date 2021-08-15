@@ -1,4 +1,6 @@
-﻿Shader "lcl/ShaderPropertyDrawer/ShaderEnum"
+﻿
+// Unity 内置GUI
+Shader "lcl/ShaderGUI/ShaderGUI_Built-in"
 {
     // 材质属性面常见类型
     Properties

@@ -5,24 +5,32 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class ProjectionMatrix : SimplePostEffectsBase
 {
-    public Camera myCamera;
+    public Camera mCamera;
     void Start()
     {
-        if (myCamera == null)
-            myCamera = transform.GetComponent<Camera>();
-            // myCamera = Camera.main;
+        if (mCamera == null)
+            mCamera = transform.GetComponent<Camera>();
+        // mCamera = Camera.main;
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         if (_Material)
         {
-            Matrix4x4 proj = GL.GetGPUProjectionMatrix(myCamera.projectionMatrix, false);
-            // proj *= myCamera.worldToCameraMatrix;
+            Matrix4x4 ProjectionMatrix = GL.GetGPUProjectionMatrix(mCamera.projectionMatrix, true);
+            // Matrix4x4 ProjectionMatrix = mCamera.projectionMatrix;
+            Matrix4x4 ViewMatrix = mCamera.worldToCameraMatrix;
+            Matrix4x4 VP_Matrix = ProjectionMatrix * ViewMatrix;
 
-            // _Material.SetMatrix("_ProjectionMatx", proj);
-            Shader.SetGlobalMatrix("_ProjectionMatx", proj);
-            
+            Debug.Log(VP_Matrix);
+            // Matrix4x4 unity_MatrixVP1 = new Matrix4x4(
+            //     new Vector4(2, 0, 0, 0),
+            //     new Vector4(0, 2, 0, 0),
+            //     new Vector4(0, 0, 0.0099f, 0),
+            //     new Vector4(-1, -1f, 0.99f, 1)
+            // );
+            Shader.SetGlobalMatrix("_ProjectionMatx", VP_Matrix);
+
             Graphics.Blit(source, destination, _Material);
         }
     }
