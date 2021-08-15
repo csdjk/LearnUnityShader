@@ -37,7 +37,7 @@ Shader "lcl/Projection/ProjectionMatrix"
                 o.uv = v.uv;
 
                 o.vertex = mul(mul(_ProjectionMatx, unity_ObjectToWorld), v.vertex);
-                // o.vertex = mul(mul(_ProjectionMatx, UNITY_MATRIX_MV), v.vertex);
+                // o.vertex = mul(mul(UNITY_MATRIX_VP, unity_ObjectToWorld), v.vertex);
                 // o.vertex = mul(mul(UNITY_MATRIX_P, unity_ObjectToWorld), v.vertex);
                 // o.vertex = UnityObjectToClipPos(v.vertex);
                 return o;

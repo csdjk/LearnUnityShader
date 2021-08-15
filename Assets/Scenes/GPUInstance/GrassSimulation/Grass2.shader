@@ -1,4 +1,4 @@
-﻿Shader "lcl/GPUInstance/Grass1"
+﻿Shader "lcl/GPUInstance/Grass2"
 {
     Properties
     {

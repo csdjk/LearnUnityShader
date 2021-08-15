@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ShaderEnum
+  m_Name: ShaderGUI_Built-in
   m_Shader: {fileID: 4800000, guid: 91178c13ef19c0b40b68b5588b9fa99b, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
