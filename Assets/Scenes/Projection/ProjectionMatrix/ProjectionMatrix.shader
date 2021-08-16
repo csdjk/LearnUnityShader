@@ -30,7 +30,7 @@ Shader "lcl/Projection/ProjectionMatrix"
                 float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
             };
-            float4x4 _ProjectionMatx;
+            float4x4 _CameraMatxVP;
             sampler2D _MainTex;
 
             v2f vert (appdata v)
@@ -38,12 +38,12 @@ Shader "lcl/Projection/ProjectionMatrix"
                 v2f o;
                 o.uv = v.uv;
                 float4 pos1 = mul(mul(UNITY_MATRIX_P,mul(UNITY_MATRIX_V, unity_ObjectToWorld)), v.vertex);
-                float4 pos2 = mul(mul(_ProjectionMatx, unity_ObjectToWorld), v.vertex);
+                float4 pos2 = mul(mul(_CameraMatxVP, unity_ObjectToWorld), v.vertex);
                 float4 pos3 = mul(UNITY_MATRIX_P, v.vertex);
                 float4 pos4 =  mul(mul(UNITY_MATRIX_VP, unity_ObjectToWorld), v.vertex);
 
                 // o.vertex = mul(mul(_ProjectionMatx, unity_ObjectToWorld), v.vertex);
-                o.vertex = pos4;
+                o.vertex = pos2;
                 // o.vertex = mul(mul(UNITY_MATRIX_P, unity_ObjectToWorld), v.vertex);
                 // o.vertex = UnityObjectToClipPos(v.vertex);
                 return o;
