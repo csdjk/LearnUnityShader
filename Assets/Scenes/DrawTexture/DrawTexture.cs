@@ -19,7 +19,7 @@ public class DrawTexture : MonoBehaviour
         drawMat = new Material(DrawShader);
         pathRT = new RenderTexture(1024, 1024, 0, RenderTextureFormat.ARGBFloat);
 
-        var  floorMat = transform.GetComponent<MeshRenderer>().material;
+        var  floorMat = transform.GetComponent<MeshRenderer>().sharedMaterial;
         floorMat.SetTexture("_MaskTex",pathRT);
     }
 

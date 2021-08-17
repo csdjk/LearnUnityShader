@@ -19,7 +19,7 @@ public class ProjectionMatrix : SimplePostEffectsBase
         Matrix4x4 ViewMatrix = mCamera.worldToCameraMatrix;
         Matrix4x4 VP_Matrix = ProjectionMatrix * ViewMatrix;
         Debug.Log(VP_Matrix);
-        render.material.SetMatrix("_CameraMatxVP",VP_Matrix);
+        render.sharedMaterial.SetMatrix("_CameraMatxVP",VP_Matrix);
     }
   
 }

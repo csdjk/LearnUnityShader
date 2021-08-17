@@ -1,6 +1,9 @@
 ﻿Shader "lcl/Tessell/FloorShader" {
     Properties {
-        _Color ("Color", Color) = (1, 1, 1, 1)
+        _FloorTex ("Floor Texture", 2D) = "white" {}
+        _FloorColor ("Floor Color", Color) = (1, 1, 1, 1)
+        _SnowTex ("Snow Texture", 2D) = "white" {}
+        _SnowColor ("Snow Color", Color) = (1, 1, 1, 1)
         [PowerSlider(3.0)]_TessellationFactors("_TessellationFactors",Range(1,20)) = 1
     }
     SubShader {
@@ -16,12 +19,16 @@
             #pragma domain ds
 
             #include "UnityCG.cginc"
-			#include "Lighting.cginc"
+            #include "Lighting.cginc"
             //引入曲面细分的头文件
             // #include "Tessellation.cginc"
-
-            fixed4 _Color;
+            
             sampler2D _MaskTex;
+
+            sampler2D _FloorTex;
+            fixed4 _FloorColor;
+            sampler2D _SnowTex;
+            fixed4 _SnowColor;
 
             struct a2v {
                 float4 vertex : POSITION;
@@ -36,8 +43,11 @@
                 float2 uv : TEXCOORD0;
             };
             
-            struct v2f {
+            struct t2f {
                 float4 pos : SV_POSITION;
+                float4 normal : NORMAL;
+                float2 uv : TEXCOORD0;
+                float3 worldNormalDir:TEXCOORD1;
             };
             
             // 顶点着色器（简单的对数据进行传输到曲面细分着色器）
@@ -51,10 +61,9 @@
 
             #ifdef UNITY_CAN_COMPILE_TESSELLATION
                 // struct UnityTessellationFactors {
-                //     float edge[3] : SV_TessFactor;
-                //     float inside : SV_InsideTessFactor;
+                    //     float edge[3] : SV_TessFactor;
+                    //     float inside : SV_InsideTessFactor;
                 // };
-
 
                 float _TessellationFactors;
 
@@ -78,43 +87,53 @@
                     return v[id];
                 }
 
-                v2f vert2frag(a2v v) {
-                    v2f o;
-                    o.pos = UnityObjectToClipPos(v.vertex);
-                    return o;
-                }
+                // t2f vert2frag(a2v v) {
+                //     t2f o;
+                //     o.pos = UnityObjectToClipPos(v.vertex);
+                //     o.worldNormalDir = v.worldNormalDir;
+                //     return o;
+                // }
 
                 // domain 着色器 （细分计算着色器）
                 // bary: 重心坐标
                 [UNITY_domain("tri")]
-                v2f ds(UnityTessellationFactors tessFactors, const OutputPatch<v2t, 3> vi, float3 bary : SV_DomainLocation) {
-                    a2v v;
-                    v.vertex = vi[0].vertex * bary.x + vi[1].vertex * bary.y + vi[2].vertex * bary.z;
+                t2f ds(UnityTessellationFactors tessFactors, const OutputPatch<v2t, 3> vi, float3 bary : SV_DomainLocation) {
+                    t2f v;
+                    v.pos = vi[0].vertex * bary.x + vi[1].vertex * bary.y + vi[2].vertex * bary.z;
                     v.normal = vi[0].normal * bary.x + vi[1].normal * bary.y + vi[2].normal * bary.z;
                     v.uv = vi[0].uv * bary.x + vi[1].uv * bary.y + vi[2].uv * bary.z;
 
                     float4 maskTexVar = tex2Dlod(_MaskTex,float4(v.uv,0,0));
-                    v.vertex -= v.normal * maskTexVar.r;
+                    v.pos -= v.normal * maskTexVar.r;
 
-                    v.worldNormalDir = mul(unity_ObjectToWorld,v.normal).xyz;
+                    // v.worldNormalDir = mul(unity_ObjectToWorld,v.normal).xyz;
+                    v.worldNormalDir = mul(v.normal,(float3x3) unity_WorldToObject).xyz;
                     // 最后需要转换到Clip裁剪空间
-                    return vert2frag(v);
+                    v.pos = UnityObjectToClipPos(v.pos);
+                    return v;
                 }
             #endif
             
 
-            fixed4 frag(v2f i) : SV_Target {
+            fixed4 frag(t2f i) : SV_Target {
 
-                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
                 fixed3 normalDir = normalize(i.worldNormalDir);
                 fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
-                //半兰伯特漫反射  值范围0-1
+                //半兰伯特漫反射 值范围0-1
                 fixed3 halfLambert = dot(normalDir,lightDir)*0.5+0.5;	
                 fixed3 diffuse = _LightColor0.rgb * halfLambert;
-                fixed3 resultColor = (diffuse + ambient) * _Diffuse;
 
+                // 积雪下陷
+                float4 amount = tex2Dlod(_MaskTex,float4(i.uv,0,0)).r;
 
-                return _Color;
+                float4 floorCol = tex2D(_FloorTex,i.uv) * _FloorColor;
+                float4 snowCol = tex2D(_FloorTex,i.uv)* _SnowColor;
+                float4 res = lerp(snowCol,floorCol,amount);
+
+                res.rgb *= diffuse;
+                return res;
+
+                // return float4(i.worldNormalDir,1);
             }
             
             ENDCG
