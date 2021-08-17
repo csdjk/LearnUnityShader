@@ -8,8 +8,10 @@ public class DrawTexture : MonoBehaviour
 
     public RenderTexture pathRT;
     public Shader DrawShader;
+    [Range(0,1)]
     public float brushStrength;
-    public float brushSize;
+    [Range(1,500)]
+    public float brushSize = 1;
     public Color brushColor;
     private Material drawMat;
 
@@ -39,7 +41,7 @@ public class DrawTexture : MonoBehaviour
                 drawMat.SetVector("_Pos", new Vector4(hit.textureCoord.x, hit.textureCoord.y, 0, 0));
                 drawMat.SetFloat("_Strength", brushStrength);
                 drawMat.SetFloat("_Size", brushSize);
-
+                Debug.Log(hit.textureCoord);
                 RenderTexture temp = RenderTexture.GetTemporary(pathRT.width, pathRT.height,0, RenderTextureFormat.ARGBFloat);
                 Graphics.Blit(pathRT,temp);
                 Graphics.Blit(temp,pathRT,drawMat);

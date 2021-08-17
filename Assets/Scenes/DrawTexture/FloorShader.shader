@@ -4,7 +4,11 @@
         _FloorColor ("Floor Color", Color) = (1, 1, 1, 1)
         _SnowTex ("Snow Texture", 2D) = "white" {}
         _SnowColor ("Snow Color", Color) = (1, 1, 1, 1)
-        [PowerSlider(3.0)]_TessellationFactors("_TessellationFactors",Range(1,20)) = 1
+        [PowerSlider(3.0)]_TessellationFactors("TessellationFactors",Range(1,20)) = 1
+        [PowerSlider(3.0)]_Displacement("Displacement",Range(0,20)) = 1
+
+        _MaskTex ("_MaskTex Texture", 2D) = "white" {}
+
     }
     SubShader {
         Pass { 
@@ -29,6 +33,7 @@
             fixed4 _FloorColor;
             sampler2D _SnowTex;
             fixed4 _SnowColor;
+            float _Displacement;
 
             struct a2v {
                 float4 vertex : POSITION;
@@ -105,6 +110,7 @@
 
                     float4 maskTexVar = tex2Dlod(_MaskTex,float4(v.uv,0,0));
                     v.pos -= v.normal * maskTexVar.r;
+                    v.pos += v.normal * _Displacement;
 
                     // v.worldNormalDir = mul(unity_ObjectToWorld,v.normal).xyz;
                     v.worldNormalDir = mul(v.normal,(float3x3) unity_WorldToObject).xyz;
