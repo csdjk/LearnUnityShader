@@ -51,14 +51,18 @@
                 // return length(uv - _Pos.xy);
                 // return max(_Pos.z - length(uv - _Pos.xy)/_Pos.z,0) + tex2D(_SourceTex,uv).x;
 
-
+                // 一：
                 float4 col = tex2D(_MainTex,i.uv);
-                // 从世界坐标映射回贴图uv位置
                 float4 draw = pow(saturate(1-distance(i.uv,_Pos.xy)),500/_Size);
                 float4 drawCol = _Color * draw * _Strength;
                 return saturate(col + drawCol);
 
-                // return _Color;
+                // 二：
+                // float4 col = tex2D(_MainTex,i.uv);
+                // float dis = distance(i.uv,_Pos.xy);
+                // float isDraw = step(dis,_Size/100);
+                // float4 drawCol = isDraw * _Color + (1-isDraw)*col;
+                // return drawCol;
             }
             ENDCG
         }
