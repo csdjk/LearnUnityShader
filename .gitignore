@@ -29,3 +29,5 @@ sysinfo.txt
 *.apk
 *.unitypackage
 .vscode/
+ProjectSettings/ProjectSettings.asset
+ProjectSettings/ProjectVersionPrevious.txt
