@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
-Shader "lcl/ddx/ddxddyNormal"
+Shader "lcl/ddx/tex2D"
 {
     Properties
     {
@@ -16,9 +16,6 @@ Shader "lcl/ddx/ddxddyNormal"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
-
             #include "UnityCG.cginc"
 
             struct appdata
@@ -31,7 +28,6 @@ Shader "lcl/ddx/ddxddyNormal"
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-                float4 worldPos : TEXCOORD1;
             };
 
             sampler2D _MainTex;
@@ -40,20 +36,19 @@ Shader "lcl/ddx/ddxddyNormal"
             v2f vert (appdata v)
             {
                 v2f o;
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex);
-                o.vertex = mul(UNITY_MATRIX_VP, o.worldPos);
-                o.uv = v.uv;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float3 dx = ddx(i.worldPos);
-                float3 dy = ddy(i.worldPos);
-                float3 normal = normalize(cross(dy, dx));
+                half4 c = tex2D(_MainTex, i.uv);
 
-                normal = normal * 0.5 + 0.5;
-                return fixed4(normal,1.0);
+                // half4 c = tex2Dlod(_MainTex,float4(i.uv,0,0));
+
+                // c += ddx(c)*2 + ddy(c)*2;
+                return c;
             }
             ENDCG
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class ReconstructPositionInvMatrix : MonoBehaviour
+public class ReconstructPositionInvMatrix2 : MonoBehaviour
 {
     public Shader reconstructPositionShader;
     private Material postEffectMat = null;
@@ -37,8 +37,7 @@ public class ReconstructPositionInvMatrix : MonoBehaviour
         else
         {
             Matrix4x4 ProjectionMatrix = GL.GetGPUProjectionMatrix(currentCamera.projectionMatrix, true);
-            var vpMatrix = currentCamera.projectionMatrix * currentCamera.worldToCameraMatrix;
-            postEffectMat.SetMatrix("_InverseVPMatrix", vpMatrix.inverse);
+            postEffectMat.SetMatrix("_InverseProjectionMatrix", currentCamera.projectionMatrix.inverse);
             Graphics.Blit(source, destination, postEffectMat);
         }
     }

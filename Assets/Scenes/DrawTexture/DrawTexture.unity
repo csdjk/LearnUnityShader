@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44643873, g: 0.49625754, b: 0.57473534, a: 1}
+  m_IndirectSpecularColor: {r: 0.44643843, g: 0.49625713, b: 0.57473487, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -933,8 +933,8 @@ MonoBehaviour:
   mainCamera: {fileID: 2086177100}
   pathRT: {fileID: 0}
   DrawShader: {fileID: 4800000, guid: 5caac924e3941dd409c9aa23afa4105c, type: 3}
-  brushStrength: 1
-  brushSize: 2.59
+  brushStrength: 12.5
+  brushSize: 3
   brushColor: {r: 1, g: 0, b: 0, a: 0}
 --- !u!114 &2110248187
 MonoBehaviour:
@@ -943,7 +943,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2110248181}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 07e71e70a88cfc648b5ee11e23554d1b, type: 3}
   m_Name: 

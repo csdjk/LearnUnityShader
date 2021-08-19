@@ -8,7 +8,7 @@ public class DrawTexture : MonoBehaviour
 
     public RenderTexture pathRT;
     public Shader DrawShader;
-    [Range(0,1)]
+    [Range(0,100)]
     public float brushStrength;
     [Range(1,500)]
     public float brushSize = 1;

@@ -1,4 +1,4 @@
-﻿Shader "lcl/GPUInstance/Grass2"
+﻿Shader "lcl/GPUInstance/Grass3"
 {
     Properties
     {
@@ -77,6 +77,11 @@
             float _WindNoiseStrength;
             sampler2D _NoiseMap;
 
+            // 交互对象坐标和范围（w）
+            float4 _PlayerPos;
+            // 下压强度
+            float _PushStrength;
+            
             ///计算被风影响后的世界坐标
             ///positionWS - 施加风力前的世界坐标
             ///grassUpWS - 草的生长方向，单位向量，世界坐标系
@@ -125,7 +130,7 @@
                 // 风2
                 float3 grassUpDir = float3(0,1,0);
                 float3 windDir = normalize(_Wind.xyz);
-                //风力强度，范围0~40 m/s
+                //风力强度
                 float windStrength = _Wind.w ;
                 float localVertexHeight = positionOS.y;
                 grassUpDir = mul(grassInfo.localToWorld,float4(grassUpDir,0)).xyz;
@@ -139,6 +144,21 @@
                 noiseValue = sin(noiseValue * windStrength);
                 //将扰动再加到风力上,_WindNoiseStrength为扰动幅度，通过材质球配置
                 windStrength += noiseValue * _WindNoiseStrength;
+
+
+                // 与玩家的交互
+                float3 offsetDir = normalize(_PlayerPos.xyz-positionWS.xyz);
+                float dis = distance(positionWS.xyz,_PlayerPos.xyz);
+                float radius = _PlayerPos.w;
+
+                // 下压
+                float isPushRange = step(dis,radius);
+                windDir.xz = offsetDir.xz*isPushRange + windDir.xz * (1-isPushRange);
+                windStrength += _PushStrength*isPushRange;
+                // if(dis<=radius){
+                //     windDir.xz = offsetDir.xz;
+                //     windStrength += _PushStrength;
+                // }
 
                 positionWS.xyz = applyWind(positionWS.xyz,grassUpDir,windDir,windStrength,localVertexHeight);
 
@@ -158,19 +178,19 @@
                 clip (color.a-_Cutoff);
 
 
-                float3 worldPos = i.worldPosition;
-                //计算光照和阴影，光照采用Lembert Diffuse.
-                fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
-                float3 lightColor = _LightColor0.rgb;
-                float3 worldNormal = normalize(i.worldNormal);
-                // 半兰伯特光照模型
-                fixed3 halfLambert = dot(worldNormal,lightDir)*0.5+0.5;	
-                fixed3 diffuse = lightColor * max(halfLambert,0.3);
+                // float3 worldPos = i.worldPosition;
+                // //计算光照和阴影，光照采用Lembert Diffuse.
+                // fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                // float3 lightColor = _LightColor0.rgb;
+                // float3 worldNormal = normalize(i.worldNormal);
+                // // 半兰伯特光照模型
+                // fixed3 halfLambert = dot(worldNormal,lightDir)*0.5+0.5;	
+                // fixed3 diffuse = max(halfLambert,0.3);
 
                 // 阴影
-                UNITY_LIGHT_ATTENUATION(atten, i, worldPos);
+                // UNITY_LIGHT_ATTENUATION(atten, i, worldPos);
 
-                color.rgb *= diffuse * _Color * atten;
+                color.rgb *= _Color ;
                 return color;
 
                 // return float4(worldNormal,1);
