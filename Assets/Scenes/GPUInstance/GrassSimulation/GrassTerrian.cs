@@ -15,8 +15,14 @@ public class GrassTerrian : MonoBehaviour
     public Material grassMaterial;
     // 草面片大小
     public Vector2 grassQuadSize = new Vector2(0.1f, 0.6f);
-
-    public Camera pathCamera;
+    // 交互对象
+    public Transform playerTrs;
+    // 碰撞范围
+    [Range(0, 10)]
+    public float crashRadius;
+    // 下压强度
+     [Range(0, 100)]
+    public float pushStrength;
 
     private int cachedGrassCount = -1;
     private Vector2 cachedGrassQuadSize;
@@ -36,10 +42,13 @@ public class GrassTerrian : MonoBehaviour
 
     void Update()
     {
-        if (cachedGrassCount != grassCount || !cachedGrassQuadSize.Equals(grassQuadSize))
+        if (cachedGrassCount != grassCount || !cachedGrassQuadSize.Equals(grassQuadSize) )
             UpdateBuffers();
 
-        grassMaterial.SetTexture("_PathTex", pathRenderTexture);
+        Vector4 playerPos = playerTrs.TransformPoint(Vector3.zero);
+        playerPos.w = crashRadius;
+        grassMaterial.SetVector("_PlayerPos", playerPos);
+        grassMaterial.SetFloat("_PushStrength", pushStrength);
 
         Graphics.DrawMeshInstancedProcedural(grassMesh, 0, grassMaterial, new Bounds(Vector3.zero, new Vector3(radius, radius, radius)), grassTotalCount);
     }
@@ -115,16 +124,6 @@ public class GrassTerrian : MonoBehaviour
         cachedGrassCount = grassCount;
         cachedGrassQuadSize = grassQuadSize;
     }
-
-
-    private void CreatePathRenderTexture()
-    {
-        pathCamera.cullingMask = 1 << LayerMask.NameToLayer("PlayerTrail");
-        int width = pathCamera.pixelWidth >> 1;
-        int height = pathCamera.pixelHeight >> 1;
-        pathRenderTexture = RenderTexture.GetTemporary(width, height, 0);
-    }
-
 
     void OnDisable()
     {

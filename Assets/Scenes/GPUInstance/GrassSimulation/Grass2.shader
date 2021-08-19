@@ -168,9 +168,9 @@
                 fixed3 diffuse = lightColor * max(halfLambert,0.3);
 
                 // 阴影
-                UNITY_LIGHT_ATTENUATION(atten, i, worldPos);
+                // UNITY_LIGHT_ATTENUATION(atten, i, worldPos);
 
-                color.rgb *= diffuse * _Color * atten;
+                color.rgb *= diffuse * _Color;
                 return color;
 
                 // return float4(worldNormal,1);

@@ -17,41 +17,41 @@ Shader "lcl/Shadows/ShadowCaster"
         // UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
 
         // 或者：自定义投影pass
-        Pass
-        {   
-            // 
-            Tags { "LightMode" = "ShadowCaster" }
+        // Pass
+        // {   
+        //     // 
+        //     Tags { "LightMode" = "ShadowCaster" }
 
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma multi_compile_shadowcaster
-            #include "UnityCG.cginc"
+        //     CGPROGRAM
+        //     #pragma vertex vert
+        //     #pragma fragment frag
+        //     #pragma multi_compile_shadowcaster
+        //     #include "UnityCG.cginc"
 
-            struct v2f {
-                // 投影数据
-                V2F_SHADOW_CASTER;
-                // 实际定义如下:
-                // float4 pos : SV_POSITION;
-                // float3 vec : TEXCOORD0;
-            };
+        //     struct v2f {
+        //         // 投影数据
+        //         V2F_SHADOW_CASTER;
+        //         // 实际定义如下:
+        //         // float4 pos : SV_POSITION;
+        //         // float3 vec : TEXCOORD0;
+        //     };
 
-            v2f vert(appdata_base v)
-            {
-                v2f o;
-                TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
-                // 源码如下：
-                // o.pos = UnityClipSpaceShadowCasterPos(v.vertex, v.normal);
-                // o.pos = UnityApplyLinearShadowBias(o.pos);
-                return o;
-            }
+        //     v2f vert(appdata_base v)
+        //     {
+        //         v2f o;
+        //         TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
+        //         // 源码如下：
+        //         // o.pos = UnityClipSpaceShadowCasterPos(v.vertex, v.normal);
+        //         // o.pos = UnityApplyLinearShadowBias(o.pos);
+        //         return o;
+        //     }
 
-            float4 frag(v2f i) : SV_Target
-            {
-                SHADOW_CASTER_FRAGMENT(i)
-            }
-            ENDCG
-        }
+        //     float4 frag(v2f i) : SV_Target
+        //     {
+        //         SHADOW_CASTER_FRAGMENT(i)
+        //     }
+        //     ENDCG
+        // }
         
         // 正常渲染pass
         Pass
