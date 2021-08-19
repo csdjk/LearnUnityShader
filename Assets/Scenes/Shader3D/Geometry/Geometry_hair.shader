@@ -3,7 +3,7 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
-		_Length("Length",float) = 1.0
+        [PowerSlider(3.0)]_Length("Length",Range(0,20)) = 1
 		_Color("Color",Color)=(1,1,1,1)
 	}
 	SubShader
