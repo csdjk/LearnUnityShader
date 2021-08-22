@@ -145,13 +145,13 @@
                 
                 // final color
                 fixed3 final = sssCol + diffCol.rgb + specular + rimCol;
-                final += pointLitSssCol * final;
+                final += pointLitSssCol ;
                 
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, final);
-                return fixed4(sssCol+pointLitSssCol, 1);
+                // return fixed4(pointLitSssCol, 1);
 
-                // return _CustomPointLitColorList[0];
+                return saturate(_CustomPointLitRangeList[0] - distance(i.posWorld, _CustomPointLitPosList[0])) / _CustomPointLitRangeList[0];
             }
             ENDCG
         }
