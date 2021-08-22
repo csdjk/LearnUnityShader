@@ -40,7 +40,7 @@ Shader "lcl/learnShader1/004_Specular_vertex" {
 				fixed3 diffuse = _LightColor0.rgb * max(dot(normalDir,lightDir),0) * _Diffuse.rgb;
 				//高光反射
 				fixed3 reflectDir = reflect(-lightDir,normalDir);//反射光
-				fixed3 viewDir = normalize(_WorldSpaceCameraPos.xyz - mul(v.vertex,unity_WorldToObject).xyz);
+				fixed3 viewDir = normalize(_WorldSpaceCameraPos.xyz - mul(unity_ObjectToWorld, v.vertex).xyz);
 				fixed3 specular = _LightColor0.rgb * pow(max(0,dot(viewDir,reflectDir)),_Gloss) *_Specular;
 				f.color = diffuse+ambient+specular;
 				return f;

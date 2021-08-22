@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SimpleDirLitSSS1
+  m_Shader: {fileID: 4800000, guid: ef8141d6b8aa4564fa2e6fbc81e92b10, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ScatterTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BackSubsurfaceDistortion: 0.655
+    - _Distortion: 0
+    - _FrontSssIntensity: 0.151
+    - _FrontSubsurfaceDistortion: 0.482
+    - _Gloss: 0.042
+    - _InteriorColorPower: 5
+    - _Power: 0
+    - _RimIntensity: 0
+    - _RimPower: 0.7
+    - _Scale: 0
+    - _ScatterFactor: 1
+    - _Shinness: 51
+    - _Specular: 1
+    - _Wrap: 0.181
+    m_Colors:
+    - _Base: {r: 0.17017663, g: 1, b: 0, a: 0.65882355}
+    - _Diffuse: {r: 0.19511393, g: 0.7830189, b: 0, a: 0.4745098}
+    - _InteriorColor: {r: 0.8679245, g: 0, b: 0, a: 1}
+    - _ScatterWidth: {r: 14.05, g: 0.02, b: 0, a: 0}
+    - _Specular: {r: 1, g: 1, b: 1, a: 1}
+    - _Tint: {r: 0.7169812, g: 0.12483155, b: 0, a: 1}
