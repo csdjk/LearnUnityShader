@@ -17,7 +17,13 @@ public class SimpleDirLitSSS : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var posList = pointTrans.Select(v => new Vector4(v.position.x,v.position.y,v.position.z,0)).ToArray();
+        var posList = pointTrans.Select(
+            v =>
+            {
+                Vector4 worldPos = v.TransformPoint(Vector3.zero);
+                return worldPos;
+            }
+        ).ToArray();
         foreach (var go in sssList)
         {
             var mat = go.GetComponent<MeshRenderer>().sharedMaterial;
