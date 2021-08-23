@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Test
-  m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _GLOSSYREFLECTIONS_OFF _ISMULVERTEXCOLOR_ON
+  m_Name: SSS Demo 1
+  m_Shader: {fileID: 4800000, guid: 3286a5d3dc0c3dd4e8dfc9dcd833291c, type: 3}
+  m_ShaderKeywords: _ _METALLICGLOSSMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -19,6 +19,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BRDFTex:
+        m_Texture: {fileID: 2800000, guid: 438762e23bc56bf4188ce947bf60e0e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -27,15 +31,19 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DetailBumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
+    - _DetailMetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _DetailTex:
+    - _DetailNormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -55,45 +63,66 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _OverlayMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
+    - _ThicknessMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord2:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
+    - _CullMode: 0
     - _Cutoff: 0.5
+    - _Cutout: 0.801
+    - _DetailBumpMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Gloss: 8
     - _GlossMapScale: 1
-    - _Glossiness: 1
-    - _GlossyReflections: 0
-    - _InvFade: 1
-    - _MMultiplier: 2
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
+    - _OcclusionUVSource: 0
     - _Parallax: 0.02
-    - _Power: 1
-    - _Scroll2X: 0
-    - _Scroll2Y: 0
-    - _ScrollX: 0
-    - _ScrollY: 0
+    - _SSSAmbient: 0.5
+    - _SSSDist: 0.74
+    - _SSSIntensity: 10
+    - _SSSPow: 1.12
+    - _SSSShadow: 0.647
+    - _ScatteringByAlbedo: 1
+    - _SecondUVSource: 0
+    - _SmoothnessFromAlbedo: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _ThicknessMapInvert: 1
+    - _ThicknessMapPower: 1.86
+    - _ThicknessUVSource: 0
     - _UVSec: 0
+    - _UseAlphaToMask: 0
+    - _UseCutout: 0
+    - _UseSkinScattering: 1
+    - _WrappingFactor: 0.001
+    - _WrappingPowerFactor: 1
     - _ZWrite: 1
-    - _isMulVertexColor: 1
+    - __dirty: 1
     m_Colors:
-    - _ClipRect: {r: -1.63, g: -15.6, b: 16.2, a: 19.03}
-    - _Color: {r: 1, g: 0.97803795, b: 0, a: 1}
-    - _Diffuse: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.011883492, g: 0.6509434, b: 0.003070495, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Specular: {r: 1, g: 1, b: 1, a: 1}
-    - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+    - _OverlayColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SSSCol: {r: 0.11350371, g: 0.9339623, b: 0, a: 1}

@@ -24,11 +24,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Factor: 1.68
+    - _Factor: 1.05
     - _FresnelScale: 0.992
-    - _Gloss: 80
+    - _Gloss: 109.3
     - _Power: 1
     m_Colors:
     - _Color: {r: 1, g: 0.44879463, b: 0, a: 1}
-    - _Diffuse: {r: 0.7176471, g: 0.105882354, b: 0, a: 1}
+    - _Diffuse: {r: 1, g: 0.12520243, b: 0, a: 1}
     - _Specular: {r: 1, g: 1, b: 1, a: 1}
