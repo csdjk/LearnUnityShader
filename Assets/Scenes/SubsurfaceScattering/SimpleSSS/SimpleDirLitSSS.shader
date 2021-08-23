@@ -18,7 +18,7 @@
         _Gloss ("Gloss", Range(0,1) ) = 0.5
         
         // fresnel
-        _RimPower("Rim Power", Range(0.0, 36)) = 0.1
+        _RimPower("Rim Power", Range(0.01, 36)) = 0.1
         _RimIntensity("Rim Intensity", Range(0, 1)) = 0.2
     }
     SubShader
@@ -37,9 +37,8 @@
             #pragma multi_compile_fog
             #pragma enable_d3d11_debug_symbols
             
-            #include "UnityLightingCommon.cginc" // for _LightColor0
-            
             #include "UnityCG.cginc"
+			#include "Lighting.cginc"
 
             struct appdata
             {
@@ -141,16 +140,19 @@
                 float3 directSpecular = pow (max (0,dot (halfVector, normalize(i.normalDir))), specularPow) * specularColor;
                 float3 specular = directSpecular * _LightColor0.rgb;
                 
-                // Rim
-                float rim = 1.0 - max(0, dot(i.normalDir, i.viewDir));
-                float rimValue = lerp(rim, 0, sssValue);
-                float3 rimCol = lerp(_InteriorColor, _LightColor0.rgb, rimValue) * pow(rimValue, _RimPower) * _RimIntensity;  
-                
+                // fresnel
+                // float rim = 1.0 - saturate(dot(i.normalDir, i.viewDir));
+                // float rimValue = lerp(rim, 0, sssValue);
+                // float3 rimCol = lerp(_InteriorColor, _LightColor0.rgb, rimValue) * pow(rimValue, _RimPower) * _RimIntensity;  
+
+                // float fresnel = pow(1 - saturate(dot(i.viewDir, i.normalDir)), 5);
+                // float3 rimCol = lerp(_InteriorColor, _LightColor0.rgb, fresnel) * _RimIntensity;
+
                 // final color
-                fixed3 final = sssCol + diffCol.rgb + specular + rimCol;
-                final += pointLitSssCol ;
-                
+                fixed3 final = sssCol + diffCol.rgb + specular;
+                final += pointLitSssCol;
                 return fixed4(final, 1);
+                // return fresnel;
             }
             ENDCG
         }
