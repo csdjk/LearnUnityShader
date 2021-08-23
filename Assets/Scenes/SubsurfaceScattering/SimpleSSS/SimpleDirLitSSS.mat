@@ -28,24 +28,24 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _BackSubsurfaceDistortion: 0.921
+    - _BackSubsurfaceDistortion: 0.644
     - _Distortion: 0
-    - _FrontSssIntensity: 0.047
-    - _FrontSubsurfaceDistortion: 0
-    - _Gloss: 0.123
-    - _InteriorColorPower: 0.89
+    - _FrontSssIntensity: 0.151
+    - _FrontSubsurfaceDistortion: 0.482
+    - _Gloss: 0.042
+    - _InteriorColorPower: 5
     - _Power: 0
     - _RimIntensity: 0
-    - _RimPower: 1.8
+    - _RimPower: 0.7
     - _Scale: 0
     - _ScatterFactor: 1
     - _Shinness: 51
-    - _Specular: 0.44
+    - _Specular: 1
     - _Wrap: 0.181
     m_Colors:
     - _Base: {r: 0.17017663, g: 1, b: 0, a: 0.65882355}
     - _Diffuse: {r: 0.19511393, g: 0.7830189, b: 0, a: 0.4745098}
-    - _InteriorColor: {r: 0.7075472, g: 0, b: 0.19209407, a: 1}
+    - _InteriorColor: {r: 0.8679245, g: 0, b: 0, a: 1}
     - _ScatterWidth: {r: 14.05, g: 0.02, b: 0, a: 0}
     - _Specular: {r: 1, g: 1, b: 1, a: 1}
-    - _Tint: {r: 1, g: 0.1748634, b: 0, a: 1}
+    - _Tint: {r: 0.7169812, g: 0.12483155, b: 0, a: 1}

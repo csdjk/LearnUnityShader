@@ -35,6 +35,7 @@
             #pragma fragment frag
             // make fog work
             #pragma multi_compile_fog
+            #pragma enable_d3d11_debug_symbols
             
             #include "UnityLightingCommon.cginc" // for _LightColor0
             
@@ -60,7 +61,7 @@
             };
             
             inline float SubsurfaceScattering (float3 viewDir, float3 lightDir, float3 normalDir, 
-                float frontSubsurfaceDistortion, float backSubsurfaceDistortion, float frontSssIntensity)
+            float frontSubsurfaceDistortion, float backSubsurfaceDistortion, float frontSssIntensity)
             {
                 float3 frontLitDir = normalDir * frontSubsurfaceDistortion - lightDir;
                 float3 backLitDir = normalDir * backSubsurfaceDistortion + lightDir;
@@ -116,14 +117,16 @@
                 fixed3 pointLitSssCol;
                 for (int n = 0; n < _CustomPointLitArray; n++)
                 {
-                    float plsValue = saturate(_CustomPointLitRangeList[n] - distance(i.posWorld, _CustomPointLitPosList[n])) / _CustomPointLitRangeList[n];
+                    float rangeValue = _CustomPointLitRangeList[n];
+                    float dis = distance(i.posWorld, _CustomPointLitPosList[n]);
+                    float plsValue =  1 - min(dis / rangeValue,1);
                     pointLitSssValue += plsValue;
                     pointLitSssCol += plsValue * _CustomPointLitColorList[n];
                 }
                 
                 // Directional light SSS
                 float sssValue = SubsurfaceScattering (i.viewDir, i.lightDir, i.normalDir, 
-                    _FrontSubsurfaceDistortion, _BackSubsurfaceDistortion, _FrontSssIntensity);
+                _FrontSubsurfaceDistortion, _BackSubsurfaceDistortion, _FrontSssIntensity);
                 fixed3 sssCol = lerp(_InteriorColor, _LightColor0, saturate(pow(sssValue, _InteriorColorPower))).rgb * sssValue;
                 
                 
@@ -147,11 +150,7 @@
                 fixed3 final = sssCol + diffCol.rgb + specular + rimCol;
                 final += pointLitSssCol ;
                 
-                // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, final);
-                // return fixed4(pointLitSssCol, 1);
-
-                return saturate(_CustomPointLitRangeList[0] - distance(i.posWorld, _CustomPointLitPosList[0])) / _CustomPointLitRangeList[0];
+                return fixed4(final, 1);
             }
             ENDCG
         }

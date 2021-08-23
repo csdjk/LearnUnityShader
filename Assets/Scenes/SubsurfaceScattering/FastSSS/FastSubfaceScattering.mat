@@ -42,7 +42,7 @@ Material:
     - _ScaleFont: 1
     - _group: 1
     m_Colors:
-    - _BaseColor: {r: 0.14685735, g: 0.74509805, b: 0, a: 1}
+    - _BaseColor: {r: 0.2051538, g: 0.7264151, b: 0.0034264945, a: 1}
     - _Diffuse: {r: 1, g: 0.012048194, b: 0, a: 1}
-    - _InteriorColor: {r: 1, g: 0.8078962, b: 0, a: 1}
+    - _InteriorColor: {r: 0.08570394, g: 0.8301887, b: 0, a: 1}
     - _Specular: {r: 1, g: 1, b: 1, a: 1}

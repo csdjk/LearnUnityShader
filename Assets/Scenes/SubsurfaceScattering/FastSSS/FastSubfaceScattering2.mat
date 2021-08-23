@@ -25,24 +25,24 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Distortion: 0.583
-    - _DistortionBack: 1
+    - _DistortionBack: 0.819
     - _DistortionFont: 0
     - _FrontSssIntensity: 0.2
-    - _Gloss: 161.4
-    - _InteriorColorPower: 50
+    - _Gloss: 152
+    - _InteriorColorPower: 5
     - _Power: 2.17
     - _PowerBack: 1
     - _PowerBackFont: 0
     - _PowerFont: 1
     - _RimIntensity: 0.2
-    - _RimPower: 0.1
+    - _RimPower: 0
     - _Scale: 1
     - _ScaleBack: 1
     - _ScaleBackFont: 0
     - _ScaleFont: 1
     - _group: 1
     m_Colors:
-    - _BaseColor: {r: 0.05206957, g: 0.7264151, b: 0, a: 1}
+    - _BaseColor: {r: 0.7176471, g: 0.1254902, b: 0, a: 1}
     - _Diffuse: {r: 0, g: 0.5974078, b: 1, a: 1}
-    - _InteriorColor: {r: 0.1571985, g: 0.8509804, b: 0, a: 1}
+    - _InteriorColor: {r: 0.8679245, g: 0, b: 0, a: 1}
     - _Specular: {r: 1, g: 1, b: 1, a: 1}
