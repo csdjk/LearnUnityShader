@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: ShaderLWGUI
   m_Shader: {fileID: 4800000, guid: f5d7976413e9a6a46a5abee091e69273, type: 3}
-  m_ShaderKeywords: KEY3 _ENABLE_SELFSHADOW _GROUP_ON _HL_NPR _KEYWORD _OUTLINE_ENABLE_ON
-    _RIM_NORMAL _SKIN_MODE
+  m_ShaderKeywords: KEY3 _ENABLE_SELFSHADOW _HL_NPR _KEYWORD _OUTLINE_ENABLE_ON _RIM_NORMAL
+    _SKIN_MODE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -352,7 +352,7 @@ Material:
     - _float: -0.84
     - _float2: 2
     - _float_keyword: 0
-    - _group: 1
+    - _group: 0
     - _group2: 1
     - _powerSlider: 3.1408167
     - _roughness: 0.5

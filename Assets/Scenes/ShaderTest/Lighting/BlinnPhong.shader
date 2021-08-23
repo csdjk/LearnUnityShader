@@ -26,14 +26,15 @@
 				float4 position:SV_POSITION;
 				float3 worldNormal: TEXCOORD0;
 				float3 worldVertex: TEXCOORD1;
-
+				float3 viewDir: TEXCOORD2;
 			};
 
 			v2f vert(a2v v){
 				v2f f;
 				f.position = UnityObjectToClipPos(v.vertex);
 				f.worldNormal = mul(v.normal,(float3x3) unity_WorldToObject);
-				f.worldVertex = mul(v.vertex,unity_WorldToObject).xyz;
+				f.worldVertex = mul(unity_ObjectToWorld, v.vertex).xyz;
+				f.viewDir = normalize(_WorldSpaceCameraPos.xyz - f.worldVertex.xyz);
 				return f;
 			};
 
@@ -46,7 +47,7 @@
 				fixed3 diffuse = _LightColor0.rgb * max(dot(normalDir,lightDir),0) * _Diffuse.rgb;
 				//高光反射
 				fixed3 viewDir = normalize(_WorldSpaceCameraPos.xyz -f.worldVertex );
-				fixed3 halfDir = normalize(lightDir+viewDir);
+				fixed3 halfDir = normalize(lightDir+f.viewDir);
 				fixed3 specular =  _Factor*_LightColor0.rgb * pow(max(0,dot(normalDir,halfDir)),_Gloss) *_Specular;
 				fixed3 tempColor = diffuse+ambient+specular;
 

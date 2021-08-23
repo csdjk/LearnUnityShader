@@ -34,7 +34,7 @@ Shader "lcl/learnShader1/005_Specular_fargment" {
 				v2f f;
 				f.position = UnityObjectToClipPos(v.vertex);
 				f.worldNormal = mul(v.normal,(float3x3) unity_WorldToObject);
-				f.worldVertex = mul(v.vertex,unity_WorldToObject).xyz;
+				f.worldVertex = mul(unity_ObjectToWorld, v.vertex).xyz;
 				return f;
 			};
 
