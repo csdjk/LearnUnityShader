@@ -37,10 +37,10 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering" {
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma multi_compile_fwdbase
+            #pragma enable_d3d11_debug_symbols
 
 			#include "UnityCG.cginc"
 			#include "Lighting.cginc"
-			#include "UnityLightingCommon.cginc"
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;

@@ -133,7 +133,7 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering2" {
 				// float3 rimCol = lerp(_InteriorColor, _LightColor0.rgb, rimValue) * pow(rimValue, _RimPower) * _RimIntensity;  
 		
 				fixed3 resCol = sssCol + diffuse.rgb + specular;
-				return float4(resCol,1);
+				return float4(specular,1);
 			};
 			
 			ENDCG
