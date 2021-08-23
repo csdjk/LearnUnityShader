@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GeometryShader3
-  m_Shader: {fileID: 4800000, guid: 0d77c30e3ea3a634c877bbf2474137ca, type: 3}
+  m_Name: DistanceBasedTessell
+  m_Shader: {fileID: 4800000, guid: 884b12ca74a26214f90246bbfeb2b803, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -18,16 +18,13 @@ Material:
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Floats:
     - _ColorType: 1
-    - _Power: 0
     - _StencilComp: 8
+    - _TessellationFactors: 3.1
     - _TessellationUniform: 1
     m_Colors:
-    - _Color: {r: 0.06568074, g: 1, b: 0, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DistanceRange: {r: 1, g: 100, b: 1, a: 1}
     - _TessellationFactors: {r: 1.09, g: 1, b: 1, a: 16.76}
