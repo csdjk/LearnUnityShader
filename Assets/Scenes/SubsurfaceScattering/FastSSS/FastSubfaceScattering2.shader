@@ -151,50 +151,19 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering2" {
 			#include "UnityCG.cginc"
 			#include "Lighting.cginc"
 			#include "AutoLight.cginc"
-
-			sampler2D _MainTex;
-			float4 _MainTex_ST;
-			fixed4 _BaseColor;
-			half _Gloss;
-			float3 _Specular;
-			float  _RimPower;
-			float _RimIntensity;
-
-			float4 _InteriorColor;
-			float _InteriorColorPower;
-
-			float _DistortionBack;
-			float _PowerBack;
-			float _ScaleBack;
-			
-			float _FrontSssIntensity;
-			float _DistortionFont;
-			float _PowerFont;
-			float _ScaleFont;
-
 			struct a2v {
 				float4 vertex : POSITION;
-				float3 normal: NORMAL;
-				float2 uv : TEXCOORD0;
 			};
 
 			struct v2f{
 				float4 position:SV_POSITION;
-				float2 uv : TEXCOORD0;
-				float3 normalDir: TEXCOORD1;
-				float3 worldPos: TEXCOORD2;
-				float3 viewDir: TEXCOORD3;
-				float3 lightDir: TEXCOORD4;
+				float3 worldPos : TEXCOORD0;
 			};
 
 			v2f vert(a2v v){
 				v2f o;
 				o.position = UnityObjectToClipPos(v.vertex);
-				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.worldPos = mul (unity_ObjectToWorld, v.vertex);
-				o.normalDir = UnityObjectToWorldNormal (v.normal);
-				o.viewDir = normalize(UnityWorldSpaceViewDir(o.worldPos));
-				o.lightDir = normalize(UnityWorldSpaceLightDir(o.worldPos));
 				return o;
 			};
 			

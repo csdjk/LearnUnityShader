@@ -251,11 +251,8 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering" {
 				diffuse = lerp(unlitCol, col, diffuse); 
 
 				// -------------Specular - BlinnPhong-------------
-				// float specularPow = exp2 ((1 - _Gloss) * 10.0 + 1.0);
 				fixed3 halfDir = normalize(lightDir+viewDir);
 				fixed3 specular = _LightColor0.rgb * pow(max(0,dot(normalDir,halfDir)),_Gloss) * _Specular;
-				// fixed3 reflectDir = reflect(-lightDir,normalDir);//反射光
-				// fixed3 specular = _LightColor0.rgb * pow(max(0,dot(viewDir,reflectDir)),_Gloss) *_Specular;
 				
 				// ---------------次表面散射-----------
 				// 背面
@@ -276,7 +273,7 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering" {
 				fixed3 resCol = sssCol + diffuse.rgb + specular + rimCol;
 				
 				// return float4(_LightColor0.rgb*atten*2*sssValue,1);
-				return float4(_LightColor0.rgb * atten,1);
+				return float4(_LightColor0.rgb*resCol * atten,1);
 			};
 			
 			ENDCG
