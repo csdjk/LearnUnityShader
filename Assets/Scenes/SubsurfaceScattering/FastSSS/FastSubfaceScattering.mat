@@ -25,15 +25,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Distortion: 0.864
-    - _DistortionBack: 1
-    - _DistortionFont: 0.248
-    - _FrontSssIntensity: 0.064
-    - _Gloss: 78.1
-    - _InteriorColorPower: 25.5
+    - _DistortionBack: 0.479
+    - _DistortionFont: 0
+    - _FrontSssIntensity: 0.135
+    - _Gloss: 144
+    - _InteriorColorPower: 2.7
     - _Power: 2.17
-    - _PowerBack: 1.05
+    - _PowerBack: 1
     - _PowerBackFont: 5.77
-    - _PowerFont: 0.16
+    - _PowerFont: 1
     - _RimIntensity: 0
     - _RimPower: 0
     - _Scale: 1
@@ -42,7 +42,7 @@ Material:
     - _ScaleFont: 1
     - _group: 1
     m_Colors:
-    - _BaseColor: {r: 0.2051538, g: 0.7264151, b: 0.0034264945, a: 1}
+    - _BaseColor: {r: 0.7176471, g: 0.1254902, b: 0, a: 1}
     - _Diffuse: {r: 1, g: 0.012048194, b: 0, a: 1}
-    - _InteriorColor: {r: 0.08570394, g: 0.8301887, b: 0, a: 1}
+    - _InteriorColor: {r: 0.8679245, g: 0, b: 0, a: 1}
     - _Specular: {r: 1, g: 1, b: 1, a: 1}

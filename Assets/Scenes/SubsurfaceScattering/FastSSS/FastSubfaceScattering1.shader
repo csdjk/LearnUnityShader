@@ -6,9 +6,10 @@
 */
 Shader "lcl/SubsurfaceScattering/FastSubfaceScattering1" {
 	Properties{
-		_Diffuse("Diffuse Color",Color) = (1,1,1,1)
+		_MainTex ("Texture", 2D) = "white" {}
+		_BaseColor("Base Color",Color) = (1,1,1,1)
 		_Specular("_Specular Color",Color) = (1,1,1,1)
-		_Gloss("Gloss",Range(8,200)) = 10
+		[PowerSlider()]_Gloss("Gloss",Range(0,200)) = 10
 
 		[Header(SubsurfaceScattering)]
 		[Main(frontFactor)] _group ("group", float) = 1
@@ -28,6 +29,8 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering1" {
 
 			#pragma vertex vert
 			#pragma fragment frag
+			sampler2D _MainTex;
+			float4 _MainTex_ST;
 			fixed3 _Diffuse;
 			half _Gloss;
 			fixed4 _Specular;
@@ -42,21 +45,26 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering1" {
 			struct a2v {
 				float4 vertex : POSITION;
 				float3 normal: NORMAL;
+				float2 uv : TEXCOORD0;
 			};
 
 			struct v2f{
 				float4 position:SV_POSITION;
-				float3 normalDir: TEXCOORD0;
-				float3 worldVertex: TEXCOORD1;
-				float3 viewDir: TEXCOORD2;
+				float2 uv : TEXCOORD0;
+				float3 normalDir: TEXCOORD1;
+				float3 worldPos: TEXCOORD2;
+				float3 viewDir: TEXCOORD3;
+				float3 lightDir: TEXCOORD4;
 			};
 
 			v2f vert(a2v v){
 				v2f o;
 				o.position = UnityObjectToClipPos(v.vertex);
-				o.worldVertex = mul (unity_ObjectToWorld, v.vertex);
+				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+				o.worldPos = mul (unity_ObjectToWorld, v.vertex);
 				o.normalDir = UnityObjectToWorldNormal (v.normal);
-				o.viewDir = normalize(_WorldSpaceCameraPos.xyz - o.worldVertex.xyz);
+				o.viewDir = UnityWorldSpaceViewDir(o.worldPos);
+				o.lightDir = UnityWorldSpaceLightDir(o.worldPos);
 				return o;
 			};
 			
@@ -79,9 +87,9 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering1" {
 			
 			fixed4 frag(v2f i):SV_TARGET{
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
-				fixed3 normalDir = i.normalDir;
-				fixed3 viewDir = i.viewDir;
-				float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+				fixed3 normalDir = normalize(i.normalDir);
+				fixed3 viewDir = normalize(i.viewDir);
+				float3 lightDir = normalize(i.lightDir);
 				
 				fixed3 diffuse = _LightColor0.rgb * max(dot(normalDir,lightDir),0) * _Diffuse.rgb;
 				// //高光反射

@@ -83,8 +83,8 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering2" {
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.worldPos = mul (unity_ObjectToWorld, v.vertex);
 				o.normalDir = UnityObjectToWorldNormal (v.normal);
-				o.viewDir = normalize(UnityWorldSpaceViewDir(o.worldPos));
-				o.lightDir = normalize(UnityWorldSpaceLightDir(o.worldPos));
+				o.viewDir = UnityWorldSpaceViewDir(o.worldPos);
+				o.lightDir = UnityWorldSpaceLightDir(o.worldPos);
 				return o;
 			};
 			
@@ -101,11 +101,9 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering2" {
 			fixed4 frag(v2f i): SV_TARGET{
 				fixed4 col = tex2D(_MainTex, i.uv) * _BaseColor;
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
-				fixed3 normalDir = i.normalDir;
-				// fixed3 viewDir = i.viewDir;
-				// float3 lightDir = i.lightDir;
-				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
-				float3 lightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
+				fixed3 normalDir = normalize(i.normalDir);
+				fixed3 viewDir = normalize(i.viewDir);
+				float3 lightDir = normalize(i.lightDir);
 				// -------------Diffuse1-------------
 				// fixed3 diffuse = _LightColor0.rgb * max(dot(normalDir,lightDir),0.3);
 				// diffuse *= col * _InteriorColor;
