@@ -1,5 +1,5 @@
 /*
-* @Descripttion: 次表面散射 - part2
+* @Descripttion: 次表面散射 - part2 多个pass渲染 ForwardAdd 渲染点光源
 * @Author: lichanglong
 * @Date: 2021-08-20 18:21:10
  * @FilePath: \LearnUnityShader\Assets\Scenes\SubsurfaceScattering\FastSSS\FastSubfaceScattering2.shader
