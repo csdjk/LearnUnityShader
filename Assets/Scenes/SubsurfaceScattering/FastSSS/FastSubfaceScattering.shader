@@ -37,7 +37,7 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering" {
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma multi_compile_fwdbase
-            #pragma enable_d3d11_debug_symbols
+			// #pragma enable_d3d11_debug_symbols
 
 			#include "UnityCG.cginc"
 			#include "Lighting.cginc"
@@ -83,10 +83,8 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering" {
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.worldPos = mul (unity_ObjectToWorld, v.vertex);
 				o.normalDir = UnityObjectToWorldNormal (v.normal);
-				o.viewDir = normalize(UnityWorldSpaceViewDir(o.worldPos));
-				// o.viewDir = normalize(_WorldSpaceCameraPos.xyz - o.worldPos.xyz);
-				o.lightDir = normalize(UnityWorldSpaceLightDir(o.worldPos));
-
+				o.viewDir = UnityWorldSpaceViewDir(o.worldPos);
+				o.lightDir = UnityWorldSpaceLightDir(o.worldPos);
 				return o;
 			};
 			
@@ -103,9 +101,9 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering" {
 			fixed4 frag(v2f i): SV_TARGET{
 				fixed4 col = tex2D(_MainTex, i.uv) * _BaseColor;
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
-				fixed3 normalDir = i.normalDir;
-				fixed3 viewDir = i.viewDir;
-				float3 lightDir = i.lightDir;
+				fixed3 normalDir = normalize(i.normalDir);
+				fixed3 viewDir = normalize(i.viewDir);
+				float3 lightDir = normalize(i.lightDir);
 
 				// fixed3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos );
 
@@ -135,9 +133,9 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering" {
 
 
 				// ---------------Rim---------------
-				float rim = 1.0 - max(0, dot(normalDir, viewDir));
-				float rimValue = lerp(rim, 0, sssValue);
-				float3 rimCol = lerp(_InteriorColor, _LightColor0.rgb, rimValue) * pow(rimValue, _RimPower) * _RimIntensity;  
+				// float rim = 1.0 - max(0, dot(normalDir, viewDir));
+				// float rimValue = lerp(rim, 0, sssValue);
+				// float3 rimCol = lerp(_InteriorColor, _LightColor0.rgb, rimValue) * pow(rimValue, _RimPower) * _RimIntensity;  
 				
 				// 点光源
 				float3 pointLightPos = float3(unity_4LightPosX0[0],unity_4LightPosY0[0],unity_4LightPosZ0[0]);
@@ -146,14 +144,12 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering" {
 				// UNITY_LIGHT_ATTENUATION(attenuation, 0, i.worldPos);
 
 
-				float3 pL = Shade4PointLights(unity_4LightPosX0, unity_4LightPosY0, unity_4LightPosZ0,
-				unity_LightColor[0].rgb, unity_LightColor[1].rgb, unity_LightColor[2].rgb, unity_LightColor[3].rgb,
-				unity_4LightAtten0,
-				i.worldPos, normalDir);
-				// pL = lerp()
+				// float3 pL = Shade4PointLights(unity_4LightPosX0, unity_4LightPosY0, unity_4LightPosZ0,
+				// unity_LightColor[0].rgb, unity_LightColor[1].rgb, unity_LightColor[2].rgb, unity_LightColor[3].rgb,
+				// unity_4LightAtten0,
+				// i.worldPos, normalDir);
 
-				fixed3 resCol = sssCol + diffuse.rgb + specular + rimCol + pL*sssValue;
-				
+				fixed3 resCol = sssCol + diffuse.rgb + specular ;
 				return float4(resCol,1);
 				// return float4(sssCol+diffuse,1);
 				// return float4(pL*sssValue,1);
@@ -219,8 +215,8 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering" {
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.worldPos = mul (unity_ObjectToWorld, v.vertex);
 				o.normalDir = UnityObjectToWorldNormal (v.normal);
-				o.viewDir = normalize(UnityWorldSpaceViewDir(o.worldPos));
-				o.lightDir = normalize(UnityWorldSpaceLightDir(o.worldPos));
+				o.viewDir = UnityWorldSpaceViewDir(o.worldPos);
+				o.lightDir = UnityWorldSpaceLightDir(o.worldPos);
 				return o;
 			};
 			
@@ -237,9 +233,9 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering" {
 			fixed4 frag(v2f i): SV_TARGET{
 				fixed4 col = tex2D(_MainTex, i.uv) * _BaseColor;
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
-				fixed3 normalDir = i.normalDir;
-				fixed3 viewDir = i.viewDir;
-				float3 lightDir = i.lightDir;
+				fixed3 normalDir = normalize(i.normalDir);
+				fixed3 viewDir = normalize(i.viewDir);
+				float3 lightDir = normalize(i.lightDir);
 
 				// -------------Diffuse1-------------
 				// fixed3 diffuse = _LightColor0.rgb * max(dot(normalDir,lightDir),0.3);
@@ -263,17 +259,15 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering" {
 				fixed3 sssCol = lerp(_InteriorColor, _LightColor0, saturate(pow(sssValue, _InteriorColorPower))).rgb * sssValue;
 
 				// ---------------Rim---------------
-				float rim = 1.0 - max(0, dot(normalDir, viewDir));
-				float rimValue = lerp(rim, 0, sssValue);
-				float3 rimCol = lerp(_InteriorColor, _LightColor0.rgb, rimValue) * pow(rimValue, _RimPower) * _RimIntensity;  
+				// float rim = 1.0 - max(0, dot(normalDir, viewDir));
+				// float rimValue = lerp(rim, 0, sssValue);
+				// float3 rimCol = lerp(_InteriorColor, _LightColor0.rgb, rimValue) * pow(rimValue, _RimPower) * _RimIntensity;  
 				
 				// 衰减
 				UNITY_LIGHT_ATTENUATION(atten, 0, i.worldPos);
 
-				fixed3 resCol = sssCol + diffuse.rgb + specular + rimCol;
-				
-				// return float4(_LightColor0.rgb*atten*2*sssValue,1);
-				return float4(_LightColor0.rgb*resCol * atten,1);
+				fixed3 resCol = sssCol + diffuse.rgb + specular;
+				return float4(_LightColor0.rgb * resCol * atten,1);
 			};
 			
 			ENDCG

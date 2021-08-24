@@ -30,24 +30,24 @@
 			};
 
 			v2f vert(a2v v){
-				v2f f;
-				f.position = UnityObjectToClipPos(v.vertex);
-				f.worldNormal = mul(v.normal,(float3x3) unity_WorldToObject);
-				f.worldVertex = mul(unity_ObjectToWorld, v.vertex).xyz;
-				f.viewDir = normalize(_WorldSpaceCameraPos.xyz - f.worldVertex.xyz);
-				return f;
+				v2f o;
+				o.position = UnityObjectToClipPos(v.vertex);
+				o.worldNormal = mul(v.normal,(float3x3) unity_WorldToObject);
+				o.worldVertex = mul(unity_ObjectToWorld, v.vertex).xyz;
+				o.viewDir = normalize(_WorldSpaceCameraPos.xyz - o.worldVertex.xyz);
+				return o;
 			};
 
 
-			fixed4 frag(v2f f):SV_TARGET{
+			fixed4 frag(v2f i):SV_TARGET{
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
 
-				fixed3 normalDir = normalize(f.worldNormal);
+				fixed3 normalDir = normalize(i.worldNormal);
 				fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 				fixed3 diffuse = _LightColor0.rgb * max(dot(normalDir,lightDir),0) * _Diffuse.rgb;
 				//高光反射
-				fixed3 viewDir = normalize(_WorldSpaceCameraPos.xyz -f.worldVertex );
-				fixed3 halfDir = normalize(lightDir+f.viewDir);
+				fixed3 viewDir = normalize(_WorldSpaceCameraPos.xyz -i.worldVertex );
+				fixed3 halfDir = normalize(lightDir+i.viewDir);
 				fixed3 specular =  _Factor*_LightColor0.rgb * pow(max(0,dot(normalDir,halfDir)),_Gloss) *_Specular;
 				fixed3 tempColor = diffuse+ambient+specular;
 
