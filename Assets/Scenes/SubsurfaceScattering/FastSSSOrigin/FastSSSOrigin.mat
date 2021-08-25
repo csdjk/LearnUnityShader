@@ -30,14 +30,14 @@ Material:
     m_Floats:
     - _Ambient: 1.57
     - _BackAttenuation: 2.84
-    - _BackPower: 2.42
-    - _BackScale: 1
-    - _Distortion: 1.19
-    - _FrontAttenuation: 1
-    - _FrontPower: 1
-    - _FrontRange: 1
-    - _FrontScale: 2
-    - _Glossiness: 0.91
-    - _Metallic: 0.214
+    - _BackPower: 2.73
+    - _BackScale: 0.94
+    - _Distortion: 1.26
+    - _FrontAttenuation: 2.48
+    - _FrontPower: 0.9
+    - _FrontRange: 3.43
+    - _FrontScale: 1.07
+    - _Glossiness: 0.393
+    - _Metallic: 0
     m_Colors:
     - _Color: {r: 1, g: 0.06132078, b: 0.06132078, a: 1}
