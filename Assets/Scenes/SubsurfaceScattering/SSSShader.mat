@@ -20,11 +20,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 13a8cca93c9a06b49a1414239d7012ab, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 5, y: 5}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 2800000, guid: 73985ad536ee62b44a27b233862d4db9, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 5, y: 5}
         m_Offset: {x: 0, y: 0}
     - _ThicknessMap:
@@ -37,7 +37,7 @@ Material:
     - _DistortionFont: 0
     - _FrontSssIntensity: 0.2
     - _Gloss: 60.7
-    - _Glossiness: 1
+    - _Glossiness: 0.863
     - _InteriorColorPower: 0
     - _Metallic: 0
     - _Power: 0

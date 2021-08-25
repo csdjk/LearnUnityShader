@@ -30,8 +30,8 @@ Material:
     m_Floats:
     - _BackSubsurfaceDistortion: 0.644
     - _Distortion: 0
-    - _FrontSssIntensity: 0.151
-    - _FrontSubsurfaceDistortion: 0.482
+    - _FrontSssIntensity: 0.112
+    - _FrontSubsurfaceDistortion: 0.9
     - _Gloss: 0
     - _InteriorColorPower: 5
     - _Power: 0
