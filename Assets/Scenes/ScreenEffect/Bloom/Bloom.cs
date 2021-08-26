@@ -50,7 +50,7 @@ public class Bloom : PostEffectsBase
             RenderTexture texture2 = RenderTexture.GetTemporary(rtW, rtH, 0);
             // 亮度提取
             material.SetFloat("_LuminanceThreshold", luminanceThreshold);
-            
+
             Graphics.Blit(source, texture1, material, 0);
 
             // 高斯模糊
@@ -67,6 +67,9 @@ public class Bloom : PostEffectsBase
             material.SetColor("_BloomColor", bloomColor);
             material.SetTexture("_BlurTex", texture1);
             Graphics.Blit(source, destination, material, 2);
+
+            RenderTexture.ReleaseTemporary(texture1);
+            RenderTexture.ReleaseTemporary(texture2);
         }
     }
 }
