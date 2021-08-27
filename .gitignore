@@ -31,3 +31,776 @@ sysinfo.txt
 .vscode/
 ProjectSettings/ProjectSettings.asset
 ProjectSettings/ProjectVersionPrevious.txt
+Assets/VacuumShaders.meta
+Assets/VacuumShaders/Editor.meta
+Assets/VacuumShaders/Mesh Materializer.meta
+Assets/VacuumShaders/Terrain To Mesh.meta
+Assets/VacuumShaders/Vertex Color Shaders.meta
+Assets/VacuumShaders/Editor/VacuumShaders.dll
+Assets/VacuumShaders/Editor/VacuumShaders.dll.meta
+Assets/VacuumShaders/Mesh Materializer/Doc.meta
+Assets/VacuumShaders/Mesh Materializer/Editor.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes.meta
+Assets/VacuumShaders/Mesh Materializer/Scripts.meta
+Assets/VacuumShaders/Mesh Materializer/Shaders.meta
+Assets/VacuumShaders/Mesh Materializer/Doc/API.pdf
+Assets/VacuumShaders/Mesh Materializer/Doc/API.pdf.meta
+Assets/VacuumShaders/Mesh Materializer/Doc/ReadMe.pdf
+Assets/VacuumShaders/Mesh Materializer/Doc/ReadMe.pdf.meta
+Assets/VacuumShaders/Mesh Materializer/Editor/VacuumShaders.MeshMaterializer_Editor.dll
+Assets/VacuumShaders/Mesh Materializer/Editor/VacuumShaders.MeshMaterializer_Editor.dll.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/1. Terrain To Mesh.unity
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/1. Terrain To Mesh.unity.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/10. Runtime (color adjustments).unity
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/10. Runtime (color adjustments).unity.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/11. Runtime terrain OBJ exporter.unity
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/11. Runtime terrain OBJ exporter.unity.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Faceted (low poly) effect.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Faceted (low poly) effect.unity
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Faceted (low poly) effect.unity.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap.unity
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap.unity.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/3. PalmTrees.unity
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/3. PalmTrees.unity.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/5. Runtime.unity
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/5. Runtime.unity.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/6. Runtime (mesh combine).unity
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/6. Runtime (mesh combine).unity.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/7. Runtime (terrain to mesh).unity
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/7. Runtime (terrain to mesh).unity.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/8. Runtime (faceted terrain).unity
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/8. Runtime (faceted terrain).unity.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/9. SpeedTree.unity
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/9. SpeedTree.unity.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Faceted (low poly) effect/LightingData.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Faceted (low poly) effect/LightingData.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Faceted (low poly) effect/ReflectionProbe-0.exr
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Faceted (low poly) effect/ReflectionProbe-0.exr.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/LightingData.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/LightingData.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-0_comp_dir.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-0_comp_dir.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-0_comp_light.exr
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-0_comp_light.exr.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-1_comp_dir.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-1_comp_dir.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-1_comp_light.exr
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-1_comp_light.exr.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-2_comp_dir.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-2_comp_dir.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-2_comp_light.exr
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-2_comp_light.exr.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-3_comp_dir.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-3_comp_dir.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-3_comp_light.exr
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-3_comp_light.exr.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-4_comp_dir.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-4_comp_dir.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-4_comp_light.exr
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-4_comp_light.exr.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-5_comp_dir.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-5_comp_dir.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-5_comp_light.exr
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/Lightmap-5_comp_light.exr.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/ReflectionProbe-0.exr
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/2. Lightmap/ReflectionProbe-0.exr.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/CaveWorm.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Scripts.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/MM.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/Models.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/Textures.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/MM/MM_angelStatue.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/MM/MM_angelStatue.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/MM/MM_angelStatue.prefab
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/MM/MM_angelStatue.prefab.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/MM/MM_angelStatue_mesh.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/MM/MM_angelStatue_mesh.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/Models/angelStatue.fbx
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/Models/angelStatue.fbx.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/Models/Materials.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/Models/Materials/angelStatue.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/Models/Materials/angelStatue.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/Textures/angelStatue.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/angelStatue/Textures/angelStatue.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/Cart.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/MM.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/Cart/Cart.FBX
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/Cart/Cart.FBX.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/Cart/Cart_DIffuse.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/Cart/Cart_DIffuse.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/Cart/Materials.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/Cart/Materials/Cart_DIffuse.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/Cart/Materials/Cart_DIffuse.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/MM/MM_Cart.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/MM/MM_Cart.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/MM/MM_Cart.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/MM/MM_Cart.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/MM/MM_Cart.prefab
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/AxeandCart/MM/MM_Cart.prefab.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/MM.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Textures.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/MM/Baker_house_Combined.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/MM/Baker_house_Combined.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/MM/Baker_house_Lightmap_Only.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/MM/Baker_house_Lightmap_Only.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/MM/Baker_house_Lightmap_Texture.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/MM/Baker_house_Lightmap_Texture.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/MM/Baker_house_Texture_Only.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/MM/Baker_house_Texture_Only.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/MM/Baker_house_VertexColor.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/MM/Baker_house_VertexColor.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Baker_house.FBX
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Baker_house.FBX.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Barrel.FBX
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Barrel.FBX.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Materials.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Pine_tree.FBX
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Pine_tree.FBX.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Materials/Baker_house.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Materials/Baker_house.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Materials/Barrel.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Materials/Barrel.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Materials/Ground.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Materials/Ground.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Materials/Pine_tree.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Models/Materials/Pine_tree.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Textures/Baker_house.tif
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Textures/Baker_house.tif.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Textures/Barrel.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Textures/Barrel.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Textures/Ground.jpg
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Textures/Ground.jpg.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Textures/Pine_tree_texture.tif
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Baker House/Textures/Pine_tree_texture.tif.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/CaveWorm/Models.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/CaveWorm/Textures.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/CaveWorm/Models/CaveWorm_anim.fbx
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/CaveWorm/Models/CaveWorm_anim.fbx.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/CaveWorm/Models/CaveWorm_Diffuse.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/CaveWorm/Models/CaveWorm_Diffuse.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/CaveWorm/Textures/Diffuse.psd
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/CaveWorm/Textures/Diffuse.psd.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop.spm
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop.spm.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop_Atlas.tga
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop_Atlas.tga.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop_Atlas_Billboards.tga
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop_Atlas_Billboards.tga.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop_Atlas_Billboards_Normal.tga
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop_Atlas_Billboards_Normal.tga.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop_Atlas_Normal.tga
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop_Atlas_Normal.tga.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop_Atlas_Specular.tga
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop_Atlas_Specular.tga.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/BroadleafBark.tga
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/BroadleafBark.tga.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/BroadleafBark_Normal.tga
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/BroadleafBark_Normal.tga.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/Billboard.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/Billboard.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD0.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD1.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD2.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD0/Branches_0.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD0/Branches_0.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD0/Branches_1.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD0/Branches_1.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD0/FacingLeaves_4.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD0/FacingLeaves_4.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD0/Fronds_2.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD0/Fronds_2.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD0/Leaves_3.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD0/Leaves_3.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD1/Branches_0.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD1/Branches_0.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD1/Branches_1.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD1/Branches_1.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD1/FacingLeaves_4.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD1/FacingLeaves_4.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD1/Fronds_2.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD1/Fronds_2.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD1/Leaves_3.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD1/Leaves_3.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD2/Branches_0.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD2/Branches_0.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD2/Branches_1.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD2/Branches_1.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD2/FacingLeaves_4.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD2/FacingLeaves_4.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD2/Fronds_2.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD2/Fronds_2.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD2/Leaves_3.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/Broadleaf_Desktop Materials/LOD2/Leaves_3.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/Branches_0.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/Branches_0.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/Branches_1.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/Branches_1.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/FacingLeaves_4.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/FacingLeaves_4.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/Fronds_2.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/Fronds_2.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/Leaves_3.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/Leaves_3.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/MM_Broadleaf_Desktop.prefab
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/MM_Broadleaf_Desktop.prefab.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/MM_Broadleaf_Desktop_LOD0.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/MM_Broadleaf_Desktop_LOD0.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/MM_Broadleaf_Desktop_LOD1.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/MM_Broadleaf_Desktop_LOD1.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/MM_Broadleaf_Desktop_LOD2.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Free_SpeedTrees/MM_Broadleaf_Desktop/MM_Broadleaf_Desktop_LOD2.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/MM.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Model.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Texture.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/MM/MM_Horse.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/MM/MM_Horse.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/MM/MM_Horse.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/MM/MM_Horse.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/MM/MM_Horse.prefab
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/MM/MM_Horse.prefab.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Model/Horse.fbm.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Model/Horse.FBX
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Model/Horse.FBX.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Model/Horse_Animator.controller
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Model/Horse_Animator.controller.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Model/Horse_Run.fbx
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Model/Horse_Run.fbx.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Model/Materials.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Model/Horse.fbm/Horse_D.psd
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Model/Horse.fbm/Horse_D.psd.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Model/Materials/Horse.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Model/Materials/Horse.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Texture/Horse_D.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Horse/Texture/Horse_D.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/MM.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/Models.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/Texture.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/MM/MM_Lion.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/MM/MM_Lion.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/MM/MM_Lion.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/MM/MM_Lion.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/MM/MM_Lion.prefab
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/MM/MM_Lion.prefab.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/Models/Lion.FBX
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/Models/Lion.FBX.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/Models/Lion@Li_Walk.FBX
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/Models/Lion@Li_Walk.FBX.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/Models/Lion_Animator.controller
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/Models/Lion_Animator.controller.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/Models/Materials.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/Models/Materials/Lion.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/Models/Materials/Lion.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/Texture/Lion.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Lion/Texture/Lion.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Models.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Textures.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/Plane.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/Plane.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/Plane_Displace.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/Plane_Displace.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/Unlit_Shadows.shader
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/Unlit_Shadows.shader.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/VertexColor_Legacy.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/VertexColor_Legacy.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/VertexColor_ODL.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/VertexColor_ODL.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/VertexColor_ODL_Texture.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/VertexColor_ODL_Texture.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/VertexColor_Standard.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/VertexColor_Standard.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/VertexColor_Unlit.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Materials/VertexColor_Unlit.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Models/plane_100x100.FBX
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Models/plane_100x100.FBX.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Textures/C.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Textures/C.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Textures/heightmap.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Textures/heightmap.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Textures/ibl_daylight.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Textures/ibl_daylight.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Textures/ibl_night.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Textures/ibl_night.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Textures/ibl_sunset.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Other/Textures/ibl_sunset.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/MM.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Models.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Textures.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/MM/MM_Rock and Trees.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/MM/MM_Rock and Trees.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/MM/MM_Rock and Trees.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/MM/MM_Rock and Trees.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/MM/MM_Rock and Trees.prefab
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/MM/MM_Rock and Trees.prefab.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Models/Materials.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Models/PoO_FantasyTree.fbx
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Models/PoO_FantasyTree.fbx.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Models/Rock and Trees.prefab
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Models/Rock and Trees.prefab.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Models/RockBig.fbx
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Models/RockBig.fbx.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Models/Materials/PoO_FantasyTree.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Models/Materials/PoO_FantasyTree.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Models/Materials/RockBig.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Models/Materials/RockBig.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Textures/sd_PoO_FantasyTree_Diffuse.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Textures/sd_PoO_FantasyTree_Diffuse.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Textures/sd_PoO_FantasyTree_Normal.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Textures/sd_PoO_FantasyTree_Normal.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Textures/sd_PoO_Rock_Diffuse.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Textures/sd_PoO_Rock_Diffuse.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Textures/sd_PoO_Rock_Normal.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palace of Orinthalian/Textures/sd_PoO_Rock_Normal.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/Models.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/Textures.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_AO.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_AO.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_Final.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_Final.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_Final_(Randomize_1).asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_Final_(Randomize_1).asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_Final_(Randomize_2).asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_Final_(Randomize_2).asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_Final_(Randomize_3).asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_Final_(Randomize_3).asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_Final_(Randomize_4).asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_Final_(Randomize_4).asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_IBL.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_IBL.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_T.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/MM/MM_Plam_Tree_T.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/Models/Palm Tree.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/Models/Palm Tree.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/Models/Plam_Tree.FBX
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/Models/Plam_Tree.FBX.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/Textures/Palm_D.tga
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Palm Trees/Textures/Palm_D.tga.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/MM.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/Models.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/Textures.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/MM/MM_SciFi_Fighter_AK5.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/MM/MM_SciFi_Fighter_AK5.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/MM/MM_SciFi_Fighter_AK5.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/MM/MM_SciFi_Fighter_AK5.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/MM/MM_SciFi_Fighter_AK5.prefab
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/MM/MM_SciFi_Fighter_AK5.prefab.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/Models/Materials.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/Models/SciFi_Fighter_AK5.FBX
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/Models/SciFi_Fighter_AK5.FBX.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/Models/Materials/SciFi_Fighter_AK5-diffuse.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/Models/Materials/SciFi_Fighter_AK5-diffuse.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/Textures/SciFi_Fighter_AK5-diffuse.jpg
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/SciFi_Fighter_AK5/Textures/SciFi_Fighter_AK5-diffuse.jpg.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Scripts/Runtime.cs
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Scripts/Runtime.cs.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Scripts/Runtime_ColorAdjustments.cs
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Scripts/Runtime_ColorAdjustments.cs.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Scripts/Runtime_FacetedTerrain.cs
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Scripts/Runtime_FacetedTerrain.cs.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Scripts/Runtime_MeshCombine.cs
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Scripts/Runtime_MeshCombine.cs.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Scripts/Runtime_OBJExporter.cs
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Scripts/Runtime_OBJExporter.cs.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Scripts/Runtime_TerrainToMesh.cs
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Scripts/Runtime_TerrainToMesh.cs.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/MM.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Textures.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/MM/MM_Bike.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/MM/MM_Bike.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/MM/MM_Bike.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/MM/MM_Bike.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/MM/MM_Bike.prefab
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/MM/MM_Bike.prefab.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Bike.prefab
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Bike.prefab.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/bike_ural_body.FBX
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/bike_ural_body.FBX.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/bike_ural_lulka.FBX
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/bike_ural_lulka.FBX.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Materials.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Materials/02___Default.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Materials/02___Default.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Materials/bike_body.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Materials/bike_body.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Materials/bike_front.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Materials/bike_front.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Materials/bike_glass.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Materials/bike_glass.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Materials/bike_lulka.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Materials/bike_lulka.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Materials/bike_whell.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Models/Materials/bike_whell.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Textures/body_D.jpg
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Textures/body_D.jpg.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Textures/front_D.jpg
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Textures/front_D.jpg.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Textures/lulka_D.jpg
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Textures/lulka_D.jpg.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Textures/Whell_D3.jpg
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Survival_Kit_1/Textures/Whell_D3.jpg.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Grass.terrainlayer
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Grass.terrainlayer.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/MM.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Rock.terrainlayer
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Rock.terrainlayer.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Sand.terrainlayer
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Sand.terrainlayer.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Snow.terrainlayer
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Snow.terrainlayer.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/SnowTerrain.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/SnowTerrain.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/MM/SnowTerrain.mat
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/MM/SnowTerrain.mat.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/MM/SnowTerrain_100x100.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/MM/SnowTerrain_100x100.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/MM/SnowTerrain_250x250.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/MM/SnowTerrain_250x250.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/MM/SnowTerrain_25x25.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/MM/SnowTerrain_25x25.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/MM/SnowTerrain_5x5.asset
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/MM/SnowTerrain_5x5.asset.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/MM/SnowTerrain_SplatAlpha 0.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/MM/SnowTerrain_SplatAlpha 0.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/grass.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/grass.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/grass_N.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/grass_N.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/rock.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/rock.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/rock_N.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/rock_N.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/sand.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/sand.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/sand_N.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/sand_N.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/snow.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/snow.png.meta
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/snow_N.png
+Assets/VacuumShaders/Mesh Materializer/Example Scenes/Files/Terrain To Mesh/Textures/snow_N.png.meta
+Assets/VacuumShaders/Mesh Materializer/Scripts/VacuumShaders.MeshMaterializer.dll
+Assets/VacuumShaders/Mesh Materializer/Scripts/VacuumShaders.MeshMaterializer.dll.meta
+Assets/VacuumShaders/Mesh Materializer/Shaders/Blur.shader
+Assets/VacuumShaders/Mesh Materializer/Shaders/Blur.shader.meta
+Assets/VacuumShaders/Mesh Materializer/Shaders/Dummy.shader
+Assets/VacuumShaders/Mesh Materializer/Shaders/Dummy.shader.meta
+Assets/VacuumShaders/Mesh Materializer/Shaders/Mesh Thickness Baker.shader
+Assets/VacuumShaders/Mesh Materializer/Shaders/Mesh Thickness Baker.shader.meta
+Assets/VacuumShaders/Mesh Materializer/Shaders/Offset.shader
+Assets/VacuumShaders/Mesh Materializer/Shaders/Offset.shader.meta
+Assets/VacuumShaders/Mesh Materializer/Shaders/Per-Vertex Ambient Occlusion.shader
+Assets/VacuumShaders/Mesh Materializer/Shaders/Per-Vertex Ambient Occlusion.shader.meta
+Assets/VacuumShaders/Mesh Materializer/Shaders/UV.shader
+Assets/VacuumShaders/Mesh Materializer/Shaders/UV.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Packages.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders.meta
+Assets/VacuumShaders/Terrain To Mesh/Packages/ReadMe.txt
+Assets/VacuumShaders/Terrain To Mesh/Packages/ReadMe.txt.meta
+Assets/VacuumShaders/Terrain To Mesh/Packages/Shaders (Curved World).unitypackage.meta
+Assets/VacuumShaders/Terrain To Mesh/Packages/Shaders (Default).unitypackage.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Basemap.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/cginc.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/SRP.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Basemap/Basemap.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Basemap/Basemap.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/cginc/T2M_Deferred.cginc
+Assets/VacuumShaders/Terrain To Mesh/Shaders/cginc/T2M_Deferred.cginc.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/cginc/T2M_ODL.cginc
+Assets/VacuumShaders/Terrain To Mesh/Shaders/cginc/T2M_ODL.cginc.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/cginc/T2M_Unlit.cginc
+Assets/VacuumShaders/Terrain To Mesh/Shaders/cginc/T2M_Unlit.cginc.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/cginc/T2M_Variables.cginc
+Assets/VacuumShaders/Terrain To Mesh/Shaders/cginc/T2M_Variables.cginc.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Bumped_2.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Bumped_2.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Bumped_3.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Bumped_3.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Bumped_4.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Bumped_4.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/BumpedSpecular_2.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/BumpedSpecular_2.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/BumpedSpecular_3.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/BumpedSpecular_3.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/BumpedSpecular_4.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/BumpedSpecular_4.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Diffuse_2.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Diffuse_2.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Diffuse_3.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Diffuse_3.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Diffuse_4.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Diffuse_4.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Diffuse_5.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Diffuse_5.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Diffuse_6.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Diffuse_6.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Diffuse_7.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Diffuse_7.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Diffuse_8.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Legacy Shaders/Diffuse_8.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Bumped_2.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Bumped_2.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Bumped_3.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Bumped_3.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Bumped_4.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Bumped_4.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Diffuse_2.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Diffuse_2.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Diffuse_3.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Diffuse_3.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Diffuse_4.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Diffuse_4.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Diffuse_5.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Diffuse_5.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Diffuse_6.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Diffuse_6.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Diffuse_7.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Diffuse_7.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Diffuse_8.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/One Directional Light/Diffuse_8.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/SRP/SRP Default.shadergraph
+Assets/VacuumShaders/Terrain To Mesh/Shaders/SRP/SRP Default.shadergraph.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Bumped_2.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Bumped_2.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Bumped_3.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Bumped_3.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Bumped_4.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Bumped_4.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Diffuse_2.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Diffuse_2.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Diffuse_3.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Diffuse_3.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Diffuse_4.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Diffuse_4.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Diffuse_5.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Diffuse_5.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Diffuse_6.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Diffuse_6.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Diffuse_7.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Diffuse_7.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Diffuse_8.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Standard/Diffuse_8.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit/Unlit_2.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit/Unlit_2.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit/Unlit_3.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit/Unlit_3.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit/Unlit_4.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit/Unlit_4.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit/Unlit_5.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit/Unlit_5.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit/Unlit_6.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit/Unlit_6.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit/Unlit_7.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit/Unlit_7.shader.meta
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit/Unlit_8.shader
+Assets/VacuumShaders/Terrain To Mesh/Shaders/Unlit/Unlit_8.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Editor.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders.meta
+Assets/VacuumShaders/Vertex Color Shaders/Editor/VacuumShaders.VertexColorShaders.dll
+Assets/VacuumShaders/Vertex Color Shaders/Editor/VacuumShaders.VertexColorShaders.dll.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/cginc.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Resources.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Scriptable Render Pipeline.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/SpeedTree.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/cginc/VertexColor_ForwardBase.cginc
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/cginc/VertexColor_ForwardBase.cginc.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/cginc/VertexColor_PBR.cginc
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/cginc/VertexColor_PBR.cginc.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/cginc/VertexColor_Shadow.cginc
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/cginc/VertexColor_Shadow.cginc.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/cginc/VertexColor_SpeedTreeCommon.cginc
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/cginc/VertexColor_SpeedTreeCommon.cginc.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/cginc/VertexColor_Unlit.cginc
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/cginc/VertexColor_Unlit.cginc.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/cginc/VertexColor_VertexLit.cginc
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/cginc/VertexColor_VertexLit.cginc.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Alpha-Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Alpha-Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Alpha-BumpSpec.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Alpha-BumpSpec.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Alpha-Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Alpha-Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Alpha-Glossy.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Alpha-Glossy.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Alpha-Parallax.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Alpha-Parallax.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Alpha-ParallaxSpec.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Alpha-ParallaxSpec.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/AlphaTest-Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/AlphaTest-Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/AlphaTest-BumpSpec.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/AlphaTest-BumpSpec.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/AlphaTest-Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/AlphaTest-Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/AlphaTest-Glossy.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/AlphaTest-Glossy.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Illumin-Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Illumin-Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Illumin-BumpSpec.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Illumin-BumpSpec.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Illumin-Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Illumin-Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Illumin-Glossy.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Illumin-Glossy.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Illumin-Parallax.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Illumin-Parallax.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Illumin-ParallaxSpec.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Illumin-ParallaxSpec.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-BumpSpec.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-BumpSpec.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-DiffuseDecal.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-DiffuseDecal.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-DiffuseDetail.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-DiffuseDetail.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-Glossy.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-Glossy.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-Parallax.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-Parallax.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-ParallaxSpec.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Normal-ParallaxSpec.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Reflect-Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Reflect-Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Reflect-BumpSpec.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Reflect-BumpSpec.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Reflect-Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Reflect-Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Reflect-Glossy.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Reflect-Glossy.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Reflect-Parallax.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Reflect-Parallax.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Reflect-ParallaxSpec.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Legacy Shaders/Reflect-ParallaxSpec.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Bumped Specular.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Bumped Specular.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout 2Sided Bumped Specular.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout 2Sided Bumped Specular.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout 2Sided Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout 2Sided Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout 2Sided Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout 2Sided Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout 2Sided Specular.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout 2Sided Specular.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout Simple Bumped Specular.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout Simple Bumped Specular.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout Simple Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout Simple Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout Simple Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout Simple Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout Simple Specular.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Cutout Simple Specular.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Specular.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Specular.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent 2Sided Bumped Specular.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent 2Sided Bumped Specular.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent 2Sided Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent 2Sided Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent 2Sided Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent 2Sided Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent 2Sided Specular.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent 2Sided Specular.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent Simple Bumped Specular.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent Simple Bumped Specular.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent Simple Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent Simple Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent Simple Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent Simple Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent Simple Specular.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent Simple Specular.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent ZWrite Bumped Specular.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent ZWrite Bumped Specular.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent ZWrite Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent ZWrite Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent ZWrite Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent ZWrite Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent ZWrite Specular.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/One Directional Light/Transparent ZWrite Specular.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Cutout 2Sided Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Cutout 2Sided Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Cutout 2Sided Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Cutout 2Sided Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Cutout Simple Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Cutout Simple Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Cutout Simple Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Cutout Simple Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Transparent 2Sided Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Transparent 2Sided Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Transparent 2Sided Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Transparent 2Sided Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Transparent Simple Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Transparent Simple Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Transparent Simple Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Transparent Simple Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Transparent ZWrite Bumped.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Transparent ZWrite Bumped.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Transparent ZWrite Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/PBR/Transparent ZWrite Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Resources/Cutout.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Resources/Cutout.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Resources/Diffuse.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Resources/Diffuse.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Resources/Transparent.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Resources/Transparent.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Scriptable Render Pipeline/Physically Based.ShaderGraph
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Scriptable Render Pipeline/Physically Based.ShaderGraph.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Scriptable Render Pipeline/Unlit.ShaderGraph
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Scriptable Render Pipeline/Unlit.ShaderGraph.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/SpeedTree/SpeedTree.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/SpeedTree/SpeedTree.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Addative Simple.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Addative Simple.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Addative ZWrite.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Addative ZWrite.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Cutout 2Sided.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Cutout 2Sided.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Cutout Simple.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Cutout Simple.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Multiply Simple.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Multiply Simple.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Multiply ZWrite.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Multiply ZWrite.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Opaque.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Opaque.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Transparent 2Sided.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Transparent 2Sided.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Transparent Simple.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Transparent Simple.shader.meta
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Transparent ZWrite.shader
+Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Transparent ZWrite.shader.meta
