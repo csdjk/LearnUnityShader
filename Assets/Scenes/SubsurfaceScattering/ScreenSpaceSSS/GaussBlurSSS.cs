@@ -1,26 +1,19 @@
-﻿// ---------------------------【高斯模糊】---------------------------
+﻿// ---------------------------【SSSSS】---------------------------
 using UnityEngine;
+using UnityEngine.Rendering;
 
-//编辑状态下也运行  
 [ExecuteInEditMode]
-//继承自PostEffectsbase
 public class GaussBlurSSS : PostEffectsBase
 {
-    public Shader gaussianBlurShader;
-    private Material gaussianBlurMaterial = null;
+    private RenderTexture renderTexture = null;
+    private CommandBuffer commandBuffer = null;
+    private Material _material = null;
+    private Material purecolorMaterial;
 
-    public Material material
-    {
-        get
-        {
-            gaussianBlurMaterial = CheckShaderAndCreateMaterial(gaussianBlurShader, gaussianBlurMaterial);
-            return gaussianBlurMaterial;
-        }
-    }
-    public Color sssColor = new Color(1,0.2f,0,0);
+    public Color sssColor = new Color(1, 0.2f, 0, 0);
 
     [Header("强度")]
-    [Range (0, 5)]
+    [Range(0, 5)]
     public float scatteringStrenth = 1;
 
     //模糊半径  
@@ -36,12 +29,19 @@ public class GaussBlurSSS : PostEffectsBase
     [Range(0, 4)]
     public int iteration = 1;
 
-
+    public Material material
+    {
+        get
+        {
+            // _material = CheckShaderAndCreateMaterial(gaussianBlurShader, _material);
+            return _material;
+        }
+    }
     //-----------------------------------------【Start()函数】---------------------------------------------    
     void Start()
     {
         //找到当前的Shader文件  
-        gaussianBlurShader = Shader.Find("lcl/SubsurfaceScattering/ScreenSpaceSSS/ScreenSpaceSSS");
+        // gaussianBlurShader = Shader.Find("lcl/SubsurfaceScattering/ScreenSpaceSSS/ScreenSpaceSSS");
     }
 
     //-------------------------------------【OnRenderImage函数】------------------------------------    
@@ -72,7 +72,7 @@ public class GaussBlurSSS : PostEffectsBase
             material.SetTexture("_BlurTex", rt1);
             material.SetFloat("_ScatteringStrenth", scatteringStrenth);
             material.SetColor("_SSSColor", sssColor);
-            
+
             //将结果输出  
             Graphics.Blit(source, destination, material, 1);
 

@@ -90,9 +90,10 @@ Shader "lcl/screenEffect/outLine"
             //对blur后的纹理进行采样
             fixed4 blurColor = tex2D(_BlurTex, i.uv);
             //相减后得到轮廓图
-            fixed4 outline = ( srcColor - blurColor) * _OutlineColor;
+            fixed4 outline = ( blurColor - srcColor ) * _OutlineColor;
             //输出：blur部分为0的地方返回原始图像，否则为0，然后叠加描边
             fixed4 final = saturate(outline) + mainColor;
+
             return final;
         }
         ENDCG

@@ -100,6 +100,10 @@ public class CP_SSSSS_Object : MonoBehaviour {
 		}
 	}
 
+    private void OnGUI()
+    {
+        GUI.DrawTexture(new Rect(0, 0, 256, 256), previousMat.mainTexture, ScaleMode.ScaleToFit, false, 1);
+    }
 	void RevertMaterial(Camera cam)
 	{
 		if (cam.name == mainScript.camName)
