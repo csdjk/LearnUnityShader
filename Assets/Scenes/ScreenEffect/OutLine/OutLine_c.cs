@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-//编辑状态下也运行  
+//编辑状态下也运行
 [ExecuteInEditMode]
 //继承自PostEffectsbase
 public class OutLine_c : PostEffectsBase {

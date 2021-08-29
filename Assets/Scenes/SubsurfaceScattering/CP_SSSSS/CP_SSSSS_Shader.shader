@@ -153,10 +153,7 @@ Shader "Hidden/CPSSSSSShader"
 				// blr = clamp(blr - src*_PreserveOriginal, 0, 50);
 				// blr *= mask;
 				// return src+blr*fac*_EffectStr;
-
-
 				return blr;
-
 			}
 			ENDCG
 		}

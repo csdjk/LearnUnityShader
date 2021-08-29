@@ -87,8 +87,8 @@ Shader "lcl/screenEffect/outLine_c"
             fixed4 srcColor = tex2D(_SrcTex, i.uv);
             //对blur后的纹理进行采样
             fixed4 blurColor = tex2D(_BlurTex, i.uv);
-            //最后的颜色是 srcColor-blurColor，周围0-0=0，黑色；边框部分为描边颜色-0=描边颜色；中间部分为描边颜色-描边颜色=0。最终输出只有边框
-            fixed4 outline = ( srcColor-blurColor)*_OutlineColor;
+            //最后的颜色是 blurColor - srcColor
+            fixed4 outline = ( blurColor - srcColor)*_OutlineColor;
             //输出：blur部分为0的地方返回原始图像，否则为0，然后叠加描边
             // fixed4 final = mainColor * (1 - all(outline.rgb)) + _OutlineColor * any(outline.rgb);//0.01,1,1
             fixed4 final = saturate(outline) + mainColor;
