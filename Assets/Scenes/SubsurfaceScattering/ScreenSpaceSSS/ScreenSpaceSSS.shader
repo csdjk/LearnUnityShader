@@ -1,3 +1,4 @@
+// 基于屏幕空间的次表面
 Shader "lcl/SubsurfaceScattering/ScreenSpaceSSS/ScreenSpaceSSS"  
 {
     // ---------------------------【属性】---------------------------
@@ -8,109 +9,132 @@ Shader "lcl/SubsurfaceScattering/ScreenSpaceSSS/ScreenSpaceSSS"
     // ---------------------------【子着色器】---------------------------
     SubShader
     {
-        //后处理效果一般都是这几个状态  
-        ZTest Always  
-        Cull Off  
-        ZWrite Off  
-        Fog{ Mode Off } 
-
         CGINCLUDE
         #include "UnityCG.cginc"
-        
         sampler2D _MainTex;
         half4 _MainTex_TexelSize;
-        sampler2D _BlurTex;
-        float4 _offsets;
-        
+        float _BlurSize;
         float _ScatteringStrenth;
+        sampler2D _BlurTex;
+        sampler2D _MaskTex;
         fixed4 _SSSColor;
-
-        
-        // ---------------------------【高斯模糊 - start】---------------------------
-        struct v2fBlur  
-        {  
-            float4 pos : SV_POSITION;   //顶点位置  
-            float2 uv  : TEXCOORD0;     //纹理坐标  
-            float4 uv01 : TEXCOORD1;    //一个vector4存储两个纹理坐标  
-            float4 uv23 : TEXCOORD2;    //一个vector4存储两个纹理坐标  
-        };  
-
-        //高斯模糊顶点着色器
-        v2fBlur vertBlur(appdata_img v)  
-        {  
-            v2fBlur o;  
-            o.pos = UnityObjectToClipPos(v.vertex);  
-            //uv坐标  
-            o.uv = v.texcoord.xy;  
-            
-            //计算一个偏移值，offset可能是（1，0，0，0）也可能是（0，1，0，0）这样就表示了横向或者竖向取像素周围的点  
-            _offsets *= _MainTex_TexelSize.xyxy;  
-            
-            //由于uv可以存储4个值，所以一个uv保存两个vector坐标，_offsets.xyxy * float4(1,1,-1,-1)可能表示(0,1,0-1)，表示像素上下两个  
-            //坐标，也可能是(1,0,-1,0)，表示像素左右两个像素点的坐标，下面*2.0，*3.0同理  
-            o.uv01 = v.texcoord.xyxy + _offsets.xyxy * float4(1, 1, -1, -1);  
-            o.uv23 = v.texcoord.xyxy + _offsets.xyxy * float4(1, 1, -1, -1) * 2.0;  
-            return o;  
-        }  
-        
-        //高斯模糊片段着色器
-        fixed4 fragBlur(v2fBlur i) : SV_Target  
-        {  
-            fixed4 color = fixed4(0,0,0,0);  
-            color += 0.4026 * tex2D(_MainTex, i.uv);  
-            color += 0.2442 * tex2D(_MainTex, i.uv01.xy);  
-            color += 0.2442 * tex2D(_MainTex, i.uv01.zw);  
-            color += 0.0545 * tex2D(_MainTex, i.uv23.xy);  
-            color += 0.0545 * tex2D(_MainTex, i.uv23.zw);  
-            return color;  
-        }
-        // ---------------------------【高斯模糊 - end】---------------------------
-
-        // ---------------------------【合并 - start】---------------------------
-        struct v2fBloom {
-            float4 pos : SV_POSITION; 
-            half2 uv : TEXCOORD0;
+        // ---------------------------【高斯模糊】---------------------------
+        struct v2f
+        {
+            float4 pos : SV_POSITION;
+            half2 uv[5]: TEXCOORD0;
         };
-        // 顶点着色器
-        v2fBloom vertBloom(appdata_img v) {
-            v2fBloom o;
+
+        //垂直方向的高斯模糊
+        v2f vertBlurVertical(appdata_img v) {
+            v2f o;
             o.pos = UnityObjectToClipPos(v.vertex);
-            o.uv = v.texcoord;
+            half2 uv = v.texcoord;
+            o.uv[0] = uv;
+            o.uv[1] = uv + float2(0.0, _MainTex_TexelSize.y * 1.0) * _BlurSize;
+            o.uv[2] = uv - float2(0.0, _MainTex_TexelSize.y * 1.0) * _BlurSize;
+            o.uv[3] = uv + float2(0.0, _MainTex_TexelSize.y * 2.0) * _BlurSize;
+            o.uv[4] = uv - float2(0.0, _MainTex_TexelSize.y * 2.0) * _BlurSize;
+            return o;
+        }
+        //水平方向的高斯模糊
+        v2f vertBlurHorizontal(appdata_img v) {
+            v2f o;
+            o.pos = UnityObjectToClipPos(v.vertex);
+            half2 uv = v.texcoord;
+            o.uv[0] = uv;
+            o.uv[1] = uv + float2(_MainTex_TexelSize.x * 1.0, 0.0) * _BlurSize;
+            o.uv[2] = uv - float2(_MainTex_TexelSize.x * 1.0, 0.0) * _BlurSize;
+            o.uv[3] = uv + float2(_MainTex_TexelSize.x * 2.0, 0.0) * _BlurSize;
+            o.uv[4] = uv - float2(_MainTex_TexelSize.x * 2.0, 0.0) * _BlurSize;
+            return o;
+        }
+        //高斯模糊片段着色器
+        fixed4 fragBlur(v2f i) : SV_Target {
+            float weight[3] = {0.4026, 0.2442, 0.0545};
+            fixed3 sum = tex2D(_MainTex, i.uv[0]).rgb * weight[0];
+
+            for (int it = 1; it < 3; it++) {
+                sum += tex2D(_MainTex, i.uv[it*2-1]).rgb * weight[it];
+                sum += tex2D(_MainTex, i.uv[it*2]).rgb * weight[it];
+            }
+            return fixed4(sum, 1.0);
+        }
+        // ---------------------------【SSS】---------------------------
+        struct v2fSSS
+        {
+            float4 pos : SV_POSITION;
+            half2 uv: TEXCOORD0;
+        };
+        v2fSSS vertSSS(appdata_img v)
+        {
+            v2fSSS o;
+            o.pos = UnityObjectToClipPos(v.vertex);
+            o.uv = v.texcoord.xy;
+            //dx中纹理从左上角为初始坐标，需要反向
+            //通过判断_MainTex_TexelSize.y是否小于0来检验是否开启了抗体锯齿
+            #if UNITY_UV_STARTS_AT_TOP
+                if (_MainTex_TexelSize.y < 0)
+                o.uv.y = 1 - o.uv.y;
+            #endif	
             return o;
         }
         
-        // 片元着色器
-        fixed4 fragBloom(v2fBloom i) : SV_Target {
+        fixed4 fragSSS(v2fSSS i) : SV_Target
+        {
+            // //取原始场景纹理进行采样
+            // fixed4 mainColor = tex2D(_MainTex, i.uv);
+            // //对blur之前的rt进行采样
+            // //对blur后的纹理进行采样
+            // fixed4 blurColor = tex2D(_BlurTex, i.uv);
+            // //相减后得到轮廓图
+            // fixed4 outline = ( blurColor-srcColor) * _OutlineColor;
+            // //输出：blur部分为0的地方返回原始图像，否则为0，然后叠加描边
+            // fixed4 final = saturate(outline) + mainColor;
+            // return final;
+
+
             //对原图进行uv采样
             fixed4 srcCol = tex2D(_MainTex, i.uv);
             //对模糊处理后的图进行uv采样
             fixed4 blurCol = tex2D(_BlurTex, i.uv);
+            // mask遮罩
+            fixed4 maskCol = tex2D(_MaskTex, i.uv);
 
-            blurCol = saturate(srcCol-blurCol );//散射像素落地的范围
+            // blurCol = saturate(srcCol - blurCol);
             
-            float fac = 1-pow(saturate(max(max(srcCol.r, srcCol.g), srcCol.b) * 1), 0.5);
+            // float fac = 1-pow(saturate(max(max(srcCol.r, srcCol.g), srcCol.b) * 1), 0.5);
 
-            return srcCol + blurCol * _SSSColor * _ScatteringStrenth * fac;
-            // return blurCol;
-        } 
-        // ---------------------------【Bloom - end】---------------------------
-
+            // return srcCol + blurCol * _SSSColor * _ScatteringStrenth * fac;
+            return blurCol;
+        }
         ENDCG
-        //高斯模糊
+        
+        // No culling or depth
+        Cull Off ZWrite Off ZTest Always
+        
+        //垂直高斯模糊
         Pass {
             CGPROGRAM
-            #pragma vertex vertBlur  
+            #pragma vertex vertBlurVertical  
             #pragma fragment fragBlur
             ENDCG  
         }
-
-        // Bloom
-        Pass {
-            CGPROGRAM
-            #pragma vertex vertBloom  
-            #pragma fragment fragBloom
-            ENDCG  
+        //水平高斯模糊
+        Pass {  
+            CGPROGRAM  
+            #pragma vertex vertBlurHorizontal  
+            #pragma fragment fragBlur
+            ENDCG
         }
-
+        //SSS
+        Pass {  
+            CGPROGRAM  
+            #pragma vertex vertSSS  
+            #pragma fragment fragSSS
+            ENDCG
+        }
     }
+    FallBack "Diffuse"
+
 }
