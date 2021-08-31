@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: OutLine3D_Swell
-  m_Shader: {fileID: 4800000, guid: 4fdc9dbac303fb948a166aa94cbe650a, type: 3}
+  m_Name: Outline_Fresnel
+  m_Shader: {fileID: 4800000, guid: 790142fe5856717468bed2ab8fa1c82f, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -24,14 +24,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _OffsetFactor: 0
-    - _OffsetUnits: 0
-    - _blurPower: 3.56
     - _lineWidth: 0.5
-    - _power: 0.045
+    - _newPower: 0.307
+    - _power: 2.58
     - _strength: 2.6
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.8207547, g: 0.8207547, b: 0.8207547, a: 1}
     - _Diffuse: {r: 1, g: 1, b: 1, a: 1}
-    - _lineColor: {r: 0, g: 1, b: 0.10980392, a: 1}
+    - _lineColor: {r: 0, g: 1, b: 0.105882406, a: 1}
     - _strength: {r: 0.07539308, g: 1, b: 0, a: 1}
