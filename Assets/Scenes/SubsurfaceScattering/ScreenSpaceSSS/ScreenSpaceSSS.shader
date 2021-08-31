@@ -82,31 +82,18 @@ Shader "lcl/SubsurfaceScattering/ScreenSpaceSSS/ScreenSpaceSSS"
         
         fixed4 fragSSS(v2fSSS i) : SV_Target
         {
-            // //取原始场景纹理进行采样
-            // fixed4 mainColor = tex2D(_MainTex, i.uv);
-            // //对blur之前的rt进行采样
-            // //对blur后的纹理进行采样
-            // fixed4 blurColor = tex2D(_BlurTex, i.uv);
-            // //相减后得到轮廓图
-            // fixed4 outline = ( blurColor-srcColor) * _OutlineColor;
-            // //输出：blur部分为0的地方返回原始图像，否则为0，然后叠加描边
-            // fixed4 final = saturate(outline) + mainColor;
-            // return final;
-
-
             //对原图进行uv采样
             fixed4 srcCol = tex2D(_MainTex, i.uv);
             //对模糊处理后的图进行uv采样
             fixed4 blurCol = tex2D(_BlurTex, i.uv);
             // mask遮罩
             fixed4 maskCol = tex2D(_MaskTex, i.uv);
+            blurCol *= maskCol;
+            float fac = 1-pow(saturate(max(max(srcCol.r, srcCol.g), srcCol.b) * 1), 0.5);
+            // float fac = fixed4(1,0.2,0,0);
 
-            // blurCol = saturate(srcCol - blurCol);
-            
-            // float fac = 1-pow(saturate(max(max(srcCol.r, srcCol.g), srcCol.b) * 1), 0.5);
-
-            // return srcCol + blurCol * _SSSColor * _ScatteringStrenth * fac;
-            return blurCol;
+            return srcCol + blurCol * _SSSColor * _ScatteringStrenth * fac;
+            // return maskCol;
         }
         ENDCG
         
