@@ -804,3 +804,319 @@ Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Transparent Simple.shade
 Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Transparent Simple.shader.meta
 Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Transparent ZWrite.shader
 Assets/VacuumShaders/Vertex Color Shaders/Shaders/Unlit/Transparent ZWrite.shader.meta
+Assets/MMD4Mecanim.meta
+Assets/(Temporary).meta
+Assets/MMD4Mecanim/Editor.meta
+Assets/MMD4Mecanim/Plugins.meta
+Assets/MMD4Mecanim/Scripts.meta
+Assets/MMD4Mecanim/Shaders.meta
+Assets/MMD4Mecanim/Textures.meta
+Assets/MMD4Mecanim/Editor/MMD4MecanimAnimationClipNameFixer.cs
+Assets/MMD4Mecanim/Editor/MMD4MecanimAnimationClipNameFixer.cs.meta
+Assets/MMD4Mecanim/Editor/MMD4MecanimAnimMorphHelperInspector.cs
+Assets/MMD4Mecanim/Editor/MMD4MecanimAnimMorphHelperInspector.cs.meta
+Assets/MMD4Mecanim/Editor/MMD4MecanimAssignMaterialModel.cs
+Assets/MMD4Mecanim/Editor/MMD4MecanimAssignMaterialModel.cs.meta
+Assets/MMD4Mecanim/Editor/MMD4MecanimBoneInspector.cs
+Assets/MMD4Mecanim/Editor/MMD4MecanimBoneInspector.cs.meta
+Assets/MMD4Mecanim/Editor/MMD4MecanimBulletPhysicsInspector.cs
+Assets/MMD4Mecanim/Editor/MMD4MecanimBulletPhysicsInspector.cs.meta
+Assets/MMD4Mecanim/Editor/MMD4MecanimEditor.dll
+Assets/MMD4Mecanim/Editor/MMD4MecanimEditor.dll.meta
+Assets/MMD4Mecanim/Editor/MMD4MecanimImporter.cs
+Assets/MMD4Mecanim/Editor/MMD4MecanimImporter.cs.meta
+Assets/MMD4Mecanim/Editor/MMD4MecanimImporterInspector.cs
+Assets/MMD4Mecanim/Editor/MMD4MecanimImporterInspector.cs.meta
+Assets/MMD4Mecanim/Editor/MMD4MecanimModelInspector.cs
+Assets/MMD4Mecanim/Editor/MMD4MecanimModelInspector.cs.meta
+Assets/MMD4Mecanim/Editor/MMD4MecanimPreProcessBuild.cs
+Assets/MMD4Mecanim/Editor/MMD4MecanimPreProcessBuild.cs.meta
+Assets/MMD4Mecanim/Editor/MMD4MecanimRigidBodyInspector.cs
+Assets/MMD4Mecanim/Editor/MMD4MecanimRigidBodyInspector.cs.meta
+Assets/MMD4Mecanim/Editor/PMX2FBX.meta
+Assets/MMD4Mecanim/Editor/Revision.txt
+Assets/MMD4Mecanim/Editor/Revision.txt.meta
+Assets/MMD4Mecanim/Editor/PMX2FBX/libfbxsdk.dll
+Assets/MMD4Mecanim/Editor/PMX2FBX/libfbxsdk.dll.meta
+Assets/MMD4Mecanim/Editor/PMX2FBX/libfbxsdk.dylib
+Assets/MMD4Mecanim/Editor/PMX2FBX/libfbxsdk.dylib.meta
+Assets/MMD4Mecanim/Editor/PMX2FBX/libmecab.dylib
+Assets/MMD4Mecanim/Editor/PMX2FBX/libmecab.dylib.meta
+Assets/MMD4Mecanim/Editor/PMX2FBX/mecab.dll
+Assets/MMD4Mecanim/Editor/PMX2FBX/mecab.dll.meta
+Assets/MMD4Mecanim/Editor/PMX2FBX/pmx2fbx
+Assets/MMD4Mecanim/Editor/PMX2FBX/pmx2fbx.exe
+Assets/MMD4Mecanim/Editor/PMX2FBX/pmx2fbx.exe.meta
+Assets/MMD4Mecanim/Editor/PMX2FBX/pmx2fbx.meta
+Assets/MMD4Mecanim/Editor/PMX2FBX/pmx2fbx.xml
+Assets/MMD4Mecanim/Editor/PMX2FBX/pmx2fbx.xml.meta
+Assets/MMD4Mecanim/Editor/PMX2FBX/pmx2fbx_275
+Assets/MMD4Mecanim/Editor/PMX2FBX/pmx2fbx_275.exe
+Assets/MMD4Mecanim/Editor/PMX2FBX/pmx2fbx_275.exe.meta
+Assets/MMD4Mecanim/Editor/PMX2FBX/pmx2fbx_275.meta
+Assets/MMD4Mecanim/Editor/PMX2FBX/readme.txt
+Assets/MMD4Mecanim/Editor/PMX2FBX/readme.txt.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/Android.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/iOS.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/MMD4MecanimBulletPhysics.bundle.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/WSA.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/x86.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/x86_64.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/Android.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/iOS.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/MMD4MecanimBulletPhysics.bundle.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/WSA.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/x86.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/x86_64.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/Android/libs.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/Android/libs/armeabi-v7a.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/Android/libs/x86.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/Android/libs/armeabi-v7a/libMMD4MecanimBulletPhysics.so
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/Android/libs/armeabi-v7a/libMMD4MecanimBulletPhysics.so.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/Android/libs/x86/libMMD4MecanimBulletPhysics.so
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/Android/libs/x86/libMMD4MecanimBulletPhysics.so.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/iOS/libBulletPhysics.a
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/iOS/libBulletPhysics.a.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/iOS/libMMD4MecanimBulletPhysics.a
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/iOS/libMMD4MecanimBulletPhysics.a.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/MMD4MecanimBulletPhysics.bundle/Contents.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/MMD4MecanimBulletPhysics.bundle/Contents/Info.plist
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/MMD4MecanimBulletPhysics.bundle/Contents/Info.plist.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/MMD4MecanimBulletPhysics.bundle/Contents/MacOS.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/MMD4MecanimBulletPhysics.bundle/Contents/MacOS/MMD4MecanimBulletPhysics
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/MMD4MecanimBulletPhysics.bundle/Contents/MacOS/MMD4MecanimBulletPhysics.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/WSA/ARM.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/WSA/X64.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/WSA/X86.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/WSA/ARM/MMD4MecanimBulletPhysics.dll
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/WSA/ARM/MMD4MecanimBulletPhysics.dll.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/WSA/X64/MMD4MecanimBulletPhysics.dll
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/WSA/X64/MMD4MecanimBulletPhysics.dll.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/WSA/X86/MMD4MecanimBulletPhysics.dll
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/WSA/X86/MMD4MecanimBulletPhysics.dll.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/x86/MMD4MecanimBulletPhysics.dll
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/x86/MMD4MecanimBulletPhysics.dll.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/x86_64/MMD4MecanimBulletPhysics.dll
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics 2.75/x86_64/MMD4MecanimBulletPhysics.dll.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/Android/libs.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/Android/libs/armeabi-v7a.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/Android/libs/x86.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/Android/libs/armeabi-v7a/libMMD4MecanimBulletPhysics.so
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/Android/libs/armeabi-v7a/libMMD4MecanimBulletPhysics.so.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/Android/libs/x86/libMMD4MecanimBulletPhysics.so
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/Android/libs/x86/libMMD4MecanimBulletPhysics.so.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/iOS/libBulletPhysics.a
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/iOS/libBulletPhysics.a.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/iOS/libMMD4MecanimBulletPhysics.a
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/iOS/libMMD4MecanimBulletPhysics.a.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/MMD4MecanimBulletPhysics.bundle/Contents.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/MMD4MecanimBulletPhysics.bundle/Contents/Info.plist
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/MMD4MecanimBulletPhysics.bundle/Contents/Info.plist.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/MMD4MecanimBulletPhysics.bundle/Contents/MacOS.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/MMD4MecanimBulletPhysics.bundle/Contents/MacOS/MMD4MecanimBulletPhysics
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/MMD4MecanimBulletPhysics.bundle/Contents/MacOS/MMD4MecanimBulletPhysics.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/WSA/ARM.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/WSA/X64.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/WSA/X86.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/WSA/ARM/MMD4MecanimBulletPhysics.dll
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/WSA/ARM/MMD4MecanimBulletPhysics.dll.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/WSA/X64/MMD4MecanimBulletPhysics.dll
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/WSA/X64/MMD4MecanimBulletPhysics.dll.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/WSA/X86/MMD4MecanimBulletPhysics.dll
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/WSA/X86/MMD4MecanimBulletPhysics.dll.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/x86/MMD4MecanimBulletPhysics.dll
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/x86/MMD4MecanimBulletPhysics.dll.meta
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/x86_64/MMD4MecanimBulletPhysics.dll
+Assets/MMD4Mecanim/Plugins/MMD4MecanimBulletPhysics/x86_64/MMD4MecanimBulletPhysics.dll.meta
+Assets/MMD4Mecanim/Scripts/Internal.meta
+Assets/MMD4Mecanim/Scripts/MMD4Mecanim.dll
+Assets/MMD4Mecanim/Scripts/MMD4Mecanim.dll.meta
+Assets/MMD4Mecanim/Scripts/MMD4MecanimAnimMorphHelper.cs
+Assets/MMD4Mecanim/Scripts/MMD4MecanimAnimMorphHelper.cs.meta
+Assets/MMD4Mecanim/Scripts/MMD4MecanimBone.cs
+Assets/MMD4Mecanim/Scripts/MMD4MecanimBone.cs.meta
+Assets/MMD4Mecanim/Scripts/MMD4MecanimBulletPhysics.cs
+Assets/MMD4Mecanim/Scripts/MMD4MecanimBulletPhysics.cs.meta
+Assets/MMD4Mecanim/Scripts/MMD4MecanimIKTarget.cs
+Assets/MMD4Mecanim/Scripts/MMD4MecanimIKTarget.cs.meta
+Assets/MMD4Mecanim/Scripts/MMD4MecanimModel.cs
+Assets/MMD4Mecanim/Scripts/MMD4MecanimModel.cs.meta
+Assets/MMD4Mecanim/Scripts/MMD4MecanimMorphHelper.cs
+Assets/MMD4Mecanim/Scripts/MMD4MecanimMorphHelper.cs.meta
+Assets/MMD4Mecanim/Scripts/MMD4MecanimRigidBody.cs
+Assets/MMD4Mecanim/Scripts/MMD4MecanimRigidBody.cs.meta
+Assets/MMD4Mecanim/Scripts/MMD4MecanimSpeechHelper.cs
+Assets/MMD4Mecanim/Scripts/MMD4MecanimSpeechHelper.cs.meta
+Assets/MMD4Mecanim/Scripts/Internal/MMD4Mecanim.dll
+Assets/MMD4Mecanim/Scripts/Internal/MMD4Mecanim.dll.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-AutoLight.cginc
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-AutoLight.cginc.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-BothFaces.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-BothFaces.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-BothFaces-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-BothFaces-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-BothFaces-Transparent.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-BothFaces-Transparent.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-BothFaces-Transparent-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-BothFaces-Transparent-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Compatible.cginc
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Compatible.cginc.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Dummy.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Dummy.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Lighting.cginc
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Lighting.cginc.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NEXTEdge-ForwardBase.cginc
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NEXTEdge-ForwardBase.cginc.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NEXTEdge-Lighting.cginc
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NEXTEdge-Lighting.cginc.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NEXTEdge-Pass4.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NEXTEdge-Pass4.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NEXTEdge-Pass8.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NEXTEdge-Pass8.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting-BothFaces.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting-BothFaces.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting-BothFaces-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting-BothFaces-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting-BothFaces-Transparent.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting-BothFaces-Transparent.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting-BothFaces-Transparent-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting-BothFaces-Transparent-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting-Transparent.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting-Transparent.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting-Transparent-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-NoShadowCasting-Transparent-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-SurfaceEdge-ForwardAdd.cginc
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-SurfaceEdge-ForwardAdd.cginc.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-SurfaceEdge-ForwardBase.cginc
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-SurfaceEdge-ForwardBase.cginc.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-SurfaceEdge-Lighting.cginc
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-SurfaceEdge-Lighting.cginc.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Surface-ForwardAdd.cginc
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Surface-ForwardAdd.cginc.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Surface-ForwardBase.cginc
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Surface-ForwardBase.cginc.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Surface-Lighting.cginc
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Surface-Lighting.cginc.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Surface-ShadowCaster.cginc
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Surface-ShadowCaster.cginc.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Surface-ShadowCollector.cginc
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Surface-ShadowCollector.cginc.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Surface-Tessellation.cginc
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Surface-Tessellation.cginc.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-BothFaces.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-BothFaces.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-BothFaces-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-BothFaces-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-BothFaces-Transparent.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-BothFaces-Transparent.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-BothFaces-Transparent-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-BothFaces-Transparent-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting-BothFaces.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting-BothFaces.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting-BothFaces-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting-BothFaces-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting-BothFaces-Transparent.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting-BothFaces-Transparent.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting-BothFaces-Transparent-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting-BothFaces-Transparent-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting-Transparent.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting-Transparent.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting-Transparent-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-NoShadowCasting-Transparent-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-Transparent.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-Transparent.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-Transparent-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Tess-Transparent-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Transparent.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Transparent.shader.meta
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Transparent-Edge.shader
+Assets/MMD4Mecanim/Shaders/MMD4Mecanim-MMDLit-Transparent-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-BothFaces-Transparent.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-BothFaces-Transparent.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-BothFaces-Transparent-Edge.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-BothFaces-Transparent-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-BRDF.cginc
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-BRDF.cginc.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Config.cginc
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Config.cginc.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Core.cginc
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Core.cginc.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-CoreForward.cginc
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-CoreForward.cginc.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-CoreForwardSimple.cginc
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-CoreForwardSimple.cginc.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Edge.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Input.cginc
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Input.cginc.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Meta.cginc
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Meta.cginc.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-NoShadowCasting.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-NoShadowCasting.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-NoShadowCasting-BothFaces-Transparent.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-NoShadowCasting-BothFaces-Transparent.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-NoShadowCasting-BothFaces-Transparent-Edge.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-NoShadowCasting-BothFaces-Transparent-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-NoShadowCasting-Edge.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-NoShadowCasting-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Shadow.cginc
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Shadow.cginc.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess-BothFaces-Transparent.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess-BothFaces-Transparent.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess-BothFaces-Transparent-Edge.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess-BothFaces-Transparent-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess-Edge.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess-NoShadowCasting.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess-NoShadowCasting.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess-NoShadowCasting-BothFaces-Transparent.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess-NoShadowCasting-BothFaces-Transparent.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess-NoShadowCasting-BothFaces-Transparent-Edge.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess-NoShadowCasting-BothFaces-Transparent-Edge.shader.meta
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess-NoShadowCasting-Edge.shader
+Assets/MMD4Mecanim/Shaders/Standard/MMD4Mecanim-Standard-MMDLit-Tess-NoShadowCasting-Edge.shader.meta
+Assets/MMD4Mecanim/Textures/toon0.bmp
+Assets/MMD4Mecanim/Textures/toon0.bmp.meta
+Assets/MMD4Mecanim/Textures/toon01.bmp
+Assets/MMD4Mecanim/Textures/toon01.bmp.meta
+Assets/MMD4Mecanim/Textures/toon02.bmp
+Assets/MMD4Mecanim/Textures/toon02.bmp.meta
+Assets/MMD4Mecanim/Textures/toon03.bmp
+Assets/MMD4Mecanim/Textures/toon03.bmp.meta
+Assets/MMD4Mecanim/Textures/toon04.bmp
+Assets/MMD4Mecanim/Textures/toon04.bmp.meta
+Assets/MMD4Mecanim/Textures/toon05.bmp
+Assets/MMD4Mecanim/Textures/toon05.bmp.meta
+Assets/MMD4Mecanim/Textures/toon06.bmp
+Assets/MMD4Mecanim/Textures/toon06.bmp.meta
+Assets/MMD4Mecanim/Textures/toon07.bmp
+Assets/MMD4Mecanim/Textures/toon07.bmp.meta
+Assets/MMD4Mecanim/Textures/toon08.bmp
+Assets/MMD4Mecanim/Textures/toon08.bmp.meta
+Assets/MMD4Mecanim/Textures/toon09.bmp
+Assets/MMD4Mecanim/Textures/toon09.bmp.meta
+Assets/MMD4Mecanim/Textures/toon10.bmp
+Assets/MMD4Mecanim/Textures/toon10.bmp.meta
