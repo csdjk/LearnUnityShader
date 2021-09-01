@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: OutLine3D_Stencil
+  m_Name: outLine3D_stencil
   m_Shader: {fileID: 4800000, guid: f23f31916cd32d84d8f3b3c277e7d696, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4

@@ -1,7 +1,6 @@
 ﻿//--------------------------- 卡通渲染 - 描边---------------------
-Shader "lcl/ToonShading/OutLine/Toon_OutLine"
+Shader "lcl/ToonShading/OutLine/Toon_OutLine_Stencil"
 {
-    //---------------------------【属性】---------------------------
     Properties
     {   
         // 主纹理
@@ -12,6 +11,8 @@ Shader "lcl/ToonShading/OutLine/Toon_OutLine"
         _Power("power",Range(0,0.2)) = 0.05
         // 描边颜色
         _LineColor("lineColor",Color)=(1,1,1,1)
+
+        _RefValue("Stencil RefValue",Range(0,200)) = 0
         _OffsetFactor ("Offset Factor", Range(0,200)) = 0
         _OffsetUnits ("Offset Units", Range(0,200)) = 0
     }
@@ -50,39 +51,11 @@ Shader "lcl/ToonShading/OutLine/Toon_OutLine"
 
     SubShader
     {
-        //透明度混合模式
         Blend SrcAlpha OneMinusSrcAlpha
-        //渲染队列
         Tags{ "Queue" = "Transparent"}
-        // ------------------------【描边通道】---------------------------
-        Pass
-        {
-            Cull Front
-            ZWrite Off
-            Offset [_OffsetFactor], [_OffsetUnits]
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-
-            v2f vert (appdata v)
-            {
-                v2f o;
-                //顶点沿着平均法线方向扩张
-                // v.vertex.xyz +=  v.normal * _Power;
-                v.vertex.xyz +=  normalize(v.tangent.xyz) * _Power;
-                //由模型空间坐标系转换到裁剪空间
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                //输出结果
-                return o;
-            }
-
-            fixed4 frag (v2f i) : SV_Target
-            {
-                //直接输出颜色
-                return _LineColor;
-            }
-            ENDCG
-        }
+        
+        
+        // ------------------------【正常渲染】---------------------------
         Pass
         {
             Cull Back
@@ -117,6 +90,38 @@ Shader "lcl/ToonShading/OutLine/Toon_OutLine"
         }
         
         
-        
+        // ------------------------【描边通道】---------------------------
+        Pass
+        {
+            Stencil{
+                Ref [_RefValue]
+                Comp Equal 
+                Pass IncrSat
+            }
+            // ZWrite Off
+            // Offset [_OffsetFactor], [_OffsetUnits]
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+
+            v2f vert (appdata v)
+            {
+                v2f o;
+                //顶点沿着平均法线方向扩张
+                v.vertex.xyz +=  v.normal * _Power;
+                // v.vertex.xyz +=  normalize(v.tangent.xyz) * _Power;
+                //由模型空间坐标系转换到裁剪空间
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                //输出结果
+                return o;
+            }
+
+            fixed4 frag (v2f i) : SV_Target
+            {
+                //直接输出颜色
+                return _LineColor;
+            }
+            ENDCG
+        }
     }
 }
