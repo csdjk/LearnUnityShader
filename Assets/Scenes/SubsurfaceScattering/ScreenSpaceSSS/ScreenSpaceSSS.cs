@@ -5,19 +5,19 @@ using UnityEngine.Rendering;
 [ExecuteInEditMode]
 public class ScreenSpaceSSS : PostEffectsBase
 {
-    private RenderTexture renderTexture = null;
+    private RenderTexture maskTexture = null;
     private CommandBuffer commandBuffer = null;
 
     private Shader shader = null;
     private Material _material = null;
     private Material purecolorMaterial;
 
+    [Header("散射颜色")]
     public Color sssColor = new Color(1, 0.2f, 0, 0);
 
-    [Header("强度")]
+    [Header("散射强度")]
     [Range(0, 5)]
     public float scatteringStrenth = 1;
-
     //模糊半径  
     [Header("模糊半径")]
     [Range(0.2f, 3.0f)]
@@ -48,16 +48,18 @@ public class ScreenSpaceSSS : PostEffectsBase
     void OnEnable()
     {
         shader = Shader.Find("lcl/SubsurfaceScattering/ScreenSpaceSSS/ScreenSpaceSSS");
-        Shader purecolorShader = Shader.Find("lcl/Common/PureColor");
+        
+        // Shader purecolorShader = Shader.Find("lcl/Common/PureColor");
+        Shader purecolorShader = Shader.Find("lcl/Common/VertexColor");
 
         if (purecolorMaterial == null)
             purecolorMaterial = new Material(purecolorShader);
 
-        if (renderTexture == null)
-            renderTexture = RenderTexture.GetTemporary(Screen.width >> downSample, Screen.height >> downSample, 0);
+        if (maskTexture == null)
+            maskTexture = RenderTexture.GetTemporary(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default, 4);
 
         commandBuffer = new CommandBuffer();
-        commandBuffer.SetRenderTarget(renderTexture);
+        commandBuffer.SetRenderTarget(maskTexture);
         commandBuffer.ClearRenderTarget(true, true, Color.black);
         for (var i = 0; i < targetObjects.Length; i++)
         {
@@ -65,15 +67,16 @@ public class ScreenSpaceSSS : PostEffectsBase
             foreach (Renderer r in renderers)
                 commandBuffer.DrawRenderer(r, purecolorMaterial);
         }
+        // commandBuffer.ResolveAntiAliasedSurface(renderTexture,renderTexture);
 
     }
 
     void OnDisable()
     {
-        if (renderTexture)
+        if (maskTexture)
         {
-            RenderTexture.ReleaseTemporary(renderTexture);
-            renderTexture = null;
+            RenderTexture.ReleaseTemporary(maskTexture);
+            maskTexture = null;
         }
         if (purecolorMaterial)
         {
@@ -90,7 +93,7 @@ public class ScreenSpaceSSS : PostEffectsBase
     // 此函数在当完成所有渲染图片后被调用，用来渲染图片后期效果
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        if (!material || !renderTexture || commandBuffer == null)
+        if (!material || !maskTexture || commandBuffer == null)
         {
             Graphics.Blit(source, destination);
             return;
@@ -101,7 +104,7 @@ public class ScreenSpaceSSS : PostEffectsBase
         RenderTexture rt1 = RenderTexture.GetTemporary(source.width >> downSample, source.height >> downSample, 0, source.format);
         RenderTexture rt2 = RenderTexture.GetTemporary(source.width >> downSample, source.height >> downSample, 0, source.format);
         // 高斯模糊处理
-        Graphics.Blit(renderTexture, rt1);
+        Graphics.Blit(source, rt1);
         //进行迭代高斯模糊  
         for (int i = 0; i < iteration; i++)
         {
@@ -112,11 +115,11 @@ public class ScreenSpaceSSS : PostEffectsBase
             Graphics.Blit(rt2, rt1, material, 1);
         }
 
-        material.SetTexture("_MaskTex", renderTexture);
+        material.SetTexture("_MaskTex", maskTexture);
         material.SetTexture("_BlurTex", rt1);
         material.SetFloat("_ScatteringStrenth", scatteringStrenth);
         material.SetColor("_SSSColor", sssColor);
-        Graphics.Blit(source, destination, material, 1);
+        Graphics.Blit(source, destination, material, 2);
 
         //释放申请的RenderBuffer
         RenderTexture.ReleaseTemporary(rt1);
