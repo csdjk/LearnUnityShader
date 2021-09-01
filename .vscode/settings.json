@@ -52,5 +52,6 @@
         "ProjectSettings/":true,
         "temp/":true,
         "Temp/":true
-    }
+    },
+    "editor.snippetSuggestions": "bottom"
 }

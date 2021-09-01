@@ -1,6 +1,6 @@
 ﻿//--------------------------- 【描边】 - 法线扩张---------------------
 //create by 长生但酒狂
-Shader "lcl/shader3D/outline/outLine3D_swell"
+Shader "lcl/shader3D/outline/OutLine3D_Swell"
 {
     //---------------------------【属性】---------------------------
     Properties
