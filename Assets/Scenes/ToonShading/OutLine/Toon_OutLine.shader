@@ -1,6 +1,5 @@
-﻿//--------------------------- 【描边】 - 法线扩张---------------------
-//create by 长生但酒狂
-Shader "lcl/shader3D/outline/OutLine3D_Swell"
+﻿//--------------------------- 卡通渲染 - 描边---------------------
+Shader "lcl/ToonShading/OutLine/Toon_OutLine"
 {
     //---------------------------【属性】---------------------------
     Properties
@@ -21,18 +20,18 @@ Shader "lcl/shader3D/outline/OutLine3D_Swell"
     //顶点着色器输入结构体
     struct appdata
     {
-        float4 vertex : POSITION;//顶点坐标
-        float2 uv : TEXCOORD0;//纹理坐标
-        float3 normal:NORMAL;//法线
+        float4 vertex : POSITION;
+        float2 uv : TEXCOORD0;
+        float3 normal:NORMAL;
+        float4 tangent : TANGENT;
     };
     //顶点着色器输出结构体
     struct v2f
     {
-        float4 vertex : SV_POSITION;//像素坐标
-        float2 uv : TEXCOORD0;//纹理坐标
-        float3 worldNormalDir:COLOR0;//世界空间里的法线方向
-        float3 worldPos:COLOR1;//世界空间里的坐标
-
+        float4 vertex : SV_POSITION;
+        float2 uv : TEXCOORD0;
+        float3 worldNormalDir:COLOR0;
+        float3 worldPos:COLOR1;
     };
     // ------------------------【变量声明】---------------------------
     //纹理
@@ -50,10 +49,9 @@ Shader "lcl/shader3D/outline/OutLine3D_Swell"
     v2f vert_back (appdata v)
     {
         v2f o;
-        //法线方向
-        v.normal = normalize(v.normal);
-        //顶点沿着法线方向扩张
-        v.vertex.xyz +=  v.normal * _power;
+        //顶点沿着平均法线方向扩张
+        // v.vertex.xyz +=  v.normal * _power;
+        v.vertex.xyz +=  normalize(v.tangent.xyz) * _power;
         //由模型空间坐标系转换到裁剪空间
         o.vertex = UnityObjectToClipPos(v.vertex);
         //输出结果
