@@ -9,7 +9,7 @@ Shader "lcl/ToonShading/StencilTargetObject"
     SubShader
     {
         Stencil{
-            Ref [_RefValue]
+            Ref 2
             Comp Equal
         }
 
