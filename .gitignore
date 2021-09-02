@@ -2439,3 +2439,6 @@ Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/sp
 Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/spinner.png.meta
 Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/SubstanceSourceLoading.png
 Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/SubstanceSourceLoading.png.meta
+Assets/Allegorithmic/Plugins/Substance.meta
+Assets/Allegorithmic/Plugins/Substance.Engine.bundle/Contents/Info.plist.meta
+Assets/Allegorithmic/Plugins/Substance.Engine.bundle/Contents/MacOS.meta

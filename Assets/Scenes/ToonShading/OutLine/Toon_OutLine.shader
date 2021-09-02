@@ -9,20 +9,28 @@ Shader "lcl/ToonShading/OutLine/Toon_OutLine"
         _Color("Color",Color)=(1,1,1,1)
 
         // 描边
-        [Main(outline)] _group_outline ("描边", float) = 1
-        [Sub(outline)] _Power("Power",Range(0,0.2)) = 0.05
-        [Sub(outline)]_lineColor("lineColor",Color)=(1,1,1,1)
+        [Main(outline, _, 3)] _group_outline ("描边", float) = 1
+        [Sub(outline)] _OutlinePower("Outline Power",Range(0,1)) = 0.05
+        [Sub(outline)]_LineColor("Line Color",Color)=(1,1,1,1)
         [Sub(outline)]_OffsetFactor ("Offset Factor", Range(0,200)) = 0
         [Sub(outline)]_OffsetUnits ("Offset Units", Range(0,200)) = 0
+        // 是否使用平滑法向量
+        [SubToggle(outline, __)] _USE_SMOOTH_NORMAL ("Use Smooth Normal", float) = 0
 
         // 光照阴影
-        [Main(shadow)] _group_shadow ("光照阴影", float) = 1
-        [Sub(shadow)]_ShadowColor1("Shadow Color1",Color)=(1,1,1,1)
-        [Sub(shadow)]_ShadowColor2("Shadow Color2",Color)=(1,1,1,1)
-        [Sub(shadow)]_ShadowThreshold1 ("Shadow Threshold1", Range(0,1)) = 0
-        [Sub(shadow)]_ShadowThreshold2 ("Shadow Threshold2", Range(0,1)) = 0
-        [Sub(shadow)]_ShadowSmoothness ("Shadow Smoothness", Range(0,1)) = 0
-        
+        [Main(lighting, _, 3)] _group_shadow ("光照阴影", float) = 1
+        [Sub(lighting)]_ShadowSmoothness ("Shadow Smoothness", Range(0,1)) = 0
+        [Sub(lighting)]_ShadowColor1("Shadow Color1",Color)=(0.7, 0.7, 0.7)
+        [Sub(lighting)]_ShadowThreshold1 ("Shadow Threshold1", Range(0,1)) = 0
+        [SubToggle(lighting, __)] _USE_SECOND_LEVELS ("Use Second Levels", float) = 0
+        [Sub(lighting_USE_SECOND_LEVELS_ON)]_ShadowColor2("Shadow Color2",Color)=(0.5, 0.5, 0.5)
+        [Sub(lighting_USE_SECOND_LEVELS_ON)]_ShadowThreshold2 ("Shadow Threshold2", Range(0,1)) = 0
+
+        [Title(lighting, Specular)]
+        [Sub(lighting)]_SpecularColor("Specular Color",Color)=(0.5, 0.5, 0.5)
+        [Sub(lighting)]_SpecularPower ("Specular Power", Range(8,200)) = 8
+        [Sub(lighting)]_SpecularThreshold ("Specular Threshold", Range(0,1)) = 0
+        [Sub(lighting)]_SpecularSmoothness ("Specular Smoothness", Range(0,1)) = 0
     }
 
     CGINCLUDE
@@ -48,16 +56,20 @@ Shader "lcl/ToonShading/OutLine/Toon_OutLine"
     sampler2D _MainTex;
     float4 _MainTex_TexelSize;
     float4 _Color;
-
-    float _Power;
-    float4 _lineColor;
-
+    // 描边
+    float _OutlinePower;
+    float4 _LineColor;
+    // 阴影
     float4 _ShadowColor1;
     float4 _ShadowColor2;
     float _ShadowThreshold1;
     float _ShadowThreshold2;
     float _ShadowSmoothness;
-    
+    // 高光
+    float4 _SpecularColor;
+    float _SpecularThreshold;
+    float _SpecularPower;
+    float _SpecularSmoothness;
 
     ENDCG
     SubShader
@@ -69,30 +81,39 @@ Shader "lcl/ToonShading/OutLine/Toon_OutLine"
             Cull Front
             ZWrite On
             Offset [_OffsetFactor], [_OffsetUnits]
+
             CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile _ _USE_SMOOTH_NORMAL_ON 
+            #pragma multi_compile _ _USE_SECOND_LEVELS_ON
 
             v2f vert (appdata v)
             {
                 v2f o;
-                //顶点沿着平均法线方向扩张
-                v.vertex.xyz +=  v.normal * _Power;
-                v.vertex.xyz +=  normalize(v.tangent.xyz) * _Power;
+                //顶点沿着法线方向扩张
+                #ifdef _USE_SMOOTH_NORMAL_ON
+                    // 使用平滑的法线计算
+                    v.vertex.xyz += normalize(v.tangent.xyz) * _OutlinePower;
+                #else
+                    // 使用自带的法线计算
+                    v.vertex.xyz += normalize(v.normal) * _OutlinePower * 0.2;
+                #endif
                 o.vertex = UnityObjectToClipPos(v.vertex);
 
                 // float3 normalDir =  normalize(v.tangent.xyz);
                 // float4 pos = UnityObjectToClipPos(v.vertex);
                 // float3 viewNormal = mul((float3x3)UNITY_MATRIX_IT_MV, normalDir);
                 // float3 ndcNormal = normalize(TransformViewToProjection(viewNormal.xyz)) * pos.w;//将法线变换到NDC空间
-                // pos.xy += _Power * ndcNormal.xy * 0.01;
+                // pos.xy += _OutlinePower * ndcNormal.xy * 0.01;
                 // o.vertex = pos;
                 return o;
             }
             fixed4 frag (v2f i) : SV_Target
             {
-                return _lineColor;
+                return _LineColor;
             }
-            #pragma vertex vert
-            #pragma fragment frag
+            
             ENDCG
         }
 
@@ -117,42 +138,58 @@ Shader "lcl/ToonShading/OutLine/Toon_OutLine"
             }
 
             // 计算色阶
-            float calculateRamp(float Threshold,float NdotL){
-                half diffuseMin = saturate(Threshold - _ShadowSmoothness);
-                half diffuseMax = saturate(Threshold + _ShadowSmoothness);
-                return smoothstep(diffuseMin,diffuseMax,NdotL);
+            float calculateRamp(float threshold,float value, float smoothness){
+                half minValue = saturate(threshold - smoothness);
+                half maxValue = saturate(threshold + smoothness);
+                return smoothstep(minValue,maxValue,value);
             }
 
             // ------------------------【正面-片元着色器】---------------------------
             fixed4 frag (v2f i) : SV_Target
             {
-                //正常渲染
-                //纹理颜色值
-                fixed4 col = tex2D(_MainTex, i.uv);
-                //环境光
                 // fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
-                //视角方向
                 float3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
-                //法线方向
-                float3 normaleDir = normalize(i.worldNormalDir);
-                //光照方向归一化
-                fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
+                float3 normalDir = normalize(i.worldNormalDir);
+                fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                fixed3 lightCol = _LightColor0.rgb;
+                fixed4 texCol = tex2D(_MainTex, i.uv);
+
                 //半兰伯特模型
-                fixed3 lambert = 0.5 * dot(normaleDir, worldLightDir) + 0.5;
-
+                fixed3 lambert = 0.5 * dot(normalDir, lightDir) + 0.5;
+                // 阈值判断，类似以下：
                 // half3 diffuse = lambert > _ShadowThreshold1 ? _Color.xyz : _ShadowColor;
+                half3 diffuse = half3(0,0,0);
+                #ifdef _USE_SECOND_LEVELS_ON
+                    // 二阶色阶
+                    float ramp1 = calculateRamp(_ShadowThreshold1,lambert,_ShadowSmoothness);
+                    float ramp2 = calculateRamp(_ShadowThreshold2,lambert,_ShadowSmoothness);
+                    float mid = saturate(ramp2-ramp1);
+                    float end = 1-ramp2;
+                    // half3 diffuse = _Color.xyz * ramp1 + _ShadowColor1 * mid + _ShadowColor2 * end;
+                    diffuse = fixed3(1,1,1) * ramp1 + _ShadowColor1 * mid + _ShadowColor2 * end;
+                    diffuse *= _Color.xyz * texCol;
+                    diffuse = fixed3(1,1,1);
+                #else
+                    // 一阶色阶
+                    float ramp1 = calculateRamp(_ShadowThreshold1,lambert,_ShadowSmoothness);
+                    diffuse = lerp(_ShadowColor1,_Color.xyz,ramp1) * _Color.xyz * texCol;
+                    diffuse = fixed3(0,0,0);
+                #endif
+                
+                
+                // 高光
+                fixed3 halfDir = normalize(lightDir + viewDir);
+                fixed specular =  pow(max(0,dot(normalDir,halfDir)),_SpecularPower);
+                // 阈值判断，类似以下：
+                // fixed3 specularCol = specular <= _SpecularThreshold ? fixed3(0,0,0) : _SpecularColor;
+                float specularRamp = calculateRamp(_SpecularThreshold,specular,_SpecularSmoothness);
+                fixed3 specularCol = lerp(fixed3(0,0,0),_SpecularColor,specularRamp);
 
-                // 一维色阶
-                // float ramp1 = calculateRamp(_ShadowThreshold1,lambert);
-                // half3 diffuse = lerp(_ShadowColor,_Color.xyz,ramp1);
+                fixed3 result = (diffuse + specularCol) * lightCol * texCol;
 
-                // 二维色阶
-                float ramp1 = calculateRamp(_ShadowThreshold1,lambert);
-                float ramp2 = calculateRamp(_ShadowThreshold2,lambert);
-                half3 diffuse = _ShadowColor1*ramp1 + _ShadowColor2 * ramp2 + _Color.xyz * (1-ramp1-ramp2);
-
-                fixed3 result = diffuse * _LightColor0 * col;
-                return float4(result,1);
+                // return float4(result,1);
+                return float4(diffuse,1);
+                // return specular;
             }
             ENDCG
         }
