@@ -1,6 +1,6 @@
 ﻿//--------------------------- 【描边】 - 法线扩张---------------------
 //create by 长生但酒狂
-Shader "lcl/shader3D/outline/outLine3D_swell"
+Shader "lcl/shader3D/outline/OutLine3D_Swell"
 {
     //---------------------------【属性】---------------------------
     Properties
@@ -10,9 +10,12 @@ Shader "lcl/shader3D/outline/outLine3D_swell"
         // 主颜色
         _Color("Color",Color)=(1,1,1,1)
         // 描边强度
-        _power("power",Range(0,0.2)) = 0.05
+        _Power("Power",Range(0,0.2)) = 0.05
         // 描边颜色
         _lineColor("lineColor",Color)=(1,1,1,1)
+
+        _OffsetFactor ("Offset Factor", Range(0,200)) = 0
+        _OffsetUnits ("Offset Units", Range(0,200)) = 0
     }
     // ------------------------【CG代码】---------------------------
     CGINCLUDE
@@ -42,7 +45,7 @@ Shader "lcl/shader3D/outline/outLine3D_swell"
     //主颜色
     float4 _Color;
     //描边强度
-    float _power;
+    float _Power;
     //描边颜色
     float4 _lineColor;
 
@@ -50,13 +53,20 @@ Shader "lcl/shader3D/outline/outLine3D_swell"
     v2f vert_back (appdata v)
     {
         v2f o;
-        //法线方向
+        //1.顶点沿着法线方向扩张，这种会造成近大远小的透视问题
         v.normal = normalize(v.normal);
-        //顶点沿着法线方向扩张
-        v.vertex.xyz +=  v.normal * _power;
-        //由模型空间坐标系转换到裁剪空间
+        v.vertex.xyz +=  v.normal * _Power;
         o.vertex = UnityObjectToClipPos(v.vertex);
-        //输出结果
+
+
+        // o.vertex = UnityObjectToClipPos(v.vertex);
+        // // 2.法线转换到ndc，不管摄像机多远，描边都不变
+        // //将法线方向转换到视空间
+        // float3 vnormal = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);
+        // //将视空间法线xy坐标转化到投影空间，只有xy需要，z深度不需要了
+        // float2 offset = TransformViewToProjection(vnormal.xy);
+        // //在最终投影阶段输出进行偏移操作
+        // o.vertex.xy += offset * _Power * 0.01;
         return o;
     }
 
@@ -77,8 +87,6 @@ Shader "lcl/shader3D/outline/outLine3D_swell"
         o.worldNormalDir = mul(v.normal,(float3x3) unity_WorldToObject);
         //顶点从模型空间坐标系转换到世界坐标系
         o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz; 
-        // //归一化
-        // v.normal = normalize(v.normal);
         //由模型空间坐标系转换到裁剪空间
         o.vertex = UnityObjectToClipPos(v.vertex);
         return o;
@@ -122,6 +130,8 @@ Shader "lcl/shader3D/outline/outLine3D_swell"
             //防止背面模型穿透正面模型
             //关闭深度写入，为了让正面的pass完全覆盖背面，同时要把渲染队列改成Transparent，此时物体渲染顺序是从后到前的
             ZWrite Off
+            //控制深度偏移，描边pass远离相机一些，防止与正常pass穿插
+            Offset [_OffsetFactor], [_OffsetUnits]
 
             CGPROGRAM
             #pragma vertex vert_back

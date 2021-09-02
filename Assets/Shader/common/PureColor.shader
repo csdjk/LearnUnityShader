@@ -1,4 +1,4 @@
-﻿// 纯色Shader 
+﻿// --------------------【纯色Shader】-----------------------
 Shader "lcl/Common/PureColor"
 {
 	Properties
