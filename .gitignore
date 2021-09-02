@@ -2305,3 +2305,137 @@ Assets/JMO Assets/Toony Colors Pro/Textures/Threshold/TCP2_ThresholdTex_Noise.pn
 Assets/JMO Assets/Toony Colors Pro/Textures/Threshold/TCP2_ThresholdTex_Pastel.png
 Assets/JMO Assets/Toony Colors Pro/Textures/Threshold/TCP2_ThresholdTex_Pastel.png.meta
 Assets/JMO Assets.meta
+Assets/Plugins/Allegorithmic.meta
+Assets/Plugins/Allegorithmic/Plugins.meta
+Assets/Plugins/Allegorithmic/Plugins/engine_build_info.txt
+Assets/Plugins/Allegorithmic/Plugins/engine_build_info.txt.meta
+Assets/Plugins/Allegorithmic/Plugins/EULA.txt
+Assets/Plugins/Allegorithmic/Plugins/EULA.txt.meta
+Assets/Plugins/Allegorithmic/Plugins/libsubstance_sse2_blend.bundle
+Assets/Plugins/Allegorithmic/Plugins/libsubstance_sse2_blend.bundle.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance.Engine.bundle.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance.Engine.dll
+Assets/Plugins/Allegorithmic/Plugins/Substance.Engine.dll.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance.Game.dll
+Assets/Plugins/Allegorithmic/Plugins/Substance.Game.dll.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance.Platform.meta
+Assets/Plugins/Allegorithmic/Plugins/substance_sse2_blend.dll
+Assets/Plugins/Allegorithmic/Plugins/substance_sse2_blend.dll.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Linux.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Engine.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance.Engine.bundle/Contents.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance.Engine.bundle/Contents/Info.plist
+Assets/Plugins/Allegorithmic/Plugins/Substance.Engine.bundle/Contents/Info.plist.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance.Engine.bundle/Contents/MacOS.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance.Engine.bundle/Contents/MacOS/Substance.Engine
+Assets/Plugins/Allegorithmic/Plugins/Substance.Engine.bundle/Contents/MacOS/Substance.Engine.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance.Platform/NativeFunctions.cs
+Assets/Plugins/Allegorithmic/Plugins/Substance.Platform/NativeFunctions.cs.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance.Platform/Substance.Platform.asmdef
+Assets/Plugins/Allegorithmic/Plugins/Substance.Platform/Substance.Platform.asmdef.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64/libalgcompression.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64/libalgcompression.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64/libpfxlinkercommon.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64/libpfxlinkercommon.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64/libSubstance.Engine.Mobile.so
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64/libSubstance.Engine.Mobile.so.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64/libsubstance_framework.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64/libsubstance_framework.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64/libsubstance_linker.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64/libsubstance_linker.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64/libsubstance_neon_blend.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64/libsubstance_neon_blend.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64/libtinyxml.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/Arm64/libtinyxml.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7/libalgcompression.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7/libalgcompression.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7/libpfxlinkercommon.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7/libpfxlinkercommon.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7/libSubstance.Engine.Mobile.so
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7/libSubstance.Engine.Mobile.so.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7/libsubstance_framework.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7/libsubstance_framework.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7/libsubstance_linker.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7/libsubstance_linker.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7/libsubstance_neon_blend.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7/libsubstance_neon_blend.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7/libtinyxml.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/Armv7/libtinyxml.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS/libalgcompression.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS/libalgcompression.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS/libpfxlinkercommon.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS/libpfxlinkercommon.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS/libSubstance.Engine.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS/libSubstance.Engine.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS/libsubstance_framework.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS/libsubstance_framework.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS/libsubstance_linker.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS/libsubstance_linker.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS/libsubstance_neon_blend.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS/libsubstance_neon_blend.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS/libtinyxml.a
+Assets/Plugins/Allegorithmic/Plugins/Substance/iOS/libtinyxml.a.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Linux/libSubstance.Engine.so
+Assets/Plugins/Allegorithmic/Plugins/Substance/Linux/libSubstance.Engine.so.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Linux/libsubstance_sse2_blend.so
+Assets/Plugins/Allegorithmic/Plugins/Substance/Linux/libsubstance_sse2_blend.so.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Engine/Editor.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Engine/Editor/MainObject.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Engine/Editor/MainObject.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Engine/Editor/Substance.Editor.dll
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Engine/Editor/Substance.Editor.dll.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Engine/Editor/Substance.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Engine/Editor/Substance.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Engine/Editor/SubstanceGraph.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Engine/Editor/SubstanceGraph.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Engine/Editor/SubstanceGraph-32.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Engine/Editor/SubstanceGraph-32.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/libSourceInterfacex64.dylib
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/libSourceInterfacex64.dylib.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/SourceInterfacex64.dll
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/SourceInterfacex64.dll.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/SourceUnityLib.dll
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/SourceUnityLib.dll.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/AssetDownload.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/AssetDownload.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/AvailableDownloads.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/AvailableDownloads.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/DetailExitButton.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/DetailExitButton.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/download.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/download.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/free.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/free.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/leftarrow.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/leftarrow.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/library.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/library.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/LoginButton.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/LoginButton.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/logo-substance.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/logo-substance.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/LogoutButton.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/LogoutButton.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/logo-white.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/logo-white.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/MagnifyingGlass.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/MagnifyingGlass.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/MyAssetsButton.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/MyAssetsButton.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/new.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/new.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/rightarrow.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/rightarrow.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/Source.Icon.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/Source.Icon.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/spinner.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/spinner.png.meta
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/SubstanceSourceLoading.png
+Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/SubstanceSourceLoading.png.meta
