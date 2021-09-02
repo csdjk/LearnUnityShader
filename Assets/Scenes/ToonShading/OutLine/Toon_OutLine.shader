@@ -10,7 +10,7 @@ Shader "lcl/ToonShading/OutLine/Toon_OutLine"
 
         // 描边
         [Main(outline, _, 3)] _group_outline ("描边", float) = 1
-        [Sub(outline)] _OutlinePower("Outline Power",Range(0,1)) = 0.05
+        [Sub(outline)] _OutlinePower("Outline Power",Range(0,0.1)) = 0.05
         [Sub(outline)]_LineColor("Line Color",Color)=(1,1,1,1)
         [Sub(outline)]_OffsetFactor ("Offset Factor", Range(0,200)) = 0
         [Sub(outline)]_OffsetUnits ("Offset Units", Range(0,200)) = 0
@@ -79,14 +79,13 @@ Shader "lcl/ToonShading/OutLine/Toon_OutLine"
         {
             Blend SrcAlpha OneMinusSrcAlpha
             Cull Front
-            ZWrite On
+            ZWrite Off
             Offset [_OffsetFactor], [_OffsetUnits]
 
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile _ _USE_SMOOTH_NORMAL_ON 
-            #pragma multi_compile _ _USE_SECOND_LEVELS_ON
 
             v2f vert (appdata v)
             {
@@ -122,23 +121,22 @@ Shader "lcl/ToonShading/OutLine/Toon_OutLine"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma multi_compile _ _USE_SECOND_LEVELS_ON
 
             v2f vert (appdata v)
             {
                 //正常渲染
                 v2f o;
                 o.uv = v.uv;
-                //法线从模型空间坐标系转换到世界坐标系
                 o.worldNormalDir = mul(v.normal,(float3x3) unity_WorldToObject);
-                //顶点从模型空间坐标系转换到世界坐标系
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz; 
-                //由模型空间坐标系转换到裁剪空间
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 return o;
             }
 
             // 计算色阶
             float calculateRamp(float threshold,float value, float smoothness){
+                threshold = saturate(1-threshold);
                 half minValue = saturate(threshold - smoothness);
                 half maxValue = saturate(threshold + smoothness);
                 return smoothstep(minValue,maxValue,value);
@@ -168,12 +166,10 @@ Shader "lcl/ToonShading/OutLine/Toon_OutLine"
                     // half3 diffuse = _Color.xyz * ramp1 + _ShadowColor1 * mid + _ShadowColor2 * end;
                     diffuse = fixed3(1,1,1) * ramp1 + _ShadowColor1 * mid + _ShadowColor2 * end;
                     diffuse *= _Color.xyz * texCol;
-                    diffuse = fixed3(1,1,1);
                 #else
                     // 一阶色阶
                     float ramp1 = calculateRamp(_ShadowThreshold1,lambert,_ShadowSmoothness);
                     diffuse = lerp(_ShadowColor1,_Color.xyz,ramp1) * _Color.xyz * texCol;
-                    diffuse = fixed3(0,0,0);
                 #endif
                 
                 
@@ -187,8 +183,8 @@ Shader "lcl/ToonShading/OutLine/Toon_OutLine"
 
                 fixed3 result = (diffuse + specularCol) * lightCol * texCol;
 
-                // return float4(result,1);
-                return float4(diffuse,1);
+                return float4(specularCol+diffuse,1);
+                // return float4(diffuse,1);
                 // return specular;
             }
             ENDCG
