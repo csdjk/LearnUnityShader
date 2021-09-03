@@ -2442,3 +2442,7 @@ Assets/Plugins/Allegorithmic/Plugins/Substance/Substance Source/Editor/Images/Su
 Assets/Allegorithmic/Plugins/Substance.meta
 Assets/Allegorithmic/Plugins/Substance.Engine.bundle/Contents/Info.plist.meta
 Assets/Allegorithmic/Plugins/Substance.Engine.bundle/Contents/MacOS.meta
+Assets/Allegorithmic/Plugins.meta
+Assets/Allegorithmic/Plugins/Substance.Engine.bundle.meta
+Assets/Allegorithmic/Plugins/Substance.Engine.bundle/Contents.meta
+Assets/Allegorithmic.meta
