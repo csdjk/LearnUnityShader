@@ -10,7 +10,6 @@ Material:
   m_Name: Sphere
   m_Shader: {fileID: 4800000, guid: 473a01c7b112cad41a8ae8f0b28390fb, type: 3}
   m_ShaderKeywords: _ _GROUP_OUTLINE_ON _GROUP_SHADOW_ON _KEYWORD _USE_SECOND_LEVELS_ON
-    _USE_SMOOTH_NORMAL_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -69,8 +68,8 @@ Material:
     - _OUTLINE_SWITCH: 1
     - _OcclusionStrength: 1
     - _OffsetFactor: 0
-    - _OffsetUnits: 9
-    - _OutlinePower: 0.124
+    - _OffsetUnits: 43.4
+    - _OutlinePower: 0.1
     - _Parallax: 0.02
     - _Power: 0.0269
     - _RefValue: 0
@@ -85,7 +84,7 @@ Material:
     - _SpecularThreshold: 0.282
     - _SrcBlend: 1
     - _USE_SECOND_LEVELS: 1
-    - _USE_SMOOTH_NORMAL: 1
+    - _USE_SMOOTH_NORMAL: 0
     - _UVSec: 0
     - _ZWrite: 1
     - _group_outline: 1
