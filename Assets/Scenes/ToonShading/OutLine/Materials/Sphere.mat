@@ -69,10 +69,12 @@ Material:
     - _OcclusionStrength: 1
     - _OffsetFactor: 0
     - _OffsetUnits: 43.4
-    - _OutlinePower: 0.1
+    - _OutlinePower: 0
     - _Parallax: 0.02
     - _Power: 0.0269
     - _RefValue: 0
+    - _RimIntensity: 1.65
+    - _RimWidth: 0.312
     - _ShadowSmoothness: 0.008
     - _ShadowThreshold: 0.45
     - _ShadowThreshold1: 0.381

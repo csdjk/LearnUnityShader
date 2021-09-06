@@ -1,0 +1,1748 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+# TCP2_ShaderTemplate_PBS (Unity 5.5)
+#NAME=Legacy/Standard PBS
+#CONFIG=PBS
+#INFO=Toony Colors Pro 2 Template  PBS version based on Unity Standard shader
+#FEATURES
+mult	lbl=PBS Workflow					kw=Metallic|,Specular|PBS_SPECULAR								nohelp
+---
+mult	lbl=Ramp Style						kw=Slider Ramp|,Texture Ramp|TEXTURE_RAMP											tt=Defines the transitioning between dark and lit areas of the model
+sngl	lbl=Colors Multipliers				kw=COLOR_MULTIPLIERS											nohelp			tt=Adds multiplier values for highlight and shadow colors to enhance contrast or colors
+sngl	lbl=Diffuse Tint					kw=DIFFUSE_TINT																		tt=Adds a diffuse tint color, to add some subtle coloring to the diffuse lighting
+mult	lbl=Textured Threshold				kw=Off|,Main Light|TEXTHR_MAIN,Other Lights|TEXTHR_OTHER,All Lights|TEXTHR_ALL		tt=Adds a textured variation to the highlight/shadow threshold, allowing handpainting like effects for example
+sngl	lbl=Wrapped Diffuse					kw=WRAPPED_DIFFUSE												nohelp			tt=Enable wrapped diffuse lighting
+sngl	lbl=Custom Wrapping					kw=CUSTOM_WRAPPING		needs=WRAPPED_DIFFUSE	indent			nohelp			tt=Enable custom wrapping value
+---
+mask	lbl=Albedo Color Mask		msk=COLORMASK	ch=COLORMASK_CHANNEL	kw=COLORMASK	dispName=Color		hlptop=Color Mask
+#sngl	lbl=Separate Color			kw=COLORMASK_SEPARATE					needs=COLORMASK						indent				nohelp			tt=Use a separate masked color (if disabled, will use the main Color property)
+mult	lbl=Blending				kw=Multiply|,Replace Color|COLORMASK_REPLACE,Add|COLORMASK_ADD			needs=COLORMASK	indent	nohelp	tt=Blending mode for the masked color
+---
+sngl	lbl=HSV Controls			kw=HSV_CONTROLS																					nohelp			tt=Adds Hue, Saturation, Value controls to the main texture
+mask	lbl=HSV Mask				msk=HSV_MASK	ch=HSV_MASK_CHANNEL		kw=HSV_MASK		dispName=HSV	needs=HSV_CONTROLS		nohelp			tt=Masks the HSV control
+---
+sngl	lbl=Vertex Colors				kw=VCOLORS					tt=Multiplies the color with vertex colors
+sngl	lbl=Gamma to Linear Space		kw=VCOLORS_LINEAR	needs=VCOLORS	indent	nohelp		tt=Converts the vertex color from gamma to linear space (when linear color space is enabled)
+#sngl	lbl=Vertex Texture Blending		kw=VCOLORS_BLENDING			tt=Enables 2-way texture blending based on the mesh's vertex color alpha
+#sngl	lbl=Normal Map Blending			kw=VCOLORS_BUMP_BLENDING	tt=Enables 2-way texture blending for the normal map as well				needs=VCOLORS_BLENDING	indent
+---
+sngl	lbl=Stylized Specular	kw=SPECULAR_STYLIZED											excl=SPECULAR_OFF		tt=Enables clear delimitation of specular color
+sngl	lbl=Stylized Fresnel	kw=FRESNEL_STYLIZED												excl=FRESNEL_OFF		tt=Enables accentuated Fresnel-reflections relative to realtime lights
+sngl	lbl=Disable Specular	kw=SPECULAR_OFF			nohelp
+sngl	lbl=Disable Fresnel		kw=FRESNEL_OFF			nohelp
+---
+sngl	lbl=Subsurface Scattering	kw=SUBSURFACE_SCATTERING
+mult	lbl=Subsurface Lights	kw=Point\Spot Lights|,Directional Lights|SS_DIR_LIGHTS,All Lights|SS_ALL_LIGHTS	needs=SUBSURFACE_SCATTERING		indent	nohelp		tt=Defines which lights will affect subsurface scattering
+mask	lbl=Subsurface Mask		msk=SS_MASK		ch=SS_MASK_CHANNEL	kw=SS_MASK	dispName=Subsurface				needs=SUBSURFACE_SCATTERING		indent	nohelp		tt=Defines where the subsurface scattering effect should apply
+sngl	lbl=Subsurface Color			kw=SUBSURFACE_COLOR														needs=SUBSURFACE_SCATTERING		indent	nohelp		tt=Control the color of the subsurface effect (only affecting back lighting)
+sngl	lbl=Subsurface Ambient Color	kw=SUBSURFACE_AMB_COLOR													needs=SUBSURFACE_SCATTERING		indent	nohelp		tt=Adds an ambient subsurface color, affecting both front and back lighting
+sngl	lbl=Subsurface Light Color		kw=SS_COLOR_FROM_LIGHT													needs=SUBSURFACE_SCATTERING		indent	nohelp		tt=Inherit the subsurface color from the lights
+sngl	lbl=Multiplicative				kw=SS_MULTIPLICATIVE													needs=SUBSURFACE_SCATTERING		indent	nohelp		tt=Makes the subsurface scattering effect multiplied to the diffuse color instead of added with it
+#---
+#sngl	lbl=Dissolve Map				kw=DISSOLVE																nohelp					tt=Adds a dissolve texture map with the corresponding slider
+#mult	lbl=Color Channel				kw=Alpha|,Red|DSLV_R,Green|DSLV_G,Blue|DSLV_B		needs=DISSOLVE		nohelp	indent		tt=Color channel to use for the dissolve map
+#sngl	lbl=Independent UV				kw=DISSOLVE_UV										needs=DISSOLVE		nohelp	indent		tt=Use separate UVs with its own tiling and offset values for the dissolve map (else use the main texture UV)
+---
+mult	lbl=Sketch						kw=Off|,Sketch Overlay|SKETCH,Sketch Gradient|SKETCH_GRADIENT							tt=Sketch texture overlay on the shadowed areas\nOverlay: regular texture overlay\nGradient: used for halftone-like effects
+mult	lbl=Sketch Blending				kw=Regular|,Color Burn|SKETCH_COLORBURN		needs=SKETCH	nohelp	indent		tt=Defines how to blend the Sketch texture with the model
+sngl	lbl=Animated Sketch				kw=SKETCH_ANIM			needsOr=SKETCH,SKETCH_GRADIENT		nohelp	indent		tt=Animates the sketch overlay texture, simulating a hand-drawn animation style
+sngl	lbl=Vertex Coords				kw=SKETCH_VERTEX		needsOr=SKETCH,SKETCH_GRADIENT		nohelp	indent		tt=Compute screen coordinates in vertex shader (faster but can cause distortions)\nIf disabled will compute in pixel shader (slower)
+sngl	lbl=Disable Obj-Space Offset	kw=NO_SKETCH_OFFSET		needsOr=SKETCH,SKETCH_GRADIENT		nohelp	indent		tt=Prevent the screen-space UVs from being offset based on the object's position
+---
+#mult	lbl=Outline					kw=Off|,Opaque Outline|OUTLINE,Blended Outline|OUTLINE_BLENDING											tt=Outline around the model
+#sngl	lbl=Outline behind model	kw=OUTLINE_BEHIND		needsOr=OUTLINE,OUTLINE_BLENDING								indent	nohelp		tt=If enabled, outline will only show behind model
+#sngl	lbl=Depth Pass				kw=OUTLINE_DEPTH		needsOr=OUTLINE,OUTLINE_BLENDING	needs=OUTLINE_BEHIND		indent	nohelp		tt=Adds a depth writing pass for the outline behind model: this can solve issues with sorting and drawing order
+mult	lbl=Outline					kw=Off|,Opaque Outline|OUTLINE,Blended Outline|OUTLINE_BLENDING											tt=Outline around the model
+sngl	lbl=Legacy Outline			kw=LEGACY_OUTLINE	needsOr=OUTLINE,OUTLINE_BLENDING								indent	nohelp		tt=Legacy behavior of the outline (prior to v2.3.36 that introduced some fixes)
+sngl	lbl=HDR Outline Color		kw=HDR_OUTLINE		needsOr=OUTLINE,OUTLINE_BLENDING								indent	nohelp		tt=Makes the outline color HDR, being able to go over 1
+mult	lbl=Outline behind model	kw=Off|,Depth Buffer|OUTLINE_BEHIND_DEPTH,Stencil Buffer|OUTLINE_BEHIND_STENCIL		needsOr=OUTLINE,OUTLINE_BLENDING	indent	nohelp		tt=Show outline behind model
+sngl	lbl=Depth Pass				kw=OUTLINE_DEPTH	needsOr=OUTLINE,OUTLINE_BLENDING	needs=OUTLINE_BEHIND_DEPTH	indent	nohelp		tt=Adds a depth writing pass for the outline behind model: this can solve issues with sorting and drawing order
+space	needs=OUTLINE_BEHIND_DEPTH	needsOr=OUTLINE,OUTLINE_BLENDING
+mult	lbl=Outline as fake rim		kw=Off|,Based on Main Directional Light|OUTLINE_FAKE_RIM_DIRLIGHT,Manual Offset|OUTLINE_FAKE_RIM	excl=LEGACY_OUTLINE		needsOr=OUTLINE,OUTLINE_BLENDING	indent	nohelp		tt=Use the outline as a fake crisp rim light
+sngl	lbl=Vertex Lighting			kw=OFRD_LIGHTING	needsOr=OUTLINE,OUTLINE_BLENDING	needs=OUTLINE_FAKE_RIM_DIRLIGHT	indent	nohelp		tt=Apply basic vertex lighting to attenuate the fake rim outline color based on the directional light
+sngl	lbl=Directional Light Color	kw=OFRD_COLOR		needsOr=OUTLINE,OUTLINE_BLENDING	needs=OUTLINE_FAKE_RIM_DIRLIGHT	indent	nohelp		tt=Multiply the fake rim color with the main directional light's color
+space	needs=OUTLINE_FAKE_RIM_DIRLIGHT	needsOr=OUTLINE,OUTLINE_BLENDING
+sngl	lbl=Vertex Color Width		kw=OUTLINE_VCOLOR_WIDTH	needsOr=OUTLINE,OUTLINE_BLENDING							indent	nohelp	excl=LEGACY_OUTLINE		tt=Modulate the outline width with a vertex color		half
+keyword	lbl=Channel	kw=OVCW_CHNL	values=R|r,G|g,B|b,A|a	needsOr=OUTLINE,OUTLINE_BLENDING	needs=OUTLINE_VCOLOR_WIDTH		nohelp	excl=LEGACY_OUTLINE	default=0	forceKeyword=true								inline
+sngl	lbl=Shadow/Depth Pass		kw=OUTLINE_SHADOWCASTER	needsOr=OUTLINE,OUTLINE_BLENDING							indent	nohelp	excl=LEGACY_OUTLINE		tt=Adds a shadow caster pass based on the outline vertices. This will ensure that the cast shadows include the thickness of the outline, and also that the outline is included in the depth texture (e.g. for post effects like depth of field)
+---
+mult	lbl=Culling/Double-sided		kw=Back (default)|,Front|CULL_FRONT,Off (double-sided)|CULL_OFF,User-defined in Material|CULL_OPTION	nohelp	tt=Defines how to cull faces
+sngl	lbl=Backface Lighting			kw=USE_VFACE	indent	nohelp		tt=Invert the normals on backfaces for accurate lighting calculation (this may not work properly with shadows and introduce other artifacts)
+---
+keyword	lbl=Shader Target	kw=SHADER_TARGET	forceKeyword=true	values=2.0 (Old hardware)|2.0,2.5 (Mobile devices)|2.5,3.0 (Recommended default)|3.0,3.5|3.5,4.0|4.0,4.5|4.5,4.6|4.6,5.0|5.0		default=2
+warning	msgType=info		lbl=Use Shader Target 2.5 for maximum compatibility across mobile devices    Increase the number if the shader fails to compile (not enough instructions or interpolators)
+sngl	lbl=Disable Dynamic Batching	kw=DISABLE_BATCHING		nohelp									tt=Disable dynamic batching support for this shader.  Can help if dynamic batching causes UV or vertex displacement issues among water planes for example.
+sngl	lbl=Disable Shadows				kw=DISABLE_SHADOWS		nohelp
+#END
+
+#KEYWORDS
+
+#Textured Threshold
+/// IF TEXTHR_MAIN || TEXTHR_OTHER || TEXTHR_ALL
+enable_kw	TEXTURED_THRESHOLD
+/// ELSE
+disable_kw	TEXTURED_THRESHOLD
+///
+
+#Vertex Input modifiers
+/// IF VCOLORS_MASK || VCOLORS
+enable_kw	CUSTOM_VERTEX_INPUT
+///
+
+#Vertex Color
+/// IF VCOLORS_MASK || VCOLORS
+enable_kw	USE_VERTEX_COLORS
+///
+
+#Screen Space Coordinates
+/// IF SKETCH || SKETCH_GRADIENT
+enable_kw	USE_SCREENSPACE_COORDS
+///
+
+#END
+
+Shader "@%SHADER_NAME%@"
+{
+	Properties
+	{
+		_Color("Color", Color) = (1,1,1,1)
+		_MainTex("Albedo", 2D) = "white" {}
+
+		_Cutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.5
+
+/// IF PBS_SPECULAR
+		_Glossiness("Smoothness", Range(0.0, 1.0)) = 0.5
+		_GlossMapScale("Smoothness Factor", Range(0.0, 1.0)) = 1.0
+		[Enum(Specular Alpha,0,Albedo Alpha,1)] _SmoothnessTextureChannel ("Smoothness texture channel", Float) = 0
+
+		_SpecColor("Specular", Color) = (0.2,0.2,0.2)
+		_SpecGlossMap("Specular", 2D) = "white" {}
+/// ELSE
+		_Glossiness("Smoothness", Range(0.0, 1.0)) = 0.5
+		_GlossMapScale("Smoothness Scale", Range(0.0, 1.0)) = 1.0
+		[Enum(Metallic Alpha,0,Albedo Alpha,1)] _SmoothnessTextureChannel ("Smoothness texture channel", Float) = 0
+
+		[Gamma] _Metallic("Metallic", Range(0.0, 1.0)) = 0.0
+		_MetallicGlossMap("Metallic", 2D) = "white" {}
+///
+
+		// [ToggleOff] _SpecularHighlights("Specular Highlights", Float) = 1.0
+		// [ToggleOff] _GlossyReflections("Glossy Reflections", Float) = 1.0
+
+		_BumpScale("Scale", Float) = 1.0
+		_BumpMap("Normal Map", 2D) = "bump" {}
+
+		_Parallax ("Height Scale", Range (0.005, 0.08)) = 0.02
+		_ParallaxMap ("Height Map", 2D) = "black" {}
+
+		_OcclusionStrength("Strength", Range(0.0, 1.0)) = 1.0
+		_OcclusionMap("Occlusion", 2D) = "white" {}
+
+		_EmissionColor("Color", Color) = (0,0,0)
+		_EmissionMap("Emission", 2D) = "white" {}
+
+		_DetailMask("Detail Mask", 2D) = "white" {}
+
+		_DetailAlbedoMap("Detail Albedo x2", 2D) = "grey" {}
+		_DetailNormalMapScale("Scale", Float) = 1.0
+		_DetailNormalMap("Normal Map", 2D) = "bump" {}
+
+		[Enum(UV0,0,UV1,1)] _UVSec ("UV Set for secondary textures", Float) = 0
+
+		// Blending state
+		[HideInInspector] _Mode("__mode", Float) = 0.0
+		[HideInInspector] _SrcBlend("__src", Float) = 1.0
+		[HideInInspector] _DstBlend("__dst", Float) = 0.0
+		[HideInInspector] _ZWrite("__zw", Float) = 1.0
+
+		//TOONY COLORS PRO 2 ----------------------------------------------------------------
+		_HColor("Highlight Color", Color) = (0.785,0.785,0.785,1.0)
+		_SColor("Shadow Color", Color) = (0.195,0.195,0.195,1.0)
+
+/// IF COLOR_MULTIPLIERS
+		_HighlightMultiplier ("Highlight Multiplier", Range(0,4)) = 1
+		_ShadowMultiplier ("Shadow Multiplier", Range(0,4)) = 1
+///
+/// IF COLORMASK
+		_MaskedColor ("Masked Color", Color) = (1.0, 0.0, 0.0, 1.0)
+		_ColorMaskStrength ("Masked Color Strength", Range(0,4)) = 1.0
+///
+/// IF WRAPPED_DIFFUSE && CUSTOM_WRAPPING
+		_WrapValue("Diffuse Wrap Value", Range(-0.5,0.5)) = 0.5
+///
+/// IF DIFFUSE_TINT
+		_DiffTint ("Diffuse Tint", Color) = (0.7,0.8,1,1)
+///
+
+	[Header(Ramp Shading)]
+/// IF TEXTURE_RAMP
+		[NoScaleOffset] [TCP2Gradient] _Ramp ("Ramp Texture", 2D) = "gray" {}
+/// ELSE
+		_RampThreshold("Threshold", Range(0,1)) = 0.5
+		_RampSmooth("Main Light Smoothing", Range(0,1)) = 0.2
+		_RampSmoothAdd("Other Lights Smoothing", Range(0,1)) = 0.75
+///
+/// IF TEXTURED_THRESHOLD
+
+	[Header(Threshold Texture)]
+		[NoScaleOffset] _ThresholdTex ("Texture (Alpha)", 2D) = "gray" {}
+		_ThresholdStrength ("Strength", Range(0,1)) = 1
+		_ThresholdScale ("Scale", Float) = 4
+///
+/// IF SKETCH || SKETCH_GRADIENT
+
+	[Header(Sketch)]
+		//SKETCH
+		_SketchTex ("Sketch (Alpha)", 2D) = "white" {}
+	/// IF SKETCH_ANIM
+		_SketchSpeed ("Sketch Anim Speed", Range(1.1, 10)) = 6
+	///
+	/// IF SKETCH
+		_SketchStrength ("Sketch Strength", Range(0,1)) = 1
+	/// ELIF SKETCH_GRADIENT
+		_SketchColor ("Sketch Color (RGB)", Color) = (0,0,0,1)
+		_SketchHalftoneMin ("Sketch Halftone Min", Range(0,1)) = 0.2
+		_SketchHalftoneMax ("Sketch Halftone Max", Range(0,1)) = 1.0
+	///
+///
+/// IF HSV_CONTROLS
+
+	[Header(HSV Controls)]
+		_HSV_H ("Hue", Range(-360,360)) = 0
+		_HSV_S ("Saturation", Range(-1,1)) = 0
+		_HSV_V ("Value", Range(-1,1)) = 0
+///
+/// IF SUBSURFACE_SCATTERING
+
+	[Header(Subsurface Scattering)]
+		_SSDistortion ("Distortion", Range(0,2)) = 0.2
+		_SSPower ("Power", Range(0.1,16)) = 3.0
+		_SSScale ("Scale", Float) = 1.0
+	/// IF SUBSURFACE_COLOR
+		_SSColor ("Color (RGB)", Color) = (0.5,0.5,0.5,1)
+	///
+	/// IF SUBSURFACE_AMB_COLOR
+		_SSAmbColor ("Ambient Color (RGB)", Color) = (0.5,0.5,0.5,1)
+	///
+///
+/// IF SPECULAR_STYLIZED
+
+	[Header(Stylized Specular)]
+		_SpecSmooth("Specular Smoothing", Range(0,1)) = 1.0
+		_SpecBlend("Specular Blend", Range(0,1)) = 1.0
+
+///
+/// IF FRESNEL_STYLIZED
+
+	[Header(Stylized Fresnel)]
+		[PowerSlider(3)] _RimStrength("Strength", Range(0, 2)) = 0.5
+		_RimMin("Min", Range(0, 1)) = 0.6
+		_RimMax("Max", Range(0, 1)) = 0.85
+
+///
+/// IF MASK1 || MASK2 || MASK3
+
+	[Header(Masks)]
+///
+/// IF MASK1
+	/// IF !UVMASK1
+		[NoScaleOffset]
+	///
+		_Mask1 ("Mask 1 (@%MASK1%@)", 2D) = "black" {}
+///
+/// IF MASK2
+	/// IF !UVMASK2
+		[NoScaleOffset]
+	///
+		_Mask2 ("Mask 2 (@%MASK2%@)", 2D) = "black" {}
+///
+/// IF MASK3
+	/// IF !UVMASK3
+		[NoScaleOffset]
+	///
+		_Mask3 ("Mask 3 (@%MASK3%@)", 2D) = "black" {}
+///
+/// IF OUTLINE || OUTLINE_BLENDING
+
+	[Header(Outline)]
+		//OUTLINE
+	/// IF HDR_OUTLINE
+		[HDR] _OutlineColor ("Outline Color", Color) = (0.2, 0.2, 0.2, 1.0)
+	/// ELSE
+		_OutlineColor ("Outline Color", Color) = (0.2, 0.2, 0.2, 1.0)
+	///
+		_Outline ("Outline Width", Float) = 1
+
+		//Outline Textured
+		[Toggle(TCP2_OUTLINE_TEXTURED)] _EnableTexturedOutline ("Color from Texture", Float) = 0
+		[TCP2KeywordFilter(TCP2_OUTLINE_TEXTURED)] _TexLod ("Texture LOD", Range(0,10)) = 5
+
+		//Constant-size outline
+		[Toggle(TCP2_OUTLINE_CONST_SIZE)] _EnableConstSizeOutline ("Constant Size Outline", Float) = 0
+
+		//ZSmooth
+		[Toggle(TCP2_ZSMOOTH_ON)] _EnableZSmooth ("Correct Z Artefacts", Float) = 0
+		//Z Correction & Offset
+		[TCP2KeywordFilter(TCP2_ZSMOOTH_ON)] _ZSmooth ("Z Correction", Range(-3.0,3.0)) = -0.5
+		[TCP2KeywordFilter(TCP2_ZSMOOTH_ON)] _Offset1 ("Z Offset 1", Float) = 0
+		[TCP2KeywordFilter(TCP2_ZSMOOTH_ON)] _Offset2 ("Z Offset 2", Float) = 0
+
+		//This property will be ignored and will draw the custom normals GUI instead
+		[TCP2OutlineNormalsGUI] __outline_gui_dummy__ ("_unused_", Float) = 0
+	/// IF OUTLINE_BLENDING
+		//Blending
+		[TCP2Header(OUTLINE BLENDING)]
+		[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlendOutline ("Blending Source", Float) = 5
+		[Enum(UnityEngine.Rendering.BlendMode)] _DstBlendOutline ("Blending Dest", Float) = 10
+	///	
+	/// IF OUTLINE_BEHIND_STENCIL
+			_StencilRef ("Stencil Outline Group", Range(0,255)) = 1
+	///
+	/// IF OUTLINE_FAKE_RIM
+			_OutlineOffset ("Outline Rim Offset", Vector) = (0,0,0,0)
+	///
+///
+
+/// IF CULL_OPTION
+		[Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Culling", Float) = 2
+///
+		//Avoid compile error if the properties are ending with a drawer
+		[HideInInspector] __dummy__ ("__unused__", Float) = 0
+	}
+
+	SubShader
+	{
+/// IF DISABLE_BATCHING
+		Tags { "DisableBatching" = "True" }
+
+///
+/// IF (OUTLINE || OUTLINE_BLENDING) && !LEGACY_OUTLINE
+		//================================================================
+		// OUTLINE INCLUDE
+
+		CGINCLUDE
+
+		#include "UnityCG.cginc"
+/// IF OUTLINE_FAKE_RIM_DIRLIGHT && OFRD_COLOR
+		#include "UnityLightingCommon.cginc"
+///
+
+		struct a2v
+		{
+			float4 vertex : POSITION;
+			float3 normal : NORMAL;
+	#if TCP2_OUTLINE_TEXTURED
+			float3 texcoord : TEXCOORD0;
+	#endif
+	/// IF !OUTLINE_VCOLOR_WIDTH
+		#if TCP2_COLORS_AS_NORMALS
+	///
+			float4 color : COLOR;
+	/// IF !OUTLINE_VCOLOR_WIDTH
+		#endif
+	///
+	#if TCP2_UV2_AS_NORMALS
+			float2 uv2 : TEXCOORD1;
+	#endif
+	#if TCP2_TANGENT_AS_NORMALS
+			float4 tangent : TANGENT;
+	#endif
+	#if UNITY_VERSION >= 550
+			UNITY_VERTEX_INPUT_INSTANCE_ID
+	#endif
+		};
+
+		struct v2f
+		{
+			float4 pos : SV_POSITION;
+	#if TCP2_OUTLINE_TEXTURED
+			float3 texlod : TEXCOORD1;
+	#endif
+	/// IF OUTLINE_FAKE_RIM_DIRLIGHT && OFRD_LIGHTING
+			float ndl : TEXCOORD2;
+	///
+		};
+
+		float _Outline;
+		float _ZSmooth;
+	/// IF HDR_OUTLINE
+		half4 _OutlineColor;
+	/// ELSE
+		fixed4 _OutlineColor;
+	///
+	/// IF OUTLINE_FAKE_RIM
+		half4 _OutlineOffset;
+	///
+
+	#if TCP2_OUTLINE_TEXTURED
+		sampler2D _MainTex;
+		float4 _MainTex_ST;
+		float _TexLod;
+	#endif
+
+	/// IF OUTLINE_FAKE_RIM_DIRLIGHT
+		#define OUTLINE_WIDTH 0.0
+	/// ELSE
+	  /// IF OUTLINE_VCOLOR_WIDTH
+		#define OUTLINE_WIDTH (_Outline * v.color.@%OVCW_CHNL%@)
+	  /// ELSE
+		#define OUTLINE_WIDTH _Outline
+	  ///
+	///
+
+		v2f TCP2_Outline_Vert(a2v v)
+		{
+			v2f o;
+
+	#if UNITY_VERSION >= 550
+			//GPU instancing support
+			UNITY_SETUP_INSTANCE_ID(v);
+	#endif
+
+	/// IF OUTLINE_FAKE_RIM_DIRLIGHT
+
+			float3 objSpaceLight = mul(unity_WorldToObject, _WorldSpaceLightPos0).xyz;
+	#ifdef TCP2_OUTLINE_CONST_SIZE
+			//Camera-independent outline size
+			float dist = distance(_WorldSpaceCameraPos, mul(unity_ObjectToWorld, v.vertex));
+			v.vertex.xyz += objSpaceLight.xyz * 0.01 * _Outline * dist;
+	#else
+			v.vertex.xyz += objSpaceLight.xyz * 0.01 * _Outline;
+	#endif
+		/// IF OUTLINE_FAKE_RIM_DIRLIGHT && OFRD_LIGHTING
+			o.ndl = saturate(dot(v.normal.xyz, objSpaceLight.xyz) * 0.5 + 0.5);
+		///
+	/// ELIF OUTLINE_FAKE_RIM
+			v.vertex += _OutlineOffset;
+	///
+
+	#if TCP2_ZSMOOTH_ON
+			float4 pos = float4(UnityObjectToViewPos(v.vertex), 1.0);
+	#endif
+
+	#ifdef TCP2_COLORS_AS_NORMALS
+			//Vertex Color for Normals
+			float3 normal = (v.color.xyz*2) - 1;
+	#elif TCP2_TANGENT_AS_NORMALS
+			//Tangent for Normals
+			float3 normal = v.tangent.xyz;
+	#elif TCP2_UV2_AS_NORMALS
+			//UV2 for Normals
+			float3 n;
+			//unpack uv2
+			v.uv2.x = v.uv2.x * 255.0/16.0;
+			n.x = floor(v.uv2.x) / 15.0;
+			n.y = frac(v.uv2.x) * 16.0 / 15.0;
+			//get z
+			n.z = v.uv2.y;
+			//transform
+			n = n*2 - 1;
+			float3 normal = n;
+	#else
+			float3 normal = v.normal;
+	#endif
+
+	#if TCP2_ZSMOOTH_ON
+			//Correct Z artefacts
+			normal = UnityObjectToViewPos(normal);
+			normal.z = -_ZSmooth;
+	#endif
+
+/// IF !OUTLINE_FAKE_RIM_DIRLIGHT
+	#ifdef TCP2_OUTLINE_CONST_SIZE
+			//Camera-independent outline size
+			float dist = distance(_WorldSpaceCameraPos, mul(unity_ObjectToWorld, v.vertex));
+			#define SIZE	dist
+	#else
+			#define SIZE	1.0
+	#endif
+/// ELSE
+			#define SIZE	0.0
+///
+
+	#if TCP2_ZSMOOTH_ON
+			o.pos = mul(UNITY_MATRIX_P, pos + float4(normalize(normal),0) * OUTLINE_WIDTH * 0.01 * SIZE);
+	#else
+			o.pos = UnityObjectToClipPos(v.vertex + float4(normal,0) * OUTLINE_WIDTH * 0.01 * SIZE);
+	#endif
+
+	#if TCP2_OUTLINE_TEXTURED
+			half2 uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+			o.texlod = tex2Dlod(_MainTex, float4(uv, 0, _TexLod)).rgb;
+	#endif
+
+			return o;
+		}
+
+	/// IF OUTLINE_FAKE_RIM_DIRLIGHT && OFRD_COLOR && OFRD_LIGHTING
+		#define OUTLINE_COLOR (_OutlineColor * _LightColor0 * IN.ndl)
+	/// ELIF OUTLINE_FAKE_RIM_DIRLIGHT && OFRD_COLOR
+		#define OUTLINE_COLOR (_OutlineColor * _LightColor0)
+	/// ELIF OUTLINE_FAKE_RIM_DIRLIGHT && OFRD_LIGHTING
+		#define OUTLINE_COLOR (_OutlineColor * IN.ndl)
+	/// ELSE
+		#define OUTLINE_COLOR _OutlineColor
+	///
+
+		float4 TCP2_Outline_Frag (v2f IN) : SV_Target
+		{
+	#if TCP2_OUTLINE_TEXTURED
+			return float4(IN.texlod, 1) * OUTLINE_COLOR;
+	#else
+			return OUTLINE_COLOR;
+	#endif
+		}
+
+		ENDCG
+
+		// OUTLINE INCLUDE END
+		//================================================================
+///
+/// IF (OUTLINE || OUTLINE_BLENDING) && OUTLINE_BEHIND_DEPTH
+  /// IF LEGACY_OUTLINE
+		//Outline
+	/// IF OUTLINE
+		Tags { "Queue"="Transparent" }
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind (Shader Model 2)/OUTLINE"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind/OUTLINE"
+		///
+	///
+	/// IF OUTLINE_BLENDING
+		Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjectors"="True" }
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind (Shader Model 2)/OUTLINE_BLENDING"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind/OUTLINE_BLENDING"
+		///
+	///
+  /// ELSE
+		//Outline
+		Pass
+		{
+			Cull Off
+			ZWrite Off
+			Offset [_Offset1],[_Offset2]
+
+	/// IF OUTLINE_BLENDING
+			Tags { "LightMode"="ForwardBase" "Queue"="Transparent" "IgnoreProjectors"="True" "RenderType"="Transparent" }
+			Blend [_SrcBlendOutline] [_DstBlendOutline]
+	/// ELSE
+			Tags { "LightMode"="ForwardBase" "Queue"="Transparent" "IgnoreProjectors"="True" }
+	///
+
+			CGPROGRAM
+
+			#pragma vertex TCP2_Outline_Vert
+			#pragma fragment TCP2_Outline_Frag
+
+			#pragma multi_compile TCP2_NONE TCP2_ZSMOOTH_ON
+			#pragma multi_compile TCP2_NONE TCP2_OUTLINE_CONST_SIZE
+			#pragma multi_compile TCP2_NONE TCP2_COLORS_AS_NORMALS TCP2_TANGENT_AS_NORMALS TCP2_UV2_AS_NORMALS
+	/// IF !FORCE_SM2
+			#pragma multi_compile TCP2_NONE TCP2_OUTLINE_TEXTURED
+	///
+			#pragma multi_compile_instancing
+
+			#pragma multi_compile EXCLUDE_TCP2_MAIN_PASS
+
+			#pragma target @%SHADER_TARGET%@
+
+			ENDCG
+		}
+  ///
+///
+/// IF (OUTLINE || OUTLINE_BLENDING) && OUTLINE_BEHIND_STENCIL
+
+		Stencil
+		{
+			Ref [_StencilRef]
+			Comp Always
+			Pass Replace
+		}
+///
+	
+/// IF OUTLINE_BLENDING
+		Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjectors"="True" "PerformanceChecks"="False" }
+/// ELSE
+		Tags { "RenderType"="Opaque" "PerformanceChecks"="False" }
+///
+/// IF CULL_OFF
+		Cull Off
+/// ELIF CULL_FRONT
+		Cull Front
+/// ELIF CULL_OPTION
+		Cull [_CullMode]
+///
+
+		// ------------------------------------------------------------------
+		//  Base forward pass (directional light, emission, lightmaps, ...)
+		Pass
+		{
+			Name "FORWARD" 
+			Tags { "LightMode" = "ForwardBase" }
+
+			Blend [_SrcBlend] [_DstBlend]
+			ZWrite [_ZWrite]
+
+			CGPROGRAM
+			#pragma target @%SHADER_TARGET%@
+
+			// -------------------------------------
+
+			#pragma shader_feature _NORMALMAP
+			#pragma shader_feature _ _ALPHATEST_ON _ALPHABLEND_ON _ALPHAPREMULTIPLY_ON
+			#pragma shader_feature _EMISSION
+/// IF PBS_SPECULAR
+			#pragma shader_feature _SPECGLOSSMAP
+/// ELSE
+			#pragma shader_feature _METALLICGLOSSMAP
+///
+			#pragma shader_feature ___ _DETAIL_MULX2
+			#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+			#pragma shader_feature _ _SPECULARHIGHLIGHTS_OFF
+			#pragma shader_feature _ _GLOSSYREFLECTIONS_OFF
+			#pragma shader_feature _PARALLAXMAP
+
+			#pragma multi_compile_fwdbase
+			#pragma multi_compile_fog
+			#pragma multi_compile_instancing
+
+			#pragma vertex vertBase
+			#pragma fragment fragBase
+
+			ENDCG
+		}
+
+		// ------------------------------------------------------------------
+		//  Additive forward pass (one light per pass)
+		Pass
+		{
+			Name "FORWARD_DELTA"
+			Tags { "LightMode" = "ForwardAdd" }
+			Blend [_SrcBlend] One
+			Fog { Color (0,0,0,0) } // in additive pass fog should be black
+			ZWrite Off
+			ZTest LEqual
+
+			CGPROGRAM
+			#pragma target @%SHADER_TARGET%@
+
+			// -------------------------------------
+
+			#pragma shader_feature _NORMALMAP
+			#pragma shader_feature _ _ALPHATEST_ON _ALPHABLEND_ON _ALPHAPREMULTIPLY_ON
+/// IF PBS_SPECULAR
+			#pragma shader_feature _SPECGLOSSMAP
+/// ELSE
+			#pragma shader_feature _METALLICGLOSSMAP
+///
+			#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+			#pragma shader_feature _ _SPECULARHIGHLIGHTS_OFF
+			#pragma shader_feature ___ _DETAIL_MULX2
+			#pragma shader_feature _PARALLAXMAP
+
+			#pragma multi_compile_fwdadd_fullshadows
+			#pragma multi_compile_fog
+
+			//Hack to replace #define and differentiate between Base and Add passes
+			#pragma multi_compile FORWARD_ADD
+
+			#pragma vertex vertAdd
+			#pragma fragment fragAdd
+
+			ENDCG
+		}
+
+/// IF (OUTLINE || OUTLINE_BLENDING) && !OUTLINE_BEHIND_DEPTH
+  /// IF LEGACY_OUTLINE
+	/// IF OUTLINE_BEHIND_STENCIL
+		//Outline behind stencil
+		UsePass "Hidden/Toony Colors Pro 2/Outline Stencil/OUTLINE"
+	/// ELIF OUTLINE
+		//Outline
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only (Shader Model 2)/OUTLINE"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only/OUTLINE"
+		///
+	/// ELIF OUTLINE_BLENDING
+		//Outline
+		Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjectors"="True" }
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only (Shader Model 2)/OUTLINE_BLENDING"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only/OUTLINE_BLENDING"
+		///
+	///
+  /// ELSE
+
+		//Outline
+		Pass
+		{
+			Cull Front
+			Offset [_Offset1],[_Offset2]
+
+	/// IF OUTLINE_BLENDING
+			Tags { "LightMode"="ForwardBase" "Queue"="Transparent" "IgnoreProjectors"="True" "RenderType"="Transparent" }
+			Blend [_SrcBlendOutline] [_DstBlendOutline]
+	/// ELSE
+			Tags { "LightMode"="ForwardBase" "IgnoreProjectors"="True" }
+	///
+	/// IF OUTLINE_BEHIND_STENCIL
+
+			Stencil
+			{
+				Ref [_StencilRef]
+				Comp NotEqual
+				Pass Keep
+			}
+	///
+
+			CGPROGRAM
+
+			#pragma vertex TCP2_Outline_Vert
+			#pragma fragment TCP2_Outline_Frag
+
+			#pragma multi_compile TCP2_NONE TCP2_ZSMOOTH_ON
+			#pragma multi_compile TCP2_NONE TCP2_OUTLINE_CONST_SIZE
+			#pragma multi_compile TCP2_NONE TCP2_COLORS_AS_NORMALS TCP2_TANGENT_AS_NORMALS TCP2_UV2_AS_NORMALS
+	/// IF !FORCE_SM2
+			#pragma multi_compile TCP2_NONE TCP2_OUTLINE_TEXTURED			
+	///
+			#pragma multi_compile_instancing
+
+			#pragma multi_compile EXCLUDE_TCP2_MAIN_PASS
+
+			#pragma target @%SHADER_TARGET%@
+
+			ENDCG
+		}
+  ///
+///
+/// IF (OUTLINE || OUTLINE_BLENDING) && OUTLINE_BEHIND_DEPTH && OUTLINE_DEPTH
+
+		//Outline - Depth Pass Only
+		Pass
+		{
+			Name "OUTLINE_DEPTH"
+
+			Cull Off
+			Offset [_Offset1],[_Offset2]
+			Tags { "LightMode"="ForwardBase" }
+
+			//Write to Depth Buffer only
+			ColorMask 0
+			ZWrite On
+
+			CGPROGRAM
+	/// IF LEGACY_OUTLINE
+
+			#include "UnityCG.cginc"
+			#include "@%INCLUDE_PATH%@/TCP2_Outline_Include.cginc"
+	///
+
+			#pragma vertex TCP2_Outline_Vert
+			#pragma fragment TCP2_Outline_Frag
+
+			#pragma multi_compile TCP2_NONE TCP2_ZSMOOTH_ON
+			#pragma multi_compile TCP2_NONE TCP2_OUTLINE_CONST_SIZE
+			#pragma multi_compile TCP2_NONE TCP2_COLORS_AS_NORMALS TCP2_TANGENT_AS_NORMALS TCP2_UV2_AS_NORMALS
+			//#pragma multi_compile TCP2_NONE TCP2_OUTLINE_TEXTURED		//Not needed for depth
+			#pragma multi_compile_instancing
+
+			#pragma multi_compile EXCLUDE_TCP2_MAIN_PASS
+
+			#pragma target @%SHADER_TARGET%@
+
+			ENDCG
+		}
+///
+#/// IF !DISABLE_SHADOWS && ((ALPHA && DITHERED_SHADOWS) || ((OUTLINE || OUTLINE_BLENDING) && OUTLINE_SHADOWCASTER))
+/// IF !DISABLE_SHADOWS
+
+		// ------------------------------------------------------------------
+		//  Shadow Caster pass (for shadows and depth texture)
+		Pass
+		{
+			Name "ShadowCaster"
+			Tags { "LightMode" = "ShadowCaster" }
+
+			CGPROGRAM
+
+			#include "UnityCG.cginc"
+			#pragma vertex vertShadowCaster
+			#pragma fragment fragShadowCaster
+			#pragma multi_compile_shadowcaster
+			#pragma multi_compile_instancing
+
+	/// IF ((OUTLINE || OUTLINE_BLENDING) && OUTLINE_SHADOWCASTER)
+			#pragma multi_compile TCP2_NONE TCP2_ZSMOOTH_ON
+			#pragma multi_compile TCP2_NONE TCP2_OUTLINE_CONST_SIZE
+			#pragma multi_compile TCP2_NONE TCP2_COLORS_AS_NORMALS TCP2_TANGENT_AS_NORMALS TCP2_UV2_AS_NORMALS
+	///
+
+			#pragma multi_compile EXCLUDE_TCP2_MAIN_PASS
+
+			half4		_Color;
+			half		_Cutoff;
+			sampler2D	_MainTex;
+			float4		_MainTex_ST;
+	/// IF (ALPHA && DITHERED_SHADOWS)
+			sampler3D	_DitherMaskLOD;
+	///
+
+			struct VertexInput
+			{
+				float4 vertex	: POSITION;
+				float3 normal	: NORMAL;
+				float2 uv0		: TEXCOORD0;
+	/// IF (OUTLINE || OUTLINE_BLENDING) && OUTLINE_SHADOWCASTER
+		/// IF !OUTLINE_VCOLOR_WIDTH
+			#if TCP2_COLORS_AS_NORMALS
+		///
+				float4 color : COLOR;
+		/// IF !OUTLINE_VCOLOR_WIDTH
+			#endif
+		///
+		#if TCP2_UV2_AS_NORMALS
+				float2 uv2 : TEXCOORD1;
+		#endif
+		#if TCP2_TANGENT_AS_NORMALS
+				float4 tangent : TANGENT;
+		#endif
+	///
+		#if UNITY_VERSION >= 550
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+		#endif
+			};
+
+			struct VertexOutputShadowCaster
+			{
+				V2F_SHADOW_CASTER_NOPOS
+	/// IF (ALPHA && DITHERED_SHADOWS)
+				float2 tex : TEXCOORD1;
+	///
+			};
+
+			void vertShadowCaster(VertexInput v, out VertexOutputShadowCaster o, out float4 opos : SV_POSITION)
+			{
+	/// IF (OUTLINE || OUTLINE_BLENDING) && OUTLINE_SHADOWCASTER
+				//Outline: make sure that the mesh shadow/depth texture includes the extruded vertices
+		#if UNITY_VERSION >= 550
+				//GPU instancing support
+				UNITY_SETUP_INSTANCE_ID(v);
+		#endif
+	  /// IF OUTLINE_FAKE_RIM_DIRLIGHT
+
+				float3 objSpaceLight = mul(unity_WorldToObject, _WorldSpaceLightPos0).xyz;
+		#ifdef TCP2_OUTLINE_CONST_SIZE
+				//Camera-independent outline size
+				float dist = distance(_WorldSpaceCameraPos, mul(unity_ObjectToWorld, v.vertex));
+				v.vertex.xyz += objSpaceLight.xyz * 0.01 * _Outline * dist;
+		#else
+				v.vertex.xyz += objSpaceLight.xyz * 0.01 * _Outline;
+		#endif
+	  /// ELIF OUTLINE_FAKE_RIM
+				v.vertex += _OutlineOffset;
+	  ///
+
+		#ifdef TCP2_COLORS_AS_NORMALS
+				//Vertex Color for Normals
+				float3 normal = (v.color.xyz*2) - 1;
+		#elif TCP2_TANGENT_AS_NORMALS
+				//Tangent for Normals
+				float3 normal = v.tangent.xyz;
+		#elif TCP2_UV2_AS_NORMALS
+				//UV2 for Normals
+				float3 n;
+				//unpack uv2
+				v.uv2.x = v.uv2.x * 255.0/16.0;
+				n.x = floor(v.uv2.x) / 15.0;
+				n.y = frac(v.uv2.x) * 16.0 / 15.0;
+				//get z
+				n.z = v.uv2.y;
+				//transform
+				n = n*2 - 1;
+				float3 normal = n;
+		#else
+				float3 normal = v.normal;
+		#endif
+
+		#if TCP2_ZSMOOTH_ON
+				//Correct Z artefacts
+				normal = UnityObjectToViewPos(normal);
+				normal.z = -_ZSmooth;
+		#endif
+
+	  /// IF !OUTLINE_FAKE_RIM_DIRLIGHT
+		#ifdef TCP2_OUTLINE_CONST_SIZE
+				//Camera-independent outline size
+				float dist = distance(_WorldSpaceCameraPos, mul(unity_ObjectToWorld, v.vertex));
+				#define SIZE	dist
+		#else
+				#define SIZE	1.0
+		#endif
+	  /// ELSE
+				#define SIZE	0.0
+	  ///
+
+		#if TCP2_ZSMOOTH_ON
+				v.vertex += float4(normalize(normal),0) * OUTLINE_WIDTH * 0.01 * SIZE;
+		#else
+				v.vertex += float4(normal,0) * OUTLINE_WIDTH * 0.01 * SIZE;
+		#endif
+	///
+				
+				TRANSFER_SHADOW_CASTER_NOPOS(o,opos)
+	/// IF (ALPHA && DITHERED_SHADOWS)
+				o.tex = TRANSFORM_TEX(v.uv0, _MainTex);
+	///
+			}
+
+			half4 fragShadowCaster(VertexOutputShadowCaster i, UNITY_VPOS_TYPE vpos : VPOS) : SV_Target
+			{
+	/// IF (ALPHA && DITHERED_SHADOWS)
+		/// IF ALPHA_NO_MAINTEX && ALPHA_NO_COLOR
+				half alpha = 1;
+		/// ELIF ALPHA_NO_MAINTEX
+				half alpha = _Color.a;
+		/// ELIF ALPHA_NO_COLOR
+				half alpha = tex2D(_MainTex, i.tex).a;
+		/// ELSE
+				half alpha = tex2D(_MainTex, i.tex).a * _Color.a;
+		///
+				// Use dither mask for alpha blended shadows, based on pixel position xy
+				// and alpha level. Our dither texture is 4x4x16.
+				half alphaRef = tex3D(_DitherMaskLOD, float3(vpos.xy*0.25,alpha*0.9375)).a;
+				clip (alphaRef - 0.01);
+
+	///
+				SHADOW_CASTER_FRAGMENT(i)
+			}
+
+			ENDCG
+		}
+///
+
+		// ------------------------------------------------------------------
+		//  Meta pass
+
+		UsePass "Hidden/Toony Colors Pro 2/PBS Shadow Meta/META"
+	}
+
+	CGINCLUDE
+
+	//Make sure that we don't have cross-definitions between UnityStandardShadow.cginc and this CGINCLUDE
+	#if !defined(EXCLUDE_TCP2_MAIN_PASS)
+	
+/// IF PBS_SPECULAR
+		#define UNITY_SETUP_BRDF_INPUT SpecularSetup
+/// ELSE
+		#define UNITY_SETUP_BRDF_INPUT MetallicSetup
+///
+
+		//================================================================================================================================
+		// TCP2_PBS_Main.cginc START
+
+		//-------------------------------------------------------------------------------------
+		//TCP2 Params
+
+		fixed4 _HColor;
+		fixed4 _SColor;
+/// IF COLOR_MULTIPLIERS
+		fixed _HighlightMultiplier;
+		fixed _ShadowMultiplier;
+///
+/// IF COLORMASK
+		fixed4 _MaskedColor;
+		half _ColorMaskStrength;
+///
+		sampler2D _Ramp;
+		fixed _RampThreshold;
+		fixed _RampSmooth;
+		fixed _RampSmoothAdd;
+/// IF MASK1
+		sampler2D _Mask1;
+	/// IF UVMASK1
+		float4 _Mask1_ST;
+	///
+///
+/// IF MASK2
+		sampler2D _Mask2;
+	/// IF UVMASK2
+		float4 _Mask2_ST;
+	///
+///
+/// IF MASK3
+		sampler2D _Mask3;
+	/// IF UVMASK3
+		float4 _Mask3_ST;
+	///
+///
+/// IF HSV_CONTROLS
+		float _HSV_H;
+		float _HSV_S;
+		float _HSV_V;
+///
+/// IF SUBSURFACE_SCATTERING
+		half _SSDistortion;
+		half _SSPower;
+		half _SSScale;
+	/// IF SUBSURFACE_COLOR
+		fixed4 _SSColor;
+	///
+	/// IF SUBSURFACE_AMB_COLOR
+		fixed4 _SSAmbColor;
+	///
+///
+/// IF SPECULAR_STYLIZED
+		fixed _SpecSmooth;
+		fixed _SpecBlend;
+///
+/// IF FRESNEL_STYLIZED
+		fixed _RimStrength;
+		fixed _RimMin;
+		fixed _RimMax;
+///	
+/// IF WRAPPED_DIFFUSE && CUSTOM_WRAPPING
+		fixed _WrapValue;
+///
+/// IF DIFFUSE_TINT
+			fixed4 _DiffTint;
+///
+/// IF TEXTURED_THRESHOLD
+		sampler2D _ThresholdTex;
+		fixed _ThresholdScale;
+		fixed _ThresholdStrength;
+///
+/// IF SKETCH || SKETCH_GRADIENT
+		sampler2D _SketchTex;
+		float4 _SketchTex_ST;
+	/// IF SKETCH
+		fixed _SketchStrength;
+	/// ELIF SKETCH_GRADIENT
+		fixed4 _SketchColor;
+		fixed _SketchHalftoneMin;
+		fixed _SketchHalftoneMax;
+	///
+	/// IF SKETCH_ANIM
+		fixed _SketchSpeed;
+	///
+///
+
+		//Note: includes all PBS-related cginc files from Unity
+		#include "UnityStandardCore.cginc"
+
+		//================================================================================================================================
+		// TCP2_PBS_BRDF.cginc START
+
+		//-------------------------------------------------------------------------------------
+		// TCP2 Tools
+
+		inline half WrapRampNL(half nl, fixed threshold, fixed smoothness)
+		{
+/// IF WRAPPED_DIFFUSE
+	/// IF CUSTOM_WRAPPING
+			nl = saturate((nl + _WrapValue)/((1+_WrapValue)*(1+_WrapValue)));	//energy-conservative wrapped diffuse
+	/// ELSE
+			nl = saturate((nl + 0.5)/2.25);			//energy-conservative wrapped diffuse
+	///
+///
+/// IF TEXTURE_RAMP
+			nl = tex2D(_Ramp, fixed2(nl, nl)).r;
+/// ELSE
+			nl = smoothstep(threshold - smoothness*0.5, threshold + smoothness*0.5, nl);
+///
+			return nl;
+		}
+
+/// IF SPECULAR_STYLIZED
+		inline half StylizedSpecular(half specularTerm, fixed specSmoothness)
+		{
+			return smoothstep(specSmoothness*0.5, 0.5 + specSmoothness*0.5, specularTerm);
+		}
+
+///
+/// IF FRESNEL_STYLIZED
+		inline half3 StylizedFresnel(half nv, half roughness, UnityLight light, half3 normal, fixed rimMin, fixed rimMax, fixed rimStrength)
+		{
+			half rim = 1-nv;
+			rim = smoothstep(rimMin, rimMax, rim) * rimStrength * saturate(1.33-roughness);
+			return rim * saturate(dot(normal, light.dir)) * light.color;
+		}
+
+///
+/// IF HSV_CONTROLS
+
+		// HSV HELPERS
+		// source: http://lolengine.net/blog/2013/07/27/rgb-to-hsv-in-glsl
+		float3 rgb2hsv(float3 c)
+		{
+			float4 K = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+			float4 p = lerp(float4(c.bg, K.wz), float4(c.gb, K.xy), step(c.b, c.g));
+			float4 q = lerp(float4(p.xyw, c.r), float4(c.r, p.yzx), step(p.x, c.r));
+
+			float d = q.x - min(q.w, q.y);
+			float e = 1.0e-10;
+			return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+		}
+
+		float3 hsv2rgb(float3 c)
+		{
+			c.g = max(c.g, 0.0); //make sure that saturation value is positive
+			float4 K = float4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+			float3 p = abs(frac(c.xxx + K.xyz) * 6.0 - K.www);
+			return c.z * lerp(K.xxx, saturate(p - K.xxx), c.y);
+		}
+///
+/// IF (SKETCH || SKETCH_GRADIENT) && !NO_SKETCH_OFFSET
+
+	//Adjust screen UVs relative to object to prevent screen door effect
+	inline void ObjSpaceUVOffset(inout float2 screenUV, in float screenRatio)
+	{
+		// UNITY_MATRIX_P._m11 = Camera FOV
+		float4 objPos = float4(-UNITY_MATRIX_T_MV[3].x * screenRatio * UNITY_MATRIX_P._m11, -UNITY_MATRIX_T_MV[3].y * UNITY_MATRIX_P._m11, UNITY_MATRIX_T_MV[3].z, UNITY_MATRIX_T_MV[3].w);
+
+		float offsetFactorX = 0.5;
+		float offsetFactorY = offsetFactorX * screenRatio;
+	/// IF !SKETCH_VERTEX
+		offsetFactorX *= _SketchTex_ST.x;
+		offsetFactorY *= _SketchTex_ST.y;
+	///
+
+		if (unity_OrthoParams.w < 1)	//don't scale with orthographic camera
+		{
+			//adjust uv scale
+			screenUV -= float2(offsetFactorX, offsetFactorY);
+			screenUV *= objPos.z;	//scale with cam distance
+			screenUV += float2(offsetFactorX, offsetFactorY);
+
+			// sign(UNITY_MATRIX_P[1].y) is different in Scene and Game views
+			screenUV.x -= objPos.x * offsetFactorX * sign(UNITY_MATRIX_P[1].y);
+			screenUV.y -= objPos.y * offsetFactorY * sign(UNITY_MATRIX_P[1].y);
+		}
+		else
+		{
+			// sign(UNITY_MATRIX_P[1].y) is different in Scene and Game views
+			screenUV.x += objPos.x * offsetFactorX * sign(UNITY_MATRIX_P[1].y);
+			screenUV.y += objPos.y * offsetFactorY * sign(UNITY_MATRIX_P[1].y);
+		}
+	}
+///
+
+		//-------------------------------------------------------------------------------------
+		// TCP2 Data
+
+		struct TCP2Data
+		{
+			//Empty structs don't work with OpenGL ES 2.0 so we need at least 1 variable here
+			#if defined(SHADER_API_GLES)
+				fixed dummy;
+			#endif
+/// IF MASK1
+			fixed4 mask1;
+///
+/// IF MASK2
+			fixed4 mask2;
+///
+/// IF MASK3
+			fixed4 mask2;
+///
+/// IF MASK_MAINTEX
+			fixed4 mainTex;
+///
+/// IF USE_VERTEX_COLORS
+			fixed4 vcolor;
+///
+		};
+
+		//Common base/add fragment operations executed at the start of frag()
+		inline void TCP2_FragBegin(half2 texcoords, inout TCP2Data tcp2data)
+		{
+/// IF MASK1
+	/// IF UVMASK1
+			tcp2data.mask1 = tex2D(_Mask1, TRANSFORM_TEX(texcoords, _Mask1));
+	/// ELSE
+			tcp2data.mask1 = tex2D(_Mask1, texcoords);
+	///
+///
+/// IF MASK2
+	/// IF UVMASK2
+			tcp2data.mask2 = tex2D(_Mask2, TRANSFORM_TEX(texcoords, _Mask2));
+	/// ELSE
+			tcp2data.mask2 = tex2D(_Mask2, texcoords);
+	///
+///
+/// IF MASK3
+	/// IF UVMASK3
+			tcp2data.mask3 = tex2D(_Mask3, TRANSFORM_TEX(texcoords, _Mask3));
+	/// ELSE
+			tcp2data.mask3 = tex2D(_Mask3, texcoords);
+	///
+///
+/// IF MASK_MAINTEX
+			tcp2data.mainTex = tex2D(_MainTex, texcoords);
+///
+/// IF COLORMASK && !COLORMASK_ADD && !COLORMASK_REPLACE
+			_Color *= lerp(fixed4(1,1,1,1), _MaskedColor, tcp2data.@%COLORMASK%@@%COLORMASK_CHANNEL%@);
+///
+		}
+
+		//Common base/add fragment operations executed just before the BRDF function
+		inline void TCP2_FragBeforeBRDF(inout FragmentCommonData s, inout TCP2Data tcp2data)
+		{
+/// IF HSV_CONTROLS
+			float3 diffHSV = rgb2hsv(s.diffColor.rgb);
+			diffHSV += float3(_HSV_H/360,_HSV_S,_HSV_V);
+	/// IF HSV_MASK
+			s.diffColor.rgb = lerp(s.diffColor.rgb, hsv2rgb(diffHSV), tcp2data.@%HSV_MASK%@@%HSV_MASK_CHANNEL%@);
+	/// ELSE
+			s.diffColor.rgb = hsv2rgb(diffHSV);
+	///
+///
+/// IF VCOLORS
+
+			//Vertex Colors
+			float4 vertexColors = tcp2data.vcolor;
+	/// IF VCOLORS_LINEAR
+		#if UNITY_VERSION >= 550
+		  #ifndef UNITY_COLORSPACE_GAMMA
+			vertexColors.rgb = GammaToLinearSpace(vertexColors.rgb);
+		  #endif
+		#else
+			vertexColors.rgb = IsGammaSpace() ? vertexColors.rgb : GammaToLinearSpace(vertexColors.rgb);
+		#endif
+	///
+			s.diffColor *= vertexColors;
+///
+		}
+
+		//-------------------------------------------------------------------------------------
+
+		// Note: BRDF entry points use oneMinusRoughness (aka "smoothness") and oneMinusReflectivity for optimization
+		// purposes, mostly for DX9 SM2.0 level. Most of the math is being done on these (1-x) values, and that saves
+		// a few precious ALU slots.
+
+		// Main Physically Based BRDF
+		// Derived from Disney work and based on Torrance-Sparrow micro-facet model
+		//
+		//   BRDF = kD / pi + kS * (D * V * F) / 4
+		//   I = BRDF * NdotL
+		//
+		// * NDF (depending on UNITY_BRDF_GGX):
+		//  a) Normalized BlinnPhong
+		//  b) GGX
+		// * Smith for Visiblity term
+		// * Schlick approximation for Fresnel
+		half4 TCP2_BRDF_PBS(half3 diffColor, half3 specColor, half oneMinusReflectivity, half smoothness, half3 normal, half3 viewDir, UnityLight light, UnityIndirect gi,
+			/* TCP2 */ half atten
+/// IF TEXTURED_THRESHOLD
+			,half2 texcoords
+///
+/// IF (SKETCH || SKETCH_GRADIENT) && !SKETCH_VERTEX
+			,half4 screenCoords
+/// ELIF (SKETCH || SKETCH_GRADIENT) && SKETCH_VERTEX
+			,half2 sketchUV
+///
+			)
+		{
+			half perceptualRoughness = SmoothnessToPerceptualRoughness (smoothness);
+			half3 halfDir = Unity_SafeNormalize (light.dir + viewDir);
+
+	// NdotV should not be negative for visible pixels, but it can happen due to perspective projection and normal mapping
+	// In this case normal should be modified to become valid (i.e facing camera) and not cause weird artifacts.
+	// but this operation adds few ALU and users may not want it. Alternative is to simply take the abs of NdotV (less correct but works too).
+	// Following define allow to control this. Set it to 0 if ALU is critical on your platform.
+	// This correction is interesting for GGX with SmithJoint visibility function because artifacts are more visible in this case due to highlight edge of rough surface
+	// Edit: Disable this code by default for now as it is not compatible with two sided lighting used in SpeedTree.
+	#define TCP2_HANDLE_CORRECTLY_NEGATIVE_NDOTV 0 
+
+	#if TCP2_HANDLE_CORRECTLY_NEGATIVE_NDOTV
+			// The amount we shift the normal toward the view vector is defined by the dot product.
+			half shiftAmount = dot(normal, viewDir);
+			normal = shiftAmount < 0.0f ? normal + viewDir * (-shiftAmount + 1e-5f) : normal;
+			// A re-normalization should be applied here but as the shift is small we don't do it to save ALU.
+			//normal = normalize(normal);
+
+			half nv = saturate(dot(normal, viewDir)); // TODO: this saturate should no be necessary here
+	#else
+			half nv = abs(dot(normal, viewDir));	// This abs allow to limit artifact
+	#endif
+
+			half nl = saturate(dot(normal, light.dir));
+
+/// IF DIFFUSE_TINT
+			half3 diffTint = saturate(_DiffTint.rgb + nl);
+
+///
+/// IF TEXTURED_THRESHOLD
+	/// IF TEXTHR_MAIN
+		#if !FORWARD_ADD
+	/// ELIF TEXTHR_OTHER
+		#if FORWARD_ADD
+	///
+			half texThreshold = tex2D(_ThresholdTex, texcoords.xy * _ThresholdScale).a - 0.5;
+			nl += texThreshold * _ThresholdStrength;
+	/// IF TEXTHR_MAIN || TEXTHR_OTHER
+		#endif
+	///
+///
+
+		#if FORWARD_ADD
+			#define RAMP_SMOOTH _RampSmoothAdd
+		#else
+			#define RAMP_SMOOTH _RampSmooth
+		#endif
+			//TCP2 Ramp N.L
+			nl = WrapRampNL(nl, _RampThreshold, RAMP_SMOOTH);
+
+			half nh = saturate(dot(normal, halfDir));
+
+			half lv = saturate(dot(light.dir, viewDir));
+			half lh = saturate(dot(light.dir, halfDir));
+
+			// Diffuse term
+			half diffuseTerm = DisneyDiffuse(nv, nl, lh, perceptualRoughness) * nl;
+
+			// Specular term
+			// HACK: theoretically we should divide diffuseTerm by Pi and not multiply specularTerm!
+			// BUT 1) that will make shader look significantly darker than Legacy ones
+			// and 2) on engine side "Non-important" lights have to be divided by Pi too in cases when they are injected into ambient SH
+			half roughness = PerceptualRoughnessToRoughness(perceptualRoughness);
+	#if UNITY_BRDF_GGX
+			half V = SmithJointGGXVisibilityTerm (nl, nv, roughness);
+			half D = GGXTerm (nh, roughness);
+	#else
+			// Legacy
+			half V = SmithBeckmannVisibilityTerm (nl, nv, roughness);
+			half D = NDFBlinnPhongNormalizedTerm (nh, PerceptualRoughnessToSpecPower(perceptualRoughness));
+	#endif
+/// IF SPECULAR_OFF
+			half specularTerm = 0.0;
+/// ELSE
+			half specularTerm = V*D * UNITY_PI; // Torrance-Sparrow model, Fresnel is applied later
+  /// IF SPECULAR_STYLIZED
+	//TCP2 Stylized Specular
+			half r = sqrt(roughness)*0.85;
+			r += 1e-4h;
+			specularTerm = lerp(specularTerm, StylizedSpecular(specularTerm, _SpecSmooth) * (1/r), _SpecBlend);
+  ///
+	#ifdef UNITY_COLORSPACE_GAMMA
+			specularTerm = sqrt(max(1e-4h, specularTerm));
+	#endif
+			// specularTerm * nl can be NaN on Metal in some cases, use max() to make sure it's a sane value
+			specularTerm = max(0, specularTerm * nl);
+///
+
+			// surfaceReduction = Int D(NdotH) * NdotH * Id(NdotL>0) dH = 1/(roughness^2+1)
+			half surfaceReduction;
+	#ifdef UNITY_COLORSPACE_GAMMA
+			surfaceReduction = 1.0-0.28*roughness*perceptualRoughness;		// 1-0.28*x^3 as approximation for (1/(x^4+1))^(1/2.2) on the domain [0;1]
+	#else
+			surfaceReduction = 1.0 / (roughness*roughness + 1.0);			// fade \in [0.5;1]
+	#endif
+
+			// To provide true Lambert lighting, we need to be able to kill specular completely.
+			specularTerm *= any(specColor) ? 1.0 : 0.0;
+
+	//TCP2 Colored Highlight/Shadows
+/// IF COLOR_MULTIPLIERS
+			_SColor = lerp(_HColor, _SColor, _SColor.a * _ShadowMultiplier);	//Shadows intensity through alpha
+			_HColor.rgb *= _HighlightMultiplier;
+/// ELSE
+			_SColor = lerp(_HColor, _SColor, _SColor.a);	//Shadows intensity through alpha
+///
+
+	//light attenuation already included in light.color for point lights
+	#if !FORWARD_ADD
+			diffuseTerm *= atten;
+	#endif
+	half3 diffuseTermRGB = lerp(_SColor.rgb, _HColor.rgb, diffuseTerm);
+/// IF DIFFUSE_TINT
+			diffuseTermRGB *= diffTint;
+///
+			half3 diffuseTCP2 = diffColor * (gi.diffuse + light.color * diffuseTermRGB);
+			//original: diffColor * (gi.diffuse + light.color * diffuseTerm)
+
+	//light attenuation already included in light.color for point lights
+	#if !FORWARD_ADD
+			//TCP2: atten contribution to specular since it was removed from light calculation
+			specularTerm *= atten;
+	#endif
+
+			half grazingTerm = saturate(smoothness + (1-oneMinusReflectivity));
+			half3 color =	diffuseTCP2
+							+ specularTerm * light.color * FresnelTerm (specColor, lh)
+							+ surfaceReduction * gi.specular
+/// IF FRESNEL_OFF
+							* specColor;
+/// ELSE
+							* FresnelLerp (specColor, grazingTerm, nv);
+///
+
+/// IF FRESNEL_STYLIZED && !FRESNEL_OFF
+			//TCP2 Enhanced Rim/Fresnel
+			color += StylizedFresnel(nv, roughness, light, normal, _RimMin, _RimMax, _RimStrength);
+///
+/// IF SUBSURFACE_SCATTERING
+	/// IF SS_ALL_LIGHTS
+# nothing here: workaround so that point/spot lights are the default value
+	/// ELIF SS_DIR_LIGHTS
+		#if !FORWARD_ADD
+	/// ELSE
+		#if FORWARD_ADD
+	///
+			//Subsurface Scattering
+			half3 ssLight = light.dir + normal * _SSDistortion;
+			half ssDot = pow(saturate(dot(viewDir, -ssLight)), _SSPower) * _SSScale;
+		  #if FORWARD_ADD
+			half ssAtten = atten * 2;
+		  #else
+			half ssAtten = 1;
+		  #endif
+	/// IF SUBSURFACE_COLOR && SUBSURFACE_AMB_COLOR
+			half3 ssColor = ssAtten * ((ssDot * _SSColor.rgb) + _SSAmbColor.rgb);
+	/// ELIF SUBSURFACE_COLOR
+			half3 ssColor = ssAtten * (ssDot * _SSColor.rgb);
+	/// ELIF SUBSURFACE_AMB_COLOR
+			half3 ssColor = ssAtten * (ssDot + _SSAmbColor.rgb);
+	/// ELSE
+			half3 ssColor = ssAtten * ssDot;
+	///
+	/// IF SS_MASK
+			//ssColor *= s.SubsurfaceMask; //TODO
+	///
+	/// IF SS_COLOR_FROM_LIGHT
+			ssColor.rgb *= light.color.rgb;
+	///
+	/// IF SS_MULTIPLICATIVE
+			color.rgb *= diffColor * ssColor;
+	/// ELSE
+			color.rgb += diffColor * ssColor;
+	///
+	/// IF !SS_ALL_LIGHTS
+		#endif
+	///
+///
+/// IF SKETCH || SKETCH_GRADIENT
+			//Sketch
+	/// IF !SKETCH_VERTEX
+			float2 screenUV = screenCoords.xy / screenCoords.w;
+			screenUV = TRANSFORM_TEX(screenUV, _SketchTex);
+			float screenRatio = _ScreenParams.y / _ScreenParams.x;
+			screenUV.y *= screenRatio;
+		/// IF !NO_SKETCH_OFFSET
+			ObjSpaceUVOffset(screenUV, screenRatio);
+		///
+		/// IF SKETCH_ANIM
+			float2 random = round(float2(_Time.z,-_Time.z) * _SketchSpeed) / _SketchSpeed;
+			screenUV.xy += frac(random.xy);
+		///
+			float2 sketchUV = screenUV;
+	///
+
+			fixed sketch = tex2D(_SketchTex, sketchUV).a;
+	/// IF SKETCH_GRADIENT
+			sketch = smoothstep(sketch - 0.2, sketch, clamp(nl * atten, _SketchHalftoneMin, _SketchHalftoneMax));	//Gradient halftone
+	/// ELSE
+			sketch = lerp(sketch, 1, nl * atten);	//Regular sketch overlay
+	///
+///
+/// IF SKETCH
+	/// IF SKETCH_COLORBURN
+			color.rgb = max((1.0 - ((1.0 - color.rgb) / sketch)), 0.0);
+	/// ELSE
+			color.rgb = lerp(color.rgb, sketch * color.rgb, _SketchStrength);
+	///
+/// ELIF SKETCH_GRADIENT
+			color.rgb *= lerp(_SketchColor.rgb, fixed3(1,1,1), sketch);
+///
+			return half4(color, 1);
+		}
+
+		// TCP2_PBS_BRDF.cginc END
+		//================================================================================================================================
+
+		#include "UnityStandardConfig.cginc"
+
+		// ------------------------------------------------------------------
+		// TCP2 custom vertex input
+		// Wrapper for Unity Standard's structs, so that we can extend it if needed
+
+		struct TCP2_VertexInput
+		{
+			VertexInput base;
+		/// IF USE_VERTEX_COLORS
+			float4 color : COLOR;
+		///
+		};
+
+		struct TCP2_VOFwdBase
+		{
+			VertexOutputForwardBase base;
+		/// IF USE_VERTEX_COLORS
+			float4 color : COLOR;
+		///
+		/// IF (SKETCH || SKETCH_GRADIENT) && !SKETCH_VERTEX
+			half4 screenCoords : TEXCOORD10;
+		/// ELIF (SKETCH || SKETCH_GRADIENT) && SKETCH_VERTEX
+			half4 sketchUV : TEXCOORD10;
+		///
+		};
+
+		struct TCP2_VOFwdAdd
+		{
+			VertexOutputForwardAdd base;
+		/// IF USE_VERTEX_COLORS
+			float4 color : COLOR;
+		///
+		/// IF (SKETCH || SKETCH_GRADIENT) && !SKETCH_VERTEX
+			half4 screenCoords : TEXCOORD10;
+		/// ELIF (SKETCH || SKETCH_GRADIENT) && SKETCH_VERTEX
+			half4 sketchUV : TEXCOORD10;
+		///
+		};
+
+		//================================================================================================================================
+		// TCP2_PBS_Core.cginc START
+
+		// ------------------------------------------------------------------
+		//  Base forward pass (directional light, emission, lightmaps, ...)
+
+		#if UNITY_VERSION >= 550
+			#define SMOOTHNESS s.smoothness
+		#else
+			#define SMOOTHNESS s.oneMinusRoughness
+		#endif
+		
+		//Vertex
+		TCP2_VOFwdBase vertForwardBase_TCP2(TCP2_VertexInput v)
+		{
+			//Unity Standard
+			VertexOutputForwardBase unity_o = vertForwardBase(v.base);
+			TCP2_VOFwdBase o;
+			UNITY_INITIALIZE_OUTPUT(TCP2_VOFwdBase, o);
+			o.base = unity_o;
+		/// IF USE_VERTEX_COLORS
+			o.color = v.color;
+		///
+		/// IF USE_SCREENSPACE_COORDS
+			float4 screenCoords = ComputeScreenPos(unity_o.pos);
+			/// IF SKETCH || SKETCH_GRADIENT
+			//Sketch
+				/// IF SKETCH_VERTEX
+			float2 screenUV = screenCoords.xy / screenCoords.w;
+			float screenRatio = _ScreenParams.y / _ScreenParams.x;
+			screenUV.y *= screenRatio;
+					/// IF !NO_SKETCH_OFFSET
+			ObjSpaceUVOffset(screenUV, screenRatio);
+					///
+			o.sketchUV.xy = screenUV;
+			o.sketchUV.xy = TRANSFORM_TEX(o.sketchUV.xy, _SketchTex);
+				/// ELSE
+			o.screenCoords = screenCoords;
+				///
+				/// IF SKETCH_VERTEX && SKETCH_ANIM
+			float2 random = round(float2(_Time.z, -_Time.z) * _SketchSpeed) / _SketchSpeed;
+			o.sketchUV.xy += frac(random.xy);
+				///
+			///
+		///
+			return o;
+		}
+
+		//Fragment
+		half4 fragForwardBaseInternal_TCP2(TCP2_VOFwdBase tcp2i
+/// IF USE_VFACE
+		,fixed vface
+///
+		)
+		{
+			VertexOutputForwardBase i = tcp2i.base;
+
+			//TCP2 custom
+			TCP2Data tcp2data;
+			UNITY_INITIALIZE_OUTPUT(TCP2Data, tcp2data);
+/// IF USE_VERTEX_COLORS
+			tcp2data.vcolor = tcp2i.color;
+///
+			TCP2_FragBegin(i.tex, tcp2data);
+
+			FRAGMENT_SETUP(s)
+
+/// IF COLORMASK
+	/// IF COLORMASK_REPLACE
+			s.diffColor.rgb = lerp(s.diffColor.rgb, _MaskedColor.rgb, tcp2data.@%COLORMASK%@@%COLORMASK_CHANNEL%@ * _ColorMaskStrength);
+	/// ELIF COLORMASK_ADD
+			s.diffColor.rgb += lerp(float3(0,0,0), _MaskedColor.rgb, tcp2data.@%COLORMASK%@@%COLORMASK_CHANNEL%@ * _ColorMaskStrength);
+	///
+///
+/// IF USE_VFACE
+			s.normalWorld.xyz *= vface;
+///
+		#if UNITY_OPTIMIZE_TEXCUBELOD
+				s.reflUVW = i.reflUVW;
+		#endif
+
+		#if UNITY_VERSION >= 550
+			UnityLight mainLight = MainLight();
+		#else
+			UnityLight mainLight = MainLight(s.normalWorld);
+		#endif
+
+		#if UNITY_VERSION >= 560
+			UNITY_LIGHT_ATTENUATION(shadowAtten, i, s.posWorld);
+		#else
+			half shadowAtten = SHADOW_ATTENUATION(i);
+		#endif
+
+			half occlusion = Occlusion(i.tex.xy);
+			UnityGI gi = FragmentGI(s, occlusion, i.ambientOrLightmapUV, 1, mainLight);	//TCP2: replaced atten with 1, atten is done in BRDF now
+
+			//TCP2 entry point
+			TCP2_FragBeforeBRDF(s, tcp2data);
+
+			half4 c = TCP2_BRDF_PBS(s.diffColor, s.specColor, s.oneMinusReflectivity, SMOOTHNESS, s.normalWorld, -s.eyeVec, gi.light, gi.indirect, /* TCP2 */ shadowAtten
+/// IF TEXTURED_THRESHOLD
+				,i.tex
+///
+/// IF (SKETCH || SKETCH_GRADIENT) && !SKETCH_VERTEX
+				,tcp2i.screenCoords
+/// ELIF (SKETCH || SKETCH_GRADIENT) && SKETCH_VERTEX
+				,tcp2i.sketchUV
+///
+				);
+			c.rgb += UNITY_BRDF_GI(s.diffColor, s.specColor, s.oneMinusReflectivity, SMOOTHNESS, s.normalWorld, -s.eyeVec, occlusion, gi);
+
+			c.rgb += Emission(i.tex.xy);
+
+			UNITY_APPLY_FOG(i.fogCoord, c.rgb);
+			return OutputForward(c, s.alpha);
+		}
+
+		// ------------------------------------------------------------------
+		//  Additive forward pass (one light per pass)
+
+		//Vertex
+		TCP2_VOFwdAdd vertForwardAdd_TCP2(TCP2_VertexInput v)
+		{
+			VertexOutputForwardAdd unity_o = vertForwardAdd(v.base);
+			TCP2_VOFwdAdd o;
+			UNITY_INITIALIZE_OUTPUT(TCP2_VOFwdAdd, o);
+			o.base = unity_o;
+		/// IF USE_VERTEX_COLORS
+			o.color = v.color;
+		///
+		/// IF USE_SCREENSPACE_COORDS
+			float4 screenCoords = ComputeScreenPos(unity_o.pos);
+			/// IF SKETCH || SKETCH_GRADIENT
+			//Sketch
+				/// IF SKETCH_VERTEX
+			float2 screenUV = screenCoords.xy / screenCoords.w;
+			float screenRatio = _ScreenParams.y / _ScreenParams.x;
+			screenUV.y *= screenRatio;
+					/// IF !NO_SKETCH_OFFSET
+			ObjSpaceUVOffset(screenUV, screenRatio);
+					///
+			o.sketchUV.xy = screenUV;
+			o.sketchUV.xy = TRANSFORM_TEX(o.sketchUV.xy, _SketchTex);
+				/// ELSE
+			o.screenCoords = screenCoords;
+				///
+				/// IF SKETCH_VERTEX && SKETCH_ANIM
+			float2 random = round(float2(_Time.z, -_Time.z) * _SketchSpeed) / _SketchSpeed;
+			o.sketchUV.xy += frac(random.xy);
+				///
+			///
+		///
+			return o;
+		}
+
+		//Fragment
+		half4 fragForwardAddInternal_TCP2(TCP2_VOFwdAdd tcp2i
+/// IF USE_VFACE
+		,fixed vface
+///
+		)
+		{
+			VertexOutputForwardAdd i = tcp2i.base;
+
+			//TCP2 entry point
+			TCP2Data tcp2data;
+			UNITY_INITIALIZE_OUTPUT(TCP2Data, tcp2data);
+			TCP2_FragBegin(i.tex, tcp2data);
+
+			FRAGMENT_SETUP_FWDADD(s)
+
+/// IF COLORMASK
+	/// IF COLORMASK_REPLACE
+			s.diffColor.rgb = lerp(s.diffColor.rgb, _MaskedColor.rgb, tcp2data.@%COLORMASK%@@%COLORMASK_CHANNEL%@ * _ColorMaskStrength);
+	/// ELIF COLORMASK_ADD
+			s.diffColor.rgb += lerp(float3(0,0,0), _MaskedColor.rgb, tcp2data.@%COLORMASK%@@%COLORMASK_CHANNEL%@ * _ColorMaskStrength);
+	///
+///
+/// IF USE_VFACE
+			s.normalWorld.xyz *= vface;
+///
+
+		#if UNITY_VERSION >= 560
+			UNITY_LIGHT_ATTENUATION(lightAtten, i, s.posWorld)
+			UnityLight light = AdditiveLight(IN_LIGHTDIR_FWDADD(i), lightAtten);
+		#elif UNITY_VERSION >= 550
+			half lightAtten = LIGHT_ATTENUATION(i);	// extract light atten to pass it to BRDF
+			UnityLight light = AdditiveLight(IN_LIGHTDIR_FWDADD(i), lightAtten);
+		#else
+			half lightAtten = LIGHT_ATTENUATION(i);	// extract light atten to pass it to BRDF
+			UnityLight light = AdditiveLight(s.normalWorld, IN_LIGHTDIR_FWDADD(i), lightAtten);
+		#endif
+
+			UnityIndirect noIndirect = ZeroIndirect();
+
+			//TCP2 entry point
+			TCP2_FragBeforeBRDF(s, tcp2data);
+
+			half4 c = TCP2_BRDF_PBS(s.diffColor, s.specColor, s.oneMinusReflectivity, SMOOTHNESS, s.normalWorld, -s.eyeVec, light, noIndirect, /* TCP2 */ lightAtten
+/// IF TEXTURED_THRESHOLD
+				,i.tex
+///
+/// IF (SKETCH || SKETCH_GRADIENT) && !SKETCH_VERTEX
+				,tcp2i.screenCoords
+/// ELIF (SKETCH || SKETCH_GRADIENT) && SKETCH_VERTEX
+				,tcp2i.sketchUV
+///
+				);
+
+			UNITY_APPLY_FOG_COLOR(i.fogCoord, c.rgb, half4(0, 0, 0, 0)); // fog towards black in additive pass
+			return OutputForward(c, s.alpha);
+		}
+
+		half4 fragForwardAdd_TCP2(VertexOutputForwardAdd i) : SV_Target		// backward compatibility (this used to be the fragment entry function)
+		{
+			return fragForwardAddInternal(i);
+		}
+
+		// TCP2_PBS_Core.cginc END
+		//================================================================================================================================
+
+		TCP2_VOFwdBase vertBase(TCP2_VertexInput v) { return vertForwardBase_TCP2(v); }
+		TCP2_VOFwdAdd vertAdd(TCP2_VertexInput v) { return vertForwardAdd_TCP2(v); }
+/// IF USE_VFACE
+		half4 fragBase(TCP2_VOFwdBase i, fixed facing : VFACE) : SV_Target{ return fragForwardBaseInternal_TCP2(i, facing); }
+		half4 fragAdd(TCP2_VOFwdAdd i, fixed facing : VFACE) : SV_Target{ return fragForwardAddInternal_TCP2(i, facing); }
+/// ELSE
+		half4 fragBase(TCP2_VOFwdBase i) : SV_Target{ return fragForwardBaseInternal_TCP2(i); }
+		half4 fragAdd(TCP2_VOFwdAdd i) : SV_Target{ return fragForwardAddInternal_TCP2(i); }
+///
+
+		// TCP2_PBS_Main.cginc END
+		//================================================================================================================================
+
+	#endif
+
+	ENDCG
+
+	//FallBack "VertexLit"
+	CustomEditor "TCP2_MaterialInspector_PBS_SG"
+}

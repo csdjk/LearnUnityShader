@@ -1,0 +1,175 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Textured Threshold
+
+#FEATURES
+sngl	lbl="Shadow Line"			kw=SHADOW_LINE				help="featuresreference/stylization/shadowline"	tt="Generates a line at the intersection of highlighted and shadowed parts, to simulate a comic-book effect for example."
+#TODO mult	lbl="Lights"				kw=Main Directional Light|,All Lights|SHADOW_LINE_ALL_LIGHTS				tt="Which lights should shadow line be applied to"
+sngl	lbl="Screen Space"			kw=SHADOW_LINE_CRISP_AA		indent											tt="The line will be generated in screen-space using derivatives and have a consistent width."
+
+sngl	lbl="Stylized Threshold"	kw=TEXTURED_THRESHOLD											tt="Applies a textured offset to the lighting terminator, to give a stylistic look to the shading"
+sngl	lbl="Make Optional"			kw=TT_SHADER_FEATURE	needs=TEXTURED_THRESHOLD	indent		tt="Will make textured threshold optional in the material inspector, using a shader keyword"
+sngl	lbl="Diffuse Tint"			kw=DIFFUSE_TINT													tt="Adds a diffuse tint color, to add some subtle coloring to the diffuse lighting"
+sngl	lbl="Mask"					kw=DIFFUSE_TINT_MASK	indent	needs=DIFFUSE_TINT				tt="Use a mask to selectively apply the diffuse tinting"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF SHADOW_LINE
+		header		Shadow Line
+		float		Shadow Line Threshold			lighting, imp(range, label = "Threshold", default = 0.5, min = 0, max = 1)
+		float		Shadow Line Smoothing			lighting, imp(range, label = "Smoothing", default = 0.015, min = 0.001, max = 0.1)
+		float		Shadow Line Strength			lighting, imp(float, label = "Strength", default = 1.0)
+		color_rgba	Shadow Line Color				lighting, imp(color, label = "Color (RGB) Opacity (A)", default = (0,0,0,1))
+///
+
+/// IF TEXTURED_THRESHOLD || DIFFUSE_TINT
+		header		Ramp Stylization
+///
+/// IF TEXTURED_THRESHOLD
+		float		Stylized Threshold				lighting, imp(texture, label = "Stylized Threshold", default = gray, channels = a, tiling_offset = true)
+		float		Stylized Threshold Scale		lighting, imp(constant, label = "Stylized Threshold Scale", default = 1)
+///
+/// IF DIFFUSE_TINT
+		color		Diffuse Tint					lighting, imp(color, label = "Diffuse Tint", default = (1,0.5,0,1))
+	/// IF DIFFUSE_TINT_MASK
+		color		Diffuse Tint Mask				lighting, imp(texture, label = "Diffuse Tint Mask", default = white)
+	///
+///
+#END
+
+//================================================================
+
+#KEYWORDS
+#END
+
+//================================================================
+
+#SHADER_FEATURES_BLOCK
+/// IF TEXTURED_THRESHOLD && TT_SHADER_FEATURE
+	#pragma shader_feature TCP2_TEXTURED_THRESHOLD
+///
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF SHADOW_LINE
+	#if_not_empty
+		[HideInInspector] __BeginGroup_ShadowHSV ("Shadow Line", Float) = 0
+	#start_not_empty_block
+		[[PROP:Shadow Line Threshold]]
+		[[PROP:Shadow Line Smoothing]]
+		[[PROP:Shadow Line Strength]]
+		[[PROP:Shadow Line Color]]
+	#end_not_empty_block
+		[HideInInspector] __EndGroup ("Shadow Line", Float) = 0
+	#end_not_empty
+///
+
+/// IF TEXTURED_THRESHOLD
+	#if_not_empty
+
+	#start_not_empty_block
+	/// IF TT_SHADER_FEATURE
+		[Toggle(TCP2_TEXTURED_THRESHOLD)] _UseTexturedThreshold ("Enable Textured Threshold", Float) = 0
+	///
+		[[PROP:Stylized Threshold]]
+		[[PROP:Stylized Threshold Scale]]
+	#end_not_empty_block
+		[TCP2Separator]
+	#end_not_empty
+///
+/// IF DIFFUSE_TINT
+	#if_not_empty
+
+	#start_not_empty_block
+		[[PROP:Diffuse Tint]]
+	/// IF DIFFUSE_TINT_MASK
+		[[PROP:Diffuse Tint Mask]]
+	///
+	#end_not_empty_block
+		[TCP2Separator]
+	#end_not_empty
+///
+#END
+
+//================================================================
+
+#FUNCTIONS
+/// IF SHADOW_LINE
+
+	// Cubic pulse function
+	// Adapted from: http://www.iquilezles.org/www/articles/functions/functions.htm (c) 2017 - Inigo Quilez - MIT License
+	float linearPulse(float c, float w, float x)
+	{
+		x = abs(x - c);
+		if (x > w)
+		{
+			return 0;
+		}
+		x /= w;
+		return 1 - x;
+	}
+
+///
+#END
+
+//================================================================
+
+#INPUT
+#END
+
+//================================================================
+
+#VERTEX
+#END
+
+//================================================================
+
+#LIGHTING:AFTER_NDL(float ndl)
+/// IF TEXTURED_THRESHOLD
+	/// IF TT_SHADER_FEATURE
+	#if defined(TCP2_TEXTURED_THRESHOLD)
+	///
+	float stylizedThreshold = [[VALUE:Stylized Threshold]];
+	stylizedThreshold -= 0.5;
+	stylizedThreshold *= [[VALUE:Stylized Threshold Scale]];
+	ndl += stylizedThreshold;
+	/// IF TT_SHADER_FEATURE
+	#endif
+	///
+///
+#END
+
+#LIGHTING:AFTER_RAMP(float ndl, float3 ramp)
+/// IF DIFFUSE_TINT
+
+			// Diffuse Tint
+			half3 diffuseTint = saturate([[VALUE:Diffuse Tint]] + ndl);
+	/// IF DIFFUSE_TINT_MASK
+			ramp = lerp(ramp, ramp * diffuseTint, [[VALUE:Diffuse Tint Mask]]);
+	/// ELSE
+			ramp *= diffuseTint;
+	///
+///
+
+/// IF SHADOW_LINE
+
+			//Shadow Line
+			float ndlAtten = ndl * atten;
+			float shadowLineThreshold = [[VALUE:Shadow Line Threshold]];
+			float shadowLineStrength = [[VALUE:Shadow Line Strength]];
+		/// IF SHADOW_LINE_CRISP_AA
+			float shadowLineFw = fwidth(ndlAtten);
+			float shadowLineSmoothing = [[VALUE:Shadow Line Smoothing]] * shadowLineFw * 10;
+		/// ELSE
+			float shadowLineSmoothing = [[VALUE:Shadow Line Smoothing]];
+		///
+			float shadowLine = min(linearPulse(ndlAtten, shadowLineSmoothing, shadowLineThreshold) * shadowLineStrength, 1.0);
+			half4 shadowLineColor = [[VALUE:Shadow Line Color]];
+			ramp = lerp(ramp.rgb, shadowLineColor.rgb, shadowLine * shadowLineColor.a);
+///
+#END

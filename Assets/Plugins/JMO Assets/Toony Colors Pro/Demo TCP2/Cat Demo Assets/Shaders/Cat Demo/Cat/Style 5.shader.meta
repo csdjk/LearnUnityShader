@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 8e9d039c5cce33b4b814389ee6622395
+timeCreated: 1549374438
+licenseType: Store
+ShaderImporter:
+  defaultTextures:
+  - _NoTileNoiseTex: {fileID: 2800000, guid: af5515bfe14f1af4a9b8b3bf306b9261, type: 3}
+  - _Ramp: {fileID: 2800000, guid: ccad9b0732473ee4e95de81e50e9050f, type: 3}
+  userData: USER,FMASK_MAINTEX,FSPECULAR,FSPECULAR_MASK,FSPEC_LEGACY,FHSV_CONTROLS_SATURATION,FRAMP_MAIN_OTHER,FRAMP_SEPARATED,FSKETCH_GRADIENT,FOUTLINE,FOUTLINE_VCOLOR_WIDTH,faddshadow,ffullforwardshadows,KSHADER_TARGET:3.0,KSPEC_MASK:mainTex,KSPEC_MASK_CHANNEL:.a,KOVCW_CHNL:r,chC5A3E75D,cSM:30,cCF:TCP2_ShaderTemplate_Default
+  assetBundleName: 
+  assetBundleVariant: 

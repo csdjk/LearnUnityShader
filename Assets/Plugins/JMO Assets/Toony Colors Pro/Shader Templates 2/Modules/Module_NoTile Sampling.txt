@@ -1,0 +1,64 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: NoTile Sampling
+// Algorithm to prevent repetitiveness of textures
+// (c) 2017 Inigo Quilez, MIT License
+// http://www.iquilezles.org/www/articles/texturerepetition/texturerepetition.htm
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF NOTILE_SAMPLING
+	[TCP2TextureSingleLine] _NoTileNoiseTex ("Non-repeating Tiling Noise Texture", 2D) = "black" {}
+///
+#END
+
+//================================================================
+
+#FUNCTIONS
+/// IF NOTILE_SAMPLING
+
+	// Non-repeating tiling texture fetch function
+	// Adapted from: http://www.iquilezles.org/www/articles/texturerepetition/texturerepetition.htm (c) 2017 - Inigo Quilez - MIT License
+	float4 tex2D_noTile(sampler2D samp, in float2 uv)
+	{
+		// sample variation pattern
+		float k = tex2D(_NoTileNoiseTex, (1/_NoTileNoiseTex_TexelSize.zw) * uv).a; // cheap (cache friendly) lookup
+
+		// compute index
+		float index = k*8.0;
+		float i = floor(index);
+		float f = frac(index);
+
+		// offsets for the different virtual patterns
+		float2 offa = sin(float2(3.0,7.0)*(i+0.0)); // can replace with any other hash
+		float2 offb = sin(float2(3.0,7.0)*(i+1.0)); // can replace with any other hash
+
+		// compute derivatives for mip-mapping
+		float2 dx = ddx(uv);
+		float2 dy = ddy(uv);
+
+		// sample the two closest virtual patterns
+		float4 cola = tex2Dgrad(samp, uv + offa, dx, dy);
+		float4 colb = tex2Dgrad(samp, uv + offb, dx, dy);
+
+		// interpolate between the two virtual patterns
+		return lerp(cola, colb, smoothstep(0.2,0.8,f-0.1*dot(cola-colb, 1)));
+	}
+
+///
+#END
+
+//================================================================
+
+#VARIABLES
+/// IF NOTILE_SAMPLING
+	// Non-repeating tiling
+	sampler2D _NoTileNoiseTex;
+	float4 _NoTileNoiseTex_TexelSize;
+
+///
+#END
+
+//================================================================

@@ -1,18 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!1200 &1
-AutoStreamingSettings:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  mSearchMode: 7
-  mCustomSearchFile: 
-  mTextures: []
-  mAudios: []
-  mMeshes: []
-  mConfigCCD:
-    useCCD: 0
-    cosKey: 
-    projectGuid: 
-    bucketUuid: 
-    bucketName: 
-    badgeName: 
+version https://git-lfs.github.com/spec/v1
+oid sha256:fa793baa554304302e30567aa7000ae7fe15149af321da6d42b67c131f2cf46b
+size 317

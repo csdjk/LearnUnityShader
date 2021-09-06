@@ -1,0 +1,125 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Sketch Effects
+
+// TODO cubemap-based sketch effect?
+
+#FEATURES
+mult	lbl="Sketch"					kw=Off|,Sketch Overlay|SKETCH,Sketch Threshold|SKETCH_GRADIENT				tt="Sketch texture overlay on the shadowed areas\nOverlay: regular texture overlay\nThreshold: used for halftone-like effects"
+sngl	lbl="Affect ambient"			kw=SKETCH_AMBIENT			needsOr=SKETCH,SKETCH_GRADIENT		indent		tt="Apply the sketch effect to the ambient/global illumination colors"
+sngl	lbl="Make Optional"			kw=SKETCH_SHADER_FEATURE	needsOr=SKETCH,SKETCH_GRADIENT		indent		tt="Will make the sketch effect optional in the material inspector, using a shader keyword"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF SKETCH || SKETCH_GRADIENT
+	header		Sketch Effects
+	color		Sketch Texture				lighting, imp(texture, label = "Sketch Texture", default = black, channels = aaa, tiling_offset = true, uv_screenspace = true, random_offset = true)
+	color		Sketch Color				lighting, imp(constant, label = "Sketch Color", default = (0,0,0))
+	float		Sketch Threshold Scale		lighting, imp(constant, label = "Sketch Threshold Scale", default = 1)
+///
+/// IF SKETCH_GRADIENT
+	float		Sketch Min					lighting, imp(range, label = "Sketch Min", default = 0.0, min = 0, max = 1)
+	float		Sketch Max					lighting, imp(range, label = "Sketch Max", default = 1.0, min = 0, max = 1)
+	float		Sketch Antialiasing			lighting, imp(constant, label = "Sketch Antialiasing", default = 20)
+///
+#END
+
+//================================================================
+
+#KEYWORDS
+#END
+
+//================================================================
+
+#SHADER_FEATURES_BLOCK
+/// IF (SKETCH || SKETCH_GRADIENT) && SKETCH_SHADER_FEATURE
+	#pragma shader_feature TCP2_SKETCH
+///
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+
+	[TCP2HeaderHelp(Sketch)]
+/// IF SKETCH || SKETCH_GRADIENT
+	/// IF SKETCH_SHADER_FEATURE
+	[Toggle(TCP2_SKETCH)] _UseSketch ("Enable Sketch Effect", Float) = 0
+	///
+	[[PROP:Sketch Texture]]
+	[[PROP:Sketch Color]]
+	[[PROP:Sketch Threshold Scale]]
+///
+/// IF SKETCH_GRADIENT
+	[[PROP:Sketch Min]]
+	[[PROP:Sketch Max]]
+	[[PROP:Sketch Antialiasing]]
+///
+	[TCP2Separator]
+#END
+
+//================================================================
+
+#VARIABLES
+#END
+
+//================================================================
+
+#INPUT
+#END
+
+//================================================================
+
+#VERTEX
+#END
+
+//================================================================
+
+#LIGHTING(float3 ramp)
+/// IF (SKETCH || SKETCH_GRADIENT) && SKETCH_SHADER_FEATURE
+
+	// Sketch
+	#if defined(TCP2_SKETCH)
+///
+/// IF SKETCH
+	half3 sketchColor = lerp([[VALUE:Sketch Color]], half3(1,1,1), [[VALUE:Sketch Texture]]);
+	half3 sketch = lerp(sketchColor, half3(1,1,1), saturate(ramp * [[VALUE:Sketch Threshold Scale]]));
+///
+/// IF SKETCH_GRADIENT
+	half3 sketch = [[VALUE:Sketch Texture]];
+	half sketchThresholdWidth = [[VALUE:Sketch Antialiasing]] * fwidth(ndl);
+	sketch = smoothstep(sketch - sketchThresholdWidth, sketch, clamp(saturate(ramp * [[VALUE:Sketch Threshold Scale]]), [[VALUE:Sketch Min]], [[VALUE:Sketch Max]]));
+///
+/// IF (SKETCH || SKETCH_GRADIENT) && SKETCH_SHADER_FEATURE
+	#endif
+///
+#END
+
+#LIGHTING:APPLY(float3 color)
+/// IF (SKETCH || SKETCH_GRADIENT) && SKETCH_SHADER_FEATURE
+	#if defined(TCP2_SKETCH)
+///
+/// IF SKETCH
+	color *= sketch;
+/// ELIF SKETCH_GRADIENT
+	color *= lerp([[VALUE:Sketch Color]], half3(1,1,1), sketch);
+///
+/// IF (SKETCH || SKETCH_GRADIENT) && SKETCH_SHADER_FEATURE
+	#endif
+///
+#END
+
+#LIGHTING:APPLY_AMBIENT(float3 ambient)
+/// IF (SKETCH || SKETCH_GRADIENT) && SKETCH_SHADER_FEATURE
+	#if defined(TCP2_SKETCH)
+///
+/// IF (SKETCH || SKETCH_GRADIENT) && SKETCH_AMBIENT
+	ambient *= sketch;
+///
+/// IF (SKETCH || SKETCH_GRADIENT) && SKETCH_SHADER_FEATURE
+	#endif
+///
+#END

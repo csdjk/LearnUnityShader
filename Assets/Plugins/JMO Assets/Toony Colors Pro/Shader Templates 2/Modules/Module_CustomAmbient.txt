@@ -1,0 +1,106 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Custom Ambient
+
+#FEATURES
+#mult	lbl="Custom Ambient"		kw=Off|,Cubemap Ambient|CUBE_AMBIENT,Directional Ambient|DIRAMBIENT				tt="Custom ambient lighting"
+sngl	lbl="Cubemap Ambient"			kw=CUBE_AMBIENT																tt="Use a cubemap as a source for ambient lighting"
+sngl	lbl="Directional Ambient"		kw=DIRAMBIENT																tt="Manually set the ambient color for all 6 directions (+X, -X, +Y, -Y, +Z, -Z)"
+mult	lbl="Space"					kw=World Space|,View Space|DIRAMBIENT_VIEW		needs=DIRAMBIENT	indent	tt="In which space is the directional ambient applied"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+#END
+
+//================================================================
+
+#KEYWORDS
+/// IF CUBE_AMBIENT
+	feature_on		USE_WORLD_NORMAL_FRAGMENT
+///
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF CUBE_AMBIENT
+	//AMBIENT CUBEMAP
+	_AmbientCube ("Ambient Cubemap", Cube) = "_Skybox" {}
+///
+/// IF DIRAMBIENT
+	_TCP2_AMBIENT_RIGHT ("+X (Right)", Color) = (0,0,0,1)
+	_TCP2_AMBIENT_LEFT ("-X (Left)", Color) = (0,0,0,1)
+	_TCP2_AMBIENT_TOP ("+Y (Top)", Color) = (0,0,0,1)
+	_TCP2_AMBIENT_BOTTOM ("-Y (Bottom)", Color) = (0,0,0,1)
+	_TCP2_AMBIENT_FRONT ("+Z (Front)", Color) = (0,0,0,1)
+	_TCP2_AMBIENT_BACK ("-Z (Back)", Color) = (0,0,0,1)
+///
+#END
+
+//================================================================
+
+#FUNCTIONS
+/// IF DIRAMBIENT
+
+	half3 DirAmbient (half3 normal)
+	{
+		fixed3 retColor =
+			saturate( normal.x * _TCP2_AMBIENT_RIGHT) +
+			saturate(-normal.x * _TCP2_AMBIENT_LEFT) +
+			saturate( normal.y * _TCP2_AMBIENT_TOP) +
+			saturate(-normal.y * _TCP2_AMBIENT_BOTTOM) +
+			saturate( normal.z * _TCP2_AMBIENT_FRONT) +
+			saturate(-normal.z * _TCP2_AMBIENT_BACK);
+		return retColor * UNITY_LIGHTMODEL_AMBIENT.a;
+	}
+///
+#END
+
+//================================================================
+
+#VARIABLES
+/// IF CUBE_AMBIENT
+	samplerCUBE _AmbientCube;
+///
+/// IF DIRAMBIENT
+	fixed4 _TCP2_AMBIENT_RIGHT;
+	fixed4 _TCP2_AMBIENT_LEFT;
+	fixed4 _TCP2_AMBIENT_TOP;
+	fixed4 _TCP2_AMBIENT_BOTTOM;
+	fixed4 _TCP2_AMBIENT_FRONT;
+	fixed4 _TCP2_AMBIENT_BACK;
+///
+#END
+
+//================================================================
+
+#INPUT
+#END
+
+//================================================================
+
+#VERTEX
+#END
+
+//================================================================
+
+#FRAGMENT(float3 ambient, float3 worldNormal)
+/// IF CUBE_AMBIENT
+
+		//Ambient Cubemap
+		ambient += texCUBE(_AmbientCube, worldNormal);
+///
+/// IF DIRAMBIENT
+
+		//Directional Ambient
+	/// IF DIRAMBIENT_VIEW
+		half3 viewNormal = mul(UNITY_MATRIX_V, half4(worldNormal, 0)).xyz;
+		ambient += DirAmbient(viewNormal);
+	/// ELSE
+		ambient += DirAmbient(worldNormal);
+	///
+///
+#END

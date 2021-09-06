@@ -69,7 +69,7 @@ Material:
     - _OcclusionStrength: 1
     - _OffsetFactor: 0
     - _OffsetUnits: 9
-    - _OutlinePower: 0.0681
+    - _OutlinePower: 0.0788
     - _Parallax: 0.02
     - _Power: 0.0269
     - _RefValue: 0
@@ -91,11 +91,11 @@ Material:
     - _group_shadow: 1
     - _power: 0.0094
     m_Colors:
-    - _Color: {r: 0, g: 0.8897755, b: 1, a: 1}
+    - _Color: {r: 1, g: 0.7731253, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _LineColor: {r: 0, g: 1, b: 0.1686275, a: 1}
+    - _LineColor: {r: 0, g: 0, b: 0, a: 1}
     - _ShadowColor: {r: 0.6862745, g: 0.6862745, b: 0.827451, a: 1}
-    - _ShadowColor1: {r: 0.11725702, g: 0.22535637, b: 0.8018868, a: 1}
+    - _ShadowColor1: {r: 0.11764703, g: 0.45317996, b: 0.8, a: 1}
     - _ShadowColor2: {r: 0.38688147, g: 0.39489958, b: 0.509434, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _lineColor: {r: 0, g: 0, b: 0, a: 1}

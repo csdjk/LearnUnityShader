@@ -1,0 +1,112 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Dissolve Effect
+
+#FEATURES
+sngl	lbl="Dissolve Map"				kw=DISSOLVE															tt="Adds a dissolve texture map with the corresponding slider"
+sngl	lbl="Alpha Testing"				kw=DISSOLVE_CLIP					needs=DISSOLVE		indent		tt="Performs alpha testing on the dissolved part"
+sngl	lbl="Gradient Ramp"				kw=DISSOLVE_GRADIENT				needs=DISSOLVE		indent		tt="Use a gradient texture to color the dissolving area"
+sngl	lbl="Make Optional"				kw=DISSOLVE_SHADER_FEATURE			needs=DISSOLVE		indent		tt="Will make the dissolve effect optional in the material inspector, using a shader keyword"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF DISSOLVE
+		header		Dissolve Effect
+		float		Dissolve Map					fragment, imp(texture, label = "Map", default = gray)
+		float		Dissolve Value					fragment, imp(range, label = "Value", default = 0.5, min = 0, max = 1)
+	/// IF DISSOLVE_GRADIENT
+		color_rgba	Dissolve Gradient Texture		fragment, imp(texture, label = "Gradient Texture", default = gray, locked_uv = true)
+		float		Dissolve Gradient Width			fragment, imp(range, label = "Ramp Width", default = 0.2, min = 0, max = 1)
+		float		Dissolve Gradient Strength		fragment, imp(constant, label = "Strength", default = 2.0)
+	///
+///
+#END
+
+//================================================================
+
+#KEYWORDS
+/// IF DISSOLVE && DISSOLVE_CLIP
+	feature_on		QUEUE_ALPHATEST
+///
+#END
+
+//================================================================
+
+#SHADER_FEATURES_BLOCK
+/// IF DISSOLVE && DISSOLVE_SHADER_FEATURE
+	#pragma shader_feature TCP2_DISSOLVE
+///
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF DISSOLVE
+
+		[TCP2HeaderHelp(Dissolve)]
+	/// IF DISSOLVE_SHADER_FEATURE
+		[Toggle(TCP2_DISSOLVE)] _UseDissolve ("Enable Dissolve", Float) = 0
+	///
+		[[PROP:Dissolve Map]]
+		[[PROP:Dissolve Value]]
+	/// IF DISSOLVE_GRADIENT
+		[[PROP:Dissolve Gradient Texture]]
+		[[PROP:Dissolve Gradient Width]]
+		[[PROP:Dissolve Gradient Strength]]
+	///
+		[TCP2Separator]
+///
+
+#END
+
+//================================================================
+
+#VARIABLES
+#END
+
+//================================================================
+
+#INPUT
+#END
+
+//================================================================
+
+#VERTEX
+#END
+
+//================================================================
+
+#FRAGMENT(float3 emission)
+/// IF DISSOLVE
+
+			//Dissolve
+	/// IF DISSOLVE_SHADER_FEATURE
+			#if defined(TCP2_DISSOLVE)
+	///
+			half dissolveMap = [[VALUE:Dissolve Map]];
+			half dissolveValue = [[VALUE:Dissolve Value]];
+	/// IF DISSOLVE_GRADIENT
+			half gradientWidth = [[VALUE:Dissolve Gradient Width]];
+			float dissValue = dissolveValue*(1+2*gradientWidth) - gradientWidth;
+#		simplification for: lerp(-gradientWidth, 1+gradientWidth, dissolveValue);
+			float dissolveUV = smoothstep(dissolveMap - gradientWidth, dissolveMap + gradientWidth, dissValue);
+		/// IF DISSOLVE_CLIP
+			clip((1-dissolveUV) - 0.001);
+		///
+			half4 dissolveColor = [[SAMPLE_VALUE_SHADER_PROPERTY:Dissolve Gradient Texture(uv:dissolveUV.xx)]];
+			dissolveColor *= [[VALUE:Dissolve Gradient Strength]] * dissolveUV;
+			emission += dissolveColor.rgb;
+	/// ELSE
+			float dissValue = dissolveValue;
+		/// IF DISSOLVE_CLIP
+			clip(dissolveMap - dissValue * 1.001);
+		///
+	///
+	/// IF DISSOLVE_SHADER_FEATURE
+			#endif
+	///
+///
+#ENDD
