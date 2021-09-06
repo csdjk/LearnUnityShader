@@ -1,0 +1,205 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: TCP2_Demo_WaterWW2
+  m_Shader: {fileID: 4800000, guid: 0a6da58fb245a9a4192c27c7c5ce9b8d, type: 3}
+  m_ShaderKeywords: _EMISSION
+  m_LightmapFlags: 1
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+    - first:
+        name: _BumpMap
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 8, y: 8}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _DetailAlbedoMap
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _DetailMask
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _DetailNormalMap
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _EmissionMap
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _FoamTex
+      second:
+        m_Texture: {fileID: 2800000, guid: 532c9e2e0905df744860e5e5c36ada26, type: 3}
+        m_Scale: {x: 8, y: 8}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _MainTex
+      second:
+        m_Texture: {fileID: 2800000, guid: 5930a2cf4b06d4747878f6bdaad8d95f, type: 3}
+        m_Scale: {x: 8, y: 8}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _Mask1
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _MetallicGlossMap
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _OcclusionMap
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _ParallaxMap
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - first:
+        name: _BumpScale
+      second: 1
+    - first:
+        name: _Cutoff
+      second: 0.5
+    - first:
+        name: _DepthDistance
+      second: 1.53
+    - first:
+        name: _DetailNormalMapScale
+      second: 1
+    - first:
+        name: _DstBlend
+      second: 0
+    - first:
+        name: _FoamSmooth
+      second: 0.02
+    - first:
+        name: _FoamSpread
+      second: 2
+    - first:
+        name: _FoamStrength
+      second: 0.8
+    - first:
+        name: _GlossMapScale
+      second: 1
+    - first:
+        name: _Glossiness
+      second: 0.5
+    - first:
+        name: _GlossyReflections
+      second: 1
+    - first:
+        name: _Metallic
+      second: 0
+    - first:
+        name: _Mode
+      second: 0
+    - first:
+        name: _OcclusionStrength
+      second: 1
+    - first:
+        name: _Parallax
+      second: 0.02
+    - first:
+        name: _RampSmooth
+      second: 0.77
+    - first:
+        name: _RampThreshold
+      second: 0.5
+    - first:
+        name: _RimMax
+      second: 1
+    - first:
+        name: _RimMin
+      second: 0.4
+    - first:
+        name: _SmoothnessTextureChannel
+      second: 0
+    - first:
+        name: _SpecularHighlights
+      second: 1
+    - first:
+        name: _SrcBlend
+      second: 1
+    - first:
+        name: _UVSec
+      second: 0
+    - first:
+        name: _UVWaveAmplitude
+      second: 0.05
+    - first:
+        name: _UVWaveFrequency
+      second: 1
+    - first:
+        name: _UVWaveSpeed
+      second: 1
+    - first:
+        name: _WaveFrequency
+      second: 2
+    - first:
+        name: _WaveHeight
+      second: 0.2
+    - first:
+        name: _WaveSpeed
+      second: 1
+    - first:
+        name: _ZWrite
+      second: 1
+    - first:
+        name: __dummy__
+      second: 0
+    m_Colors:
+    - first:
+        name: _BumpSpeed
+      second: {r: 0.2, g: 0.2, b: 0.3, a: 0.3}
+    - first:
+        name: _Color
+      second: {r: 0.06666667, g: 0.6666667, b: 0.92549026, a: 1}
+    - first:
+        name: _DepthColor
+      second: {r: 0, g: 0.37459263, b: 0.778, a: 1}
+    - first:
+        name: _EmissionColor
+      second: {r: 0, g: 0, b: 0, a: 1}
+    - first:
+        name: _FoamColor
+      second: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    - first:
+        name: _FoamSpeed
+      second: {r: 1, g: 1, b: -1, a: -1}
+    - first:
+        name: _HColor
+      second: {r: 0.9485294, g: 0.9485294, b: 0.9485294, a: 1}
+    - first:
+        name: _RimColor
+      second: {r: 0.04411763, g: 0.6440159, b: 1, a: 0.27450982}
+    - first:
+        name: _SColor
+      second: {r: 0, g: 0.31257612, b: 0.6764706, a: 1}
