@@ -9,6 +9,7 @@ Shader "lcl/ToonShading/ToonBody"
         _Color("Color",Color)=(1,1,1,1)
         _LightMap ("LightMap", 2D) = "white" {}
 
+        [HDR]_EmissionColor("Emission Color",Color)=(1,1,1,1)
         // 描边
         [Main(outline, _, 3)] _group_outline ("描边", float) = 1
         [Sub(outline)] _OutlinePower("Outline Power",Range(0,0.1)) = 0.05
@@ -35,7 +36,7 @@ Shader "lcl/ToonShading/ToonBody"
         [Sub(lighting)]_RimIntensity ("RimIntensity", Range(0,10)) = 0
         [Sub(lighting)]_RimWidth ("RimWidth", Range(0,1)) = 0
 
-        [KeywordEnum(None,LightMap_R,LightMap_G,LightMap_B,LightMap_A,UV,BaseColor,BaseColor_A,Ramp)] _TestMode("_TestMode",Int) = 0
+        [KeywordEnum(None,LightMap_R,LightMap_G,LightMap_B,LightMap_A,UV,BaseColor,BaseColor_A,Ramp,RampPlane)] _TestMode("_TestMode",Int) = 0
     }
 
     CGINCLUDE
@@ -61,7 +62,7 @@ Shader "lcl/ToonShading/ToonBody"
 
     sampler2D _MainTex,_LightMap;
     float4 _MainTex_TexelSize;
-    float4 _Color;
+    float4 _Color,_EmissionColor;
     // 描边
     float _OutlinePower;
     float4 _LineColor;
@@ -89,6 +90,7 @@ Shader "lcl/ToonShading/ToonBody"
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile _ _USE_SECOND_LEVELS_ON
+            #pragma enable_d3d11_debug_symbols
 
             v2f vert (appdata v)
             {
@@ -162,6 +164,7 @@ Shader "lcl/ToonShading/ToonBody"
                 ShadowAOMask = 1 - smoothstep(saturate(ShadowAOMask), 0.2, 0.6); //平滑ShadowAOMask,减弱 //为了将ShadowAOMask区域常暗显示 
                 float3 ramp = tex2D(_ShadowRamp, saturate(float2(halfLambert * lerp(0.5, 1.0, ShadowAOMask),PixelInRamp))); 
 
+
                 // float3 BaseMapShadowed = lerp(BaseMap * ramp, BaseMap, ShadowAOMask); 
                 // BaseMapShadowed = lerp(BaseMap, BaseMapShadowed, _ShadowRampLerp); 
                 // float IsBrightSide = ShadowAOMask * step(_LightThreshold, halfLambert); 
@@ -186,8 +189,8 @@ Shader "lcl/ToonShading/ToonBody"
                 // float3 Rim = step(1-_RimWidth,1-NdotV)*_RimIntensity;
                 // float3 Rim = pow(1 - NdotV,_RimWidth)*_RimIntensity;
 
-
-                float3 emission = texCol.a;
+                // 自发光
+                float3 emission = texCol.a * _EmissionColor;
 
                 fixed3 result = diffuse + specular + emission;
 
@@ -209,6 +212,12 @@ Shader "lcl/ToonShading/ToonBody"
                 return texCol.a; //BaseColor.a
                 if(_TestMode ==mode++)
                 return float4(ramp,0);
+                if(_TestMode ==mode++){
+                    float index = 10;
+                    float rampH = RampPixelY * (index * 2 - 1); 
+                    float3 rampC = tex2D(_ShadowRamp, saturate(float2(i.uv.x,rampH))); 
+                    return float4(rampC,0);
+                }
 
                 return float4(result,1);
             }

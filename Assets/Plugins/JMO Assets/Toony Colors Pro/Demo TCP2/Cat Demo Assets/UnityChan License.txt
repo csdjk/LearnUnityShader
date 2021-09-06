@@ -1,5 +1,0 @@
-UnityChan assets (textures, models, animations) © Unity Technologies Japan/UCL
-Contains texture modifications by Jean Moreno
-
-Please read "UnityChan License.pdf" for the full UnityChan license terms.
-You can also visit http://unity-chan.com/
