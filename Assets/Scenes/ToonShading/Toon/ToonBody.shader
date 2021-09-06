@@ -24,6 +24,7 @@ Shader "lcl/ToonShading/ToonBody"
         [Sub(lighting)]_ShadowColor("Shadow Color",Color)=(0.2,0.2,0.2,0.2)
         [Sub(lighting)]_ShadowSmoothness ("Shadow Smoothness", Range(0,1)) = 0
         [Sub(lighting)]_ShadowRange ("Shadow Range", Range(-1, 1)) = 0.5
+        [Sub(lighting)]_RampOffset ("Ramp Offset", Range(-1, 1)) = 0.5
 
         [Title(lighting, Specular)]
         [Sub(lighting)]_SpecularColor("Specular Color",Color)=(0.5, 0.5, 0.5)
@@ -34,7 +35,7 @@ Shader "lcl/ToonShading/ToonBody"
         [Sub(lighting)]_RimIntensity ("RimIntensity", Range(0,10)) = 0
         [Sub(lighting)]_RimWidth ("RimWidth", Range(0,1)) = 0
 
-        [KeywordEnum(None,LightMap_R,LightMap_G,LightMap_B,LightMap_A,UV,UV2,VertexColor,BaseColor,BaseColor_A)] _TestMode("_TestMode",Int) = 0
+        [KeywordEnum(None,LightMap_R,LightMap_G,LightMap_B,LightMap_A,UV,BaseColor,BaseColor_A,Ramp)] _TestMode("_TestMode",Int) = 0
     }
 
     CGINCLUDE
@@ -67,7 +68,7 @@ Shader "lcl/ToonShading/ToonBody"
     // 阴影
     sampler2D _ShadowRamp;
     float4 _ShadowColor;
-    float _ShadowSmoothness,_ShadowRange;
+    float _ShadowSmoothness,_ShadowRange,_RampOffset;
     // 高光
     float4 _SpecularColor;
     float _SpecularPower,_SpecularScale;
@@ -135,27 +136,43 @@ Shader "lcl/ToonShading/ToonBody"
                 float SpecularIntensityMask = LightMap.b; //SpecularIntensityMask
                 float LayerMask = LightMap.a; //LayerMask Ramp类型Layer
                 // float RampOffsetMask = VertexColor.g; //Ramp偏移值,值越大的区域 越容易"感光"(在一个特定的角度，偏移光照明暗) 
+                float RampOffsetMask = 0; //Ramp偏移值,值越大的区域 越容易"感光"(在一个特定的角度，偏移光照明暗) 
 
+                //Ramp图大小为256x20 
+                float RampPixelY = 0.05; // 1.0/20.0; 
+                float RampPixelX = 0.00390625; //1.0/256.0 
+                float halfLambert = (NdotL * 0.5 + 0.5 + _RampOffset + RampOffsetMask); 
+                halfLambert = clamp(halfLambert, RampPixelX, 1 - RampPixelX); //头发Shader中,LightMap.A==1 为特殊材质 
+                //根据LightMap.a选择Ramp中不同的层。 
+                float RampIndex = 1; 
+                if (LayerMask >= 0 && LayerMask <= 0.1) 
+                { RampIndex = 6; }
+                if (LayerMask >= 0.11 && LayerMask <= 0.33) 
+                { RampIndex = 2; }
+                if (LayerMask >= 0.34 && LayerMask <= 0.55) 
+                { RampIndex = 3; }
+                if (LayerMask >= 0.56 && LayerMask <= 0.9) 
+                { RampIndex = 4; }
+                if (LayerMask >= 0.95 && LayerMask <= 1.0) 
+                { RampIndex = RampIndex; }
 
+                //漫反射分类 用于区别Ramp 
+                //高光也分类 用于区别高光 
+                float PixelInRamp = RampPixelY * (RampIndex * 2 - 1); 
+                ShadowAOMask = 1 - smoothstep(saturate(ShadowAOMask), 0.2, 0.6); //平滑ShadowAOMask,减弱 //为了将ShadowAOMask区域常暗显示 
+                float3 ramp = tex2D(_ShadowRamp, saturate(float2(halfLambert * lerp(0.5, 1.0, ShadowAOMask),PixelInRamp))); 
 
-                //Ramp图大小为256x20 float RampPixelY = 0.05; // 1.0/20.0; float RampPixelX = 0.00390625; //1.0/256.0 float halfLambert = (NL * 0.5 + 0.5 + _RampOffset + RampOffsetMask); halfLambert = clamp(halfLambert, RampPixelX, 1 - RampPixelX); //头发Shader中,LightMap.A==1 为特殊材质 //根据LightMap.a选择Ramp中不同的层。 float RampIndex = 1; if (LayerMask >= 0 && LayerMask <= 0.1) { RampIndex = 6; }if (LayerMask >= 0.11 && LayerMask <= 0.33) { RampIndex = 2; }if (LayerMask >= 0.34 && LayerMask <= 0.55) { RampIndex = 3; }if (LayerMask >= 0.56 && LayerMask <= 0.9) { RampIndex = 4; }if (LayerMask >= 0.95 && LayerMask <= 1.0) { RampIndex = _RampIndex; }
-
-
-
-
-
-
-
-
-
-
+                // float3 BaseMapShadowed = lerp(BaseMap * ramp, BaseMap, ShadowAOMask); 
+                // BaseMapShadowed = lerp(BaseMap, BaseMapShadowed, _ShadowRampLerp); 
+                // float IsBrightSide = ShadowAOMask * step(_LightThreshold, halfLambert); 
+                // float3 Diffuse = lerp(lerp(BaseMapShadowed, BaseMap * ramp, _RampLerp) * _DarkIntensit
 
 
                 //------------------------【Diffuse】-----------------------------
-                fixed halfLambert = 0.5 * NdotL + 0.5;
+                // fixed halfLambert = 0.5 * NdotL + 0.5;
                 // float rampValue = smoothstep(0,_ShadowSmoothness,halfLambert-_ShadowRange);
                 // float ramp =  tex2D(_ShadowRamp, float2(saturate(rampValue), 0.5));
-                float ramp = calculateRamp(_ShadowRange,halfLambert,_ShadowSmoothness);
+                // float ramp = calculateRamp(_ShadowRange,halfLambert,_ShadowSmoothness);
 
                 // float ramp =  tex2D(_ShadowRamp, halfLambert);
                 float3 diffuse = lerp( _ShadowColor*texCol,texCol,ramp);
@@ -191,7 +208,7 @@ Shader "lcl/ToonShading/ToonBody"
                 if(_TestMode ==mode++)
                 return texCol.a; //BaseColor.a
                 if(_TestMode ==mode++)
-                return ramp; 
+                return float4(ramp,0);
 
                 return float4(result,1);
             }
