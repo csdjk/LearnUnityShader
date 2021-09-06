@@ -1,0 +1,3853 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+#NAME=Default
+#FEATURES
+dd_start	lbl=LIGHTING
+---
+mult	lbl=Lighting Function		kw=Unity 5|,Unity 4 (Legacy)|LIGHTING_UNITY4	nohelp	tt=Which Surface Shader lighting function model to use.\nTCP2 before v2.3.3 was using the Legacy one; if you experience issues with your shaders, try to use it as well.
+sngl	lbl=Shadowmask Support		kw=SHADOWMASK									nohelp	tt=Enable support for Shadowmask lightmap mode
+---
+mult	lbl=Ramp Style				kw=Slider Ramp|,RGB Slider Ramp|RGB_RAMP,Texture Ramp|TEXTURE_RAMP		hlptop=ramp_style_sg				tt=Defines the transitioning between dark and lit areas of the model
+mult	lbl=Ramp Control			kw=Global|,Main + Other Lights|RAMP_MAIN_OTHER,Main + Light Type|RAMP_MAIN_LIGHTTYPE	toggles=RAMP_SEPARATED	hlptop=ramp_control_sg		tt=Defines how many ramp controls the material will have:\n\nGlobal: one control for all lights\n\nMain + Other Lights: one control for the main directional light and one for all other lights\n\nMain + Light Type: one control for the main directional light and one for each light type (directional, point, spot)
+sngl	lbl=Bypass Point light falloff	kw=BYPASS_POINT_FALLOFF							nohelp	tt=Bypass Unity's built-in point light falloff and only use the TCP2 ramp instead
+sngl	lbl=Bypass Spot light falloff	kw=BYPASS_SPOT_FALLOFF							nohelp	tt=Bypass Unity's built-in spot light falloff and only use the TCP2 ramp instead
+---
+#sngl	lbl=Separated Ramps			kw=SEPARATE_RAMPS		excl=TEXTURE_RAMP	nohelp	tt=Separates the ramp settings between the main directional light and the other lights (like in the PBS shaders)
+#sngl	lbl=Enable Wrapped Lighting	kw=ENABLE_WRAPPED_LIGHTING								tt=Enable wrapped diffuse lighting, making lighting wrap around the model
+mult	lbl=Wrapped Lighting		kw=Off|,Half|ENABLE_WRAPPED_LIGHTING,Custom|WRAP_CUSTOM		tt=Enable wrapped lighting, with different levels of control
+---
+sngl	lbl=Colors Multipliers			kw=COLOR_MULTIPLIERS			nohelp	tt=Adds multiplier values for highlight and shadow colors to enhance contrast or colors
+sngl	lbl=Shadow Color (other lights)	kw=ENABLE_SHADOW_2ND_LIGHTS		nohelp	tt=Enable shadow color for additive lights; this means that the model will get some tint in unlit areas when using secondary lights. This was the default behavior before v2.3.3.
+mult	lbl=Shadow Color Mode			kw=Multiply|,Replace Color|SHADOW_COLOR_LERP																nohelp	tt=How to blend the shadow color on the model
+mult	lbl=Shadow Color Texture		kw=Disabled|,Multiply|SHADOW_COLOR_TEX_MULT,Replace Color|SHADOW_COLOR_TEX_LERP	toggles=SHADOW_COLOR_TEX	nohelp	tt=Use a texture as the color source for shadows
+sngl	lbl=Shadow HSV					kw=SHADOW_HSV																								nohelp	tt=Adds Hue,Saturation,Value controls to shadowed areas
+---
+mult	lbl=Specular			kw=Off|,Regular|SPECULAR,Anisotropic|SPECULAR_ANISOTROPIC		hlptop=specular_sg
+mult	lbl=Specular Model		kw=Legacy (Blinn-Phong)|SPEC_LEGACY,PBR Blinn-Phong|SPEC_PBR_BLINNPHONG,GGX|SPEC_PBR_GGX		needs=SPECULAR							indent	nohelp		tt=Which specular model to use
+mask	lbl=Specular Mask	msk=SPEC_MASK		ch=SPEC_MASK_CHANNEL		kw=SPECULAR_MASK	dispName=Specular	needsOr=SPECULAR,SPECULAR_ANISOTROPIC	indent	nohelp		tt=Enables specular mask (gloss map)
+#Same keywords but different names depending on PBR/non-PBR models
+mask	lbl=Roughness Mask	msk=SPEC_SHIN_MASK	ch=SPEC_SHIN_MASK_CHANNEL	kw=SPEC_SHIN_MASK	dispName=Roughness	needsOr=SPECULAR,SPECULAR_ANISOTROPIC	indent	nohelp
+mult	lbl=Cartoon Specular		kw=Off|,Smoothstep|SPECULAR_TOON,Banded|SPECULAR_TOON_BAND			needs=SPECULAR							indent	nohelp		tt=Specular stylization
+sngl	lbl=Specular Color Texture	kw=SPECULAR_TEX														needsOr=SPECULAR,SPECULAR_ANISOTROPIC	indent	nohelp		tt=Use a texture as the color source for specular
+---
+sngl	lbl=Reflection			kw=REFLECTION	hlptop=reflection_sg																tt=Enables cubemap reflection
+mask	lbl=Reflection Mask		msk=REFL_MASK	ch=REFL_MASK_CHANNEL		kw=REFL_MASK		dispName=Reflection		needs=REFLECTION	indent	nohelp
+sngl	lbl=Reflection Probes (Unity5)			hlptop=Reflection Probes	kw=U5_REFLPROBE								needs=REFLECTION	indent	nohelp		tt=Pick reflection from Unity 5 Reflection Probes
+sngl	lbl=Reflection Color	kw=REFL_COLOR																			needs=REFLECTION	indent	nohelp		tt=Enables reflection color control
+sngl	lbl=Reflection Roughness	kw=REFL_ROUGH							excl=U5_REFLPROBE							needs=REFLECTION	indent	nohelp		tt=Simulates reflection roughness using the Cubemap's LOD levels\n\nREQUIRES MipMaps ENABLED IN THE CUBEMAP TEXTURE!
+sngl	lbl=Rim Reflection/Fresnel	kw=RIM_REFL								toggles=RIM									needs=REFLECTION	indent	nohelp		tt=Reflection will be multiplied by rim lighting, resulting in a fresnel-like effect
+---
+mult	lbl=Rim					kw=Off|,Rim Lighting|RIM,Rim Outline|RIM_OUTLINE				hlptop=rim_sg	tt=Rim effects (fake light coming from behind the model)
+sngl	lbl=Vertex Rim			kw=RIM_VERTEX															needsOr=RIM,RIM_OUTLINE			indent	nohelp		tt=Compute rim lighting per-vertex (faster but inaccurate)
+sngl	lbl=Directional Rim		kw=RIMDIR																needsOr=RIM,RIM_OUTLINE			indent	nohelp
+mask	lbl=Rim Mask			msk=RIM_MASK	ch=RIM_MASK_CHANNEL		kw=RIM_MASK		dispName=Rim	needsOr=RIM,RIM_OUTLINE			indent	nohelp
+sngl	lbl=Light-based Mask	kw=RIM_LIGHTMASK														needs=RIM						indent	nohelp		tt=Will make rim be influenced by nearby lights
+sngl	lbl=Rim Color Texture	kw=RIM_TEX																needsOr=RIM,RIM_OUTLINE			indent	nohelp		tt=Use a texture as the color source for rim effects
+---
+mult	lbl=MatCap			kw=Off|,MatCap Add|MATCAP_ADD,MatCap Multiply|MATCAP_MULT	toggles=MATCAP		hlptop=matcap_sg					tt=MatCap effects (fast fake reflection using a spherical texture)
+mask	lbl=MatCap Mask		msk=MASK_MC		ch=MASK_MC_CHANNEL	kw=MASK_MC		dispName=MatCap		needsOr=MATCAP_ADD,MATCAP_MULT	indent	nohelp
+sngl	lbl=Pixel MatCap	kw=MATCAP_PIXEL											needs=BUMP		needsOr=MATCAP_ADD,MATCAP_MULT	indent	nohelp		tt=If enabled, will calculate MatCap per-pixel\nRequires normal map
+sngl	lbl=MatCap Color	kw=MC_COLOR																needsOr=MATCAP_ADD,MATCAP_MULT	indent	nohelp
+---
+sngl	lbl=Subsurface Scattering	kw=SUBSURFACE_SCATTERING
+mult	lbl=Subsurface Lights	kw=Point\Spot Lights|,Directional Lights|SS_DIR_LIGHTS,All Lights|SS_ALL_LIGHTS	needs=SUBSURFACE_SCATTERING		indent	nohelp		tt=Defines which lights will affect subsurface scattering
+mask	lbl=Subsurface Mask		msk=SS_MASK		ch=SS_MASK_CHANNEL	kw=SS_MASK	dispName=Subsurface		needs=SUBSURFACE_SCATTERING		indent	nohelp		tt=Defines where the subsurface scattering effect should apply
+sngl	lbl=Subsurface Color			kw=SUBSURFACE_COLOR												needs=SUBSURFACE_SCATTERING		indent	nohelp		tt=Control the color of the subsurface effect (only affecting back lighting)
+sngl	lbl=Subsurface Ambient Color	kw=SUBSURFACE_AMB_COLOR											needs=SUBSURFACE_SCATTERING		indent	nohelp		tt=Adds an ambient subsurface color, affecting both front and back lighting
+#sngl	lbl=Subsurface Light Color		kw=SS_COLOR_FROM_LIGHT											needs=SUBSURFACE_SCATTERING		indent	nohelp		tt=Inherit the subsurface color from the lights
+sngl	lbl=Multiplicative				kw=SS_MULTIPLICATIVE											needs=SUBSURFACE_SCATTERING		indent	nohelp		tt=Makes the subsurface scattering effect multiplied to the diffuse color instead of added with it
+---
+sngl	lbl=Emission Texture (RGB)	kw=EMISSION_TEXTURE		nohelp
+mask	lbl=Emission Mask			msk=EMISSION_MASK	ch=EMISSION_MASK_CHANNEL	kw=EMISSION		dispName=Emission	hlptop=Self-Illumination Map
+sngl	lbl=Emission Color			kw=EMISSION_COLOR																	hlptop=Self-Illumination Map
+sngl	lbl=HDR Color				kw=EMISSION_COLOR_HDR	needs=EMISSION_COLOR	indent	nohelp							hlptop=Self-Illumination Map	tt=Makes the Emission Color an HDR color that can go outside the [0:1] range (useful for effects like bloom)
+---
+mult	lbl=Custom Ambient		kw=Off|,Cubemap Ambient|CUBE_AMBIENT,Directional Ambient|DIRAMBIENT		tt=Custom ambient lighting
+sngl	lbl=View Dependent		kw=DIRAMBIENT_VIEW		needs=DIRAMBIENT	nohelp	indent		tt=Makes directional ambient view dependent (e.g. left color is always coming from the left no matter the view direction)
+dd_end
+dd_start	lbl=SURFACE
+---
+sngl	lbl=Normal/Bump Map			kw=BUMP			hlptop=normal_bump_map_sg
+sngl	lbl=Bump Scale				kw=BUMP_SCALE	needs=BUMP	indent	nohelp
+sngl	lbl=Parallax/Height Map		kw=PARALLAX		needs=BUMP	indent	nohelp
+---
+mult	lbl=Tessellation			kw=Off|,Phong|TESSELLATION_PHONG,Fixed|TESSELLATION_FIXED,Distance Based|TESSELLATION_DIST,Edge Length Based|TESSELLATION_EDGE_LENGTH						nohelp
+mult	lbl=Height Source			kw=MainTex Alpha|,Height Map|TESSELLATION_HEIGHT_MAP		needsOr=TESSELLATION_FIXED,TESSELLATION_DIST,TESSELLATION_EDGE_LENGTH		nohelp	indent		tt=Defines the source of the displacement for the tessellation effect
+warning	msgType=warning				needsOr=TESSELLATION_PHONG,TESSELLATION_FIXED,TESSELLATION_DIST,TESSELLATION_EDGE_LENGTH		lbl=<b>Tessellation</b> is incompatible with using a custom vertex function.  The shader <b>may not compile properly</b> depending on the used features.  <i>(this is unfortunately a Unity limitation)</i>
+warning	msgType=info				needsOr=TESSELLATION_PHONG,TESSELLATION_FIXED,TESSELLATION_DIST,TESSELLATION_EDGE_LENGTH		lbl=Enable the <b>Add Shadow Pass</b> flag to get proper shadow casting and receiving with Tessellation.
+---
+sngl	lbl=Detail Texture			kw=DETAIL_TEX
+sngl	lbl=Use UV2 coordinates		kw=DETAIL_UV2																indent	nohelp	needs=DETAIL_TEX	tt=Use second texture coordinates for the detail texture
+mask	lbl=Detail Mask				msk=DETAIL_MASK	ch=DETAIL_MASK_CHANNEL	kw=DETAIL_MASK	dispName=Detail		indent	nohelp		needs=DETAIL_TEX
+---
+mask	lbl=Color Mask 1			msk=COLORMASK	ch=COLORMASK_CHANNEL	kw=COLORMASK	dispName=Color1		hlptop=Color Mask
+sngl	lbl=Separate Color			kw=COLORMASK_SEPARATE					needs=COLORMASK										indent	nohelp	tt=Use a separate masked color (if disabled, will use the main Color property)
+mult	lbl=Blending				kw=Multiply|,Replace Color|COLORMASK_REPLACE,Add|COLORMASK_ADD			needs=COLORMASK	indent	nohelp	tt=Blending mode for the 1st masked color
+space	needs=COLORMASK
+mask	lbl=Color Mask 2			msk=COLORMASK2	ch=COLORMASK2_CHANNEL	kw=COLORMASK2	dispName=Color2		needs=COLORMASK		nohelp
+mult	lbl=Blending				kw=Multiply|,Replace Color|COLORMASK2_REPLACE,Add|COLORMASK2_ADD			needs=COLORMASK2	indent	nohelp	tt=Blending mode for the 2nd masked color
+space	needs=COLORMASK2
+mask	lbl=Color Mask 3			msk=COLORMASK3	ch=COLORMASK3_CHANNEL	kw=COLORMASK3	dispName=Color3		needs=COLORMASK		nohelp
+mult	lbl=Blending				kw=Multiply|,Replace Color|COLORMASK3_REPLACE,Add|COLORMASK3_ADD			needs=COLORMASK3	indent	nohelp	tt=Blending mode for the 3rd masked color
+space	needs=COLORMASK3
+mask	lbl=Color Mask 4			msk=COLORMASK4	ch=COLORMASK4_CHANNEL	kw=COLORMASK4	dispName=Color4		needs=COLORMASK		nohelp
+mult	lbl=Blending				kw=Multiply|,Replace Color|COLORMASK4_REPLACE,Add|COLORMASK4_ADD			needs=COLORMASK4	indent	nohelp	tt=Blending mode for the 3rd masked color
+---
+mult	lbl=MainTex HSV Controls	kw=Off|,Hue Saturation Value|HSV_CONTROLS,Saturation Only (faster)|HSV_CONTROLS_SATURATION										nohelp	tt=Adds Hue,Saturation,Value controls to the main texture
+mask	lbl=HSV Mask				msk=HSV_MASK	ch=HSV_MASK_CHANNEL		kw=HSV_MASK		dispName=HSV	needsOr=HSV_CONTROLS,HSV_CONTROLS_SATURATION	indent	nohelp	tt=Masks the HSV control
+sngl	lbl=Final HSV Controls		kw=HSV_FINAL																													nohelp	tt=Adds Hue,Saturation,Value controls to the final pixel color, after lighting and ambient have been applied
+---
+sngl	lbl=Occlusion Map				kw=OCCLUSION		nohelp																											tt=Adds an occlusion texture map
+keyword	lbl=Color Channel				kw=OCCLUSION_CHNL	nohelp	indent	values=A|a,R|r,G|g,B|b	needs=OCCLUSION	excl=OCCL_RGB	default=0	forceKeyword=true	tt=Which color channel to use from the occlusion texture
+sngl	lbl=RGB Occlusion				kw=OCCL_RGB			nohelp	indent							needs=OCCLUSION													tt=Use an RGB occlusion map, that will block ambient on each channel separately
+sngl	lbl=Occlusion Slider			kw=OCCL_SLIDER		nohelp	indent							needs=OCCLUSION													tt=Add a slider to control occlusion intensity
+---
+sngl	lbl=Vertex Colors				kw=VCOLORS												tt=Multiplies the color with vertex colors
+sngl	lbl=Gamma to Linear Space		kw=VCOLORS_LINEAR	needs=VCOLORS	indent	nohelp		tt=Converts the vertex color from gamma to linear space (when linear color space is enabled)
+---
+subh	lbl=Texture Splatting/Blending
+mult	lbl=Texture Blending			kw=Off|,Vertex Colors|TEXBLEND_VCOLORS,Texture Map|TEXBLEND_MAP	toggles=TEXTURE_BLENDING				tt=Enable texture blending
+#mult	lbl=Texture Blending			kw=Off|,Vertex Colors|TEXBLEND_VCOLORS,Texture Map|TEXBLEND_MAP,Unity Terrain Splatmap|TEXBLEND_UNITY_SPLATMAP	toggles=TEXTURE_BLENDING				tt=Enable texture blending
+mult	lbl=Blend Method				kw=Linear|TEXBLEND_LINEAR,Linear (Additive)|TEXBLEND_LINEAR_ADD,Height (Texture Alpha)|TEXBLEND_HEIGHT	nohelp	indent	needs=TEXTURE_BLENDING		tt=Defines how to blend textures (see documentation)
+sngl	lbl=Enhance Blend Contrast		kw=TEXBLEND_NORMALIZE		nohelp	indent	needs=TEXTURE_BLENDING	excl=TEXBLEND_LINEAR_ADD	tt=Enhance contrast between colors when the blend channel is not 0.\nSee documentation for more info.
+float	lbl=Height Contrast				kw=TEXBLEND_HEIGHT_CONTRAST		default=2.5	needs=TEXBLEND_HEIGHT	nohelp	indent		tt=Adjust the contrast for height-based blending (default: 2.5)
+warning	msgType=info					needs=TEXBLEND_HEIGHT		lbl=The order in which textures are sampled matters when using height blending, because the alpha from the textures is cumulative!
+sngl	lbl=Texture 1					kw=BLEND_TEX1	tt=Additional texture blended based on a vertex color channel		nohelp	indent	needs=TEXTURE_BLENDING			half
+keyword	lbl=Color Channel				kw=BLEND_TEX1_CHNL	values=R|r,G|g,B|b,A|a		needs=TEXTURE_BLENDING,BLEND_TEX1	nohelp	default=0	forceKeyword=true	inline
+sngl	lbl=Non-repeating Tiling		kw=BLEND_TEX1_NOTILE	tt=Non-repeating tiling for texture 1						nohelp	indent	needs=TEXTURE_BLENDING,BLEND_TEX1
+sngl	lbl=Texture 2					kw=BLEND_TEX2	tt=Additional texture blended based on a vertex color channel		nohelp	indent	needs=TEXTURE_BLENDING			half
+keyword	lbl=Color Channel				kw=BLEND_TEX2_CHNL	values=R|r,G|g,B|b,A|a		needs=TEXTURE_BLENDING,BLEND_TEX2	nohelp	default=1	forceKeyword=true	inline
+sngl	lbl=Non-repeating Tiling		kw=BLEND_TEX2_NOTILE	tt=Non-repeating tiling for texture 2						nohelp	indent	needs=TEXTURE_BLENDING,BLEND_TEX2
+sngl	lbl=Texture 3					kw=BLEND_TEX3	tt=Additional texture blended based on a vertex color channel		nohelp	indent	needs=TEXTURE_BLENDING			half
+keyword	lbl=Color Channel				kw=BLEND_TEX3_CHNL	values=R|r,G|g,B|b,A|a		needs=TEXTURE_BLENDING,BLEND_TEX3	nohelp	default=2	forceKeyword=true	inline
+sngl	lbl=Non-repeating Tiling		kw=BLEND_TEX3_NOTILE	tt=Non-repeating tiling for texture 3						nohelp	indent	needs=TEXTURE_BLENDING,BLEND_TEX3
+sngl	lbl=Texture 4					kw=BLEND_TEX4	tt=Additional texture blended based on a vertex color channel		nohelp	indent	needs=TEXTURE_BLENDING			half	excl=TEXBLEND_UNITY_SPLATMAP
+keyword	lbl=Color Channel				kw=BLEND_TEX4_CHNL	values=R|r,G|g,B|b,A|a		needs=TEXTURE_BLENDING,BLEND_TEX4	nohelp	default=3	forceKeyword=true	inline	excl=TEXBLEND_UNITY_SPLATMAP
+sngl	lbl=Non-repeating Tiling		kw=BLEND_TEX4_NOTILE	tt=Non-repeating tiling for texture 4						nohelp	indent	needs=TEXTURE_BLENDING,BLEND_TEX4
+sngl	lbl=Normal Map Blending			kw=TEXBLEND_BUMP	toggles=BUMP				needs=TEXTURE_BLENDING				nohelp	indent		tt=Enables texture blending for the normal map as well
+space	needs=TEXTURE_BLENDING
+sngl	lbl=Triplanar Mapping			kw=TRIPLANAR																									hlptop=triplanar	tt=Enables triplanar mapping
+mult	lbl=Surface Texture				kw=One Texture (ground)|,Two Textures (ground + ceiling)|TRIPLANAR_CEILING	needs=TRIPLANAR						nohelp	indent		tt=Use different textures for the ground and ceiling
+mult	lbl=Ceiling Mode				kw=Y Normal Direction|,Min Max Threshold|TRIPLANAR_CEILING_MINMAX			needs=TRIPLANAR,TRIPLANAR_CEILING	nohelp	indent		tt=How the ceiling texture should be applied\nBased on the surface normal, or according to the vertex Y position
+mult	lbl=Sides Texture				kw=One Texture|,Two Textures (X + Z)|TRIPLANAR_SIDES_XY						needs=TRIPLANAR						nohelp	indent		tt=Use different textures for the X and Z orientations
+mult	lbl=Height Blending (Alpha)		kw=Off (Linear)|,Sides Alpha|TRIPLANAR_HEIGHT_SIDES,Ground Alpha|TRIPLANAR_HEIGHT_GROUND	needs=TRIPLANAR		nohelp	indent		tt=Modulate the transition between textures based on their alpha channel (height map)
+sngl	lbl=Triplanar Normal Maps		kw=TRIPLANAR_BUMP	toggles=BUMP															needs=TRIPLANAR		nohelp	indent		tt=Add one normal map per triplanar texture
+warning	msgType=info				needs=TRIPLANAR,TEXTURE_BLENDING		lbl=When using <b>Triplanar Mapping</b>, the <b>Texture Blending</b> feature will only affect the ground texture.
+space	space=4
+#sngl	lbl=Unity Terrain Compatibility	kw=UNITY_TERRAIN_COMPATIBILITY					needsOr=TEXTURE_BLENDING,TRIPLANAR	nohelp		tt=Rename the internal name for the Main Texture, so that it's not overwritten by the Terrain system
+---
+sngl	lbl=Non-Repeating Tiling	kw=MAINTEX_NOTILE		nohelp		tt=Break the repeating tiling for the main texture (requires a noise texture)
+dd_end
+dd_start	lbl=STYLIZATION
+---
+sngl	lbl=Textured Threshold		kw=TEXTURED_THRESHOLD									tt=Adds a textured variation to the highlight/shadow threshold, allowing handpainting like effects for example
+mult	lbl=UV Channel				kw=UV0|,UV1|TEXTURED_THRESHOLD_UV1	needs=TEXTURED_THRESHOLD	indent	nohelp		tt=Which UV channel to use for the threshold texture
+---
+sngl	lbl=Diffuse Tint			kw=DIFFUSE_TINT																									tt=Adds a diffuse tint color, to add some subtle coloring to the diffuse lighting
+mask	lbl=Diffuse Tint Mask		msk=DIFFUSE_TINT_MASK	ch=DIFFUSE_TINT_CHANNEL	kw=DIFFUSE_TINT_MASK	dispName=Diffuse Tint	needs=DIFFUSE_TINT	indent	nohelp	tt=Diffuse tint mask
+---
+mult	lbl=Sketch						kw=Off|,Sketch Overlay|SKETCH,Sketch Gradient|SKETCH_GRADIENT							tt=Sketch texture overlay on the shadowed areas\nOverlay: regular texture overlay\nGradient: used for halftone-like effects
+mult	lbl=Sketch Blending				kw=Regular|,Color Burn|SKETCH_COLORBURN,Color Blend|SKETCH_COLORBLEND	needs=SKETCH	nohelp	indent		tt=Defines how to blend the Sketch texture with the model
+sngl	lbl=Sketch Color				kw=SKETCH_COLOR			needs=SKETCH	excl=SKETCH_GRADIENT,SKETCH_COLORBLEND		nohelp	indent		tt=Define the color of the sketch effect
+sngl	lbl=Animated Sketch				kw=SKETCH_ANIM			needsOr=SKETCH,SKETCH_GRADIENT		nohelp	indent		tt=Animates the sketch overlay texture, simulating a hand-drawn animation style
+sngl	lbl=Vertex Coords				kw=SKETCH_VERTEX		needsOr=SKETCH,SKETCH_GRADIENT		nohelp	indent		tt=Compute screen coordinates in vertex shader (faster but can cause distortions)\nIf disabled will compute in pixel shader (slower)
+sngl	lbl=Disable Obj-Space Offset	kw=NO_SKETCH_OFFSET		needsOr=SKETCH,SKETCH_GRADIENT		nohelp	indent		tt=Prevent the screen-space UVs from being offset based on the object's position
+---
+mult	lbl=Outline					kw=Off|,Opaque Outline|OUTLINE,Blended Outline|OUTLINE_BLENDING											tt=Outline around the model
+sngl	lbl=Legacy Outline			kw=LEGACY_OUTLINE	needsOr=OUTLINE,OUTLINE_BLENDING								indent	nohelp		tt=Legacy behavior of the outline (prior to v2.3.36 that introduced some fixes)
+sngl	lbl=HDR Outline Color		kw=HDR_OUTLINE		needsOr=OUTLINE,OUTLINE_BLENDING								indent	nohelp		tt=Makes the outline color HDR, being able to go over 1
+mult	lbl=Outline behind model	kw=Off|,Depth Buffer|OUTLINE_BEHIND_DEPTH,Stencil Buffer|OUTLINE_BEHIND_STENCIL		needsOr=OUTLINE,OUTLINE_BLENDING	indent	nohelp		tt=Show outline behind model
+sngl	lbl=Depth Pass				kw=OUTLINE_DEPTH	needsOr=OUTLINE,OUTLINE_BLENDING	needs=OUTLINE_BEHIND_DEPTH	indent	nohelp		tt=Adds a depth writing pass for the outline behind model: this can solve issues with sorting and drawing order
+space	needs=OUTLINE_BEHIND_DEPTH	needsOr=OUTLINE,OUTLINE_BLENDING
+mult	lbl=Outline as fake rim		kw=Off|,Based on Main Directional Light|OUTLINE_FAKE_RIM_DIRLIGHT,Manual Offset|OUTLINE_FAKE_RIM	excl=LEGACY_OUTLINE		needsOr=OUTLINE,OUTLINE_BLENDING	indent	nohelp		tt=Use the outline as a fake crisp rim light
+sngl	lbl=Vertex Lighting			kw=OFRD_LIGHTING	needsOr=OUTLINE,OUTLINE_BLENDING	needs=OUTLINE_FAKE_RIM_DIRLIGHT	indent	nohelp		tt=Apply basic vertex lighting to attenuate the fake rim outline color based on the directional light
+sngl	lbl=Directional Light Color	kw=OFRD_COLOR		needsOr=OUTLINE,OUTLINE_BLENDING	needs=OUTLINE_FAKE_RIM_DIRLIGHT	indent	nohelp		tt=Multiply the fake rim color with the main directional light's color
+space	needs=OUTLINE_FAKE_RIM_DIRLIGHT	needsOr=OUTLINE,OUTLINE_BLENDING
+sngl	lbl=Vertex Color Width		kw=OUTLINE_VCOLOR_WIDTH	needsOr=OUTLINE,OUTLINE_BLENDING							indent	nohelp	excl=LEGACY_OUTLINE		tt=Modulate the outline width with a vertex color		half
+keyword	lbl=Channel	kw=OVCW_CHNL	values=R|r,G|g,B|b,A|a	needsOr=OUTLINE,OUTLINE_BLENDING	needs=OUTLINE_VCOLOR_WIDTH		nohelp	excl=LEGACY_OUTLINE	default=0	forceKeyword=true								inline
+sngl	lbl=Shadow/Depth Pass		kw=OUTLINE_SHADOWCASTER	needsOr=OUTLINE,OUTLINE_BLENDING							indent	nohelp	excl=LEGACY_OUTLINE		tt=Adds a shadow caster pass based on the outline vertices. This will ensure that the cast shadows include the thickness of the outline, and also that the outline is included in the depth texture (e.g. for post effects like depth of field)
+#---
+#sngl	lbl=TCP2 Lightmap	kw=LIGHTMAP		hlptop=Lightmap		tt=Will use TCP2's lightmap decoding, affecting it with ramp and color settings
+dd_end
+dd_start	lbl=SPECIAL EFFECTS
+---
+#sngl	lbl=Independent Shadows					kw=INDEPENDENT_SHADOWS			tt=Disable shadow color influence for cast shadows
+#---
+sngl	lbl=Silhouette Pass				kw=PASS_SILHOUETTE																nohelp				tt=Adds a silhouette pass, to show the object when it is behind obstacles
+sngl	lbl=Stencil Mask				kw=SILHOUETTE_STENCIL								needs=PASS_SILHOUETTE		nohelp	indent		tt=Use the Stencil Buffer as a mask for the silhouette, to prevent transparency issues with non-convex meshes or multiple meshes
+float	lbl=Stencil Ref					kw=SILHOUETTE_STENCIL_REF	default=1				needs=PASS_SILHOUETTE,SILHOUETTE_STENCIL		nohelp	indent		tt=Reference Stencil value for the mask effect  Value range is [1-255]
+sngl	lbl=Dissolve Map				kw=DISSOLVE																		nohelp				tt=Adds a dissolve texture map with the corresponding slider
+mult	lbl=Color Channel				kw=Alpha|,Red|DSLV_R,Green|DSLV_G,Blue|DSLV_B		needs=DISSOLVE				nohelp	indent		tt=Color channel to use for the dissolve map
+sngl	lbl=Independent UV				kw=DISSOLVE_UV										needs=DISSOLVE				nohelp	indent		tt=Use separate UVs with its own tiling and offset values for the dissolve map (else use the main texture UV)
+sngl	lbl=Gradient Ramp				kw=DISSOLVE_GRADIENT								needs=DISSOLVE				nohelp	indent		tt=Use a gradient texture to color the dissolving area
+float	lbl=Gradient Contrast			kw=DISSOLVE_GRAD_CONTRAST	default=2.0				needs=DISSOLVE_GRADIENT		nohelp	indent		tt=Adjust the color contrast for the dissolve gradient
+sngl	lbl=Snow Accumulation			kw=SNOW_ACCU																	nohelp				tt=Adds an angle-based accumulation layer (that can be used for snow or anything else)
+float	lbl=Color Smoothing				kw=SNOW_ACCU_SMOOTH			default=0.2				needs=SNOW_ACCU				nohelp	indent		tt=Color smoothing at the transition between the snow and non-snow areas
+sngl	lbl=Vertex Displacement			kw=SNOW_ACCU_DISP									needs=SNOW_ACCU						nohelp	indent		tt=Displace the vertex based on snow accumulation
+mult	lbl=Normal Source				kw=Vertex Normals|,Vertex Colors|SNOW_ACCU_NRM_COLOR,Tangents|SNOW_ACCU_NRM_TANGENTS,UV2|SNOW_ACCU_NRM_UV2		needs=SNOW_ACCU,SNOW_ACCU_DISP		nohelp	indent		tt=Defines the source for the normal-based vertex displacement (allows using a smoothed mesh if there are hard edges, just like for the outlines)
+float	lbl=Displacement Smoothing		kw=SNOW_ACCU_DISP_SMOOTH	default=0.2				needs=SNOW_ACCU,SNOW_ACCU_DISP		nohelp	indent		tt=Displacement smoothing at the transition between the snow and non-snow areas
+sngl	lbl=Rim Lighting				kw=SNOW_ACCU_RIM			toggles=RIM				needs=SNOW_ACCU						nohelp	indent		tt=Adds rim lighting to the snow layer
+sngl	lbl=Snow Shadow Color			kw=SNOW_ACCU_SCOLOR									needs=SNOW_ACCU						nohelp	indent		tt=Change the shadow color for the snow layer
+sngl	lbl=Vertical Fog					kw=VERTICAL_FOG															nohelp				tt=Vertical Fog support based on the world position
+mult	lbl=Color Interpolation				kw=Linear|,Smooth|VERTICAL_FOG_SMOOTHSTEP		needs=VERTICAL_FOG		nohelp	indent		tt=How to interpolate between colors according to the min-max values
+sngl	lbl=Use Lighting Settings Color		kw=VERTICAL_FOG_COLOR	needs=VERTICAL_FOG								nohelp	indent		tt=Use the global fog color from the Lighting Settings window
+sngl	lbl=Relative to Camera				kw=VERTICAL_FOG_CAM		needs=VERTICAL_FOG								nohelp	indent		tt=Position threshold will be relative to the camera's Y world position
+dd_end
+dd_start	lbl=TRANSPARENCY/BLENDING
+---
+sngl	lbl=Alpha Blending				kw=ALPHA
+sngl	lbl=Dithered Shadows			kw=DITHERED_SHADOWS		needs=ALPHA					indent	nohelp		tt=Enables dithered shadows for transparent materials
+sngl	lbl=Alpha Testing (Cutout)		kw=CUTOUT
+sngl	lbl=Dithered Transparency		kw=CUTOUT_DITHER		needs=CUTOUT				indent	nohelp	tt=Dithered transparency (alternate between transparent and opaque pixels in screen-space)
+sngl	lbl=Alpha-to-Coverage			kw=ALPHA_TO_COVERAGE										nohelp	tt=Alpha-to-coverage transparency (better cutout anti-aliasing when using MSAA)
+sngl	lbl=Sharpen Alpha-to-Coverage	kw=ATC_SHARPEN			needs=ALPHA_TO_COVERAGE		indent	nohelp	tt=Sharpens alpha-to-coverage and remove banding artifacts
+sngl	lbl=Ignore Main Texture			kw=ALPHA_NO_MAINTEX		needsOr=ALPHA,CUTOUT				nohelp	tt=Ignore the main texture's alpha channel for alpha blending/testing
+sngl	lbl=Ignore Color				kw=ALPHA_NO_COLOR		needsOr=ALPHA,CUTOUT				nohelp	tt=Ignore the main color's alpha channel for alpha blending/testing
+dd_end
+dd_start	lbl=SHADER STATES/MISC
+---
+mult	lbl=LOD Group Blending			kw=Off|,Dither|LOD_DITHER,Cross-fade|LOD_FADE				nohelp	tt=Add support for dithering or cross-fading between LOD levels
+warning	msgType=info					needs=LOD_FADE		lbl=<b>Cross-fade</b> forces the shader to be transparent! (same as Alpha Blending option)
+---
+mult	lbl=Culling/Double-sided		kw=Back (default)|,Front|CULL_FRONT,Off (double-sided)|CULL_OFF,User-defined in Material|CULL_OPTION	nohelp	tt=Defines how to cull faces
+mult	lbl=Backface Lighting			kw=Off|,Flip Normal (Z)|USE_VFACE,Flip Normal (XYZ)|USE_VFACE_ALL								indent	nohelp	tt=Invert the normals on backfaces for accurate lighting calculation (this may not work properly with shadows and introduce other artifacts)
+mult	lbl=ZWrite						kw=On (default)|,Off|ZWRITE_OFF,User-defined in Material|ZWRITE_OPTION									nohelp	tt=Depth buffer setting
+---
+keyword	lbl=Shader Target	kw=SHADER_TARGET	forceKeyword=true	values=2.0 (Old hardware)|2.0,2.5 (Mobile devices)|2.5,3.0 (Recommended default)|3.0,3.5|3.5,4.0|4.0,4.5|4.5,4.6|4.6,5.0|5.0		default=2
+warning	msgType=info		lbl=Use <b>Shader Target 2.5</b> for maximum compatibility across mobile devices.  Increase the number if the shader fails to compile (not enough instructions or interpolators).
+dd_end
+dd_start	lbl=SURFACE SHADER FLAGS
+---
+flag	lbl=Add Shadow Passes			kw=addshadow													tt=Force the shader to have the Shadow Caster and Collector passes.\nCan help if shadows don't work properly with the shader
+flag	lbl=Full Forward Shadows		kw=fullforwardshadows											tt=Enable support for all shadow types in Forward rendering path
+flag	lbl=Disable Shadows				kw=noshadow														tt=Disables all shadow receiving support in this shader
+flag	lbl=Disable Fog					kw=nofog														tt=Disables Unity Fog support.\nCan help if you run out of vertex interpolators and don't need fog.
+flag	lbl=Disable Lightmaps			kw=nolightmap				toggles=NO_LIGHTMAP					tt=Disables all lightmapping support in this shader.\nCan help if you run out of vertex interpolators and don't need lightmaps.
+flag	lbl=Disable Ambient Lighting	kw=noambient		excl=DIRAMBIENT,CUBE_AMBIENT,OCCLUSION		tt=Disable ambient lighting
+flag	lbl=Disable Vertex Lighting		kw=novertexlights												tt=Disable vertex lights and spherical harmonics (light probes)
+sngl	lbl=Disable Dynamic Batching	kw=DISABLE_BATCHING		nohelp									tt=Disable dynamic batching support for this shader.  Can help if dynamic batching causes UV or vertex displacement issues among water planes for example.
+space	space=6
+header	lbl=Mobile-Friendly
+flag	lbl=One Directional Light		kw=noforwardadd													tt=Use additive lights as vertex lights.\nRecommended for Mobile
+flag	lbl=Vertex View Dir				kw=interpolateview												tt=Calculate view direction per-vertex instead of per-pixel.\nRecommended for Mobile	needsOr=SPECULAR,SPECULAR_ANISOTROPIC,SUBSURFACE,PARALLAX,RIM,RIM_OUTLINE
+flag	lbl=Half as View				kw=halfasview													tt=Pass half-direction vector into the lighting function instead of view-direction.\nFaster but inaccurate.\nRecommended for Specular, but use Vertex Rim to optimize Rim Effects instead	needsOr=SPECULAR,SPECULAR_ANISOTROPIC,SUBSURFACE,PARALLAX,RIM,RIM_OUTLINE
+dd_end
+dd_start	lbl=THIRD PARTY PLUGINS
+---
+mult	lbl=VertExmotion Support			kw=Off|,Position|VERTEXMOTION_SIMPLE,Position+Normal|VERTEXMOTION_NORMAL	toggles=VERTEXMOTION	nohelp		tt=Adds support for VertExmotion
+dd_end
+#END
+#KEYWORDS
+
+#Legacy feature auto-migration
+/// IF SEPARATE_RAMPS
+enable_kw_config	RAMP_MAIN_OTHER
+disable_kw_config	SEPARATE_RAMPS
+///
+
+#Vertex Colors usage
+/// IF TEXBLEND_VCOLORS || VCOLORS || VCOLORS_MASK || VERTEXMOTION
+enable_kw	USE_VERTEX_COLORS
+///
+
+#Unity Splatmap
+/// IF TEXBLEND_UNITY_SPLATMAP
+disable_kw		BLEND_TEX4
+///
+/// IF TEXBLEND_LINEAR_ADD
+disable_kw		TEXBLEND_NORMALIZE
+///
+
+#NoTile
+/// IF MAINTEX_NOTILE || BLEND_TEX1_NOTILE || BLEND_TEX2_NOTILE || BLEND_TEX3_NOTILE || BLEND_TEX4_NOTILE
+enable_kw		NOTILE_TEXTURES
+/// ELSE
+disable_kw		NOTILE_TEXTURES
+///
+
+#Snow Accu custom normals
+/// IF SNOW_ACCU_DISP && (SNOW_ACCU_NRM_COLOR || SNOW_ACCU_NRM_TANGENTS || SNOW_ACCU_NRM_UV2)
+enable_kw		SNOW_ACCU_CUSTOM_NRM
+///
+
+#Custom Lighting Function
+#Now always enabled
+enable_kw	CUSTOM_LIGHTING
+
+#Custom Ambient
+/// IF OCCLUSION || CUBE_AMBIENT || DIRAMBIENT
+enable_kw		CUSTOM_AMBIENT
+enable_flag		noambient
+///
+
+#Tessellation
+/// IF TESSELLATION_PHONG
+enable_kw	TESSELLATION
+enable_flag	vertex:dispNone
+enable_flag	tessellate:tessEdge
+enable_flag	tessphong:_Phong
+/// ELIF TESSELLATION_FIXED
+enable_kw	TESSELLATION
+enable_flag	vertex:disp
+enable_flag	tessellate:tessFixed
+/// ELIF TESSELLATION_DIST
+enable_kw	TESSELLATION
+enable_flag	vertex:disp
+enable_flag	tessellate:tessDistance
+/// ELIF TESSELLATION_EDGE_LENGTH
+enable_kw	TESSELLATION
+enable_flag	vertex:disp
+enable_flag	tessellate:tessEdge
+///
+
+#Vertical Fog
+/// IF VERTICAL_FOG
+	/// IF VERTICAL_FOG_COLOR
+set		VERTICAL_FOG_COLOR		unity_FogColor
+	/// ELSE
+set		VERTICAL_FOG_COLOR		_VerticalFogColor
+	///
+///
+
+#Final Color
+/// IF HSV_FINAL
+enable_kw		FINAL_COLOR
+enable_flag		finalcolor:fcolor
+///
+
+#Vertex function
+/// IF VERTEX_FUNC || MATCAP || SKETCH || SKETCH_GRADIENT || (RIM_VERTEX && (RIM || RIM_OUTLINE)) || (BUMP && RIMDIR && (RIM || RIM_OUTLINE)) || CUSTOM_AMBIENT || SPECULAR_ANISOTROPIC || (TRIPLANAR && BUMP) || SNOW_ACCU || TRIPLANAR || VERTEXMOTION
+enable_kw		VERTEX_FUNC
+enable_flag		vertex:vert
+///
+
+#LOD cross-fade
+/// IF LOD_FADE
+enable_kw		ALPHA
+///
+
+#Keepalpha flag
+/// IF ALPHA || ALPHA_TO_COVERAGE
+enable_flag		keepalpha
+///
+
+#Prevent addshadow
+/// IF (CUTOUT && CUTOUT_DITHER) || (ALPHA && DITHERED_SHADOWS)
+disable_flag	addshadow
+///
+
+#Lighting model
+/// IF CUSTOM_LIGHTING
+set		LIGHTING_MODEL		ToonyColorsCustom
+/// ELSE
+	/// IF SPECULAR || SPECULAR_ANISOTROPIC
+set		LIGHTING_MODEL		ToonyColorsSpec
+	/// ELSE
+set		LIGHTING_MODEL		ToonyColors
+	///
+///
+#END
+
+Shader "@%SHADER_NAME%@"
+{
+	Properties
+	{
+	[TCP2HeaderHelp(BASE, Base Properties)]
+		//TOONY COLORS
+		_Color ("Color", Color) = (1,1,1,1)
+/// IF COLORMASK
+	/// IF COLORMASK_SEPARATE
+		_MaskedColor ("Masked Color 1", Color) = (1.0, 0.0, 0.0, 1.0)
+	///
+		_ColorMaskStrength ("Masked Color Strength", Range(0,4)) = 1.0
+	/// IF COLORMASK2
+		_MaskedColor2 ("Masked Color 2", Color) = (0.0, 1.0, 0.0, 1.0)
+	///
+	/// IF COLORMASK3
+		_MaskedColor3 ("Masked Color 3", Color) = (0.0, 0.0, 1.0, 1.0)
+	///
+	/// IF COLORMASK4
+		_MaskedColor4 ("Masked Color 4", Color) = (1.0, 0.5, 0.0, 1.0)
+	///
+		[Space]
+///
+		_HColor ("Highlight Color", Color) = (0.785,0.785,0.785,1.0)
+		_SColor ("Shadow Color", Color) = (0.195,0.195,0.195,1.0)
+/// IF SHADOW_COLOR_TEX
+		[NoScaleOffset] _STexture ("Shadow Color Texture", 2D) = "white" {}
+///
+/// IF SHADOW_HSV
+
+	[Header(Shadow HSV)]
+		_Shadow_HSV_H ("Hue", Range(-360,360)) = 0
+		_Shadow_HSV_S ("Saturation", Range(-1,1)) = 0
+		_Shadow_HSV_V ("Value", Range(-1,1)) = 0
+	[TCP2Separator]
+///
+/// IF COLOR_MULTIPLIERS
+		_HighlightMultiplier ("Highlight Multiplier", Range(0,4)) = 1
+		_ShadowMultiplier ("Shadow Multiplier", Range(0,4)) = 1
+///
+/// IF WRAP_CUSTOM
+		_WrapFactor ("Light Wrapping", Range(-1,3)) = 1.0
+///
+
+		//DIFFUSE
+/// IF TEXBLEND_UNITY_SPLATMAP
+		[HideInInspector] _Control("Control (RGBA)", 2D) = "red" {}
+///
+		_MainTex ("Main Texture", 2D) = "white" {}
+/// IF TEXTURE_BLENDING
+
+	/// IF TEXBLEND_VCOLORS
+		[Header(Texture Blending (Vertex Colors))]
+	/// ELIF TEXBLEND_MAP
+		[Header(Texture Blending (Texture Map))]
+		_TexBlendMap ("Texture Blending Map", 2D) = "black" {}
+		[Space]
+	/// ELIF TEXBLEND_UNITY_SPLATMAP
+		[Header(Texture Blending (Unity Terrain))]
+	///
+	/// IF BLEND_TEX1
+		_BlendTex1 ("Texture 1 (@%BLEND_TEX1_CHNL%@)", 2D) = "white" {}
+	///
+	/// IF BLEND_TEX2
+		_BlendTex2 ("Texture 2 (@%BLEND_TEX2_CHNL%@)", 2D) = "white" {}
+	///
+	/// IF BLEND_TEX3
+		_BlendTex3 ("Texture 3 (@%BLEND_TEX3_CHNL%@)", 2D) = "white" {}
+	///
+	/// IF BLEND_TEX4
+		_BlendTex4 ("Texture 4 (@%BLEND_TEX4_CHNL%@)", 2D) = "white" {}
+	///
+	/// IF TEXBLEND_NORMALIZE
+		[PowerSlider(4.0)] _BlendContrast ("Blending Contrast", Range(1,4)) = 1
+	///
+	/// IF TEXBLEND_HEIGHT
+		[Header(Height Blending Parameters)]
+		[TCP2Vector4Floats(R,G,B,A,0.001,2,0.001,2,0.001,2,0.001,2)] _VColorBlendSmooth ("Height Smoothing", Vector) = (0.25,0.25,0.25,0.25)
+		[TCP2Vector4Floats(R,G,B,A)] _VColorBlendOffset ("Height Offset", Vector) = (0,0,0,0)
+		[TCP2HelpBox(Info,Height will be taken from each texture alpha channel.  No alpha in the texture will result in linear blending.)]
+	///
+///
+/// IF TRIPLANAR
+
+	[Header(Triplanar Mapping)]
+	/// IF TRIPLANAR_CEILING
+		_TriCeiling ("Ceiling", 2D) = "white" {}
+		/// IF TRIPLANAR_CEILING_MINMAX
+		_CeilMin ("Ceiling Min", Float) = -1
+		_CeilMax ("Ceiling Max", Float) = 1
+		[Space]
+		///
+	///
+	/// IF TRIPLANAR_SIDES_XY
+		_TriSideX ("Side X", 2D) = "white" {}
+		_TriSideZ ("Side Z", 2D) = "white" {}
+		[Space]
+	/// ELSE
+		_TriSide ("Sides", 2D) = "white" {}
+		[Space]
+	///
+		[TCP2Vector4Floats(Contrast X,Contrast Y,Contrast Z,Smoothing,1,16,1,16,1,16,0.05,1)] _TriplanarBlendStrength ("Triplanar Parameters", Vector) = (2,8,2,0.5)
+	/// IF TRIPLANAR_HEIGHT_SIDES || TRIPLANAR_HEIGHT_GROUND
+		_TriplanarHeightOffset ("Alpha Blend Offset", Range(-1,1)) = 0
+		_TriplanarHeightSmooth ("Alpha Blend Smoothing", Range(0.001,1)) = 0.1
+	///
+///
+/// IF DETAIL_TEX
+		_Detail ("Detail (RGB)", 2D) = "gray" {}
+///
+/// IF DIFFUSE_TINT
+		_DiffTint ("Diffuse Tint", Color) = (0.7,0.8,1,1)
+///
+	[TCP2Separator]
+
+		//TOONY COLORS RAMP
+		[TCP2Header(RAMP SETTINGS)]
+
+/// IF TEXTURE_RAMP
+	/// IF RAMP_SEPARATED
+		[Header(Main Directional Light)]
+	///
+		[TCP2Gradient] _Ramp			("Toon Ramp (RGB)", 2D) = "gray" {}
+	/// IF RAMP_MAIN_OTHER
+		[Header(Other Lights)]
+		[TCP2Gradient] _RampOtherLights	("Toon Ramp", 2D) = "gray" {}
+		[Space]
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+	[HideInInspector] __BeginGroup_OtherLights ("Other Lights", Float) = 0
+		[TCP2Gradient] _RampPoint		("Toon Ramp (Point Lights)", 2D) = "gray" {}
+		[TCP2Gradient] _RampSpot		("Toon Ramp (Spot Lights)", 2D) = "gray" {}
+		[TCP2Gradient] _RampDir			("Toon Ramp (Directional Lights)", 2D) = "gray" {}
+	[HideInInspector] __EndGroup ("Other Lights", Float) = 0
+	///
+/// ELIF RGB_RAMP
+	/// IF RAMP_SEPARATED
+		[Header(Main Directional Light)]
+	///
+		_RampThresholdRGB ("Ramp Threshold (RGB)", Color) = (0.5,0.5,0.5,1)
+		_RampSmooth ("Ramp Smoothing", Range(0.001,1)) = 0.1
+	/// IF RAMP_MAIN_OTHER
+		[Header(Other Lights)]
+		_RampThresholdOtherLightsRGB ("Threshold RGB (Other Lights)", Color) = (0.5,0.5,0.5,1)
+		_RampSmoothOtherLights ("Smoothing (Other Lights)", Range(0.001,1)) = 0.5
+		[Space]
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+	[HideInInspector] __BeginGroup_OtherLights ("Other Lights", Float) = 0
+		_RampThresholdPointRGB ("Threshold RGB (Point Lights)", Color) = (0.5,0.5,0.5,1)
+		_RampSmoothPoint ("Smoothing (Point Lights)", Range(0.001,1)) = 0.5
+		[Space]
+		_RampThresholdSpotRGB ("Threshold RGB (Spot Lights)", Color) = (0.5,0.5,0.5,1)
+		_RampSmoothSpot ("Smoothing (Spot Lights)", Range(0.001,1)) = 0.5
+		[Space]
+		_RampThresholdDirRGB ("Threshold RGB (Directional Lights)", Color) = (0.5,0.5,0.5,1)
+		_RampSmoothDir ("Smoothing (Directional Lights)", Range(0.001,1)) = 0.5
+	[HideInInspector] __EndGroup ("Other Lights", Float) = 0
+	///
+/// ELSE
+	/// IF RAMP_SEPARATED
+		[Header(Main Directional Light)]
+	///
+		_RampThreshold ("Ramp Threshold", Range(0,1)) = 0.5
+		_RampSmooth ("Ramp Smoothing", Range(0.001,1)) = 0.1
+	/// IF RAMP_MAIN_OTHER
+		[Header(Other Lights)]
+		_RampThresholdOtherLights ("Threshold", Range(0,1)) = 0.5
+		_RampSmoothOtherLights ("Smoothing", Range(0.001,1)) = 0.5
+		[Space]
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+	[HideInInspector] __BeginGroup_OtherLights ("Other Lights", Float) = 0
+		_RampThresholdPoint ("Threshold (Point)", Range(0,1)) = 0.5
+		_RampSmoothPoint ("Smoothing (Point)", Range(0.001,1)) = 0.5
+		[Space]
+		_RampThresholdSpot ("Threshold (Spot)", Range(0,1)) = 0.5
+		_RampSmoothSpot ("Smoothing (Spot)", Range(0.001,1)) = 0.5
+		[Space]
+		_RampThresholdDir ("Threshold (Directional)", Range(0,1)) = 0.5
+		_RampSmoothDir ("Smoothing (Directional)", Range(0.001,1)) = 0.5
+	[HideInInspector] __EndGroup ("Other Lights", Float) = 0
+		[Space]
+	///
+///
+/// IF TEXTURED_THRESHOLD
+		_ThresholdTex ("Threshold Texture (Alpha)", 2D) = "gray" {}
+///
+	[TCP2Separator]
+/// IF HSV_CONTROLS || HSV_FINAL
+	[Header(HSV Controls)]
+  /// IF HSV_CONTROLS
+		[Header(Main Texture)]
+		_HSV_H ("Hue", Range(-360,360)) = 0
+		_HSV_S ("Saturation", Range(-1,1)) = 0
+		_HSV_V ("Value", Range(-1,1)) = 0
+  ///
+  /// IF HSV_FINAL
+		[Header(Final Color)]
+		_Final_HSV_H ("Hue", Range(-360,360)) = 0
+		_Final_HSV_S ("Saturation", Range(-4,4)) = 0
+		_Final_HSV_V ("Value", Range(-1,1)) = 0
+  ///
+	[TCP2Separator]
+///
+/// IF HSV_CONTROLS_SATURATION
+
+	[Header(Saturation Control)]
+		_HSV_S ("Saturation", Range(0,10)) = 1
+	[TCP2Separator]
+///
+/// IF MASK1 || MASK2 || MASK3
+
+	[Header(Masks)]
+///
+/// IF MASK1
+	/// IF !UVMASK1
+		[NoScaleOffset]
+	///
+		_Mask1 ("Mask 1 (@%MASK1%@)", 2D) = "black" {}
+///
+/// IF MASK2
+	/// IF !UVMASK2
+		[NoScaleOffset]
+	///
+		_Mask2 ("Mask 2 (@%MASK2%@)", 2D) = "black" {}
+///
+/// IF MASK3
+	/// IF !UVMASK3
+		[NoScaleOffset]
+	///
+		_Mask3 ("Mask 3 (@%MASK3%@)", 2D) = "black" {}
+///
+/// IF MASK1 || MASK2 || MASK3
+	[TCP2Separator]
+///
+/// IF EMISSION_COLOR || EMISSION_TEXTURE
+
+	[TCP2HeaderHelp(EMISSION, Emission)]
+	/// IF EMISSION_TEXTURE
+		[NoScaleOffset] _EmissionMap ("Emission (RGB)", 2D) = "black" {}
+	///
+	/// IF EMISSION_COLOR
+		/// IF EMISSION_COLOR_HDR
+		[HDR] _EmissionColor ("Emission Color", Color) = (1,1,1,1.0)
+		/// ELSE
+		_EmissionColor ("Emission Color", Color) = (1,1,1,1.0)
+		///
+	///
+	[TCP2Separator]
+///
+/// IF SUBSURFACE_SCATTERING
+
+	[TCP2HeaderHelp(SUBSURFACE SCATTERING, Subsurface Scattering)]
+		_SSDistortion ("Distortion", Range(0,2)) = 0.2
+		_SSPower ("Power", Range(0.1,16)) = 3.0
+		_SSScale ("Scale", Float) = 1.0
+	/// IF SUBSURFACE_COLOR
+		_SSColor ("Color (RGB)", Color) = (0.5,0.5,0.5,1)
+	///
+	/// IF SUBSURFACE_AMB_COLOR
+		_SSAmbColor ("Ambient Color (RGB)", Color) = (0.5,0.5,0.5,1)
+	///
+	[TCP2Separator]
+///
+/// IF BUMP
+
+	[TCP2HeaderHelp(NORMAL MAPPING, Normal Bump Map)]
+		//BUMP
+		_BumpMap ("Normal map (RGB)", 2D) = "bump" {}
+	/// IF TEXTURE_BLENDING && TEXBLEND_BUMP
+		/// IF BLEND_TEX1
+		[NoScaleOffset] _BumpMap1 ("Normal map 1", 2D) = "bump" {}
+		///
+		/// IF BLEND_TEX2
+		[NoScaleOffset] _BumpMap2 ("Normal map 2", 2D) = "bump" {}
+		///
+		/// IF BLEND_TEX3
+		[NoScaleOffset] _BumpMap3 ("Normal map 3", 2D) = "bump" {}
+		///
+		/// IF BLEND_TEX4
+		[NoScaleOffset] _BumpMap4 ("Normal map 4", 2D) = "bump" {}
+		///
+	///
+	/// IF TRIPLANAR && TRIPLANAR_BUMP
+		/// IF TRIPLANAR_CEILING
+		_TriCeilingBump ("Ceiling Normal", 2D) = "bump" {}
+		///
+		/// IF TRIPLANAR_SIDES_XY
+		_TriSideXBump ("Side X Normal", 2D) = "bump" {}
+		_TriSideZBump ("Side Z Normal", 2D) = "bump" {}
+		[Space]
+		/// ELSE
+		_TriSideBump ("Sides Normal", 2D) = "bump" {}
+		[Space]
+		///
+	///
+	/// IF BUMP_SCALE
+		_BumpScale ("Scale", Float) = 1.0
+	///
+	/// IF PARALLAX || ((TESSELLATION_FIXED || TESSELLATION_DIST) && TESSELLATION_HEIGHT_MAP)
+		[NoScaleOffset] _ParallaxMap ("Heightmap (Alpha)", 2D) = "black" {}
+		_Parallax ("Height", Range (0.005, 0.08)) = 0.02
+	///
+	[TCP2Separator]
+///
+/// IF TESSELLATION_PHONG
+
+	[TCP2HeaderHelp(TESSELLATION)]
+		_EdgeLength ("Edge length", Range(2,50)) = 5
+		_Phong ("Phong Strengh", Range(0,1)) = 0.5
+	[TCP2Separator]
+/// ELIF TESSELLATION_FIXED || TESSELLATION_DIST || TESSELLATION_EDGE_LENGTH
+
+	[TCP2HeaderHelp(TESSELLATION)]
+	/// IF !BUMP && TESSELLATION_HEIGHT_MAP
+		[NoScaleOffset] _ParallaxMap ("Heightmap (Alpha)", 2D) = "black" {}
+	///
+		_Displacement ("Displacement", Float) = 0.3
+		_Tess ("Tessellation", Range(1,32)) = 4
+	/// IF TESSELLATION_DIST
+		_TessDistMin ("Min Dist", Float) = 10
+		_TessDistMax ("Max Dist", Float) = 25
+	///
+	/// IF TESSELLATION_EDGE_LENGTH
+		_EdgeLength ("Edge length", Float) = 15
+	///
+	[TCP2Separator]
+///
+/// IF OCCLUSION
+
+	[TCP2HeaderHelp(AMBIENT OCCLUSION, Ambient Occlusion)]
+		//AMBIENT OCCLUSION
+	/// IF OCCL_RGB
+		_OcclusionMap ("Occlusion (RGB)", 2D) = "white" {}
+	/// ELSE
+		_OcclusionMap ("Occlusion (Alpha)", 2D) = "white" {}
+	///
+	/// IF OCCL_SLIDER
+		_OcclusionStrength ("Strength", Range(0.0, 1.0)) = 1.0
+	///
+	[TCP2Separator]
+///
+/// IF SPECULAR || SPECULAR_ANISOTROPIC
+
+	[TCP2HeaderHelp(SPECULAR, Specular)]
+		//SPECULAR
+		_SpecColor ("Specular Color", Color) = (0.5, 0.5, 0.5, 1)
+	/// IF SPECULAR_ANISOTROPIC || SPEC_LEGACY
+		_Smoothness ("Size", Float) = 0.2
+	/// ELIF SPEC_PBR_BLINNPHONG || SPEC_PBR_GGX
+		_Smoothness ("Roughness", Range(0,1)) = 0.5
+	///
+	/// IF SPECULAR_ANISOTROPIC
+		_AnisoBrush ("Anisotropic Spread", Range(0.0,2)) = 1.0
+	///
+	/// IF SPECULAR_TOON
+		_SpecSmooth ("Smoothness", Range(0,1)) = 0.05
+	/// ELIF SPECULAR_TOON_BAND
+		_SpecBands ("Bands", Float) = 3
+	///
+	/// IF SPECULAR_TEX
+		_SpecColorTex ("Specular Color Texture", 2D) = "white" {}
+	///
+	[TCP2Separator]
+///
+/// IF REFLECTION
+
+	[TCP2HeaderHelp(REFLECTION, Reflection)]
+		//REFLECTION
+	/// IF U5_REFLPROBE
+		_ReflSmoothness ("Smoothness", Range(0.0,1.0)) = 1
+	/// ELSE
+		[NoScaleOffset] _Cube ("Cubemap", Cube) = "_Skybox" {}
+	///
+	/// IF REFL_COLOR
+		_ReflectColor ("Color (RGB) Strength (Alpha)", Color) = (1,1,1,0.5)
+	///
+	/// IF REFL_ROUGH
+		_ReflectRoughness ("Roughness", Range(0,9)) = 0
+	///
+	[TCP2Separator]
+///
+/// IF RIM || RIM_OUTLINE
+
+	[TCP2HeaderHelp(RIM, Rim)]
+		//RIM LIGHT
+		_RimColor ("Rim Color", Color) = (0.8,0.8,0.8,0.6)
+		_RimMin ("Rim Min", Range(0,2)) = 0.5
+		_RimMax ("Rim Max", Range(0,2)) = 1.0
+	/// IF RIMDIR
+		//RIM DIRECTION
+		_RimDir ("Rim Direction", Vector) = (0.0,0.0,1.0,0.0)
+	///
+	/// IF RIM_TEX
+		_RimColorTex ("Rim Color Texture", 2D) = "white" {}
+	///
+	[TCP2Separator]
+///
+/// IF MATCAP
+
+	[TCP2HeaderHelp(MATCAP, MatCap)]
+		//MATCAP
+	/// IF MATCAP_ADD
+		[NoScaleOffset] _MatCap ("MatCap (RGB)", 2D) = "black" {}
+	/// ELIF MATCAP_MULT
+		[NoScaleOffset] _MatCap ("MatCap (RGB)", 2D) = "white" {}
+	///
+	/// IF MC_COLOR
+		_MatCapColor ("MatCap Color (RGB) Strength (Alpha)", Color) = (1,1,1,1)
+	///
+	[TCP2Separator]
+///
+/// IF SKETCH || SKETCH_GRADIENT
+
+	[TCP2HeaderHelp(SKETCH, Sketch)]
+		//SKETCH
+		_SketchTex ("Sketch (Alpha)", 2D) = "white" {}
+	/// IF SKETCH_COLOR && !SKETCH_GRADIENT
+		_SketchColor ("Sketch Color", Color) = (0,0,0,1)
+	///
+	/// IF SKETCH_ANIM
+		_SketchSpeed ("Sketch Anim Speed", Range(1.1, 10)) = 6
+	///
+	/// IF SKETCH_GRADIENT
+		_SketchColor ("Sketch Color (RGB)", Color) = (0,0,0,1)
+		_SketchHalftoneMin ("Sketch Halftone Min", Range(0,1)) = 0.2
+		_SketchHalftoneMax ("Sketch Halftone Max", Range(0,1)) = 1.0
+	///
+	[TCP2Separator]
+///
+/// IF DISSOLVE
+
+	[TCP2HeaderHelp(DISSOLVE)]
+	/// IF !DISSOLVE_UV
+		[NoScaleOffset]
+	///
+		_DissolveMap ("Dissolve Map", 2D) = "white" {}
+		_DissolveValue ("Dissolve Value", Range(0,1)) = 0.5
+	/// IF DISSOLVE_GRADIENT
+		[TCP2Gradient] _DissolveRamp ("Dissolve Ramp", 2D) = "white" {}
+		_DissolveGradientWidth ("Ramp Width", Range(0,1)) = 0.2
+	///
+	[TCP2Separator]
+///
+/// IF SNOW_ACCU
+
+	[TCP2HeaderHelp(SNOW ACCUMULATION)]
+		_SnowColor ("Snow Color", Color) = (.94,.96,1,1)
+	/// IF SNOW_ACCU_SCOLOR
+		_SnowShadowColor ("Snow Shadow Color", Color) = (.2,.2,.3,1)
+	///
+	/// IF SNOW_ACCU_RIM && RIM
+		_SnowRimColor ("Snow Rim", Color) = (1,1,1,0.7)
+	///
+		_SnowAngle ("Snow Angle", Vector) = (0,1,0,0)
+		_SnowThr ("Snow Threshold", Range(0,1)) = 0.5
+	/// IF SNOW_ACCU_DISP
+		_SnowThickness ("Snow Thickness", Range(0,0.1)) = 0.02
+	///
+	[TCP2Separator]
+///
+/// IF CUBE_AMBIENT || DIRAMBIENT
+
+	[TCP2HeaderHelp(CUSTOM AMBIENT)]
+///
+/// IF CUBE_AMBIENT
+		//AMBIENT CUBEMAP
+		_AmbientCube ("Ambient Cubemap", Cube) = "_Skybox" {}
+///
+/// IF DIRAMBIENT
+		_TCP2_AMBIENT_RIGHT ("Right", Color) = (0,0,0,1)
+		_TCP2_AMBIENT_LEFT ("Left", Color) = (0,0,0,1)
+		_TCP2_AMBIENT_TOP ("Top", Color) = (0,0,0,1)
+		_TCP2_AMBIENT_BOTTOM ("Bottom", Color) = (0,0,0,1)
+		_TCP2_AMBIENT_FRONT ("Front", Color) = (0,0,0,1)
+		_TCP2_AMBIENT_BACK ("Back", Color) = (0,0,0,1)
+///
+/// IF CUBE_AMBIENT || DIRAMBIENT
+	[TCP2Separator]
+///
+/// IF VERTICAL_FOG
+
+	[TCP2HeaderHelp(VERTICAL FOG)]
+		_VerticalFogMin ("Y Min", Float) = -1.0
+		_VerticalFogMax ("Y Max", Float) = 1.0
+	/// IF !VERTICAL_FOG_COLOR
+		_VerticalFogColor ("Color", Color) = (0,0,0,1)
+	///
+	[TCP2Separator]
+///
+/// IF PASS_SILHOUETTE
+
+	[TCP2HeaderHelp(SILHOUETTE)]
+		_SilhouetteColor ("Color (RGB) Opacity (A)", Color) = (0,0,0,0.5)
+	[TCP2Separator]
+///
+/// IF OUTLINE || OUTLINE_BLENDING
+
+	[TCP2HeaderHelp(OUTLINE, Outline)]
+		//OUTLINE
+	/// IF HDR_OUTLINE
+		[HDR] _OutlineColor ("Outline Color", Color) = (0.2, 0.2, 0.2, 1.0)
+	/// ELSE
+		_OutlineColor ("Outline Color", Color) = (0.2, 0.2, 0.2, 1.0)
+	///
+		_Outline ("Outline Width", Float) = 1
+
+		//Outline Textured
+		[Toggle(TCP2_OUTLINE_TEXTURED)] _EnableTexturedOutline ("Color from Texture", Float) = 0
+		[TCP2KeywordFilter(TCP2_OUTLINE_TEXTURED)] _TexLod ("Texture LOD", Range(0,10)) = 5
+
+		//Constant-size outline
+		[Toggle(TCP2_OUTLINE_CONST_SIZE)] _EnableConstSizeOutline ("Constant Size Outline", Float) = 0
+
+		//ZSmooth
+		[Toggle(TCP2_ZSMOOTH_ON)] _EnableZSmooth ("Correct Z Artefacts", Float) = 0
+		//Z Correction & Offset
+		[TCP2KeywordFilter(TCP2_ZSMOOTH_ON)] _ZSmooth ("Z Correction", Range(-3.0,3.0)) = -0.5
+		[TCP2KeywordFilter(TCP2_ZSMOOTH_ON)] _Offset1 ("Z Offset 1", Float) = 0
+		[TCP2KeywordFilter(TCP2_ZSMOOTH_ON)] _Offset2 ("Z Offset 2", Float) = 0
+
+		//This property will be ignored and will draw the custom normals GUI instead
+		[TCP2OutlineNormalsGUI] __outline_gui_dummy__ ("_unused_", Float) = 0
+	/// IF OUTLINE_BLENDING
+		//Blending
+		[TCP2Header(OUTLINE BLENDING)]
+		[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlendOutline ("Blending Source", Float) = 5
+		[Enum(UnityEngine.Rendering.BlendMode)] _DstBlendOutline ("Blending Dest", Float) = 10
+	///
+	/// IF OUTLINE_BEHIND_STENCIL
+			_StencilRef ("Stencil Outline Group", Range(0,255)) = 1
+	///
+	/// IF OUTLINE_FAKE_RIM
+			_OutlineOffset ("Outline Rim Offset", Vector) = (0,0,0,0)
+	///
+	[TCP2Separator]
+///
+/// IF ALPHA || CUTOUT
+
+	[TCP2HeaderHelp(TRANSPARENCY)]
+///
+/// IF ALPHA
+		//Blending
+		[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlendTCP2 ("Blending Source", Float) = 5
+		[Enum(UnityEngine.Rendering.BlendMode)] _DstBlendTCP2 ("Blending Dest", Float) = 10
+///
+/// IF (CUTOUT || (ALPHA_TO_COVERAGE && ATC_SHARPEN)) && !CUTOUT_DITHER
+		//Alpha Testing
+		_Cutoff ("Alpha cutoff", Range(0,1)) = 0.5
+///
+/// IF ALPHA || CUTOUT
+	[TCP2Separator]
+///
+/// IF NOTILE_TEXTURES
+
+	[TCP2HeaderHelp(MISC)]
+		[NoScaleOffset] _NoTileNoiseTex ("Non-repeat tiling Noise", 2D) = "white" {}
+	[TCP2Separator]
+///
+
+/// IF ZWRITE_OPTION
+		[TCP2ToggleNoKeyword] _ZWrite ("ZWrite", Float) = 1
+///
+/// IF CULL_OPTION
+		[Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Culling", Float) = 2
+///
+
+		//Avoid compile error if the properties are ending with a drawer
+		[HideInInspector] __dummy__ ("unused", Float) = 0
+	}
+
+	SubShader
+	{
+/// IF DISABLE_BATCHING
+		Tags { "DisableBatching" = "True" }
+
+///
+/// IF VERTEXMOTION
+		//VertExmotion include file
+		CGINCLUDE
+		#include "Assets/VertExmotion/Shaders/VertExmotion.cginc"
+		ENDCG
+
+///
+/// IF PASS_SILHOUETTE
+		//Make sure that the objects are rendered later to avoid sorting issues with the transparent silhouette
+		Tags { "Queue"="Geometry+10" }
+		
+		//Silhouette Pass
+		Pass
+		{
+			Blend SrcAlpha OneMinusSrcAlpha
+			ZTest Greater
+			ZWrite Off			
+	/// IF SILHOUETTE_STENCIL
+
+			Stencil
+			{
+				Ref @%SILHOUETTE_STENCIL_REF%@
+				Comp NotEqual
+				Pass Replace
+				ReadMask @%SILHOUETTE_STENCIL_REF%@
+				WriteMask @%SILHOUETTE_STENCIL_REF%@
+			}
+	///
+			
+			CGPROGRAM
+				#pragma vertex vert
+				#pragma fragment frag
+				#pragma target 2.0
+
+				#include "UnityCG.cginc"
+
+				fixed4 _SilhouetteColor;
+
+				struct appdata_sil
+				{
+					float4 vertex : POSITION;
+	/// IF VERTEXMOTION
+					float4 color : COLOR;
+		/// IF VERTEXMOTION_NORMAL
+					float3 normal : NORMAL;
+					float4 tangent : TANGENT;
+		///
+	///
+					UNITY_VERTEX_INPUT_INSTANCE_ID
+				};
+
+				struct v2f_sil
+				{
+					float4 vertex : SV_POSITION;
+					UNITY_VERTEX_OUTPUT_STEREO
+				};
+
+				v2f_sil vert (appdata_sil v)
+				{
+					v2f_sil o;
+					UNITY_SETUP_INSTANCE_ID(v);
+					UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+	/// IF VERTEXMOTION
+
+					//VertExmotion
+		/// IF VERTEXMOTION_SIMPLE
+					v.vertex = VertExmotion(v.vertex, v.color);
+		/// ELIF VERTEXMOTION_NORMAL
+					v.vertex = VertExmotion(v.vertex, v.color, v.normal, v.tangent);
+		///
+
+	///
+					o.vertex = UnityObjectToClipPos(v.vertex);
+					return o;
+				}
+
+				fixed4 frag (v2f_sil i) : COLOR
+				{
+					return _SilhouetteColor;
+				}
+			ENDCG
+		}
+
+///
+/// IF (OUTLINE || OUTLINE_BLENDING) && !LEGACY_OUTLINE
+		//================================================================
+		// OUTLINE INCLUDE
+
+		CGINCLUDE
+
+		#include "UnityCG.cginc"
+/// IF OUTLINE_FAKE_RIM_DIRLIGHT && OFRD_COLOR
+		#include "UnityLightingCommon.cginc"
+///
+
+		struct a2v
+		{
+			float4 vertex : POSITION;
+			float3 normal : NORMAL;
+	#if TCP2_OUTLINE_TEXTURED
+			float3 texcoord : TEXCOORD0;
+	#endif
+	/// IF !OUTLINE_VCOLOR_WIDTH && !VERTEXMOTION
+		#if TCP2_COLORS_AS_NORMALS
+	///
+			float4 color : COLOR;
+	/// IF !OUTLINE_VCOLOR_WIDTH && !VERTEXMOTION
+		#endif
+	///
+	#if TCP2_UV2_AS_NORMALS
+			float2 uv2 : TEXCOORD1;
+	#endif
+	/// IF !VERTEXMOTION_NORMAL
+	#if TCP2_TANGENT_AS_NORMALS
+	///
+			float4 tangent : TANGENT;
+	/// IF !VERTEXMOTION_NORMAL
+	#endif
+	///
+	#if UNITY_VERSION >= 550
+			UNITY_VERTEX_INPUT_INSTANCE_ID
+	#endif
+		};
+
+		struct v2f
+		{
+			float4 pos : SV_POSITION;
+	#if TCP2_OUTLINE_TEXTURED
+			float3 texlod : TEXCOORD1;
+	#endif
+	/// IF OUTLINE_FAKE_RIM_DIRLIGHT && OFRD_LIGHTING
+			float ndl : TEXCOORD2;
+	///
+			UNITY_VERTEX_OUTPUT_STEREO
+		};
+
+		float _Outline;
+		float _ZSmooth;
+	/// IF HDR_OUTLINE
+		half4 _OutlineColor;
+	/// ELSE
+		fixed4 _OutlineColor;
+	///
+	/// IF OUTLINE_FAKE_RIM
+		half4 _OutlineOffset;
+	///
+
+	#if TCP2_OUTLINE_TEXTURED
+		sampler2D _MainTex;
+		float4 _MainTex_ST;
+		float _TexLod;
+	#endif
+
+	/// IF OUTLINE_FAKE_RIM_DIRLIGHT
+		#define OUTLINE_WIDTH 0.0
+	/// ELSE
+	  /// IF OUTLINE_VCOLOR_WIDTH
+		#define OUTLINE_WIDTH (_Outline * v.color.@%OVCW_CHNL%@)
+	  /// ELSE
+		#define OUTLINE_WIDTH _Outline
+	  ///
+	///
+
+		v2f TCP2_Outline_Vert(a2v v)
+		{
+			v2f o;
+			UNITY_SETUP_INSTANCE_ID(v);
+			UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+	#if UNITY_VERSION >= 550
+			//GPU instancing support
+			UNITY_SETUP_INSTANCE_ID(v);
+	#endif
+	/// IF VERTEXMOTION
+
+			//VertExmotion
+		/// IF VERTEXMOTION_SIMPLE
+			v.vertex = VertExmotion(v.vertex, v.color);
+		/// ELIF VERTEXMOTION_NORMAL
+			v.vertex = VertExmotion(v.vertex, v.color, v.normal, v.tangent);
+		///
+	///
+
+	/// IF OUTLINE_FAKE_RIM_DIRLIGHT
+
+			float3 objSpaceLight = mul(unity_WorldToObject, _WorldSpaceLightPos0).xyz;
+	#ifdef TCP2_OUTLINE_CONST_SIZE
+			//Camera-independent outline size
+			float dist = distance(_WorldSpaceCameraPos, mul(unity_ObjectToWorld, v.vertex));
+			v.vertex.xyz += objSpaceLight.xyz * 0.01 * _Outline * dist;
+	#else
+			v.vertex.xyz += objSpaceLight.xyz * 0.01 * _Outline;
+	#endif
+		/// IF OUTLINE_FAKE_RIM_DIRLIGHT && OFRD_LIGHTING
+			o.ndl = saturate(dot(v.normal.xyz, objSpaceLight.xyz) * 0.5 + 0.5);
+		///
+	/// ELIF OUTLINE_FAKE_RIM
+			v.vertex += _OutlineOffset;
+	///
+
+	#if TCP2_ZSMOOTH_ON
+			float4 pos = float4(UnityObjectToViewPos(v.vertex), 1.0);
+	#endif
+
+	#ifdef TCP2_COLORS_AS_NORMALS
+			//Vertex Color for Normals
+			float3 normal = (v.color.xyz*2) - 1;
+	#elif TCP2_TANGENT_AS_NORMALS
+			//Tangent for Normals
+			float3 normal = v.tangent.xyz;
+	#elif TCP2_UV2_AS_NORMALS
+			//UV2 for Normals
+			float3 n;
+			//unpack uv2
+			v.uv2.x = v.uv2.x * 255.0/16.0;
+			n.x = floor(v.uv2.x) / 15.0;
+			n.y = frac(v.uv2.x) * 16.0 / 15.0;
+			//get z
+			n.z = v.uv2.y;
+			//transform
+			n = n*2 - 1;
+			float3 normal = n;
+	#else
+			float3 normal = v.normal;
+	#endif
+
+	#if TCP2_ZSMOOTH_ON
+			//Correct Z artefacts
+			normal = UnityObjectToViewPos(normal);
+			normal.z = -_ZSmooth;
+	#endif
+
+/// IF !OUTLINE_FAKE_RIM_DIRLIGHT
+	#ifdef TCP2_OUTLINE_CONST_SIZE
+			//Camera-independent outline size
+			float dist = distance(_WorldSpaceCameraPos, mul(unity_ObjectToWorld, v.vertex));
+			#define SIZE	dist
+	#else
+			#define SIZE	1.0
+	#endif
+/// ELSE
+			#define SIZE	0.0
+///
+
+	#if TCP2_ZSMOOTH_ON
+			o.pos = mul(UNITY_MATRIX_P, pos + float4(normalize(normal),0) * OUTLINE_WIDTH * 0.01 * SIZE);
+	#else
+			o.pos = UnityObjectToClipPos(v.vertex + float4(normal,0) * OUTLINE_WIDTH * 0.01 * SIZE);
+	#endif
+
+	#if TCP2_OUTLINE_TEXTURED
+			half2 uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+			o.texlod = tex2Dlod(_MainTex, float4(uv, 0, _TexLod)).rgb;
+	#endif
+
+			return o;
+		}
+
+	/// IF OUTLINE_FAKE_RIM_DIRLIGHT && OFRD_COLOR && OFRD_LIGHTING
+		#define OUTLINE_COLOR (_OutlineColor * _LightColor0 * IN.ndl)
+	/// ELIF OUTLINE_FAKE_RIM_DIRLIGHT && OFRD_COLOR
+		#define OUTLINE_COLOR (_OutlineColor * _LightColor0)
+	/// ELIF OUTLINE_FAKE_RIM_DIRLIGHT && OFRD_LIGHTING
+		#define OUTLINE_COLOR (_OutlineColor * IN.ndl)
+	/// ELSE
+		#define OUTLINE_COLOR _OutlineColor
+	///
+
+		float4 TCP2_Outline_Frag (v2f IN) : SV_Target
+		{
+	#if TCP2_OUTLINE_TEXTURED
+			return float4(IN.texlod, 1) * OUTLINE_COLOR;
+	#else
+			return OUTLINE_COLOR;
+	#endif
+		}
+
+		ENDCG
+
+		// OUTLINE INCLUDE END
+		//================================================================
+///
+/// IF (OUTLINE || OUTLINE_BLENDING) && OUTLINE_BEHIND_DEPTH
+  /// IF LEGACY_OUTLINE
+		//Outline
+	/// IF OUTLINE
+		Tags { "Queue"="Transparent" }
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind (Shader Model 2)/OUTLINE"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind/OUTLINE"
+		///
+	///
+	/// IF OUTLINE_BLENDING
+		Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjectors"="True" }
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind (Shader Model 2)/OUTLINE_BLENDING"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind/OUTLINE_BLENDING"
+		///
+	///
+  /// ELSE
+		//Outline
+		Pass
+		{
+			Cull Off
+			ZWrite Off
+			Offset [_Offset1],[_Offset2]
+
+	/// IF OUTLINE_BLENDING
+			Tags { "LightMode"="ForwardBase" "Queue"="Transparent" "IgnoreProjectors"="True" "RenderType"="Transparent" }
+			Blend [_SrcBlendOutline] [_DstBlendOutline]
+	/// ELSE
+			Tags { "LightMode"="ForwardBase" "Queue"="Transparent" "IgnoreProjectors"="True" }
+	///
+
+			CGPROGRAM
+
+			#pragma vertex TCP2_Outline_Vert
+			#pragma fragment TCP2_Outline_Frag
+
+			#pragma multi_compile _ TCP2_ZSMOOTH_ON
+			#pragma multi_compile _ TCP2_OUTLINE_CONST_SIZE
+			
+			#pragma multi_compile _ TCP2_COLORS_AS_NORMALS TCP2_TANGENT_AS_NORMALS TCP2_UV2_AS_NORMALS TCP2_UV1_AS_NORMALS TCP2_UV3_AS_NORMALS TCP2_UV4_AS_NORMALS
+			#pragma multi_compile _ TCP2_UV_NORMALS_FULL TCP2_UV_NORMALS_ZW
+			
+	/// IF !FORCE_SM2
+			#pragma multi_compile _ TCP2_OUTLINE_TEXTURED
+	///
+			#pragma multi_compile_instancing
+
+			#pragma target @%SHADER_TARGET%@
+
+			ENDCG
+		}
+  ///
+///
+/// IF (OUTLINE || OUTLINE_BLENDING) && OUTLINE_BEHIND_STENCIL
+
+		Stencil
+		{
+			Ref [_StencilRef]
+			Comp Always
+			Pass Replace
+		}
+///
+
+/// IF ALPHA || CUTOUT || DISSOLVE || ALPHA_TO_COVERAGE || LOD_DITHER
+	/// IF ALPHA
+		Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
+		Blend [_SrcBlendTCP2] [_DstBlendTCP2]
+	/// ELIF CUTOUT || DISSOLVE || ALPHA_TO_COVERAGE || LOD_DITHER
+		Tags {"Queue"="AlphaTest" "IgnoreProjector"="True" "RenderType"="TransparentCutout"}
+	  /// IF ALPHA_TO_COVERAGE
+		AlphaToMask On
+	  ///
+	///
+/// ELSE
+		Tags { "RenderType"="Opaque" }
+///
+/// IF CULL_OFF
+		Cull Off
+/// ELIF CULL_FRONT
+		Cull Front
+/// ELIF CULL_OPTION
+		Cull [_CullMode]
+///
+/// IF ZWRITE_OFF
+		ZWrite Off
+/// ELIF ZWRITE_OPTION
+		ZWrite [_ZWrite]
+///
+
+		CGPROGRAM
+/// IF !CUSTOM_LIGHTING
+
+		#include "@%INCLUDE_PATH%@/TCP2_Include.cginc"
+///
+/// IF TESSELLATION
+
+		#include "Tessellation.cginc"
+///
+
+		#pragma surface surf @%LIGHTING_MODEL%@ @%SURF_PARAMS%@ exclude_path:deferred exclude_path:prepass
+		#pragma target @%SHADER_TARGET%@
+/// IF LOD_FADE || LOD_DITHER
+
+		#pragma multi_compile _ LOD_FADE_CROSSFADE
+///
+
+		//================================================================
+		// VARIABLES
+
+		fixed4 _Color;
+/// IF COLORMASK_SEPARATE
+		fixed4 _MaskedColor;
+///
+/// IF COLORMASK
+		half _ColorMaskStrength;
+	/// IF COLORMASK2
+		fixed4 _MaskedColor2;
+	///
+	/// IF COLORMASK3
+		fixed4 _MaskedColor3;
+	///
+	/// IF COLORMASK4
+		fixed4 _MaskedColor4;
+	///
+///
+		sampler2D _MainTex;
+/// IF NOTILE_TEXTURES
+		sampler2D _NoTileNoiseTex;
+		float4 _NoTileNoiseTex_TexelSize;
+///
+/// IF SHADOW_COLOR_TEX
+		sampler2D _STexture;
+///
+/// IF SHADOW_HSV
+		float _Shadow_HSV_H;
+		float _Shadow_HSV_S;
+		float _Shadow_HSV_V;
+///
+/// IF HSV_FINAL
+		float _Final_HSV_H;
+		float _Final_HSV_S;
+		float _Final_HSV_V;
+///
+/// IF HSV_CONTROLS
+		float _HSV_H;
+		float _HSV_S;
+		float _HSV_V;
+/// ELIF HSV_CONTROLS_SATURATION
+		float _HSV_S;
+///
+/// IF MASK1
+		sampler2D _Mask1;
+///
+/// IF MASK2
+		sampler2D _Mask2;
+///
+/// IF MASK3
+		sampler2D _Mask3;
+///
+/// IF TEXTURE_BLENDING
+	/// IF TEXBLEND_UNITY_SPLATMAP
+		sampler2D _Control;
+	/// ELIF TEXBLEND_MAP
+		sampler2D _TexBlendMap;
+	///
+	/// IF TEXBLEND_NORMALIZE
+		float _BlendContrast;
+	///
+	/// IF TEXBLEND_HEIGHT
+		float4 _VColorBlendSmooth;
+		float4 _VColorBlendOffset;
+	///
+	/// IF BLEND_TEX1
+		sampler2D _BlendTex1;
+		float4 _BlendTex1_ST;
+	///
+	/// IF BLEND_TEX2
+		sampler2D _BlendTex2;
+		float4 _BlendTex2_ST;
+	///
+	/// IF BLEND_TEX3
+		sampler2D _BlendTex3;
+		float4 _BlendTex3_ST;
+	///
+	/// IF BLEND_TEX4
+		sampler2D _BlendTex4;
+		float4 _BlendTex4_ST;
+	///
+///
+/// IF TRIPLANAR
+		float4 _MainTex_ST;
+		float4 _TriplanarBlendStrength;
+	/// IF TRIPLANAR_HEIGHT_SIDES || TRIPLANAR_HEIGHT_GROUND
+		float _TriplanarHeightOffset;
+		float _TriplanarHeightSmooth;
+	///
+	/// IF TRIPLANAR_SIDES_XY
+		sampler2D _TriSideX;
+		sampler2D _TriSideZ;
+		float4 _TriSideX_ST;
+		float4 _TriSideZ_ST;
+	/// ELSE
+		sampler2D _TriSide;
+		float4 _TriSide_ST;
+	///
+	/// IF TRIPLANAR_CEILING
+		sampler2D _TriCeiling;
+		float4 _TriCeiling_ST;
+		/// IF TRIPLANAR_CEILING_MINMAX
+		float _CeilMin;
+		float _CeilMax;
+		///
+	///
+///
+/// IF DETAIL_TEX
+		sampler2D _Detail;
+///
+/// IF TEXTURED_THRESHOLD
+		sampler2D _ThresholdTex;
+///
+/// IF DISSOLVE
+		sampler2D _DissolveMap;
+		half _DissolveValue;
+	/// IF DISSOLVE_GRADIENT
+		sampler2D _DissolveRamp;
+		half _DissolveGradientWidth;
+	///
+///
+/// IF SNOW_ACCU
+		fixed4 _SnowColor;
+	/// IF SNOW_ACCU_SCOLOR
+		fixed4 _SnowShadowColor;
+	///
+		fixed4 _SnowRimColor;
+		half4 _SnowAngle;
+		fixed _SnowThr;
+	/// IF SNOW_ACCU_DISP
+		fixed _SnowThickness;
+	///
+///
+/// IF VERTICAL_FOG
+		half _VerticalFogMin;
+		half _VerticalFogMax;
+	/// IF !VERTICAL_FOG_COLOR
+		fixed4 _VerticalFogColor;
+	///
+///
+/// IF CUBE_AMBIENT
+		samplerCUBE _AmbientCube;
+///
+/// IF REFLECTION
+	/// IF !U5_REFLPROBE
+		samplerCUBE _Cube;
+	/// ELSE
+		fixed _ReflSmoothness;
+	///
+	/// IF REFL_COLOR
+		fixed4 _ReflectColor;
+	///
+	/// IF REFL_ROUGH
+		fixed _ReflectRoughness;
+	///
+///
+/// IF EMISSION_COLOR
+	/// IF EMISSION_COLOR_HDR
+		half4 _EmissionColor;
+	/// ELSE
+		fixed4 _EmissionColor;
+	///
+///
+/// IF EMISSION_TEXTURE
+		sampler2D _EmissionMap;
+///
+/// IF SUBSURFACE_SCATTERING
+		half _SSDistortion;
+		half _SSPower;
+		half _SSScale;
+	/// IF SUBSURFACE_COLOR
+		fixed4 _SSColor;
+	///
+	/// IF SUBSURFACE_AMB_COLOR
+		fixed4 _SSAmbColor;
+	///
+///
+/// IF MATCAP
+		sampler2D _MatCap;
+	/// IF MC_COLOR
+		fixed4 _MatCapColor;
+	///
+///
+/// IF SKETCH_ANIM
+		fixed _SketchSpeed;
+///
+/// IF BUMP
+		sampler2D _BumpMap;
+	/// IF TRIPLANAR && TRIPLANAR_BUMP
+		float4 _BumpMap_ST;
+	///
+	/// IF TEXTURE_BLENDING && TEXBLEND_BUMP
+		/// IF BLEND_TEX1
+		sampler2D _BumpMap1;
+		///
+		/// IF BLEND_TEX2
+		sampler2D _BumpMap2;
+		///
+		/// IF BLEND_TEX3
+		sampler2D _BumpMap3;
+		///
+		/// IF BLEND_TEX4
+		sampler2D _BumpMap4;
+		///
+	///
+	/// IF TRIPLANAR && TRIPLANAR_BUMP
+		/// IF TRIPLANAR_CEILING
+		sampler2D _TriCeilingBump;
+		float4 _TriCeilingBump_ST;
+		///
+		/// IF TRIPLANAR_SIDES_XY
+		sampler2D _TriSideXBump;
+		sampler2D _TriSideZBump;
+		float4 _TriSideXBump_ST;
+		float4 _TriSideZBump_ST;
+		/// ELSE
+		sampler2D _TriSideBump;
+		float4 _TriSideBump_ST;
+		///
+	///
+	/// IF BUMP_SCALE
+		half _BumpScale;
+	///
+	/// IF PARALLAX
+		sampler2D _ParallaxMap;
+		float _Parallax;
+	///
+///
+/// IF OCCLUSION
+		sampler2D _OcclusionMap;
+	/// IF OCCL_SLIDER
+		half _OcclusionStrength;
+	///
+///
+/// IF SPECULAR || SPECULAR_ANISOTROPIC
+		fixed _Smoothness;
+	/// IF SPECULAR_ANISOTROPIC
+		float _AnisoBrush;
+	///
+///
+/// IF RIM || RIM_OUTLINE
+		fixed4 _RimColor;
+		fixed _RimMin;
+		fixed _RimMax;
+		float4 _RimDir;
+	/// IF RIM_TEX
+		sampler2D _RimColorTex;
+	///
+///
+/// IF (SKETCH || SKETCH_GRADIENT) && SKETCH_ANIM
+		fixed4 _Random;
+///
+/// IF (CUTOUT || (ALPHA_TO_COVERAGE && ATC_SHARPEN)) && !CUTOUT_DITHER
+		fixed _Cutoff;
+///
+/// IF CUTOUT && CUTOUT_DITHER
+		sampler3D _DitherMaskLOD;
+///
+
+/// IF !TRIPLANAR
+		#define UV_MAINTEX uv_MainTex
+/// ELSE
+		#define UV_MAINTEX mainTexUv
+///
+
+		struct Input
+		{
+/// IF !TRIPLANAR
+# Triplanar uses _MainTex_ST which causes a double declaration when it is also used by other features (surface shader generates the declaration)
+# So we need to calculate that manually in the vertex shader to prevent this error when triplanar is used
+			half2 uv_MainTex;
+/// ELSE
+			half2 mainTexUv;
+///
+/// IF TEXTURE_BLENDING
+	/// IF TEXBLEND_UNITY_SPLATMAP
+			half2 uv_Control;
+	/// ELIF TEXBLEND_MAP
+			half2 uv_TexBlendMap;
+	///
+///
+/// IF DETAIL_TEX
+	/// IF DETAIL_UV2
+			half2 uv2_Detail;
+	/// ELSE
+			half2 uv_Detail;
+	///
+///
+/// IF UVMASK1
+			half2 uv_Mask1;
+/// ELIF UVMASK1_UV2
+			half2 uv2_Mask1;
+///
+/// IF UVMASK2
+			half2 uv_Mask2;
+/// ELIF UVMASK2_UV2
+			half2 uv2_Mask2;
+///
+/// IF UVMASK3
+			half2 uv_Mask3;
+/// ELIF UVMASK3_UV2
+			half2 uv2_Mask3;
+///
+/// IF SPECULAR_ANISOTROPIC
+			fixed3 tangentDir;
+///
+/// IF BUMP
+			half2 uv_BumpMap;
+///
+/// IF U5_REFLPROBE || TRIPLANAR || VERTICAL_FOG
+			float3 worldPos;
+///
+/// IF REFLECTION
+			float3 worldRefl;
+///
+/// IF (REFLECTION && U5_REFLPROBE) || CUBE_AMBIENT || (TRIPLANAR && !BUMP) || (MATCAP_PIXEL && BUMP)
+			float3 worldNormal;
+///
+/// IF (REFLECTION || CUBE_AMBIENT || MATCAP_PIXEL) && BUMP
+			INTERNAL_DATA
+///
+/// IF TRIPLANAR && BUMP
+			half3 worldNormalCustom;
+///
+/// IF RIM_VERTEX && PARALLAX
+			float3 viewDir;
+///
+/// IF (RIM || RIM_OUTLINE) && RIMDIR && BUMP && !RIM_VERTEX
+			float3 bViewDir;
+/// ELIF (PARALLAX || RIM || RIM_OUTLINE) && !RIM_VERTEX
+			float3 viewDir;
+///
+/// IF RIM_VERTEX
+	/// IF RIM_OUTLINE
+			fixed rim;
+	/// ELIF RIM
+			fixed rim;
+	///
+///
+/// IF MATCAP && !(MATCAP_PIXEL && BUMP)
+			half2 matcap;
+///
+/// IF SKETCH || SKETCH_GRADIENT
+	/// IF SKETCH_VERTEX
+			half2 sketchUv;
+	/// ELSE
+			half4 sketchUv;
+	///
+///
+/// IF USE_VERTEX_COLORS
+			float4 color : COLOR;
+///
+/// IF TEXTURED_THRESHOLD
+	/// IF TEXTURED_THRESHOLD_UV1
+			half2 uv2_ThresholdTex;
+	/// ELSE
+			half2 uv_ThresholdTex;
+	///
+///
+/// IF DIRAMBIENT || (CUSTOM_AMBIENT && OCCLUSION && !CUBE_AMBIENT)
+			fixed3 ambient;
+///
+/// IF DISSOLVE && DISSOLVE_UV
+			half2 uv_DissolveMap;
+///
+/// IF USE_VFACE || USE_VFACE_ALL
+			float vFace : VFACE;
+///
+/// IF (CUTOUT && CUTOUT_DITHER) || LOD_DITHER
+			float4 screenPos;
+///
+		};
+/// IF HSV_CONTROLS || SHADOW_HSV || HSV_FINAL
+
+		//================================================================
+		// HSV HELPERS
+		// source: http://lolengine.net/blog/2013/07/27/rgb-to-hsv-in-glsl
+
+		float3 rgb2hsv(float3 c)
+		{
+			float4 K = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+			float4 p = lerp(float4(c.bg, K.wz), float4(c.gb, K.xy), step(c.b, c.g));
+			float4 q = lerp(float4(p.xyw, c.r), float4(c.r, p.yzx), step(p.x, c.r));
+
+			float d = q.x - min(q.w, q.y);
+			float e = 1.0e-10;
+			return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+		}
+
+		float3 hsv2rgb(float3 c)
+		{
+			c.g = max(c.g, 0.0); //make sure that saturation value is positive
+			float4 K = float4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+			float3 p = abs(frac(c.xxx + K.xyz) * 6.0 - K.www);
+			return c.z * lerp(K.xxx, saturate(p - K.xxx), c.y);
+		}
+///
+/// IF CUSTOM_LIGHTING
+
+		//================================================================
+		// CUSTOM LIGHTING
+
+		//Lighting-related variables
+		fixed4 _HColor;
+		fixed4 _SColor;
+	/// IF WRAP_CUSTOM
+		half _WrapFactor;
+	///
+	/// IF COLOR_MULTIPLIERS
+		fixed _HighlightMultiplier;
+		fixed _ShadowMultiplier;
+	///
+	/// IF TEXTURE_RAMP
+		sampler2D _Ramp;
+	  /// IF RAMP_MAIN_OTHER
+		sampler2D _RampOtherLights;
+	  /// ELIF RAMP_MAIN_LIGHTTYPE
+		sampler2D _RampPoint;
+		sampler2D _RampSpot;
+		sampler2D _RampDir;
+	  ///
+	/// ELIF RGB_RAMP
+		float4 _RampThresholdRGB;
+		half _RampSmooth;
+	  /// IF RAMP_MAIN_OTHER
+		float4 _RampThresholdOtherLightsRGB;
+		half _RampSmoothOtherLights;
+	  /// ELIF RAMP_MAIN_LIGHTTYPE
+		half4 _RampThresholdPointRGB;
+		fixed _RampSmoothPoint;
+		half4 _RampThresholdSpotRGB;
+		fixed _RampSmoothSpot;
+		half4 _RampThresholdDirRGB;
+		fixed _RampSmoothDir;
+	  ///
+	/// ELSE
+		half _RampThreshold;
+		half _RampSmooth;
+	  /// IF RAMP_MAIN_OTHER
+		half _RampThresholdOtherLights;
+		half _RampSmoothOtherLights;
+	  /// ELIF RAMP_MAIN_LIGHTTYPE
+		half _RampThresholdPoint;
+		half _RampSmoothPoint;
+		half _RampThresholdSpot;
+		half _RampSmoothSpot;
+		half _RampThresholdDir;
+		half _RampSmoothDir;
+	  ///
+	///
+	/// IF SPECULAR_TOON
+		fixed _SpecSmooth;
+	/// ELIF SPECULAR_TOON_BAND
+		half _SpecBands;
+	///
+	/// IF (SPECULAR || SPECULAR_ANISOTROPIC) && SPECULAR_TEX
+		sampler2D _SpecColorTex;
+	///
+	/// IF SKETCH || SKETCH_GRADIENT
+		sampler2D _SketchTex;
+		float4 _SketchTex_ST;
+		/// IF SKETCH_COLOR && !SKETCH_GRADIENT
+		half4 _SketchColor;
+		///
+		/// IF SKETCH_GRADIENT
+		fixed4 _SketchColor;
+		fixed _SketchHalftoneMin;
+		fixed _SketchHalftoneMax;
+		///
+	///
+	/// IF DIFFUSE_TINT
+		fixed4 _DiffTint;
+	///
+	/// IF SPECULAR && (SPEC_PBR_GGX || SPEC_PBR_BLINNPHONG)
+
+		//Specular help functions (from UnityStandardBRDF.cginc)
+		inline half3 SafeNormalize(half3 inVec)
+		{
+			half dp3 = max(0.001f, dot(inVec, inVec));
+			return inVec * rsqrt(dp3);
+		}
+
+	  /// IF SPEC_PBR_BLINNPHONG
+
+		//PBR Blinn-Phong
+		inline half PercRoughnessToSpecPower(half roughness)
+		{
+			half sq = max(1e-4f, roughness*roughness);
+			half n = (2.0 / sq) - 2.0;
+			n = max(n, 1e-4f);
+			return n;
+		}
+		inline half NDFBlinnPhong(half NdotH, half n)
+		{
+			// norm = (n+2)/(2*pi)
+			half normTerm = (n + 2.0) * (0.5/UNITY_PI);
+
+			half specTerm = pow (NdotH, n);
+			return specTerm * normTerm;
+		}
+	  /// ELIF SPEC_PBR_GGX
+
+		//GGX
+		#define INV_PI        0.31830988618f
+		#if defined(SHADER_API_MOBILE)
+			#define EPSILON 1e-4f
+		#else
+			#define EPSILON 1e-7f
+		#endif
+		inline half GGX(half NdotH, half roughness)
+		{
+			half a2 = roughness * roughness;
+			half d = (NdotH * a2 - NdotH) * NdotH + 1.0f;
+			return INV_PI * a2 / (d * d + EPSILON);
+		}
+	  ///
+	///
+
+		// Instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
+		// See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
+		// #pragma instancing_options assumeuniformscaling
+	/// IF UNITY_2018_1
+		UNITY_INSTANCING_BUFFER_START(Props)
+			// put more per-instance properties here
+		UNITY_INSTANCING_BUFFER_END(Props)
+	/// ELSE
+		UNITY_INSTANCING_CBUFFER_START(Props)
+			// put more per-instance properties here
+		UNITY_INSTANCING_CBUFFER_END
+	///
+
+		//Custom SurfaceOutput
+		struct SurfaceOutputCustom
+		{
+	/// IF !LIGHTING_UNITY4
+			half atten;
+	///
+	/// IF BYPASS_POINT_FALLOFF || BYPASS_SPOT_FALLOFF
+			float4 WorldPos_LightCoords;	//WorldPos for POINT, LightCoords for SPOT
+	///
+			fixed3 Albedo;
+			fixed3 Normal;
+			fixed3 Emission;
+			half Specular;
+			fixed Gloss;
+			fixed Alpha;
+	/// IF SHADOW_COLOR_TEX
+			fixed3 ShadowColorTex;
+	///
+	/// IF (SPECULAR || SPECULAR_ANISOTROPIC) && SPECULAR_TEX
+			fixed3 SpecColorTex;
+	///
+	/// IF SKETCH || SKETCH_GRADIENT
+			half2 ScreenUVs;
+	///
+	/// IF SPECULAR_ANISOTROPIC
+			fixed3 Tangent;
+	///
+	/// IF TEXTURED_THRESHOLD
+			fixed TexThreshold;
+	///
+	/// IF RIM && RIM_LIGHTMASK
+			fixed Rim;
+	///
+	/// IF SUBSURFACE_SCATTERING && SS_MASK
+			fixed SubsurfaceMask;
+	///
+	/// IF DIFFUSE_TINT && DIFFUSE_TINT_MASK
+			fixed DiffTintMask;
+	///
+	/// IF USE_VFACE || USE_VFACE_ALL
+			float vFace;
+	///
+	/// IF TRIPLANAR && TRIPLANAR_BUMP
+			fixed3 TriplanarNormal;
+	///
+	/// IF VERTICAL_FOG
+			float3 WorldPos;
+	///
+		};
+
+	/// IF BYPASS_POINT_FALLOFF || BYPASS_SPOT_FALLOFF
+		//----------------------------------------------------------------------
+		//Override UNITY_LIGHT_ATTENUATION macro
+		// - Only include shadowmap in 'atten' for Point/Spot lights
+		// - Falloff/cookie will be based on the ramp
+
+		/// IF BYPASS_POINT_FALLOFF
+	#ifdef POINT
+		#if defined(UNITY_LIGHT_ATTENUATION)
+			#undef UNITY_LIGHT_ATTENUATION
+			#if UNITY_VERSION >= 560
+				#define UNITY_LIGHT_ATTENUATION(destName, input, worldPos) \
+					fixed destName = UNITY_SHADOW_ATTENUATION(input, worldPos); \
+					o.WorldPos_LightCoords = float4(worldPos.xyz, 1);	// o = SurfaceOutputCustom, avoid recalculating worldPos
+			#else
+				#define UNITY_LIGHT_ATTENUATION(destName, input, worldPos) \
+					fixed destName = SHADOW_ATTENUATION(input); \
+					o.WorldPos_LightCoords = float4(worldPos.xyz, 1);	// o = SurfaceOutputCustom, avoid recalculating worldPos
+			#endif
+		#endif
+	#endif
+		///
+		/// IF BYPASS_SPOT_FALLOFF
+	#ifdef SPOT
+		#if defined(UNITY_LIGHT_ATTENUATION)
+			#undef UNITY_LIGHT_ATTENUATION
+			#if UNITY_VERSION >= 560
+				#define UNITY_LIGHT_ATTENUATION(destName, input, worldPos) \
+					unityShadowCoord4 lightCoord = mul(unity_WorldToLight, unityShadowCoord4(worldPos, 1)); \
+					fixed shadow = UNITY_SHADOW_ATTENUATION(input, worldPos); \
+					fixed destName = (lightCoord.z > 0) * shadow; \
+					o.WorldPos_LightCoords = lightCoord;	// o = SurfaceOutputCustom, avoid recalculating worldPos
+			#else
+				#define UNITY_LIGHT_ATTENUATION(destName, input, worldPos) \
+					unityShadowCoord4 lightCoord = mul(unity_WorldToLight, unityShadowCoord4(worldPos, 1)); \
+					fixed destName = (lightCoord.z > 0) * SHADOW_ATTENUATION(input); \
+					o.WorldPos_LightCoords = lightCoord;	// o = SurfaceOutputCustom, avoid recalculating worldPos
+			#endif
+		#endif
+	#endif
+
+		///
+		//----------------------------------------------------------------------
+
+	///
+	/// IF LOD_DITHER && !UNITY_2017_1
+		//----------------------------------------------------------------------
+		//Port of Unity 2017.1+ version of cross-fade dithering
+	#if UNITY_VERSION < 201710
+		#ifdef UNITY_APPLY_DITHER_CROSSFADE
+			#undef UNITY_APPLY_DITHER_CROSSFADE
+		#endif
+		#ifdef LOD_FADE_CROSSFADE
+			#define UNITY_APPLY_DITHER_CROSSFADE(vpos)  Unity2017_ApplyDitherCrossFade(vpos)
+			void Unity2017_ApplyDitherCrossFade(float2 vpos)
+			{
+				vpos /= 4; // the dither mask texture is 4x4
+				vpos.y = frac(vpos.y) * 0.0625 /* 1/16 */ + unity_LODFade.y; // quantized lod fade by 16 levels
+				clip(tex2D(_DitherMaskLOD2D, vpos).a - 0.5);
+			}
+		#else
+			#define UNITY_APPLY_DITHER_CROSSFADE(vpos)
+		#endif
+	#endif
+
+	///
+	/// IF LIGHTING_UNITY4
+		inline half4 LightingToonyColorsCustom (inout SurfaceOutputCustom s, half3 lightDir, half3 viewDir, half atten)
+	/// ELSE
+		inline half4 LightingToonyColorsCustom (inout SurfaceOutputCustom s, half3 viewDir, UnityGI gi)
+	///
+		{
+	/// IF TRIPLANAR && TRIPLANAR_BUMP
+		#define IN_NORMAL s.TriplanarNormal
+	/// ELSE
+		#define IN_NORMAL s.Normal
+	///
+	
+	/// IF !LIGHTING_UNITY4
+			half3 lightDir = gi.light.dir;
+		#if defined(UNITY_PASS_FORWARDBASE)
+			half3 lightColor = _LightColor0.rgb;
+			half atten = s.atten;
+		#else
+			half3 lightColor = gi.light.color.rgb;
+			half atten = 1;
+		#endif
+	/// ELSE
+			half3 lightColor = _LightColor0.rgb;
+	///
+	/// IF BYPASS_POINT_FALLOFF
+
+		#if POINT
+			float4 lightCoord = mul(unity_WorldToLight, s.WorldPos_LightCoords);
+			float lightFalloff = 1 - dot(lightCoord.xyz, lightCoord.xyz);
+		#endif
+	///
+	/// IF BYPASS_SPOT_FALLOFF
+
+		#if SPOT
+			float4 lightCoord = s.WorldPos_LightCoords;
+			float lightFalloff = 1 - dot(lightCoord.xyz, lightCoord.xyz);
+			//custom cookie so that it follows a 1D ramp instead of the built-in 2D circle texture
+			float2 cookieCoords = lightCoord.xy / lightCoord.w;
+			float rampCoords = saturate(1 - dot(cookieCoords, cookieCoords) * 4) * lightFalloff;
+		#endif
+	///
+
+	/// IF USE_VFACE
+			IN_NORMAL.z *= (s.vFace < 0.5) ? -1.0 : 1.0;
+	/// ELIF USE_VFACE_ALL
+			IN_NORMAL *= (s.vFace < 0.5) ? -1.0 : 1.0;
+	///
+			IN_NORMAL = normalize(IN_NORMAL);
+	/// IF ENABLE_WRAPPED_LIGHTING
+			fixed ndl = max(0, dot(IN_NORMAL, lightDir) * 0.5 + 0.5);
+	/// ELIF WRAP_CUSTOM
+			fixed ndl = max(0, (dot(IN_NORMAL, lightDir) + _WrapFactor) / (1+_WrapFactor));
+	/// ELSE
+			fixed ndl = max(0, dot(IN_NORMAL, lightDir));
+	///
+	/// IF BYPASS_POINT_FALLOFF
+		#if POINT
+			ndl *= lightFalloff;
+		#endif
+	///
+	/// IF BYPASS_SPOT_FALLOFF 
+		#if SPOT
+			#define NDL	rampCoords
+		#else
+			#define NDL ndl
+		#endif
+	/// ELSE
+			#define NDL ndl
+	///
+	/// IF TEXTURED_THRESHOLD
+			NDL += s.TexThreshold;
+	///
+
+  /// IF TEXTURE_RAMP
+#===============================================================================
+# TEXTURE RAMP
+#===============================================================================
+
+	/// IF RAMP_MAIN_OTHER
+		#if defined(UNITY_PASS_FORWARDBASE)
+			#define		RAMP_TEXTURE	_Ramp
+		#else
+			#define		RAMP_TEXTURE	_RampOtherLights
+		#endif
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+		#if defined(UNITY_PASS_FORWARDBASE)
+			#define		RAMP_TEXTURE	_Ramp
+		#else
+		  #if POINT
+			#define		RAMP_TEXTURE	_RampPoint
+		  #elif SPOT
+			#define		RAMP_TEXTURE	_RampSpot
+		  #else
+			#define		RAMP_TEXTURE	_RampDir
+		  #endif
+		#endif
+	/// ELSE
+			#define		RAMP_TEXTURE	_Ramp
+	///
+  /// ELIF RGB_RAMP
+#===============================================================================
+# RGB RAMP
+#===============================================================================
+	/// IF RAMP_MAIN_OTHER
+		#if defined(UNITY_PASS_FORWARDBASE)
+			#define		RAMP_THRESHOLD	(1-_RampThresholdRGB.rgb)
+			#define		RAMP_SMOOTH		_RampSmooth.xxx
+		#else
+			#define		RAMP_THRESHOLD	(1-_RampThresholdOtherLightsRGB.rgb)
+			#define		RAMP_SMOOTH		_RampSmoothOtherLights.xxx
+		#endif
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+		#if defined(UNITY_PASS_FORWARDBASE)
+			#define		RAMP_THRESHOLD	(1-_RampThresholdRGB.rgb)
+			#define		RAMP_SMOOTH		_RampSmooth.xxx
+		#else
+		  #if POINT
+			#define		RAMP_THRESHOLD	(1-_RampThresholdPointRGB.rgb)
+			#define		RAMP_SMOOTH		_RampSmoothPoint.xxx
+		  #elif SPOT
+			#define		RAMP_THRESHOLD	(1-_RampThresholdSpotRGB.rgb)
+			#define		RAMP_SMOOTH		_RampSmoothSpot.xxx
+		  #else
+			#define		RAMP_THRESHOLD	(1-_RampThresholdDirRGB.rgb)
+			#define		RAMP_SMOOTH		_RampSmoothDir.xxx
+		  #endif
+		#endif
+	/// ELSE
+			#define		RAMP_THRESHOLD	(1-_RampThresholdRGB.rgb)
+			#define		RAMP_SMOOTH		_RampSmooth.xxx
+	///
+  /// ELSE
+#===============================================================================
+# SLIDER RAMP
+#===============================================================================
+	/// IF RAMP_MAIN_OTHER
+		#if defined(UNITY_PASS_FORWARDBASE)
+			#define		RAMP_THRESHOLD	_RampThreshold
+			#define		RAMP_SMOOTH		_RampSmooth
+		#else
+			#define		RAMP_THRESHOLD	_RampThresholdOtherLights
+			#define		RAMP_SMOOTH		_RampSmoothOtherLights
+		#endif
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+		#if defined(UNITY_PASS_FORWARDBASE)
+			#define		RAMP_THRESHOLD	_RampThreshold
+			#define		RAMP_SMOOTH		_RampSmooth
+		#else
+		  #if POINT
+			#define		RAMP_THRESHOLD	_RampThresholdPoint
+			#define		RAMP_SMOOTH		_RampSmoothPoint
+		  #elif SPOT
+			#define		RAMP_THRESHOLD	_RampThresholdSpot
+			#define		RAMP_SMOOTH		_RampSmoothSpot
+		  #else
+			#define		RAMP_THRESHOLD	_RampThresholdDir
+			#define		RAMP_SMOOTH		_RampSmoothDir
+		  #endif
+		#endif
+	/// ELSE
+			#define		RAMP_THRESHOLD	_RampThreshold
+			#define		RAMP_SMOOTH		_RampSmooth
+	///
+  ///
+
+	/// IF TEXTURE_RAMP
+			fixed3 ramp = tex2D(RAMP_TEXTURE, fixed2(NDL,NDL)).rgb;
+	/// ELSE
+			fixed3 ramp = smoothstep(RAMP_THRESHOLD - RAMP_SMOOTH*0.5, RAMP_THRESHOLD + RAMP_SMOOTH*0.5, NDL);
+	///
+	/// IF BYPASS_SPOT_FALLOFF
+		#if SPOT
+			ramp *= step(0.0001, ndl);
+		#endif
+	///
+	/// IF BYPASS_POINT_FALLOFF
+		#if POINT
+			ramp *= step(0, lightFalloff);	//make sure to not exceed the point light circle range
+		#endif
+	///
+	/// IF !INDEPENDENT_SHADOWS
+	  /// IF !BYPASS_POINT_FALLOFF
+		#if !(POINT) && !(SPOT)
+	  ///
+			ramp *= atten;
+	  /// IF !BYPASS_POINT_FALLOFF
+		#endif
+	  ///
+	///
+	/// IF SKETCH || SKETCH_GRADIENT
+			//Sketch
+		/// IF SKETCH_COLOR && !SKETCH_GRADIENT
+			#define SKETCH_RGB	sketchRgb
+		/// ELSE
+			#define SKETCH_RGB	sketch
+		///
+			fixed sketch = tex2D(_SketchTex, s.ScreenUVs).a;
+		/// IF SKETCH_GRADIENT
+			sketch = smoothstep(sketch - 0.2, sketch, clamp(ramp, _SketchHalftoneMin, _SketchHalftoneMax));	//Gradient halftone
+		/// ELSE
+			sketch = lerp(sketch, 1, ramp);	//Regular sketch overlay
+		///
+		/// IF SKETCH_COLOR && !SKETCH_GRADIENT
+			half3 sketchRgb = lerp(_SketchColor, half3(1,1,1), sketch);
+		///
+	///
+	/// IF SKETCH && SKETCH_COLORBLEND
+			_SColor.rgb = lerp(_SColor.rgb, fixed3(1,1,1), sketch);
+	///
+	/// IF SHADOW_COLOR_TEX
+			//Shadow Color Texture
+		/// IF SHADOW_COLOR_TEX_MULT
+			s.Albedo *= lerp(s.ShadowColorTex.rgb, float3(1,1,1), ramp);
+		/// ELIF SHADOW_COLOR_TEX_LERP
+			s.Albedo = lerp(s.ShadowColorTex.rgb, s.Albedo, ramp);
+		///
+	///
+	/// IF SHADOW_HSV
+
+			//Shadow Hsv
+			float3 albedoHsv = rgb2hsv(s.Albedo.rgb);
+			albedoHsv += float3(_Shadow_HSV_H/360,_Shadow_HSV_S,_Shadow_HSV_V);
+			s.Albedo = lerp(hsv2rgb(albedoHsv), s.Albedo, ramp);
+	///
+	/// IF !ENABLE_SHADOW_2ND_LIGHTS
+		// Note: we consider that a directional light with a cookie is supposed to be the main one (even though Unity renders it as an additional light).
+		// Thus when using a main directional light AND another directional light with a cookie, then the shadow color might be applied twice.
+		// You can remove the DIRECTIONAL_COOKIE check below the prevent that.
+		#if !defined(UNITY_PASS_FORWARDBASE) && !defined(DIRECTIONAL_COOKIE)
+			_SColor = fixed4(0,0,0,1);
+		#endif
+	///
+	/// IF COLOR_MULTIPLIERS
+			_SColor = lerp(_HColor, _SColor, _SColor.a * _ShadowMultiplier);	//Shadows intensity through alpha
+			_HColor *= _HighlightMultiplier;
+	/// ELSE
+			_SColor = lerp(_HColor, _SColor, _SColor.a);	//Shadows intensity through alpha
+	///
+	/// IF SHADOW_COLOR_LERP
+			s.Albedo.rgb = lerp(_SColor.rgb, s.Albedo.rgb, ramp);
+	///
+			ramp = lerp(_SColor.rgb, _HColor.rgb, ramp);
+	/// IF DIFFUSE_TINT
+			fixed3 wrappedLight = saturate(_DiffTint.rgb + saturate(dot(IN_NORMAL, lightDir)));
+		/// IF DIFFUSE_TINT_MASK
+			ramp = lerp(ramp, ramp * wrappedLight, s.DiffTintMask);
+		/// ELSE
+			ramp *= wrappedLight;
+		///
+	///
+	/// IF SPECULAR || SPECULAR_ANISOTROPIC
+		/// IF SPECULAR_ANISOTROPIC
+			//Anisotropic Specular
+			half3 h = normalize(lightDir + viewDir);
+			float ndh = max(0, dot (IN_NORMAL, h));
+			half3 binorm = cross(IN_NORMAL, s.Tangent);
+			fixed ndv = dot(viewDir, IN_NORMAL);
+			float aX = dot(h, s.Tangent) / _AnisoBrush;
+			float aY = dot(h, binorm) / _Smoothness;
+			float spec = sqrt(max(0.0, ndl / ndv)) * exp(-2.0 * (aX * aX + aY * aY) / (1.0 + ndh)) * s.Gloss * 2.0;
+		/// ELIF SPECULAR && SPEC_PBR_BLINNPHONG
+			//Specular: PBR Blinn-Phong
+			half3 halfDir = SafeNormalize(lightDir + viewDir);
+			half roughness = s.Specular*s.Specular;
+			half nh = saturate(dot(IN_NORMAL, halfDir));
+			half spec = NDFBlinnPhong(nh, PercRoughnessToSpecPower(roughness)) * s.Gloss;
+		/// ELIF SPECULAR && SPEC_PBR_GGX
+			//Specular: GGX
+			half3 halfDir = SafeNormalize(lightDir + viewDir);
+			half roughness = s.Specular*s.Specular;
+			half nh = saturate(dot(IN_NORMAL, halfDir));
+			half spec = GGX(nh, saturate(roughness));
+			spec *= UNITY_PI * 0.05;
+		#ifdef UNITY_COLORSPACE_GAMMA
+			spec = max(0, sqrt(max(1e-4h, spec)));
+			half surfaceReduction = 1.0 - 0.28*roughness*s.Specular;
+		#else
+			half surfaceReduction = 1.0 / (roughness*roughness + 1.0);
+		#endif
+			spec = max(0, spec * ndl);
+			spec *= surfaceReduction * s.Gloss;
+		/// ELSE
+			//Blinn-Phong Specular (legacy)
+			half3 h = normalize(lightDir + viewDir);
+			float ndh = max(0, dot (IN_NORMAL, h));
+			float spec = pow(ndh, s.Specular*128.0) * s.Gloss * 2.0;
+		///
+		/// IF SPECULAR_TOON
+			spec = smoothstep(0.5-_SpecSmooth*0.5, 0.5+_SpecSmooth*0.5, spec);
+		/// ELIF SPECULAR_TOON_BAND
+			spec = floor(spec * _SpecBands) / _SpecBands;
+		///
+			spec *= atten;
+			fixed4 c;
+			c.rgb = s.Albedo * lightColor.rgb * ramp;
+		/// IF INDEPENDENT_SHADOWS
+			c.rgb *= atten;
+		/// ELSE
+		#if (POINT || SPOT)
+			c.rgb *= atten;
+		#endif
+		///
+		/// IF (SPECULAR || SPECULAR_ANISOTROPIC) && SPECULAR_TEX
+
+			#define SPEC_COLOR	_SpecColor.rgb * s.SpecColorTex
+		/// ELSE
+
+			#define SPEC_COLOR	_SpecColor.rgb
+		///
+			c.rgb += lightColor.rgb * SPEC_COLOR * spec;
+	/// ELSE
+			fixed4 c;
+			c.rgb = s.Albedo * lightColor.rgb * ramp;
+		/// IF INDEPENDENT_SHADOWS
+			c.rgb *= atten;
+		/// ELSE
+		  /// IF LIGHTING_UNITY4
+		#if (POINT || SPOT)
+			c.rgb *= atten;
+		#endif
+		  ///
+		///
+	///
+			c.a = s.Alpha;
+	/// IF SUBSURFACE_SCATTERING
+		/// IF SS_ALL_LIGHTS
+# nothing here: workaround so that point/spot lights are the default value
+		/// ELIF SS_DIR_LIGHTS
+		#if !(POINT) && !(SPOT)
+		/// ELSE
+		#if (POINT || SPOT)
+		///
+			//Subsurface Scattering
+			half3 ssLight = lightDir + IN_NORMAL * _SSDistortion;
+			half ssDot = pow(saturate(dot(viewDir, -ssLight)), _SSPower) * _SSScale;
+		/// IF SUBSURFACE_COLOR && SUBSURFACE_AMB_COLOR
+			half3 ssColor = ((ssDot * _SSColor.rgb) + _SSAmbColor.rgb);
+		/// ELIF SUBSURFACE_COLOR
+			half3 ssColor = (ssDot * _SSColor.rgb);
+		/// ELIF SUBSURFACE_AMB_COLOR
+			half3 ssColor = (ssDot + _SSAmbColor.rgb);
+		/// ELSE
+			half3 ssColor = ssDot;
+		///
+		/// IF SS_MASK
+			ssColor *= s.SubsurfaceMask;
+		///
+			ssColor.rgb *= lightColor.rgb;
+		#if !defined(UNITY_PASS_FORWARDBASE)
+			ssColor.rgb *= atten;
+		#endif
+		/// IF SS_MULTIPLICATIVE
+			c.rgb *= s.Albedo * ssColor;
+		/// ELSE
+			c.rgb += s.Albedo * ssColor;
+		///
+		/// IF !SS_ALL_LIGHTS
+		#endif
+		///
+	///
+	/// IF SKETCH
+		/// IF SKETCH_COLORBURN
+			c.rgb = max((1.0 - ((1.0 - c.rgb) / SKETCH_RGB)), 0.0);
+		/// ELIF !SKETCH_COLORBLEND
+			c.rgb *= SKETCH_RGB;
+		///
+	/// ELIF SKETCH_GRADIENT
+			c.rgb *= lerp(_SketchColor.rgb, fixed3(1,1,1), sketch);
+	///
+	/// IF !LIGHTING_UNITY4
+
+		#ifdef UNITY_LIGHT_FUNCTION_APPLY_INDIRECT
+			c.rgb += s.Albedo * gi.indirect.diffuse;
+		#endif
+	///
+	/// IF ALPHA || ALPHA_TO_COVERAGE
+
+		#if defined(UNITY_PASS_FORWARDADD)
+			//multiply RGB with alpha for additive lights for proper transparency behavior
+			c.rgb *= c.a;
+		#endif
+	///
+	/// IF RIM && RIM_LIGHTMASK
+
+			//Rim light mask
+			c.rgb += ndl * lightColor.rgb * atten * s.Rim * _RimColor.rgb * _RimColor.a;
+	///
+	/// IF VERTICAL_FOG
+
+			//Vertical Fog
+			half vertFogThreshold = s.WorldPos.y;
+		/// IF VERTICAL_FOG_CAM
+			vertFogThreshold -= _WorldSpaceCameraPos.y;
+		///
+		/// IF VERTICAL_FOG_SMOOTHSTEP
+			c.rgb = lerp(@%VERTICAL_FOG_COLOR%@, c.rgb, smoothstep(_VerticalFogMin, _VerticalFogMax, vertFogThreshold));
+		/// ELSE
+			c.rgb = lerp(@%VERTICAL_FOG_COLOR%@, c.rgb, saturate((vertFogThreshold - _VerticalFogMin) / (_VerticalFogMax - _VerticalFogMin)));
+		///
+	///
+
+			return c;
+		}
+	/// IF !LIGHTING_UNITY4
+
+		void LightingToonyColorsCustom_GI(inout SurfaceOutputCustom s, UnityGIInput data, inout UnityGI gi)
+		{
+		/// IF SHADOWMASK
+			half colorNoAtten = max(gi.light.color.r, max(gi.light.color.g, gi.light.color.b));
+		///
+			gi = UnityGlobalIllumination(data, 1.0, IN_NORMAL);
+
+		/// IF SHADOWMASK
+			s.atten = max(gi.light.color.r, max(gi.light.color.g, gi.light.color.b)) / colorNoAtten;	//try to extract attenuation (shadowmap + shadowmask) for lighting function
+		/// ELSE
+			s.atten = data.atten;	//transfer attenuation to lighting function
+		///
+			gi.light.color = _LightColor0.rgb;	//remove attenuation
+		}
+	///
+///
+/// IF (SKETCH || SKETCH_GRADIENT) && !NO_SKETCH_OFFSET
+
+		//Adjust screen UVs relative to object to prevent screen door effect
+		inline void ObjSpaceUVOffset(inout float2 screenUV, in float screenRatio)
+		{
+			// UNITY_MATRIX_P._m11 = Camera FOV
+			float4 objPos = float4(-UNITY_MATRIX_T_MV[3].x * screenRatio * UNITY_MATRIX_P._m11, -UNITY_MATRIX_T_MV[3].y * UNITY_MATRIX_P._m11, UNITY_MATRIX_T_MV[3].z, UNITY_MATRIX_T_MV[3].w);
+
+			float offsetFactorX = 0.5;
+			float offsetFactorY = offsetFactorX * screenRatio;
+	/// IF !SKETCH_VERTEX
+			offsetFactorX *= _SketchTex_ST.x;
+			offsetFactorY *= _SketchTex_ST.y;
+	///
+
+			if (unity_OrthoParams.w < 1)	//don't scale with orthographic camera
+			{
+				//adjust uv scale
+				screenUV -= float2(offsetFactorX, offsetFactorY);
+				screenUV *= objPos.z;	//scale with cam distance
+				screenUV += float2(offsetFactorX, offsetFactorY);
+
+				// sign(UNITY_MATRIX_P[1].y) is different in Scene and Game views
+				screenUV.x -= objPos.x * offsetFactorX * sign(UNITY_MATRIX_P[1].y);
+				screenUV.y -= objPos.y * offsetFactorY * sign(UNITY_MATRIX_P[1].y);
+			}
+			else
+			{
+				// sign(UNITY_MATRIX_P[1].y) is different in Scene and Game views
+				screenUV.x += objPos.x * offsetFactorX * sign(UNITY_MATRIX_P[1].y);
+				screenUV.y += objPos.y * offsetFactorY * sign(UNITY_MATRIX_P[1].y);
+			}
+		}
+///
+/// IF VERTEX_FUNC || TESSELLATION
+
+		//Vertex input
+		struct appdata_tcp2
+		{
+			float4 vertex : POSITION;
+			float3 normal : NORMAL;
+			float4 texcoord : TEXCOORD0;
+			float4 texcoord1 : TEXCOORD1;
+			float4 texcoord2 : TEXCOORD2;
+	/// IF BUMP || PARALLAX || SPECULAR_ANISOTROPIC || (SNOW_ACCU && SNOW_ACCU_DISP && SNOW_ACCU_NRM_TANGENTS) || VERTEXMOTION_NORMAL
+			float4 tangent : TANGENT;
+	/// ELSE IF !NO_LIGHTMAP
+		#if defined(LIGHTMAP_ON) && defined(DIRLIGHTMAP_COMBINED)
+			float4 tangent : TANGENT;
+		#endif
+	///
+	/// IF USE_VERTEX_COLORS || (SNOW_ACCU && SNOW_ACCU_DISP && SNOW_ACCU_NRM_COLOR)
+			fixed4 color : COLOR;
+	///
+	#if UNITY_VERSION >= 550
+			UNITY_VERTEX_INPUT_INSTANCE_ID
+	#endif
+		};
+	/// IF TESSELLATION_PHONG
+
+		//Phong Tessellation
+		float _Phong;
+		float _EdgeLength;
+		void dispNone(inout appdata_tcp2 v) { }
+		float4 tessEdge(appdata_tcp2 v0, appdata_tcp2 v1, appdata_tcp2 v2)
+		{
+			return UnityEdgeLengthBasedTess (v0.vertex, v1.vertex, v2.vertex, _EdgeLength);
+		}
+	/// ELIF TESSELLATION_FIXED || TESSELLATION_DIST || TESSELLATION_EDGE_LENGTH
+
+		//Tesssellation
+		float _Tess;
+		float _Displacement;
+		/// IF !(BUMP && PARALLAX) && TESSELLATION_HEIGHT_MAP
+		sampler2D _ParallaxMap;
+		///
+		/// IF TESSELLATION_DIST
+		float _TessDistMin, _TessDistMax;
+		///
+		/// IF TESSELLATION_EDGE_LENGTH
+		float _EdgeLength;
+		///
+
+		/// IF TESSELLATION_FIXED
+		float4 tessFixed() { return _Tess; }
+		/// ELIF TESSELLATION_DIST
+		float4 tessDistance(appdata_tcp2 v0, appdata_tcp2 v1, appdata_tcp2 v2) { return UnityDistanceBasedTess(v0.vertex, v1.vertex, v2.vertex, _TessDistMin, _TessDistMax, _Tess); }
+		/// ELIF TESSELLATION_EDGE_LENGTH
+		float4 tessEdge(appdata_tcp2 v0, appdata_tcp2 v1, appdata_tcp2 v2) { return UnityEdgeLengthBasedTess (v0.vertex, v1.vertex, v2.vertex, _EdgeLength); }
+		///
+
+		void disp(inout appdata_tcp2 v)
+		{
+		/// IF TESSELLATION_HEIGHT_MAP
+			float disp = tex2Dlod(_ParallaxMap, float4(v.texcoord.xy,0,0)).r * _Displacement;
+		/// ELSE
+			float disp = tex2Dlod(_MainTex, float4(v.texcoord.xy,0,0)).a * _Displacement;
+		///
+			v.vertex.xyz += v.normal.xyz * disp;
+		}
+	///
+///
+/// IF VERTEX_FUNC
+
+		//================================================================
+		// VERTEX FUNCTION
+	/// IF (RIM || RIM_OUTLINE) && RIMDIR && BUMP && !RIM_VERTEX
+
+		inline float3 TCP2_ObjSpaceViewDir( in float4 v )
+		{
+			float3 camPos = _WorldSpaceCameraPos;
+			camPos += mul(_RimDir, UNITY_MATRIX_V).xyz;
+			float3 objSpaceCameraPos = mul(unity_WorldToObject, float4(camPos, 1)).xyz;
+			return objSpaceCameraPos - v.xyz;
+		}
+	///
+	/// IF DIRAMBIENT
+
+		fixed4 _TCP2_AMBIENT_RIGHT;
+		fixed4 _TCP2_AMBIENT_LEFT;
+		fixed4 _TCP2_AMBIENT_TOP;
+		fixed4 _TCP2_AMBIENT_BOTTOM;
+		fixed4 _TCP2_AMBIENT_FRONT;
+		fixed4 _TCP2_AMBIENT_BACK;
+
+		half3 DirAmbient (half3 normal)
+		{
+			fixed3 retColor =
+				saturate( normal.x * _TCP2_AMBIENT_LEFT) +
+				saturate(-normal.x * _TCP2_AMBIENT_RIGHT) +
+				saturate( normal.y * _TCP2_AMBIENT_TOP) +
+				saturate(-normal.y * _TCP2_AMBIENT_BOTTOM) +
+				saturate( normal.z * _TCP2_AMBIENT_FRONT) +
+				saturate(-normal.z * _TCP2_AMBIENT_BACK);
+			return retColor * UNITY_LIGHTMODEL_AMBIENT.a;
+		}
+	///
+
+		void vert(inout appdata_tcp2 v, out Input o)
+		{
+			UNITY_INITIALIZE_OUTPUT(Input, o);
+	/// IF VERTEXMOTION
+
+			//VertExmotion
+		/// IF VERTEXMOTION_SIMPLE
+			v.vertex = VertExmotion(v.vertex, v.color);
+		/// ELIF VERTEXMOTION_NORMAL
+			v.vertex = VertExmotion(v.vertex, v.color, v.normal, v.tangent);
+		///
+	///
+	/// IF TRIPLANAR
+
+# Custom main tex UVs because of double declaration with triplanar
+			o.mainTexUv = TRANSFORM_TEX(v.texcoord, _MainTex);
+	///
+# Calculate world normal if needed
+	/// IF DIRAMBIENT || (CUSTOM_AMBIENT && OCCLUSION && !CUBE_AMBIENT) || (SNOW_ACCU && SNOW_ACCU_DISP && !SNOW_ACCU_CUSTOM_NRM)
+			float3 worldN = UnityObjectToWorldNormal(v.normal);
+	///
+	/// IF SNOW_ACCU && SNOW_ACCU_DISP
+
+			//Snow accumulation
+	  /// IF SNOW_ACCU_CUSTOM_NRM
+		/// IF SNOW_ACCU_NRM_COLOR
+			float3 snowNormals = (v.color.xyz*2) - 1;
+			#define SNOW_NORMAL snowNormals
+		/// ELIF  SNOW_ACCU_NRM_TANGENTS
+			#define SNOW_NORMAL v.tangent
+		/// ELIF SNOW_ACCU_NRM_UV2
+			//UV2 for Normals
+			float3 n;
+			//unpack uv2
+			v.texcoord2.x = v.texcoord2.x * 255.0/16.0;
+			n.x = floor(v.texcoord2.x) / 15.0;
+			n.y = frac(v.texcoord2.x) * 16.0 / 15.0;
+			//get z
+			n.z = v.texcoord2.y;
+			//transform
+			n = n*2 - 1;
+			float3 snowNormals = n;
+			#define SNOW_NORMAL snowNormals
+			///
+	  /// ELSE
+			#define SNOW_NORMAL worldN
+	  ///
+			float3 snowAngle = normalize(_SnowAngle);
+			float snowFactor = (dot(SNOW_NORMAL, snowAngle) + 1) / 2.0;
+			half sn = (1-_SnowThr*(1 + @%SNOW_ACCU_DISP_SMOOTH%@));
+			snowFactor = smoothstep(sn, sn + @%SNOW_ACCU_DISP_SMOOTH%@, snowFactor);
+			float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
+			worldPos.xyz += SNOW_NORMAL.xyz * snowFactor * _SnowThickness;
+			v.vertex = mul(unity_WorldToObject, worldPos);
+	///
+	/// IF (RIM || RIM_OUTLINE) && RIMDIR && BUMP && !RIM_VERTEX
+			TANGENT_SPACE_ROTATION;
+			o.bViewDir = mul(rotation, TCP2_ObjSpaceViewDir(v.vertex));
+	///
+	/// IF (RIM || RIM_OUTLINE) && RIM_VERTEX
+		/// IF RIMDIR
+			_RimDir.x += UNITY_MATRIX_MV[0][3] * (1/UNITY_MATRIX_MV[2][3]) * (1-UNITY_MATRIX_P[3][3]);
+			_RimDir.y += UNITY_MATRIX_MV[1][3] * (1/UNITY_MATRIX_MV[2][3]) * (1-UNITY_MATRIX_P[3][3]);
+			float3 viewDir = normalize(UNITY_MATRIX_V[0].xyz * _RimDir.x + UNITY_MATRIX_V[1].xyz * _RimDir.y + UNITY_MATRIX_V[2].xyz * _RimDir.z);
+		/// ELSE
+			float3 viewDir = normalize(ObjSpaceViewDir(v.vertex));
+		///
+			half rim = 1.0f - saturate( dot(viewDir, v.normal) );
+		/// IF RIM_OUTLINE
+			o.rim = smoothstep(_RimMin, _RimMax, rim);
+		/// ELSE
+			o.rim = smoothstep(_RimMin, _RimMax, rim);
+		///
+	///
+	/// IF SKETCH || SKETCH_GRADIENT
+
+			//Sketch
+			float4 pos = UnityObjectToClipPos(v.vertex);
+		/// IF SKETCH_VERTEX
+			float4 screenPos = ComputeScreenPos(pos);
+			float2 screenUV = screenPos.xy / screenPos.w;
+			float screenRatio = _ScreenParams.y / _ScreenParams.x;
+			screenUV.y *= screenRatio;
+		  /// IF !NO_SKETCH_OFFSET
+			ObjSpaceUVOffset(screenUV, screenRatio);
+		  ///
+			o.sketchUv = screenUV;
+		/// ELSE
+			o.sketchUv = ComputeScreenPos(pos);
+		///
+			o.sketchUv.xy = TRANSFORM_TEX(o.sketchUv, _SketchTex);
+		/// IF SKETCH_VERTEX && SKETCH_ANIM
+			_Random.x = round(_Time.z * _SketchSpeed) / _SketchSpeed;
+			_Random.y = -round(_Time.z * _SketchSpeed) / _SketchSpeed;
+			o.sketchUv.xy += frac(_Random.xy);
+		///
+	///
+	/// IF MATCAP
+
+			//MatCap
+		/// IF !(MATCAP_PIXEL && BUMP)
+			float3 worldNorm = normalize(unity_WorldToObject[0].xyz * v.normal.x + unity_WorldToObject[1].xyz * v.normal.y + unity_WorldToObject[2].xyz * v.normal.z);
+			worldNorm = mul((float3x3)UNITY_MATRIX_V, worldNorm);
+			o.matcap.xy = worldNorm.xy * 0.5 + 0.5;
+		///
+	///
+	/// IF SPECULAR_ANISOTROPIC
+
+			//Anisotropic Specular
+			o.tangentDir = v.tangent.xyz;
+	///
+	/// IF DIRAMBIENT
+
+	#if defined(UNITY_PASS_FORWARDBASE)
+		/// IF DIRAMBIENT_VIEW
+			worldN = mul(UNITY_MATRIX_V, worldN);
+		///
+			o.ambient = DirAmbient(worldN);
+	#endif
+	/// ELIF CUSTOM_AMBIENT && OCCLUSION && !CUBE_AMBIENT
+	#if defined(UNITY_PASS_FORWARDBASE)
+			o.ambient = ShadeSH9(float4(worldN,1.0));
+	#endif
+	///
+	/// IF TRIPLANAR && BUMP
+			
+			//Calculate per-vertex world normal here
+			o.worldNormalCustom = UnityObjectToWorldNormal(v.normal);
+	///
+		}
+///
+/// IF TEXBLEND_HEIGHT
+
+		// Height-based texture blending
+		float4 blend_height_smooth(float4 texture1, float height1, float4 texture2, float height2, float smoothing)
+		{
+			float ma = max(texture1.a + height1, texture2.a + height2) - smoothing;
+			float b1 = max(texture1.a + height1 - ma, 0);
+			float b2 = max(texture2.a + height2 - ma, 0);
+			return (texture1 * b1 + texture2 * b2) / (b1 + b2);
+		}
+///
+
+		//================================================================
+		// SURFACE FUNCTION
+
+/// IF VCOLORS_MASK
+	#define vcolors IN.color
+
+///
+/// IF NOTILE_TEXTURES
+	// No Tiling texture fetch function
+	// (c) 2017 Inigo Quilez - MIT License
+	// Source: http://www.iquilezles.org/www/articles/texturerepetition/texturerepetition.htm
+	float4 tex2DnoTile( sampler2D samp, in float2 uv )
+	{
+		// sample variation pattern    
+		float k = tex2D(_NoTileNoiseTex, (1/_NoTileNoiseTex_TexelSize.zw)*uv).a; // cheap (cache friendly) lookup    
+
+		// compute index    
+		float index = k*8.0;
+		float i = floor(index);
+		float f = frac(index);
+
+		// offsets for the different virtual patterns    
+		float2 offa = sin(float2(3.0,7.0)*(i+0.0)); // can replace with any other hash    
+		float2 offb = sin(float2(3.0,7.0)*(i+1.0)); // can replace with any other hash    
+
+		// compute derivatives for mip-mapping    
+		float2 dx = ddx(uv);
+		float2 dy = ddy(uv);
+
+		// sample the two closest virtual patterns    
+		float4 cola = tex2Dgrad(samp, uv + offa, dx, dy);
+		float4 colb = tex2Dgrad(samp, uv + offb, dx, dy);
+
+		// interpolate between the two virtual patterns    
+		return lerp(cola, colb, smoothstep(0.2,0.8,f-0.1*dot(cola-colb, 1)));
+	}
+
+///
+/// IF CUSTOM_LIGHTING
+		void surf(Input IN, inout SurfaceOutputCustom o)
+/// ELSE
+		void surf(Input IN, inout SurfaceOutput o)
+///
+		{
+/// IF LOD_DITHER
+		#ifdef LOD_FADE_CROSSFADE
+			float2 vpos = IN.screenPos.xy / IN.screenPos.w * _ScreenParams.xy;
+			UNITY_APPLY_DITHER_CROSSFADE(vpos);
+		#endif
+///
+/// IF BUMP && PARALLAX
+			//Parallax Offset
+			fixed height = tex2D(_ParallaxMap, IN.uv_BumpMap).a;
+		/// IF RIM_VERTEX || !RIMDIR
+			float2 offset = ParallaxOffset(height, _Parallax, IN.viewDir);
+		/// ELSE
+			float2 offset = ParallaxOffset(height, _Parallax, IN.bViewDir);
+		///
+			IN.UV_MAINTEX += offset;
+			IN.uv_BumpMap += offset;
+///
+/// IF !TRIPLANAR
+	/// IF MAINTEX_NOTILE
+			fixed4 mainTex = tex2DnoTile(_MainTex, IN.UV_MAINTEX);
+	/// ELSE
+			fixed4 mainTex = tex2D(_MainTex, IN.UV_MAINTEX);
+	///
+///
+/// IF MASK1 || MASK2 || MASK3
+
+			//Masks
+///
+/// IF MASK1
+	/// IF UVMASK1
+			fixed4 mask1 = tex2D(_Mask1, IN.uv_Mask1);
+	/// ELIF UVMASK1_UV2
+			fixed4 mask1 = tex2D(_Mask1, IN.uv2_Mask1);
+	/// ELSE
+			fixed4 mask1 = tex2D(_Mask1, IN.UV_MAINTEX);
+	///
+///
+/// IF MASK2
+	/// IF UVMASK2
+			fixed4 mask2 = tex2D(_Mask2, IN.uv_Mask2);
+	/// ELIF UVMASK2_UV2
+			fixed4 mask2 = tex2D(_Mask2, IN.uv2_Mask2);
+	/// ELSE
+			fixed4 mask2 = tex2D(_Mask2, IN.UV_MAINTEX);
+	///
+///
+/// IF MASK3
+	/// IF UVMASK3
+			fixed4 mask3 = tex2D(_Mask3, IN.uv_Mask3);
+	/// ELIF UVMASK3_UV2
+			fixed4 mask3 = tex2D(_Mask3, IN.uv2_Mask3);
+	/// ELSE
+			fixed4 mask3 = tex2D(_Mask3, IN.UV_MAINTEX);
+	///
+///
+#Need the world pos UV to happen before vertex color blending, in case we use both triplanar + vcolors blending
+/// IF TRIPLANAR
+
+			//Triplanar Texture Blending
+			half2 uv_ground = IN.worldPos.xz;
+			half2 uv_sideX = IN.worldPos.xy;
+			half2 uv_sideZ = IN.worldPos.zy;
+
+			//ground
+			fixed4 mainTex = tex2D(_MainTex, uv_ground * _MainTex_ST.xy + _MainTex_ST.zw);
+///
+/// IF TEXTURE_BLENDING
+
+			//Texture Blending
+	/// IF TRIPLANAR
+			#define MAIN_UV uv_ground
+	/// ELSE
+			#define MAIN_UV IN.UV_MAINTEX
+	///
+	/// IF TEXBLEND_VCOLORS
+			#define BLEND_SOURCE IN.color
+	/// ELIF TEXBLEND_MAP
+			float4 texblend_map = tex2D(_TexBlendMap, IN.uv_TexBlendMap);
+			#define BLEND_SOURCE texblend_map
+	/// ELIF TEXBLEND_UNITY_SPLATMAP
+			float4 splat_control = tex2D(_Control, IN.uv_Control).gbar;
+			#define BLEND_SOURCE splat_control
+	///
+	/// IF TEXBLEND_NORMALIZE
+			BLEND_SOURCE.rgb = saturate(normalize(BLEND_SOURCE.rgb) * dot(_BlendContrast.xxx, BLEND_SOURCE.rgb));
+	///
+
+	/// IF BLEND_TEX1
+		/// IF BLEND_TEX1_NOTILE
+			fixed4 tex1 = tex2DnoTile(_BlendTex1, MAIN_UV * _BlendTex1_ST.xy + _BlendTex1_ST.zw);
+		/// ELSE
+			fixed4 tex1 = tex2D(_BlendTex1, MAIN_UV * _BlendTex1_ST.xy + _BlendTex1_ST.zw);
+		///
+	///
+	/// IF BLEND_TEX2
+		/// IF BLEND_TEX2_NOTILE
+			fixed4 tex2 = tex2DnoTile(_BlendTex2, MAIN_UV * _BlendTex2_ST.xy + _BlendTex2_ST.zw);
+		/// ELSE
+			fixed4 tex2 = tex2D(_BlendTex2, MAIN_UV * _BlendTex2_ST.xy + _BlendTex2_ST.zw);
+		///
+	///
+	/// IF BLEND_TEX3
+		/// IF BLEND_TEX3_NOTILE
+			fixed4 tex3 = tex2DnoTile(_BlendTex3, MAIN_UV * _BlendTex3_ST.xy + _BlendTex3_ST.zw);
+		/// ELSE
+			fixed4 tex3 = tex2D(_BlendTex3, MAIN_UV * _BlendTex3_ST.xy + _BlendTex3_ST.zw);
+		///
+	///
+	/// IF BLEND_TEX4
+		/// IF BLEND_TEX4_NOTILE
+			fixed4 tex4 = tex2DnoTile(_BlendTex4, MAIN_UV * _BlendTex4_ST.xy + _BlendTex4_ST.zw);
+		/// ELSE
+			fixed4 tex4 = tex2D(_BlendTex4, MAIN_UV * _BlendTex4_ST.xy + _BlendTex4_ST.zw);
+		///
+	///
+
+	/// IF TEXBLEND_LINEAR
+		/// IF BLEND_TEX1
+			mainTex = lerp(mainTex, tex1, BLEND_SOURCE.@%BLEND_TEX1_CHNL%@);
+		///
+		/// IF BLEND_TEX2
+			mainTex = lerp(mainTex, tex2, BLEND_SOURCE.@%BLEND_TEX2_CHNL%@);
+		///
+		/// IF BLEND_TEX3
+			mainTex = lerp(mainTex, tex3, BLEND_SOURCE.@%BLEND_TEX3_CHNL%@);
+		///
+		/// IF BLEND_TEX4
+			mainTex = lerp(mainTex, tex4, BLEND_SOURCE.@%BLEND_TEX4_CHNL%@);
+		///
+	/// ELIF TEXBLEND_LINEAR_ADD
+			float blackChannel = 1 - dot(BLEND_SOURCE.rgba, half4(1, 1, 1, 1));
+			mainTex *= blackChannel;
+
+		/// IF BLEND_TEX1
+			mainTex += tex1 * BLEND_SOURCE.@%BLEND_TEX1_CHNL%@;
+		///
+		/// IF BLEND_TEX2
+			mainTex += tex2 * BLEND_SOURCE.@%BLEND_TEX2_CHNL%@;
+		///
+		/// IF BLEND_TEX3
+			mainTex += tex3 * BLEND_SOURCE.@%BLEND_TEX3_CHNL%@;
+		///
+		/// IF BLEND_TEX4
+			mainTex += tex4 * BLEND_SOURCE.@%BLEND_TEX4_CHNL%@;
+		///
+	/// ELIF TEXBLEND_HEIGHT
+
+			#define CONTRAST @%TEXBLEND_HEIGHT_CONTRAST%@
+			#define CONTRAST_half CONTRAST/2
+
+		/// IF BLEND_TEX1
+			mainTex = lerp(mainTex, blend_height_smooth(mainTex, mainTex.a, tex1, BLEND_SOURCE.r * CONTRAST - CONTRAST_half + tex1.a + _VColorBlendOffset.x, _VColorBlendSmooth.x), saturate(BLEND_SOURCE.r * CONTRAST_half));
+		///
+		/// IF BLEND_TEX2
+			mainTex = lerp(mainTex, blend_height_smooth(mainTex, mainTex.a, tex2, BLEND_SOURCE.g * CONTRAST - CONTRAST_half + tex2.a + _VColorBlendOffset.y, _VColorBlendSmooth.y), saturate(BLEND_SOURCE.g * CONTRAST_half));
+		///
+		/// IF BLEND_TEX3
+			mainTex = lerp(mainTex, blend_height_smooth(mainTex, mainTex.a, tex3, BLEND_SOURCE.b * CONTRAST - CONTRAST_half + tex3.a + _VColorBlendOffset.z, _VColorBlendSmooth.z), saturate(BLEND_SOURCE.b * CONTRAST_half));
+		///
+		/// IF BLEND_TEX4
+			mainTex = lerp(mainTex, blend_height_smooth(mainTex, mainTex.a, tex4, BLEND_SOURCE.a * CONTRAST - CONTRAST_half + tex4.a + _VColorBlendOffset.w, _VColorBlendSmooth.w), saturate(BLEND_SOURCE.a * CONTRAST_half));
+		///
+	///
+///
+/// IF TRIPLANAR
+	/// IF TRIPLANAR_CEILING
+
+			//ceiling
+			fixed4 tex_ceiling = tex2D(_TriCeiling, uv_ground * _TriCeiling_ST.xy + _TriCeiling_ST.zw);
+	///
+
+			//sides
+	/// IF TRIPLANAR_SIDES_XY
+			fixed4 tex_sideX = tex2D(_TriSideX, uv_sideX * _TriSideX_ST.xy + _TriSideX_ST.zw);
+			fixed4 tex_sideZ = tex2D(_TriSideZ, uv_sideZ * _TriSideZ_ST.xy + _TriSideZ_ST.zw);
+	/// ELSE
+			fixed4 tex_sideX = tex2D(_TriSide, uv_sideX * _TriSide_ST.xy + _TriSide_ST.zw);
+			fixed4 tex_sideZ = tex2D(_TriSide, uv_sideZ * _TriSide_ST.xy + _TriSide_ST.zw);
+	///
+
+			//blending
+	/// IF !BUMP
+			#define WORLD_NORMAL	IN.worldNormal
+	/// ELSE
+			#define WORLD_NORMAL	IN.worldNormalCustom
+	///
+			half3 blendWeights = pow(abs(WORLD_NORMAL), _TriplanarBlendStrength.xyz / _TriplanarBlendStrength.w);
+			blendWeights = blendWeights / (blendWeights.x + abs(blendWeights.y) + blendWeights.z);
+	/// IF TRIPLANAR_HEIGHT_SIDES
+
+			//height-based blending
+			float height = ((tex_sideX.a + tex_sideZ.a)/2) + _TriplanarHeightOffset;
+			blendWeights.y = smoothstep(height - _TriplanarHeightSmooth, height + _TriplanarHeightSmooth, blendWeights.y) * blendWeights.y;
+			blendWeights = blendWeights / (blendWeights.x + abs(blendWeights.y) + blendWeights.z);
+
+	/// ELIF TRIPLANAR_HEIGHT_GROUND
+
+			//height-based blending
+			float height = mainTex.a + _TriplanarHeightOffset;
+			blendWeights.y = smoothstep(height - _TriplanarHeightSmooth, height + _TriplanarHeightSmooth, blendWeights.y) * blendWeights.y;
+			blendWeights = blendWeights / (blendWeights.x + abs(blendWeights.y) + blendWeights.z);
+
+	///
+	/// IF TRIPLANAR_CEILING
+		/// IF TRIPLANAR_CEILING_MINMAX
+			float triplanar_ceiling_lerp = smoothstep(IN.worldPos.y - 0.1, IN.worldPos.y, _CeilMax) - smoothstep(IN.worldPos.y, IN.worldPos.y + 0.1, _CeilMin);
+			mainTex = lerp(tex_ceiling, mainTex, triplanar_ceiling_lerp);
+		/// ELSE
+			float triplanar_ceiling_lerp = saturate(sign(WORLD_NORMAL.y)+1);
+			mainTex = lerp(tex_ceiling, mainTex, triplanar_ceiling_lerp);
+		///
+			blendWeights.y = abs(blendWeights.y);
+	///
+			mainTex = tex_sideZ * blendWeights.x + mainTex * blendWeights.y + tex_sideX * blendWeights.z;
+///
+/// IF HSV_CONTROLS
+
+			//Hsv
+			float3 mainTexHSV = rgb2hsv(mainTex.rgb);
+			mainTexHSV += float3(_HSV_H/360,_HSV_S,_HSV_V);
+	/// IF HSV_MASK
+			mainTex.rgb = lerp(mainTex.rgb, hsv2rgb(mainTexHSV), @%HSV_MASK%@@%HSV_MASK_CHANNEL%@);
+	/// ELSE
+			mainTex.rgb = hsv2rgb(mainTexHSV);
+	///
+/// ELIF HSV_CONTROLS_SATURATION
+			
+			//Saturation control
+			float3 mainTexLuminance = Luminance(mainTex.rgb);
+	/// IF HSV_MASK
+			mainTex.rgb = lerp(mainTex.rgb, lerp(mainTexLuminance, mainTex.rgb, _HSV_S), @%HSV_MASK%@@%HSV_MASK_CHANNEL%@);
+	/// ELSE
+			mainTex.rgb = lerp(mainTexLuminance, mainTex.rgb, _HSV_S);
+	///
+///
+/// IF DETAIL_TEX
+
+			//Detail Tex
+	/// IF DETAIL_UV2
+			fixed4 detail = tex2D(_Detail, IN.uv2_Detail);
+	/// ELSE
+			fixed4 detail = tex2D(_Detail, IN.uv_Detail);
+	///
+	/// IF DETAIL_MASK
+			mainTex.rgb = lerp(mainTex.rgb, detail.rgb, @%DETAIL_MASK%@@%DETAIL_MASK_CHANNEL%@);
+	/// ELSE
+			mainTex.rgb *= (detail.rgb * 2.0);
+	///
+///
+/// IF SHADOW_COLOR_TEX
+
+			//Shadow Color Texture
+			fixed4 shadowTex = tex2D(_STexture, IN.UV_MAINTEX);
+			o.ShadowColorTex = shadowTex.rgb;
+///
+/// IF (SPECULAR || SPECULAR_ANISOTROPIC) && SPECULAR_TEX
+
+			//Specular Color Texture
+			fixed4 specTex = tex2D(_SpecColorTex, IN.UV_MAINTEX);
+			o.SpecColorTex = specTex.rgb;
+///
+/// IF VCOLORS
+
+			//Vertex Colors
+			float4 vertexColors = IN.color;
+	/// IF VCOLORS_LINEAR
+		#if UNITY_VERSION >= 550
+		  #ifndef UNITY_COLORSPACE_GAMMA
+			vertexColors.rgb = GammaToLinearSpace(vertexColors.rgb);
+		  #endif
+		#else
+			vertexColors.rgb = IsGammaSpace() ? vertexColors.rgb : GammaToLinearSpace(vertexColors.rgb);
+		#endif
+	///
+			mainTex *= vertexColors;
+///
+/// IF COLORMASK
+	/// IF COLORMASK_REPLACE
+		/// IF COLORMASK_SEPARATE
+			mainTex.rgb = lerp(mainTex.rgb, _MaskedColor.rgb, @%COLORMASK%@@%COLORMASK_CHANNEL%@ * _ColorMaskStrength);
+			o.Albedo = mainTex.rgb * _Color.rgb;
+		/// ELSE
+			mainTex.rgb = lerp(mainTex.rgb, _Color.rgb, @%COLORMASK%@@%COLORMASK_CHANNEL%@ * _ColorMaskStrength);
+			o.Albedo = mainTex.rgb;
+		///
+	/// ELIF COLORMASK_ADD
+		/// IF COLORMASK_SEPARATE
+			mainTex.rgb += lerp(float3(0,0,0), _MaskedColor.rgb, @%COLORMASK%@@%COLORMASK_CHANNEL%@ * _ColorMaskStrength);
+			o.Albedo = mainTex.rgb * _Color.rgb;
+		/// ELSE
+			mainTex.rgb += lerp(float3(0,0,0), _Color.rgb, @%COLORMASK%@@%COLORMASK_CHANNEL%@ * _ColorMaskStrength);
+			o.Albedo = mainTex.rgb;
+		///
+	/// ELSE
+		/// IF COLORMASK_SEPARATE
+			_Color *= lerp(fixed4(1,1,1,1), _MaskedColor, @%COLORMASK%@@%COLORMASK_CHANNEL%@ * _ColorMaskStrength);
+		/// ELSE
+			_Color = lerp(fixed4(1,1,1,1), _Color, @%COLORMASK%@@%COLORMASK_CHANNEL%@ * _ColorMaskStrength);
+		///
+			o.Albedo = mainTex.rgb * _Color.rgb;
+	///
+	/// IF COLORMASK2
+		/// IF COLORMASK2_REPLACE
+			o.Albedo.rgb = lerp(o.Albedo.rgb, _MaskedColor2.rgb, @%COLORMASK2%@@%COLORMASK2_CHANNEL%@ * _MaskedColor2.a);
+		/// ELIF COLORMASK2_ADD
+			o.Albedo.rgb += _MaskedColor2.rgb * @%COLORMASK2%@@%COLORMASK2_CHANNEL%@ * _MaskedColor2.a;
+		/// ELSE
+			o.Albedo.rgb *= lerp(float3(1,1,1), _MaskedColor2.rgb, @%COLORMASK2%@@%COLORMASK2_CHANNEL%@ * _MaskedColor2.a);
+		///
+	///
+	/// IF COLORMASK3
+		/// IF COLORMASK3_REPLACE
+			o.Albedo.rgb = lerp(o.Albedo.rgb, _MaskedColor3.rgb, @%COLORMASK3%@@%COLORMASK3_CHANNEL%@ * _MaskedColor3.a);
+		/// ELIF COLORMASK3_ADD
+			o.Albedo.rgb += _MaskedColor3.rgb * @%COLORMASK3%@@%COLORMASK3_CHANNEL%@ * _MaskedColor3.a;
+		/// ELSE
+			o.Albedo.rgb *= lerp(float3(1,1,1), _MaskedColor3.rgb, @%COLORMASK3%@@%COLORMASK3_CHANNEL%@ * _MaskedColor3.a);
+		///
+	///
+	/// IF COLORMASK4
+		/// IF COLORMASK4_REPLACE
+			o.Albedo.rgb = lerp(o.Albedo.rgb, _MaskedColor4.rgb, @%COLORMASK4%@@%COLORMASK4_CHANNEL%@ * _MaskedColor4.a);
+		/// ELIF COLORMASK4_ADD
+			o.Albedo.rgb += _MaskedColor4.rgb * @%COLORMASK4%@@%COLORMASK4_CHANNEL%@ * _MaskedColor4.a;
+		/// ELSE
+			o.Albedo.rgb *= lerp(float3(1,1,1), _MaskedColor4.rgb, @%COLORMASK4%@@%COLORMASK4_CHANNEL%@ * _MaskedColor4.a);
+		///
+	///
+/// ELSE
+			o.Albedo = mainTex.rgb * _Color.rgb;
+///
+/// IF OCCLUSION
+			o.Emission = 0;	//needed so that surface shader takes emission into account if o.Emission is written inside an #if/#endif block
+///
+/// IF ALPHA_NO_MAINTEX && ALPHA_NO_COLOR
+			o.Alpha = 1;
+/// ELIF ALPHA_NO_MAINTEX
+			o.Alpha = _Color.a;
+/// ELIF ALPHA_NO_COLOR
+			o.Alpha = mainTex.a;
+/// ELSE
+			o.Alpha = mainTex.a * _Color.a;
+///
+/// IF LOD_FADE
+		#ifdef LOD_FADE_CROSSFADE
+            o.Alpha *= unity_LODFade.x;
+		#endif
+///
+/// IF DISSOLVE
+
+			//Dissolve
+	/// IF DISSOLVE_UV
+			fixed4 dslv = tex2D(_DissolveMap, IN.uv_DissolveMap.xy);
+	/// ELSE
+			fixed4 dslv = tex2D(_DissolveMap, IN.UV_MAINTEX.xy);
+	///
+	/// IF DSLV_R
+			#define DSLV dslv.r
+	/// ELIF DSLV_G
+			#define DSLV dslv.g
+			clip(dslv.g - _DissolveValue);
+	/// ELIF DSLV_B
+			#define DSLV dslv.b
+			clip(dslv.b - _DissolveValue);
+	/// ELSE
+			#define DSLV dslv.a
+	///
+	/// IF DISSOLVE_GRADIENT
+			float dissValue = lerp(-_DissolveGradientWidth, 1, _DissolveValue);
+			float dissolveUV = smoothstep(DSLV - _DissolveGradientWidth, DSLV + _DissolveGradientWidth, dissValue);
+			half4 dissolveColor = tex2D(_DissolveRamp, dissolveUV.xx);
+			dissolveColor *= lerp(0, @%DISSOLVE_GRAD_CONTRAST%@, dissolveUV);
+			o.Emission += dissolveColor.rgb;
+
+	/// ELSE
+			float dissValue = _DissolveValue;
+	///
+	/// IF CUTOUT && !CUTOUT_DITHER
+			o.Alpha *= DSLV + _Cutoff - dissValue;
+	/// ELSE
+			o.Alpha *= DSLV - dissValue;
+	///
+///
+/// IF ALPHA_TO_COVERAGE && ATC_SHARPEN
+
+			//Sharpen Alpha-to-Coverage
+			o.Alpha = (o.Alpha - _Cutoff) / max(fwidth(o.Alpha), 0.0001) + 0.5;
+///
+/// IF CUTOUT
+	/// IF CUTOUT_DITHER
+	
+			//Cutout with dithering (Alpha Testing)
+			half2 vpos = (IN.screenPos.xy/IN.screenPos.w) * _ScreenParams.xy;
+			half alphaRef = tex3D(_DitherMaskLOD, float3(vpos.xy*0.25,o.Alpha*0.9375)).a;
+			clip (alphaRef - 0.01);
+	/// ELSE
+	
+			//Cutout (Alpha Testing)
+			clip (o.Alpha - _Cutoff);
+	///
+///
+/// IF SKETCH || SKETCH_GRADIENT
+
+			//Sketch
+	/// IF SKETCH_VERTEX
+			o.ScreenUVs = IN.sketchUv;
+	/// ELSE
+			float2 screenUV = IN.sketchUv.xy / IN.sketchUv.w;
+			float screenRatio = _ScreenParams.y / _ScreenParams.x;
+			screenUV.y *= screenRatio;
+		/// IF !NO_SKETCH_OFFSET
+			ObjSpaceUVOffset(screenUV, screenRatio);
+		///
+		/// IF !SKETCH_VERTEX && SKETCH_ANIM
+			_Random.x = round(_Time.z * _SketchSpeed) / _SketchSpeed;
+			_Random.y = -round(_Time.z * _SketchSpeed) / _SketchSpeed;
+			screenUV.xy += frac(_Random.xy);
+		///
+			o.ScreenUVs = screenUV;
+	///
+///
+/// IF SPECULAR || SPECULAR_ANISOTROPIC
+
+			//Specular
+	/// IF SPEC_SHIN_MASK
+			_Smoothness *= @%SPEC_SHIN_MASK%@@%SPEC_SHIN_MASK_CHANNEL%@;
+	///
+	/// IF SPEC_PBR_BLINNPHONG || SPEC_PBR_GGX
+			_Smoothness = 1 - _Smoothness;	//smoothness to roughness
+	///
+	/// IF SPECULAR_MASK
+			o.Gloss = @%SPEC_MASK%@@%SPEC_MASK_CHANNEL%@;
+	/// ELSE
+			o.Gloss = 1;
+	///
+			o.Specular = _Smoothness;
+	/// IF SPECULAR_ANISOTROPIC
+			o.Tangent = IN.tangentDir;
+	///
+///
+/// IF BUMP
+
+			//Normal map
+	/// IF !(TRIPLANAR && TRIPLANAR_BUMP)
+			half4 normalMap = tex2D(_BumpMap, IN.uv_BumpMap.xy);
+	///
+	/// IF TEXTURE_BLENDING && TEXBLEND_BUMP
+
+			//Texture Blending (Normal maps)
+	  /// IF BLEND_TEX1
+		/// IF BLEND_TEX1_NOTILE
+			fixed4 bump1 = tex2DnoTile(_BumpMap1, IN.uv_MainTex * _BlendTex1_ST.xy + _BlendTex1_ST.zw);
+		/// ELSE
+			fixed4 bump1 = tex2D(_BumpMap1, IN.uv_MainTex * _BlendTex1_ST.xy + _BlendTex1_ST.zw);
+		///
+	  ///
+	  /// IF BLEND_TEX2
+		/// IF BLEND_TEX2_NOTILE
+			fixed4 bump2 = tex2DnoTile(_BumpMap2, IN.uv_MainTex * _BlendTex2_ST.xy + _BlendTex2_ST.zw);
+		/// ELSE
+			fixed4 bump2 = tex2D(_BumpMap2, IN.uv_MainTex * _BlendTex2_ST.xy + _BlendTex2_ST.zw);
+		///
+	  ///
+	  /// IF BLEND_TEX3
+		/// IF BLEND_TEX3_NOTILE
+			fixed4 bump3 = tex2DnoTile(_BumpMap3, IN.uv_MainTex * _BlendTex3_ST.xy + _BlendTex3_ST.zw);
+		/// ELSE
+			fixed4 bump3 = tex2D(_BumpMap3, IN.uv_MainTex * _BlendTex3_ST.xy + _BlendTex3_ST.zw);
+		///
+	  ///
+	  /// IF BLEND_TEX4
+		/// IF BLEND_TEX4_NOTILE
+			fixed4 bump4 = tex2DnoTile(_BumpMap4, IN.uv_MainTex * _BlendTex4_ST.xy + _BlendTex4_ST.zw);
+		/// ELSE
+			fixed4 bump4 = tex2D(_BumpMap4, IN.uv_MainTex * _BlendTex4_ST.xy + _BlendTex4_ST.zw);
+		///
+	  ///
+	  /// IF TEXBLEND_LINEAR
+		/// IF BLEND_TEX1
+			normalMap = lerp(normalMap, bump1, BLEND_SOURCE.@%BLEND_TEX1_CHNL%@);
+		///
+		/// IF BLEND_TEX2
+			normalMap = lerp(normalMap, bump2, BLEND_SOURCE.@%BLEND_TEX2_CHNL%@);
+		///
+		/// IF BLEND_TEX3
+			normalMap = lerp(normalMap, bump3, BLEND_SOURCE.@%BLEND_TEX3_CHNL%@);
+		///
+		/// IF BLEND_TEX4
+			normalMap = lerp(normalMap, bump4, BLEND_SOURCE.@%BLEND_TEX4_CHNL%@);
+		///
+	  /// ELIF TEXBLEND_LINEAR_ADD
+			normalMap *= blackChannel;
+
+		/// IF BLEND_TEX1
+			normalMap += bump1 * BLEND_SOURCE.@%BLEND_TEX1_CHNL%@;
+		///
+		/// IF BLEND_TEX2
+			normalMap += bump2 * BLEND_SOURCE.@%BLEND_TEX2_CHNL%@;
+		///
+		/// IF BLEND_TEX3
+			normalMap += bump3 * BLEND_SOURCE.@%BLEND_TEX3_CHNL%@;
+		///
+		/// IF BLEND_TEX4
+			normalMap += bump4 * BLEND_SOURCE.@%BLEND_TEX4_CHNL%@;
+		///
+	  /// ELIF TEXBLEND_HEIGHT
+
+			#define CONTRAST @%TEXBLEND_HEIGHT_CONTRAST%@
+			#define CONTRAST_half CONTRAST/2
+
+		/// IF BLEND_TEX1
+			normalMap = lerp(normalMap, blend_height_smooth(normalMap, normalMap.a, bump1, BLEND_SOURCE.r * CONTRAST - CONTRAST_half + tex1.a + _VColorBlendOffset.x, _VColorBlendSmooth.x), saturate(BLEND_SOURCE.r * CONTRAST_half));
+		///
+		/// IF BLEND_TEX2
+			normalMap = lerp(normalMap, blend_height_smooth(normalMap, normalMap.a, bump2, BLEND_SOURCE.g * CONTRAST - CONTRAST_half + tex2.a + _VColorBlendOffset.y, _VColorBlendSmooth.y), saturate(BLEND_SOURCE.g * CONTRAST_half));
+		///
+		/// IF BLEND_TEX3
+			normalMap = lerp(normalMap, blend_height_smooth(normalMap, normalMap.a, bump3, BLEND_SOURCE.b * CONTRAST - CONTRAST_half + tex3.a + _VColorBlendOffset.z, _VColorBlendSmooth.z), saturate(BLEND_SOURCE.b * CONTRAST_half));
+		///
+		/// IF BLEND_TEX4
+			normalMap = lerp(normalMap, blend_height_smooth(normalMap, normalMap.a, bump4, BLEND_SOURCE.a * CONTRAST - CONTRAST_half + tex4.a + _VColorBlendOffset.w, _VColorBlendSmooth.w), saturate(BLEND_SOURCE.a * CONTRAST_half));
+		///
+	  ///
+	///
+  /// IF TRIPLANAR && TRIPLANAR_BUMP
+			half3 normalMap = UnpackNormal(tex2D(_BumpMap, uv_ground.xy * _BumpMap_ST.xy + _BumpMap_ST.zw));
+	/// IF TRIPLANAR_CEILING
+
+			//ceiling
+			half3 tex_ceiling_bump = UnpackNormal(tex2D(_TriCeilingBump, uv_ground * _TriCeilingBump_ST.xy + _TriCeilingBump_ST.zw));
+	///
+
+			//sides
+	/// IF TRIPLANAR_SIDES_XY
+			half3 tex_sideZ_bump = UnpackNormal(tex2D(_TriSideXBump, uv_sideX * _TriSideXBump_ST.xy + _TriSideXBump_ST.zw));
+			half3 tex_sideX_bump = UnpackNormal(tex2D(_TriSideZBump, uv_sideZ * _TriSideZBump_ST.xy + _TriSideZBump_ST.zw));
+	/// ELSE
+			half3 tex_sideZ_bump = UnpackNormal(tex2D(_TriSideBump, uv_sideX * _TriSideBump_ST.xy + _TriSideBump_ST.zw));
+			half3 tex_sideX_bump = UnpackNormal(tex2D(_TriSideBump, uv_sideZ * _TriSideBump_ST.xy + _TriSideBump_ST.zw));
+
+	///
+
+			//blending
+	/// IF TRIPLANAR_CEILING
+		/// IF TRIPLANAR_CEILING_MINMAX
+			normalMap = lerp(tex_ceiling_bump, normalMap, triplanar_ceiling_lerp);
+		/// ELSE
+			normalMap = lerp(tex_ceiling_bump, normalMap, triplanar_ceiling_lerp);
+		///
+			blendWeights.y = abs(blendWeights.y);
+	///
+# source:
+# https://medium.com/@bgolus/normal-mapping-for-a-triplanar-shader-10bf39dca05a
+			// swizzle world normals into tangent space and apply Whiteout blend
+			tex_sideX_bump.xyz = half3(tex_sideX_bump.xy + WORLD_NORMAL.zy, abs(tex_sideX_bump.z) * WORLD_NORMAL.x);
+			normalMap.xyz = half3(normalMap.xy + WORLD_NORMAL.xz, abs(normalMap.z) * WORLD_NORMAL.y);
+			tex_sideZ_bump.xyz = half3(tex_sideZ_bump.xy + WORLD_NORMAL.xy, abs(tex_sideZ_bump.z) * WORLD_NORMAL.z);
+			// Swizzle tangent normals to match world orientation and triblend
+			o.TriplanarNormal = normalize(tex_sideX_bump.zyx * blendWeights.x + normalMap.xzy * blendWeights.y + tex_sideZ_bump.xyz * blendWeights.z);
+# ^ Don't write to o.Normal to avoid tangent space transform (not good for triplanar + normal map)
+  /// ELSE
+	/// IF BUMP_SCALE
+			o.Normal = UnpackScaleNormal(normalMap, _BumpScale);
+	/// ELSE
+			o.Normal = UnpackNormal(normalMap);
+	///
+  ///
+///
+/// IF REFLECTION
+
+			//Reflection
+	/// IF U5_REFLPROBE
+			half3 eyeVec = IN.worldPos.xyz - _WorldSpaceCameraPos.xyz;
+		/// IF BUMP
+			half3 worldNormal = reflect(eyeVec, WorldNormalVector(IN, o.Normal));
+		/// ELSE
+			half3 worldNormal = reflect(eyeVec, IN.worldNormal);
+		///
+			float oneMinusRoughness = _ReflSmoothness;
+			fixed3 reflColor = fixed3(0,0,0);
+		#if UNITY_SPECCUBE_BOX_PROJECTION
+			half3 worldNormal0 = BoxProjectedCubemapDirection (worldNormal, IN.worldPos, unity_SpecCube0_ProbePosition, unity_SpecCube0_BoxMin, unity_SpecCube0_BoxMax);
+		#else
+			half3 worldNormal0 = worldNormal;
+		#endif
+			half3 env0 = Unity_GlossyEnvironment (UNITY_PASS_TEXCUBE(unity_SpecCube0), unity_SpecCube0_HDR, worldNormal0, 1-oneMinusRoughness);
+
+		#if UNITY_SPECCUBE_BLENDING
+			const float kBlendFactor = 0.99999;
+			float blendLerp = unity_SpecCube0_BoxMin.w;
+			UNITY_BRANCH
+			if (blendLerp < kBlendFactor)
+			{
+			#if UNITY_SPECCUBE_BOX_PROJECTION
+				half3 worldNormal1 = BoxProjectedCubemapDirection (worldNormal, IN.worldPos, unity_SpecCube1_ProbePosition, unity_SpecCube1_BoxMin, unity_SpecCube1_BoxMax);
+			#else
+				half3 worldNormal1 = worldNormal;
+			#endif
+
+		/// IF UNITY_5_4
+				half3 env1 = Unity_GlossyEnvironment (UNITY_PASS_TEXCUBE_SAMPLER(unity_SpecCube1,unity_SpecCube0), unity_SpecCube1_HDR, worldNormal1, 1-oneMinusRoughness);
+		/// ELSE
+				half3 env1 = Unity_GlossyEnvironment (UNITY_PASS_TEXCUBE(unity_SpecCube1), unity_SpecCube1_HDR, worldNormal1, 1-oneMinusRoughness);
+		///
+				reflColor = lerp(env1, env0, blendLerp);
+			}
+			else
+			{
+				reflColor = env0;
+			}
+		#else
+			reflColor = env0;
+		#endif
+			reflColor *= 0.5;
+	/// ELSE
+		/// IF BUMP
+			half3 worldRefl = WorldReflectionVector(IN, o.Normal);
+		/// ELSE
+			half3 worldRefl = IN.worldRefl;
+		///
+		/// IF REFL_ROUGH
+			fixed4 reflColor = texCUBElod(_Cube, half4(worldRefl.xyz, _ReflectRoughness));
+		/// ELSE
+			fixed4 reflColor = texCUBE(_Cube, worldRefl);
+		///
+	///
+	/// IF REFL_MASK
+			reflColor *= @%REFL_MASK%@@%REFL_MASK_CHANNEL%@;
+	///
+	/// IF REFL_COLOR
+			reflColor.rgb *= _ReflectColor.rgb * _ReflectColor.a;
+	///
+	/// IF !RIM_REFL
+			o.Emission += reflColor.rgb;
+	///
+///
+/// IF SUBSURFACE_SCATTERING && SS_MASK
+			o.SubsurfaceMask = @%SS_MASK%@@%SS_MASK_CHANNEL%@;
+///
+/// IF DIFFUSE_TINT && DIFFUSE_TINT_MASK
+			o.DiffTintMask = @%DIFFUSE_TINT_MASK%@@%DIFFUSE_TINT_CHANNEL%@;
+///
+/// IF (RIM || RIM_OUTLINE)
+  /// IF RIM_TEX
+
+			//Rim Color Texture
+			fixed4 rimColorTex = tex2D(_RimColorTex, IN.UV_MAINTEX);
+			_RimColor.rgb *= rimColorTex.rgb;
+  ///
+  /// IF RIM_VERTEX
+
+			//Rim
+	/// IF RIM_MASK
+			IN.rim *= @%RIM_MASK%@@%RIM_MASK_CHANNEL%@;
+	///
+	/// IF RIM_OUTLINE
+			o.Albedo = lerp(o.Albedo.rgb, _RimColor.rgb, IN.rim);
+		/// IF SHADOW_COLOR_TEX
+			o.ShadowColorTex = lerp(o.ShadowColorTex.rgb, _RimColor.rgb, IN.rim);
+		///
+	/// ELSE
+		/// IF REFLECTION && RIM_REFL
+			o.Emission += (IN.rim * _RimColor.rgb * _RimColor.a * reflColor.rgb);
+		/// ELIF RIM_LIGHTMASK
+			o.Rim = IN.rim * _RimColor.rgb * _RimColor.a;
+		/// ELSE
+			o.Emission += IN.rim * _RimColor.rgb * _RimColor.a;
+		///
+	///
+  /// ELSE
+
+			//Rim
+	/// IF RIMDIR && BUMP
+			float3 viewDir = normalize(IN.bViewDir);
+	/// ELIF RIMDIR
+			_RimDir.x += UNITY_MATRIX_MV[0][3] * (1/UNITY_MATRIX_MV[2][3]) * (1-UNITY_MATRIX_P[3][3]);
+			_RimDir.y += UNITY_MATRIX_MV[1][3] * (1/UNITY_MATRIX_MV[2][3]) * (1-UNITY_MATRIX_P[3][3]);
+			float3 viewDir = normalize(UNITY_MATRIX_V[0].xyz * _RimDir.x + UNITY_MATRIX_V[1].xyz * _RimDir.y + UNITY_MATRIX_V[2].xyz * _RimDir.z);
+	/// ELSE
+			float3 viewDir = normalize(IN.viewDir);
+	///
+			half rim = 1.0f - saturate( dot(viewDir, o.Normal) );
+			rim = smoothstep(_RimMin, _RimMax, rim);
+	/// IF RIM_MASK
+			rim *= @%RIM_MASK%@@%RIM_MASK_CHANNEL%@;
+	///
+	/// IF RIM
+		/// IF REFLECTION && RIM_REFL
+			o.Emission += (_RimColor.rgb * rim * reflColor.rgb) * _RimColor.a;
+		/// ELIF RIM_LIGHTMASK
+			o.Rim = rim;
+		/// ELSE
+			o.Emission += (_RimColor.rgb * rim) * _RimColor.a;
+		///
+	///
+	/// IF RIM_OUTLINE
+			o.Albedo = lerp(o.Albedo.rgb, _RimColor.rgb, rim * _RimColor.a);
+		/// IF SHADOW_COLOR_TEX
+			o.ShadowColorTex = lerp(o.ShadowColorTex.rgb, _RimColor.rgb, rim * _RimColor.a);
+		///
+	///
+  ///
+///
+/// IF MATCAP
+
+			//MatCap
+	/// IF MATCAP_PIXEL && BUMP
+			half3 worldNorm = WorldNormalVector(IN, o.Normal);
+			worldNorm = mul((float3x3)UNITY_MATRIX_V, worldNorm);
+			fixed3 matcap = tex2D(_MatCap, worldNorm.xy * 0.5 + 0.5).rgb;
+	/// ELSE
+			fixed3 matcap = tex2D(_MatCap, IN.matcap).rgb;
+	///
+
+	/// IF MATCAP_MULT
+		/// IF MASK_MC && MC_COLOR
+			o.Albedo *= lerp(fixed3(1,1,1), matcap.rgb * _MatCapColor.rgb, @%MASK_MC%@@%MASK_MC_CHANNEL%@ * _MatCapColor.a);
+		/// ELIF MC_COLOR
+			o.Albedo *= lerp(fixed3(1,1,1), matcap.rgb * _MatCapColor.rgb, _MatCapColor.a);
+		/// ELIF MASK_MC
+			o.Albedo *= lerp(fixed3(1,1,1), matcap.rgb, @%MASK_MC%@@%MASK_MC_CHANNEL%@);
+		/// ELSE
+			o.Albedo *= matcap.rgb;
+		///
+	/// ELIF MATCAP_ADD
+		/// IF MASK_MC && MC_COLOR
+			o.Emission += matcap.rgb * @%MASK_MC%@@%MASK_MC_CHANNEL%@ * _MatCapColor.rgb * _MatCapColor.a;
+		/// ELIF MC_COLOR
+			o.Emission += matcap.rgb * _MatCapColor.rgb * _MatCapColor.a;
+		/// ELIF MASK_MC
+			o.Emission += matcap.rgb * @%MASK_MC%@@%MASK_MC_CHANNEL%@;
+		/// ELSE
+			o.Emission += matcap.rgb;
+		///
+	///
+///
+/// IF EMISSION || EMISSION_TEXTURE || EMISSION_COLOR
+
+			//Emission
+			half3 emissiveColor = half3(1,1,1);
+	/// IF EMISSION
+			emissiveColor *= mainTex.rgb * @%EMISSION_MASK%@@%EMISSION_MASK_CHANNEL%@;
+	///
+	/// IF EMISSION_TEXTURE
+			emissiveColor *= tex2D(_EmissionMap, IN.UV_MAINTEX);
+	///
+	/// IF EMISSION_COLOR
+			emissiveColor *= _EmissionColor.rgb * _EmissionColor.a;
+	///
+			o.Emission += emissiveColor;
+///
+/// IF CUSTOM_AMBIENT
+
+	/// IF CUBE_AMBIENT
+			//Ambient Cubemap
+			fixed4 cubeAmbient = texCUBE(_AmbientCube, IN.worldNormal);
+			half3 customAmbient = o.Albedo * cubeAmbient.rgb * UNITY_LIGHTMODEL_AMBIENT.a;
+	/// ELSE
+			//Custom Ambient
+			half3 customAmbient = IN.ambient;	//either Dir_Ambient or regular Unity SH ambient
+	///
+	/// IF OCCLUSION
+			//Occlusion Map
+		/// IF OCCL_RGB
+			fixed3 occlusion = tex2D(_OcclusionMap, IN.UV_MAINTEX).rgb;
+		/// ELSE
+			fixed occlusion = tex2D(_OcclusionMap, IN.UV_MAINTEX).@%OCCLUSION_CHNL%@;
+		///
+		/// IF OCCL_SLIDER
+			occlusion = lerp(1, occlusion, _OcclusionStrength);
+		///
+			customAmbient *= occlusion;
+	///
+			o.Emission += customAmbient * o.Albedo;
+///
+/// IF TEXTURED_THRESHOLD
+
+			//Textured Threshold
+	/// IF TEXTURED_THRESHOLD_UV1
+			o.TexThreshold = tex2D(_ThresholdTex, IN.uv2_ThresholdTex).a - 0.5;
+	/// ELSE
+			o.TexThreshold = tex2D(_ThresholdTex, IN.uv_ThresholdTex).a - 0.5;
+	///
+///
+/// IF SNOW_ACCU
+
+			//Snow accumulation
+			float3 snowAngle = normalize(_SnowAngle);
+			float snowFactor = (dot(o.Normal, snowAngle) + 1) / 2.0;
+			half sn = (1-_SnowThr*(1 + @%SNOW_ACCU_SMOOTH%@));
+			snowFactor = smoothstep(sn, sn + @%SNOW_ACCU_SMOOTH%@, snowFactor);
+			o.Albedo = lerp(o.Albedo, _SnowColor.rgb, snowFactor * _SnowColor.a);
+	/// IF SNOW_ACCU_RIM && RIM
+		/// IF RIM_VERTEX
+			o.Emission += IN.rim * _SnowRimColor.rgb * _SnowRimColor.a * snowFactor;
+		/// ELSE
+			o.Emission += rim * _SnowRimColor.rgb * _SnowRimColor.a * snowFactor;
+		///
+	///
+	/// IF SNOW_ACCU_SCOLOR
+			_SColor = lerp(_SColor, _SnowShadowColor, snowFactor);
+	///
+///
+/// IF USE_VFACE
+
+			//VFace Register (backface lighting)
+			o.vFace = IN.vFace;
+///
+/// IF VERTICAL_FOG
+
+			//Vertical Fog
+			o.WorldPos = IN.worldPos;
+///
+		}
+/// IF FINAL_COLOR
+
+		//================================================================
+		// FINAL COLOR MODIFIER
+
+	/// IF CUSTOM_LIGHTING
+		void fcolor(Input IN, SurfaceOutputCustom o, inout fixed4 color)
+	/// ELSE
+		void fcolor(Input IN, SurfaceOutput o, inout fixed4 color)
+	///
+		{
+		/// IF HSV_FINAL
+
+			//Hsv
+			float3 colorHsv = rgb2hsv(color.rgb);
+			colorHsv += float3(_Final_HSV_H/360,_Final_HSV_S,_Final_HSV_V);
+			color.rgb = hsv2rgb(colorHsv);
+		///
+		}
+///
+
+		ENDCG
+/// IF (OUTLINE || OUTLINE_BLENDING) && !OUTLINE_BEHIND_DEPTH
+  /// IF LEGACY_OUTLINE
+	/// IF OUTLINE_BEHIND_STENCIL
+		//Outline behind stencil
+		UsePass "Hidden/Toony Colors Pro 2/Outline Stencil/OUTLINE"
+	/// ELIF OUTLINE
+		//Outline
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only (Shader Model 2)/OUTLINE"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only/OUTLINE"
+		///
+	/// ELIF OUTLINE_BLENDING
+		//Outline
+		Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjectors"="True" }
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only (Shader Model 2)/OUTLINE_BLENDING"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only/OUTLINE_BLENDING"
+		///
+	///
+  /// ELSE
+
+		//Outline
+		Pass
+		{
+			Cull Front
+			Offset [_Offset1],[_Offset2]
+
+	/// IF OUTLINE_BLENDING
+			Tags { "LightMode"="ForwardBase" "Queue"="Transparent" "IgnoreProjectors"="True" "RenderType"="Transparent" }
+			Blend [_SrcBlendOutline] [_DstBlendOutline]
+	/// ELSE
+			Tags { "LightMode"="ForwardBase" "IgnoreProjectors"="True" }
+	///
+	/// IF OUTLINE_BEHIND_STENCIL
+
+			Stencil
+			{
+				Ref [_StencilRef]
+				Comp NotEqual
+				Pass Keep
+			}
+	///
+
+			CGPROGRAM
+
+			#pragma vertex TCP2_Outline_Vert
+			#pragma fragment TCP2_Outline_Frag
+
+			#pragma multi_compile TCP2_NONE TCP2_ZSMOOTH_ON
+			#pragma multi_compile TCP2_NONE TCP2_OUTLINE_CONST_SIZE
+			#pragma multi_compile TCP2_NONE TCP2_COLORS_AS_NORMALS TCP2_TANGENT_AS_NORMALS TCP2_UV2_AS_NORMALS
+	/// IF !FORCE_SM2
+			#pragma multi_compile TCP2_NONE TCP2_OUTLINE_TEXTURED			
+	///
+			#pragma multi_compile_instancing
+
+
+			#pragma target @%SHADER_TARGET%@
+
+			ENDCG
+		}
+  ///
+///
+/// IF (OUTLINE || OUTLINE_BLENDING) && OUTLINE_BEHIND_DEPTH && OUTLINE_DEPTH
+
+		//Outline - Depth Pass Only
+		Pass
+		{
+			Name "OUTLINE_DEPTH"
+
+			Cull Off
+			Offset [_Offset1],[_Offset2]
+			Tags { "LightMode"="ForwardBase" }
+
+			//Write to Depth Buffer only
+			ColorMask 0
+			ZWrite On
+
+			CGPROGRAM
+	/// IF LEGACY_OUTLINE
+
+			#include "UnityCG.cginc"
+			#include "@%INCLUDE_PATH%@/TCP2_Outline_Include.cginc"
+	///
+
+			#pragma vertex TCP2_Outline_Vert
+			#pragma fragment TCP2_Outline_Frag
+
+			#pragma multi_compile TCP2_NONE TCP2_ZSMOOTH_ON
+			#pragma multi_compile TCP2_NONE TCP2_OUTLINE_CONST_SIZE
+			#pragma multi_compile TCP2_NONE TCP2_COLORS_AS_NORMALS TCP2_TANGENT_AS_NORMALS TCP2_UV2_AS_NORMALS
+			//#pragma multi_compile TCP2_NONE TCP2_OUTLINE_TEXTURED		//Not needed for depth
+			#pragma multi_compile_instancing
+
+			#pragma target @%SHADER_TARGET%@
+
+			ENDCG
+		}
+///
+/// IF (ALPHA && DITHERED_SHADOWS) || (CUTOUT && CUTOUT_DITHER) || ((OUTLINE || OUTLINE_BLENDING) && OUTLINE_SHADOWCASTER)
+
+		//Shadow Caster (for shadows and depth texture)
+		Pass
+		{
+			Name "ShadowCaster"
+			Tags { "LightMode" = "ShadowCaster" }
+
+			CGPROGRAM
+
+			#include "UnityCG.cginc"
+			#pragma vertex vertShadowCaster
+			#pragma fragment fragShadowCaster
+			#pragma multi_compile_shadowcaster
+			#pragma multi_compile_instancing
+
+	/// IF ((OUTLINE || OUTLINE_BLENDING) && OUTLINE_SHADOWCASTER)
+			#pragma multi_compile TCP2_NONE TCP2_ZSMOOTH_ON
+			#pragma multi_compile TCP2_NONE TCP2_OUTLINE_CONST_SIZE
+			#pragma multi_compile TCP2_NONE TCP2_COLORS_AS_NORMALS TCP2_TANGENT_AS_NORMALS TCP2_UV2_AS_NORMALS
+	///
+
+			half4		_Color;
+			half		_Cutoff;
+			sampler2D	_MainTex;
+			float4		_MainTex_ST;
+	/// IF (ALPHA && DITHERED_SHADOWS) || (CUTOUT && CUTOUT_DITHER)
+			sampler3D	_DitherMaskLOD;
+	///
+
+			struct VertexInput
+			{
+				float4 vertex	: POSITION;
+				float3 normal	: NORMAL;
+				float2 uv0		: TEXCOORD0;
+	/// IF (OUTLINE || OUTLINE_BLENDING) && OUTLINE_SHADOWCASTER
+		/// IF !OUTLINE_VCOLOR_WIDTH && !VERTEXMOTION
+			#if TCP2_COLORS_AS_NORMALS
+		///
+				float4 color : COLOR;
+		/// IF !OUTLINE_VCOLOR_WIDTH && !VERTEXMOTION
+			#endif
+		///
+		#if TCP2_UV2_AS_NORMALS
+				float2 uv2 : TEXCOORD1;
+		#endif
+		/// IF !VERTEXMOTION_NORMAL
+		#if TCP2_TANGENT_AS_NORMALS
+		///
+				float4 tangent : TANGENT;
+		/// IF !VERTEXMOTION_NORMAL
+		#endif
+		///
+	/// ELIF VERTEXMOTION
+				float4 color : COLOR;
+		/// IF VERTEXMOTION_NORMAL
+				float4 tangent : TANGENT;
+		///
+	///
+		#if UNITY_VERSION >= 550
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+		#endif
+			};
+
+			struct VertexOutputShadowCaster
+			{
+				V2F_SHADOW_CASTER_NOPOS
+	/// IF (ALPHA && DITHERED_SHADOWS) || (CUTOUT && CUTOUT_DITHER)
+				float2 tex : TEXCOORD1;
+	///
+			};
+
+			void vertShadowCaster(VertexInput v, out VertexOutputShadowCaster o, out float4 opos : SV_POSITION)
+			{
+	/// IF VERTEXMOTION
+				//VertExmotion
+		/// IF VERTEXMOTION_SIMPLE
+				v.vertex = VertExmotion(v.vertex, v.color);
+		/// ELIF VERTEXMOTION_NORMAL
+				v.vertex = VertExmotion(v.vertex, v.color, v.normal, v.tangent);
+		///
+
+	///
+	/// IF (OUTLINE || OUTLINE_BLENDING) && OUTLINE_SHADOWCASTER
+				//Outline: make sure that the mesh shadow/depth texture includes the extruded vertices
+		#if UNITY_VERSION >= 550
+				//GPU instancing support
+				UNITY_SETUP_INSTANCE_ID(v);
+		#endif
+	  /// IF OUTLINE_FAKE_RIM_DIRLIGHT
+
+				float3 objSpaceLight = mul(unity_WorldToObject, _WorldSpaceLightPos0).xyz;
+		#ifdef TCP2_OUTLINE_CONST_SIZE
+				//Camera-independent outline size
+				float dist = distance(_WorldSpaceCameraPos, mul(unity_ObjectToWorld, v.vertex));
+				v.vertex.xyz += objSpaceLight.xyz * 0.01 * _Outline * dist;
+		#else
+				v.vertex.xyz += objSpaceLight.xyz * 0.01 * _Outline;
+		#endif
+	  /// ELIF OUTLINE_FAKE_RIM
+				v.vertex += _OutlineOffset;
+	  ///
+
+		#ifdef TCP2_COLORS_AS_NORMALS
+				//Vertex Color for Normals
+				float3 normal = (v.color.xyz*2) - 1;
+		#elif TCP2_TANGENT_AS_NORMALS
+				//Tangent for Normals
+				float3 normal = v.tangent.xyz;
+		#else
+			#if TCP2_UV1_AS_NORMALS
+				#define uvChannel uv
+			#elif TCP2_UV2_AS_NORMALS
+				#define uvChannel uv2
+			#elif TCP2_UV3_AS_NORMALS
+				#define uvChannel uv3
+			#elif TCP2_UV4_AS_NORMALS
+				#define uvChannel uv4
+			#endif
+		#endif
+		#if TCP2_UV_NORMALS_FULL
+				//UV for Normals, full
+				float3 normal = v.uvChannel.xyz;
+		#else
+				//UV for Normals, compressed
+			#if TCP2_UV_NORMALS_ZW
+				#define ch1 z
+				#define ch2 w
+			#else
+				#define ch1 x
+				#define ch2 y
+			#endif
+				float3 n;
+				//unpack uvs
+				v.uvChannel.ch1 = v.uvChannel.ch1 * 255.0/16.0;
+				n.x = floor(v.uvChannel.ch1) / 15.0;
+				n.y = frac(v.uvChannel.ch1) * 16.0 / 15.0;
+				//get z
+				n.z = v.uvChannel.ch2;
+				//transform
+				n = n*2 - 1;
+				float3 normal = n;
+		#else
+				float3 normal = v.normal;
+		#endif
+
+		#if TCP2_ZSMOOTH_ON
+				//Correct Z artefacts
+				normal = UnityObjectToViewPos(normal);
+				normal.z = -_ZSmooth;
+		#endif
+
+	  /// IF !OUTLINE_FAKE_RIM_DIRLIGHT
+		#ifdef TCP2_OUTLINE_CONST_SIZE
+				//Camera-independent outline size
+				float dist = distance(_WorldSpaceCameraPos, mul(unity_ObjectToWorld, v.vertex));
+				#define SIZE	dist
+		#else
+				#define SIZE	1.0
+		#endif
+	  /// ELSE
+				#define SIZE	0.0
+	  ///
+
+		#if TCP2_ZSMOOTH_ON
+				v.vertex += float4(normalize(normal),0) * OUTLINE_WIDTH * 0.01 * SIZE;
+		#else
+				v.vertex += float4(normal,0) * OUTLINE_WIDTH * 0.01 * SIZE;
+		#endif
+	///
+				
+				TRANSFER_SHADOW_CASTER_NOPOS(o,opos)
+	/// IF (ALPHA && DITHERED_SHADOWS) || (CUTOUT && CUTOUT_DITHER)
+				o.tex = TRANSFORM_TEX(v.uv0, _MainTex);
+	///
+			}
+
+			half4 fragShadowCaster(VertexOutputShadowCaster i, UNITY_VPOS_TYPE vpos : VPOS) : SV_Target
+			{
+	/// IF (ALPHA && DITHERED_SHADOWS) || (CUTOUT && CUTOUT_DITHER)
+		/// IF ALPHA_NO_MAINTEX && ALPHA_NO_COLOR
+				half alpha = 1;
+		/// ELIF ALPHA_NO_MAINTEX
+				half alpha = _Color.a;
+		/// ELIF ALPHA_NO_COLOR
+				half alpha = tex2D(_MainTex, i.tex).a;
+		/// ELSE
+				half alpha = tex2D(_MainTex, i.tex).a * _Color.a;
+		///
+				// Use dither mask for alpha blended shadows, based on pixel position xy
+				// and alpha level. Our dither texture is 4x4x16.
+				half alphaRef = tex3D(_DitherMaskLOD, float3(vpos.xy*0.25,alpha*0.9375)).a;
+				clip (alphaRef - 0.01);
+
+	///
+				SHADOW_CASTER_FRAGMENT(i)
+			}
+
+			ENDCG
+		}
+///
+	}
+
+	Fallback "Diffuse"
+	CustomEditor "TCP2_MaterialInspector_SG"
+}

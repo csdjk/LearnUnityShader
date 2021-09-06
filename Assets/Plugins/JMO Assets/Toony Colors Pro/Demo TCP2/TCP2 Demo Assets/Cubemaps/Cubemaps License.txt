@@ -1,0 +1,6 @@
+Cubemaps by Emil Persson - www.humus.name
+
+Under "Creative Commons Attribution 3.0 Unported License"
+https://creativecommons.org/licenses/by/3.0/
+
+NOTE: the "Toony Colors Pro 2/Standard PBS" shader looks better with hand-drawn or non-photorealistic cubemaps, but I couldn't find any with a license allowing me to include them here!

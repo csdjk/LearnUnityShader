@@ -1,0 +1,203 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Subsurface Scattering
+
+// TODO LWRP version for different light types
+
+#FEATURES
+sngl	lbl="Subsurface Scattering"		kw=SUBSURFACE_SCATTERING		help="featuresreference/lighting/subsurfacescattering"
+mult	lbl="Subsurface Lights"			kw=Point\Spot Lights|,Directional Lights|SS_DIR_LIGHTS,All Lights|SS_ALL_LIGHTS	needs=SUBSURFACE_SCATTERING		indent	tt="Defines which lights will affect subsurface scattering"
+sngl	lbl="Screen-space Factor"			kw=SS_SCREEN_INFLUENCE	needsOr=SS_DIR_LIGHTS,SS_ALL_LIGHTS		needs=SUBSURFACE_SCATTERING					indent=2	tt="Calculate directional lights influence in screen-space for subsurface scattering effect"
+sngl	lbl="Subsurface Ambient Color"	kw=SUBSURFACE_AMB_COLOR											needs=SUBSURFACE_SCATTERING						indent	tt="Adds an ambient subsurface color, affecting both front and back lighting"
+sngl	lbl="Multiplicative"				kw=SS_MULTIPLICATIVE											needs=SUBSURFACE_SCATTERING						indent	tt="Makes the subsurface scattering effect multiplied to the diffuse color instead of added with it"
+sngl	lbl="Ignore Light Color"			kw=SS_NO_LIGHTCOLOR												needs=SUBSURFACE_SCATTERING						indent	tt="Ignore the light color on the subsurface scattering effect"	
+sngl	lbl="Make Optional"				kw=SS_SHADER_FEATURE											needs=SUBSURFACE_SCATTERING						indent	tt="Will make the subsurface scattering optional in the material inspector, using a shader keyword"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF SUBSURFACE_SCATTERING
+		header			Subsurface Scattering
+		color			Subsurface Color			lighting, label = "Color", imp(color, label = "Color", default = (0.5, 0.5, 0.5, 1))
+	/// IF SUBSURFACE_AMB_COLOR
+		color			Subsurface Ambient Color	lighting, label = "Ambient Color", imp(color, label = "Ambient Color", default = (0.5, 0.5, 0.5, 1))
+	///
+		float			Subsurface Distortion		lighting, label = "Distortion", imp(range, label = "Distortion", default = 0.2, min = 0, max = 2)
+		float			Subsurface Power			lighting, label = "Power", imp(range, label = "Power", default = 3.0, min = 0.1, max = 16)
+		float			Subsurface Scale			lighting, label = "Scale", imp(float, label = "Scale", default = 1.0)
+		float			Subsurface Thickness		lighting, label = "Thickness", imp(constant, default = 1.0), help = "Set this as a texture property if you want to use a thickness map for a better subsurface scattering effect"
+	/// IF SS_SCREEN_INFLUENCE && (SS_DIR_LIGHTS || SS_ALL_LIGHTS)
+		float			Subsurface Screen Space Influence		lighting, label = "Screen-Space Factor", imp(range, label = Screen-space Influence, default = 0.5, min = 0, max = 10)
+	///
+///
+#END
+
+//================================================================
+
+#KEYWORDS
+/// IF SUBSURFACE_SCATTERING
+	feature_on		USE_VIEW_DIRECTION_FRAGMENT
+///
+#END
+
+//================================================================
+
+#SHADER_FEATURES_BLOCK
+/// IF SUBSURFACE_SCATTERING && SS_SHADER_FEATURE
+	#pragma shader_feature TCP2_SUBSURFACE
+///
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF SUBSURFACE_SCATTERING
+
+		[TCP2HeaderHelp(Subsurface Scattering)]
+	/// IF SS_SHADER_FEATURE
+		[Toggle(TCP2_SUBSURFACE)] _UseSubsurface ("Enable Subsurface Scattering", Float) = 0
+	///
+		[[PROP:Subsurface Distortion]]
+		[[PROP:Subsurface Power]]
+		[[PROP:Subsurface Scale]]
+		[[PROP:Subsurface Color]]
+		[[PROP:Subsurface Thickness]]
+	/// IF SUBSURFACE_AMB_COLOR
+		[[PROP:Subsurface Ambient Color]]
+	///
+		[TCP2Separator]
+///
+#END
+
+//================================================================
+
+#FUNCTIONS
+/// IF SUBSURFACE_SCATTERING && SS_SCREEN_INFLUENCE && (SS_DIR_LIGHTS || SS_ALL_LIGHTS)
+
+		//Subsurface Scattering directional light screen-space influence
+		half subsurfaceScreenInfluence(half3 lightDir, half3 viewDir, half size)
+		{
+			half3 delta = lightDir + viewDir;
+			half dist = length(delta);
+			half spot = 1.0 - smoothstep(0.0, size, dist);
+			return spot * spot;
+		}
+///
+#END
+
+//================================================================
+
+#INPUT
+#END
+
+//================================================================
+
+#VERTEX
+#END
+
+//================================================================
+
+#LIGHTING(float4 color, float3 normal, float3 viewDir, float3 albedo, float3 lightColor, float3 lightDir, float atten)
+/// IF SUBSURFACE_SCATTERING
+
+		//Subsurface Scattering
+	/// IF SS_SHADER_FEATURE
+	#if defined(TCP2_SUBSURFACE)
+	///
+	/// IF SS_DIR_LIGHTS
+	#if !(POINT) && !(SPOT)
+	/// ELIF !SS_ALL_LIGHTS
+	#if (POINT || SPOT)
+	///
+		half3 ssLight = lightDir + normal * [[VALUE:Subsurface Distortion]];
+		half ssDot = pow(saturate(dot(viewDir, -ssLight)), [[VALUE:Subsurface Power]]) * [[VALUE:Subsurface Scale]];
+	/// IF SUBSURFACE_AMB_COLOR
+		half3 ssColor = ((ssDot * [[VALUE:Subsurface Color]]) + [[VALUE:Subsurface Ambient Color]]) * [[VALUE:Subsurface Thickness]];
+	/// ELSE
+		half3 ssColor = (ssDot * [[VALUE:Subsurface Color]]);
+	///
+	#if !defined(UNITY_PASS_FORWARDBASE)
+		ssColor *= atten;
+	/// IF SS_SCREEN_INFLUENCE && (SS_DIR_LIGHTS || SS_ALL_LIGHTS)
+	#else
+		ssColor *= subsurfaceScreenInfluence(lightDir, viewDir, [[VALUE:Subsurface Screen Space Influence]]);
+	///
+	#endif
+	/// IF !SS_NO_LIGHTCOLOR
+		ssColor *= lightColor;
+	///
+	/// IF SS_MULTIPLICATIVE
+		color.rgb *= albedo * ssColor;
+	/// ELSE
+		color.rgb += albedo * ssColor;
+	///
+	/// IF !SS_ALL_LIGHTS
+	#endif
+	///
+	/// IF SS_SHADER_FEATURE
+	#endif
+	///
+///
+#END
+
+#LIGHTING:LWRP_MAIN_LIGHT(float4 color, float3 normal, float3 viewDir, float3 albedo, float3 lightColor, float3 lightDir, float atten)
+/// IF SUBSURFACE_SCATTERING && (SS_DIR_LIGHTS || SS_ALL_LIGHTS)
+
+		//Subsurface Scattering for Main Light
+	/// IF SS_SHADER_FEATURE
+		#if defined(TCP2_SUBSURFACE)
+	///
+		half3 ssLight = lightDir + normal * [[VALUE:Subsurface Distortion]];
+		half ssDot = pow(saturate(dot(viewDir, -ssLight)), [[VALUE:Subsurface Power]]) * [[VALUE:Subsurface Scale]];
+	/// IF SUBSURFACE_AMB_COLOR
+		half3 ssColor = ((ssDot * [[VALUE:Subsurface Color]]) + [[VALUE:Subsurface Ambient Color]]) * [[VALUE:Subsurface Thickness]];
+	/// ELSE
+		half3 ssColor = (ssDot * [[VALUE:Subsurface Color]]);
+	///
+	/// IF SS_SCREEN_INFLUENCE
+		ssColor *= subsurfaceScreenInfluence(lightDir, viewDir, [[VALUE:Subsurface Screen Space Influence]]);
+	///
+	/// IF !SS_NO_LIGHTCOLOR
+		ssColor *= lightColor;
+	///
+	/// IF SS_MULTIPLICATIVE
+		color.rgb *= albedo * ssColor;
+	/// ELSE
+		color.rgb += albedo * ssColor;
+	///
+	/// IF SS_SHADER_FEATURE
+		#endif
+	///
+///
+#END
+
+#LIGHTING:LWRP_ADDITIONAL_LIGHT(float4 color, float3 normal, float3 viewDir, float3 albedo, float3 lightColor, float3 lightDir, float atten)
+/// IF SUBSURFACE_SCATTERING && !SS_DIR_LIGHTS
+
+		//Subsurface Scattering for additional lights
+	/// IF SS_SHADER_FEATURE
+		#if defined(TCP2_SUBSURFACE)
+	///
+		half3 ssLight = lightDir + normal * [[VALUE:Subsurface Distortion]];
+		half ssDot = pow(saturate(dot(viewDir, -ssLight)), [[VALUE:Subsurface Power]]) * [[VALUE:Subsurface Scale]];
+	/// IF SUBSURFACE_AMB_COLOR
+		half3 ssColor = ((ssDot * [[VALUE:Subsurface Color]]) + [[VALUE:Subsurface Ambient Color]]) * [[VALUE:Subsurface Thickness]];
+	/// ELSE
+		half3 ssColor = (ssDot * [[VALUE:Subsurface Color]]);
+	///
+		ssColor *= atten;
+	/// IF !SS_NO_LIGHTCOLOR
+		ssColor *= lightColor;
+	///
+	/// IF SS_MULTIPLICATIVE
+		color.rgb *= albedo * ssColor;
+	/// ELSE
+		color.rgb += albedo * ssColor;
+	///
+	/// IF SS_SHADER_FEATURE
+		#endif
+	///
+///
+#END

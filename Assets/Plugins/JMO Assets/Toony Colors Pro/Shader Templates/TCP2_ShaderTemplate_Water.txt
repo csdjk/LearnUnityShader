@@ -1,0 +1,1777 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+#NAME=Water
+#INFO=Water Template  Use this template to generate stylized water shaders.
+#CONFIG=water
+#FEATURES
+dd_start	lbl=SHADING/SURFACE
+---
+mult	lbl=Lighting Function		kw=Unity 5|,Unity 4 (Legacy)|LIGHTING_UNITY4	nohelp	tt=Which Surface Shader lighting function model to use.\nTCP2 before v2.3.3 was using the Legacy one; if you experience issues with your shaders, try to use it as well.
+---
+mult	lbl=Water UVs				kw=From Mesh|,World Space Planar|WORLDSPACE_UV		nohelp		tt=Defines how to apply the UVs to the textures
+sngl	lbl=Second Texture			kw=SECOND_TEX										nohelp		tt=Use a secondary texture for extra detail
+---
+mult	lbl=Ramp Style				kw=Slider Ramp|,RGB Slider Ramp|RGB_RAMP,Texture Ramp|TEXTURE_RAMP		hlptop=ramp_style_sg				tt=Defines the transitioning between dark and lit areas of the model
+mult	lbl=Ramp Control			kw=Global|,Main + Other Lights|RAMP_MAIN_OTHER,Main + Light Type|RAMP_MAIN_LIGHTTYPE	toggles=RAMP_SEPARATED	hlptop=ramp_control_sg		tt=Defines how many ramp controls the material will have:\n\nGlobal: one control for all lights\n\nMain + Other Lights: one control for the main directional light and one for all other lights\n\nMain + Light Type: one control for the main directional light and one for each light type (directional, point, spot)
+sngl	lbl=Bypass Point light falloff	kw=BYPASS_POINT_FALLOFF							nohelp	tt=Bypass Unity's built-in point light falloff and only use the TCP2 ramp instead
+sngl	lbl=Bypass Spot light falloff	kw=BYPASS_SPOT_FALLOFF							nohelp	tt=Bypass Unity's built-in spot light falloff and only use the TCP2 ramp instead
+---
+mult	lbl=Wrapped Lighting		kw=Off|,Half|WRAPPED_LIGHTING,Custom|WRAP_CUSTOM		tt=Enable wrapped lighting, with different levels of control
+---
+sngl	lbl=Colors Multipliers		kw=COLOR_MULTIPLIERS						nohelp	tt=Adds multiplier values for highlight and shadow colors to enhance contrast or colors
+sngl	lbl=Shadow Color (other lights)	kw=ENABLE_SHADOW_2ND_LIGHTS		nohelp	tt=Enable shadow color for additive lights; this means that the model will get some tint in unlit areas when using secondary lights. This was the default behavior before v2.3.3.
+---
+sngl	lbl=Textured Threshold		kw=TEXTURED_THRESHOLD									tt=Adds a textured variation to the highlight/shadow threshold, allowing handpainting like effects for example
+---
+sngl	lbl=Vertex Colors			kw=VCOLORS												tt=Multiplies the color with vertex colors
+sngl	lbl=Gamma to Linear Space	kw=VCOLORS_LINEAR	needs=VCOLORS	indent	nohelp		tt=Converts the vertex color from gamma to linear space (when linear color space is enabled)
+mask	lbl=Color Mask				msk=COLORMASK	ch=COLORMASK_CHANNEL	kw=COLORMASK	dispName=Color		hlptop=Color Mask
+sngl	lbl=Separate Color			kw=COLORMASK_SEPARATE					needs=COLORMASK						indent			nohelp			tt=Use a separate masked color (if disabled, will use the main Color property)
+---
+sngl	lbl=Backfaces Color			kw=CULL_BACKFACE_COLOR	needs=CULL_OFF						nohelp		tt=Use a different water color for backfaces
+---
+sngl	lbl=Specular			kw=SPECULAR
+mask	lbl=Specular Mask	msk=SPEC_MASK		ch=SPEC_MASK_CHANNEL		kw=SPECULAR_MASK	dispName=Specular	needs=SPECULAR	indent	nohelp		tt=Enables specular mask (gloss map)
+mask	lbl=Roughness Mask	msk=SPEC_SHIN_MASK	ch=SPEC_SHIN_MASK_CHANNEL	kw=SPEC_SHIN_MASK	dispName=Roughness	needs=SPECULAR	indent	nohelp		tt=Enables roughness mask
+sngl	lbl=Cartoon Specular	kw=SPECULAR_TOON	needs=SPECULAR	indent	nohelp		tt=Enables clear delimitation of specular color
+---
+sngl	lbl=Rim Lighting (Fresnel)		kw=RIM					hlptop=rim_sg				tt=Enables view-dependent color change (Fresnel-like)
+mask	lbl=Rim Mask			msk=RIM_MASK	ch=RIM_MASK_CHANNEL		kw=RIM_MASK		dispName=Rim	needsOr=RIM			indent	nohelp
+---
+mult	lbl=Reflection	kw=Off|,Reflection Probes|REFLECTION_PROBES,Cubemap Texture|REFLECTION_CUBEMAP,Planar Reflection|PLANAR_REFLECTION		help=true	hlptop=Reflection
+mask	lbl=Reflection Mask			msk=REFL_MASK	ch=REFL_MASK_CHANNEL	kw=REFL_MASK	dispName=Reflection	needsOr=REFLECTION_PROBES,REFLECTION_CUBEMAP,PLANAR_REFLECTION		indent	nohelp
+sngl	lbl=Reflection Color		kw=REFL_COLOR																needsOr=REFLECTION_PROBES,REFLECTION_CUBEMAP,PLANAR_REFLECTION		indent	nohelp		tt=Enables reflection color control
+sngl	lbl=Reflection Roughness	kw=REFL_ROUGH		excl=REFLECTION_PROBES									needs=REFLECTION_CUBEMAP											indent	nohelp		tt=Simulates reflection roughness using the Cubemap's LOD levels
+warning	msgType=info				needs=REFL_ROUGH,REFLECTION_CUBEMAP		lbl=Reflection Roughness requires the cubemap texture to have mipmaps enabled
+---
+mask	lbl=Emission Map	msk=EMISSION_MASK	ch=EMISSION_MASK_CHANNEL	kw=EMISSION		dispName=Emission	hlptop=Self-Illumination Map
+sngl	lbl=Emission Color	kw=EMISSION_COLOR																	hlptop=Self-Illumination Map
+sngl	lbl=HDR Color		kw=EMISSION_COLOR_HDR	needs=EMISSION_COLOR	indent	nohelp							hlptop=Self-Illumination Map	tt=Makes the Emission Color an HDR color that can go outside the [0:1] range (useful for effects like bloom)
+sngl	lbl=Pulse			kw=EMISSION_PULSE		needs=EMISSION_COLOR	indent	nohelp														tt=Pulse the emission color (e.g. can be useful for a lava material)
+mask	lbl=Pulse Time Offset		msk=EM_PULSE_MASK	ch=EM_PULSE_MASK_CHANNEL	kw=EM_PULSE_MASK	dispName=Pulse Time		needs=EMISSION_PULSE	indent	nohelp		tt=Use texture to offset the pulse timing (to prevent an uniform animation)
+float	lbl=Time Offset Multiplier	kw=EM_PULSE_MULT	default=3.14															needs=EM_PULSE_MASK		indent	nohelp		tt=Max time offset value
+---
+mult	lbl=Sketch						kw=Off|,Sketch Overlay|SKETCH,Sketch Gradient|SKETCH_GRADIENT							tt=Sketch texture overlay on the shadowed areas\nOverlay: regular texture overlay\nGradient: used for halftone-like effects
+mult	lbl=Sketch Blending				kw=Regular|,Color Burn|SKETCH_COLORBURN		needs=SKETCH	nohelp	indent		tt=Defines how to blend the Sketch texture with the model
+sngl	lbl=Animated Sketch				kw=SKETCH_ANIM			needsOr=SKETCH,SKETCH_GRADIENT		nohelp	indent		tt=Animates the sketch overlay texture, simulating a hand-drawn animation style
+sngl	lbl=Vertex Coords				kw=SKETCH_VERTEX		needsOr=SKETCH,SKETCH_GRADIENT		nohelp	indent		tt=Compute screen coordinates in vertex shader (faster but can cause distortions)\nIf disabled will compute in pixel shader (slower)
+sngl	lbl=Disable Obj-Space Offset	kw=NO_SKETCH_OFFSET		needsOr=SKETCH,SKETCH_GRADIENT		nohelp	indent		tt=Prevent the screen-space UVs from being offset based on the object's position
+---
+mult	lbl=Custom Ambient		kw=Off|,Cubemap Ambient|CUBE_AMBIENT,Directional Ambient|DIRAMBIENT		tt=Custom ambient lighting
+sngl	lbl=View Dependent		kw=DIRAMBIENT_VIEW		needs=DIRAMBIENT	nohelp	indent		tt=Makes directional ambient view dependent (e.g. left color is always coming from the left no matter the view direction)
+space	space=4
+dd_end
+dd_start	lbl=DEPTH-BASED EFFECTS
+---
+sngl	lbl=Depth-based Color			kw=DEPTH_BUFFER_COLOR	nohelp											tt=Colors the water based on depth buffer, so that immersed objects alter the water color
+space	space=2
+sngl	lbl=Depth-based Foam			kw=DEPTH_BUFFER_FOAM	nohelp											tt=Adds foam at intersection with other objects, based on the depth buffer
+sngl	lbl=Foam Smoothness				kw=SMOOTH_FOAM			nohelp	indent	needs=DEPTH_BUFFER_FOAM		tt=Adds a control for the foam smoothness
+sngl	lbl=Independent UVs				kw=UV_FOAM				nohelp	indent	needs=DEPTH_BUFFER_FOAM		tt=Independent UVs for the foam texture
+sngl	lbl=Hide on Backfaces			kw=NO_FOAM_BACKFACE		nohelp	indent	needs=DEPTH_BUFFER_FOAM		tt=Prevent foam effect to appear on backfaces
+space	space=2
+sngl	lbl=Depth-based Transparency	kw=DEPTH_BUFFER_ALPHA	nohelp				needs=ALPHA					tt=Change the water transparency based on depth buffer (requires Alpha Blending)
+space	space=2
+sngl	lbl=Depth View Correction		kw=DEPTH_VIEW_CORRECTION	nohelp	needsOr=DEPTH_BUFFER_COLOR,DEPTH_BUFFER_FOAM,DEPTH_BUFFER_ALPHA		tt=Applies view-based depth sampling correction
+warning	msgType=warning					needs=DEPTH_VIEW_CORRECTION		lbl=Depth View Correction may cause artifacts when not using a planar mesh, or with vertex animation enabled
+space	space=4
+dd_end
+dd_start	lbl=WATER ANIMATION
+---
+sngl	lbl=Vertex Waves				kw=VERTEX_SIN_WAVES		nohelp											tt=Basic vertex motion using a sine displacement function
+mult	lbl=Sine Functions Count		kw=1|,2|VSW_2,4|VSW_4,8|VSW_8		nohelp	indent	needs=VERTEX_SIN_WAVES		tt=Number of sine functions to add together (more randomness but also more shader instructions)
+sngl	lbl=World-based Position		kw=VSW_WORLDPOS						nohelp	indent	needs=VERTEX_SIN_WAVES		tt=Calculates the sine function according to the vertices' world position (useful when using different meshes)
+sngl	lbl=Calculate Normals			kw=VERTEX_SIN_NORMALS				nohelp	indent	needs=VERTEX_SIN_WAVES		tt=Recalculate the normals based on the sine waves (assuming a planar mesh)
+sngl	lbl=Follow Mesh Normals			kw=VSW_FOLLOWNORM					nohelp	indent	needs=VERTEX_SIN_WAVES													tt=Moves the vertices along their base normal, rather than along their up axis
+mult	lbl=Displacement Axis			kw=Y|,Z|VSW_AXIS_Z,X|VSW_AXIS_X		nohelp	indent	needs=VERTEX_SIN_WAVES	excl=VSW_FOLLOWNORM		tt=Defines along which local axis to move the vertices
+warning	msgType=warning		needs=VSW_FOLLOWNORM,VERTEX_SIN_NORMALS													lbl=Normals calculation is only intended to be used with planar meshes!
+mult	lbl=Vertex Color Influence		kw=Off|,Red|VSW_VCOLOR_R,Green|VSW_VCOLOR_G,Blue|VSW_VCOLOR_B,Alpha|VSW_VCOLOR_A		nohelp	indent	needs=VERTEX_SIN_WAVES		tt=Influence the vertex displacement according to vertex colors
+space	space=2
+sngl	lbl=UV Scrolling				kw=UV_SCROLLING			nohelp												tt=Texture UV scrolling
+sngl	lbl=UV Sine Animation			kw=UV_SIN_WAVES			nohelp												tt=Texture UV motion using a sine function
+sngl	lbl=Vertex-based				kw=VERTEX_USW			nohelp	indent	needs=UV_SIN_WAVES				tt=Calculate the sine function in the vertex shader (faster, but quality will mainly depend on vertex count)
+sngl	lbl=Affect Normal Map			kw=USW_NORMAL			nohelp	indent	needs=UV_SIN_WAVES				tt=Affect the normal map's UVs
+sngl	lbl=Independent Second Tex		kw=USW_SECOND_TEX		nohelp	indent	needs=UV_SIN_WAVES,SECOND_TEX	tt=Adds independent settings for secondary texture
+space	space=2
+#sngl	lbl=Wiggle Map					kw=WIGGLE_MAP			nohelp											tt=Use a simple panning texture to simulate waves
+#space	space=2
+sngl	lbl=Scrolling Normal Map		kw=NORMAL_MAP		nohelp																										tt=Use a normal map for the waves
+sngl	lbl=Depth/Planar Reflections	kw=NORMAL_MAP_DEPTH	nohelp	indent	needs=NORMAL_MAP	needsOr=DEPTH_BUFFER_COLOR,DEPTH_BUFFER_FOAM,DEPTH_BUFFER_ALPHA,PLANAR_REFLECTION		tt=Makes the normal map affect depth buffer sampling (for pseudo-refraction effects)
+space	space=2
+sngl	lbl=Custom Time					kw=CUSTOM_TIME			nohelp											tt=Use custom time variable, that can react to Time.scale (this will disable Editor animation preview)
+dd_end
+dd_start	lbl=TRANSPARENCY
+---
+sngl	lbl=Alpha Blending			kw=ALPHA				excl=GRAB_PASS
+sngl	lbl=Ignore Main Texture		kw=ALPHA_NO_MAINTEX		excl=GRAB_PASS	needs=ALPHA	indent	nohelp	tt=Ignore the main texture's alpha channel for alpha blending
+sngl	lbl=Ignore Color			kw=ALPHA_NO_COLOR		excl=GRAB_PASS	needs=ALPHA	indent	nohelp	tt=Ignore the main color's alpha channel for alpha blending
+sngl	lbl=Grab Pass				kw=GRAB_PASS			excl=ALPHA							nohelp	tt=Performs a Grab Pass to simulate transparency, allowing refraction effects
+#sngl	lbl=Alpha Testing (Cutout)	kw=CUTOUT
+space	space=4
+dd_end
+dd_start	lbl=OPTIONS
+sngl	lbl=Vertex View Dir			kw=NDV_VERTEX	nohelp		needsOr=RIM,DEPTH_VIEW_CORRECTION				tt=Compute view direction per vertex (for rim lighting or depth view correction)
+flag	lbl=Enable Shadows			kw=addshadow	toggles=ADDSHADOW	excl=DEPTH_BUFFER_COLOR,DEPTH_BUFFER_ALPHA,DEPTH_BUFFER_FOAM,ALPHA,GRAB_PASS	tt=Enable shadow receiving for the shader
+warning	msgType=warning		needsOr=DEPTH_BUFFER_COLOR,DEPTH_BUFFER_ALPHA,DEPTH_BUFFER_FOAM,ALPHA,GRAB_PASS							lbl=Shadows are incompatible with:  - transparency  - depth-based effects  - grab pass
+warning	msgType=info				excl=ADDSHADOW																					lbl=Make sure to also turn off "Receive Shadows" on the Mesh Renderer if you don't enable shadows
+dd_end
+dd_start	lbl=SHADER STATES
+---
+mult	lbl=Culling						kw=Back (default)|,Front|CULL_FRONT,Off (double-sided)|CULL_OFF		nohelp		tt=Defines how to cull faces
+sngl	lbl=Backfaces Color				kw=CULL_BACKFACE_COLOR	needs=CULL_OFF						indent	nohelp		tt=Use a different water color for backfaces
+---
+keyword	lbl=Shader Target	kw=SHADER_TARGET	forceKeyword=true	values=2.0 (Old hardware)|2.0,2.5 (Mobile devices)|2.5,3.0 (Recommended default)|3.0,3.5|3.5,4.0|4.0,4.5|4.5,4.6|4.6,5.0|5.0		default=2
+warning	msgType=info		lbl=Use Shader Target 2.5 for maximum compatibility across mobile devices    Increase the number if the shader fails to compile (not enough instructions or interpolators)
+dd_end
+dd_start	lbl= SURFACE SHADER FLAGS
+---
+flag	lbl=Add Shadow Passes			kw=addshadow													tt=Force the shader to have the Shadow Caster and Collector passes.\nCan help if shadows don't work properly with the shader\n(note: shadows aren't compatible with depth buffer effects!)
+flag	lbl=Full Forward Shadows		kw=fullforwardshadows											tt=Enable support for all shadow types in Forward rendering path
+#flag	lbl=Disable Shadows				kw=noshadow														tt=Disables all shadow receiving support in this shader
+flag	lbl=Disable Fog					kw=nofog														tt=Disables Unity Fog support.\nCan help if you run out of vertex interpolators and don't need fog.
+flag	lbl=Disable Lightmaps			kw=nolightmap													tt=Disables all lightmapping support in this shader.\nCan help if you run out of vertex interpolators and don't need lightmaps.
+flag	lbl=Disable Ambient Lighting	kw=noambient		excl=DIRAMBIENT,CUBE_AMBIENT				tt=Disable ambient lighting
+flag	lbl=Disable Vertex Lighting		kw=novertexlights												tt=Disable vertex lights and spherical harmonics (light probes)
+sngl	lbl=Disable Dynamic Batching	kw=DISABLE_BATCHING		nohelp									tt=Disable dynamic batching support for this shader.  Can help if dynamic batching causes UV or vertex displacement issues among water planes for example.
+space	space=6
+header	lbl=Mobile-Friendly
+flag	lbl=One Directional Light		kw=noforwardadd													tt=Use additive lights as vertex lights.\nRecommended for Mobile
+#flag	lbl=Vertex View Dir				kw=interpolateview												tt=Calculate view direction per-vertex instead of per-pixel.\nRecommended for Mobile	needsOr=SPECULAR,SPECULAR_ANISOTROPIC,SUBSURFACE,PARALLAX,RIM,RIM_OUTLINE
+flag	lbl=Half as View				kw=halfasview													tt=Pass half-direction vector into the lighting function instead of view-direction.\nFaster but inaccurate.\nRecommended for Specular, but use Vertex Rim to optimize Rim Effects instead	needsOr=SPECULAR,SUBSURFACE,PARALLAX,RIM,RIM_OUTLINE
+dd_end
+#END
+#KEYWORDS
+
+#Custom Ambient
+/// IF CUBE_AMBIENT || DIRAMBIENT
+enable_kw		CUSTOM_AMBIENT
+enable_flag		noambient
+///
+
+#Depth Buffer
+/// IF DEPTH_BUFFER_COLOR || DEPTH_BUFFER_FOAM || (DEPTH_BUFFER_ALPHA && ALPHA)
+enable_kw		USE_DEPTH_BUFFER
+///
+
+#Vertex Colors
+/// IF VSW_VCOLOR_R || VSW_VCOLOR_G || VSW_VCOLOR_B || VSW_VCOLOR_A || VCOLORS || VCOLORS_MASK
+enable_kw		USE_VERTEX_COLORS
+///
+
+/// IF VCOLORS
+enable_kw		VERTEX_COLORS_TO_FRAGMENT
+///
+
+#N dot V (for rim and other effects)
+/// IF RIM || DEPTH_VIEW_CORRECTION
+	/// IF NDV_VERTEX
+enable_kw		USE_NdotV
+	/// ELSE
+enable_kw		USE_NdotV_FRAGMENT
+	///
+///
+
+#World Position
+/// IF WORLDSPACE_UV || VSW_WORLDPOS || REFLECTION_PROBES
+enable_kw		USE_WORLDPOS_IN_VERTEX
+///
+
+#Reflection
+/// IF PLANAR_REFLECTION || REFLECTION_PROBES || REFLECTION_CUBEMAP
+enable_kw		REFLECTION
+///
+
+#Screen Position
+/// IF ((SKETCH || SKETCH_GRADIENT) && !SKETCH_VERTEX) || PLANAR_REFLECTION || USE_DEPTH_BUFFER
+enable_kw		USE_SCREENPOS
+///
+
+#Shadows
+/// IF DEPTH_BUFFER_COLOR || (DEPTH_BUFFER_ALPHA && ALPHA) || DEPTH_BUFFER_FOAM || ALPHA || GRAB_PASS
+disable_flag	addshadow
+///
+
+#Clip space pos
+/// IF USE_SCREENPOS || ((SKETCH || SKETCH_GRADIENT) && SKETCH_VERTEX) || GRAB_PASS
+enable_kw		USE_POS
+///
+
+#END
+
+Shader "@%SHADER_NAME%@"
+{
+	Properties
+	{
+/// IF USE_DEPTH_BUFFER
+		[TCP2HelpBox(Warning,Make sure that the Camera renders the depth texture for this material to work properly.    You can use the script __TCP2_CameraDepth__ for this.)]
+///
+	[TCP2HeaderHelp(BASE, Base Properties)]
+		//TOONY COLORS
+		_HColor ("Highlight Color", Color) = (0.6,0.6,0.6,1.0)
+		_SColor ("Shadow Color", Color) = (0.3,0.3,0.3,1.0)
+/// IF COLOR_MULTIPLIERS
+		_HighlightMultiplier ("Highlight Multiplier", Range(0,4)) = 1
+		_ShadowMultiplier ("Shadow Multiplier", Range(0,4)) = 1
+///
+/// IF WRAP_CUSTOM
+		_WrapFactor ("Light Wrapping", Range(-1,3)) = 1.0
+///
+
+		//DIFFUSE
+		_MainTex ("Main Texture (RGB)", 2D) = "white" {}
+/// IF SECOND_TEX
+		_MainTex2 ("Second Texture (RGB)", 2D) = "white" {}
+///
+	[TCP2Separator]
+
+		//TOONY COLORS RAMP
+/// IF TEXTURE_RAMP
+	/// IF RAMP_SEPARATED
+		[Header(Main Directional Light)]
+	///
+		[TCP2Gradient] _Ramp			("Toon Ramp (RGB)", 2D) = "gray" {}
+	/// IF RAMP_MAIN_OTHER
+		[Header(Other Lights)]
+		[TCP2Gradient] _RampOtherLights	("Toon Ramp", 2D) = "gray" {}
+		[Space]
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+	[HideInInspector] __BeginGroup_OtherLights ("Other Lights", Float) = 0
+		[TCP2Gradient] _RampPoint		("Toon Ramp (Point Lights)", 2D) = "gray" {}
+		[TCP2Gradient] _RampSpot		("Toon Ramp (Spot Lights)", 2D) = "gray" {}
+		[TCP2Gradient] _RampDir			("Toon Ramp (Directional Lights)", 2D) = "gray" {}
+	[HideInInspector] __EndGroup ("Other Lights", Float) = 0
+	///
+/// ELIF RGB_RAMP
+	/// IF RAMP_SEPARATED
+		[Header(Main Directional Light)]
+	///
+		_RampThresholdRGB ("Ramp Threshold (RGB)", Color) = (0.5,0.5,0.5,1)
+		_RampSmooth ("Ramp Smoothing", Range(0.001,1)) = 0.1
+	/// IF RAMP_MAIN_OTHER
+		[Header(Other Lights)]
+		_RampThresholdOtherLightsRGB ("Threshold RGB (Other Lights)", Color) = (0.5,0.5,0.5,1)
+		_RampSmoothOtherLights ("Smoothing (Other Lights)", Range(0.001,1)) = 0.5
+		[Space]
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+	[HideInInspector] __BeginGroup_OtherLights ("Other Lights", Float) = 0
+		_RampThresholdPointRGB ("Threshold RGB (Point Lights)", Color) = (0.5,0.5,0.5,1)
+		_RampSmoothPoint ("Smoothing (Point Lights)", Range(0.001,1)) = 0.5
+		[Space]
+		_RampThresholdSpotRGB ("Threshold RGB (Spot Lights)", Color) = (0.5,0.5,0.5,1)
+		_RampSmoothSpot ("Smoothing (Spot Lights)", Range(0.001,1)) = 0.5
+		[Space]
+		_RampThresholdDirRGB ("Threshold RGB (Directional Lights)", Color) = (0.5,0.5,0.5,1)
+		_RampSmoothDir ("Smoothing (Directional Lights)", Range(0.001,1)) = 0.5
+	[HideInInspector] __EndGroup ("Other Lights", Float) = 0
+	///
+/// ELSE
+	/// IF RAMP_SEPARATED
+		[Header(Main Directional Light)]
+	///
+		_RampThreshold ("Ramp Threshold", Range(0,1)) = 0.5
+		_RampSmooth ("Ramp Smoothing", Range(0.001,1)) = 0.1
+	/// IF RAMP_MAIN_OTHER
+		[Header(Other Lights)]
+		_RampThresholdOtherLights ("Threshold", Range(0,1)) = 0.5
+		_RampSmoothOtherLights ("Smoothing", Range(0.001,1)) = 0.5
+		[Space]
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+	[HideInInspector] __BeginGroup_OtherLights ("Other Lights", Float) = 0
+		_RampThresholdPoint ("Threshold (Point)", Range(0,1)) = 0.5
+		_RampSmoothPoint ("Smoothing (Point)", Range(0.001,1)) = 0.5
+		[Space]
+		_RampThresholdSpot ("Threshold (Spot)", Range(0,1)) = 0.5
+		_RampSmoothSpot ("Smoothing (Spot)", Range(0.001,1)) = 0.5
+		[Space]
+		_RampThresholdDir ("Threshold (Directional)", Range(0,1)) = 0.5
+		_RampSmoothDir ("Smoothing (Directional)", Range(0.001,1)) = 0.5
+	[HideInInspector] __EndGroup ("Other Lights", Float) = 0
+		[Space]
+	///
+///
+/// IF TEXTURED_THRESHOLD
+		//THRESHOLD TEXTURE
+		_ThresholdTex ("Threshold Texture (Alpha)", 2D) = "gray" {}
+///
+	[TCP2Separator]
+/// IF MASK1 || MASK2 || MASK3
+
+	[Header(Masks)]
+///
+/// IF MASK1
+	/// IF !UVMASK1
+		[NoScaleOffset]
+	///
+		_Mask1 ("Mask 1 (@%MASK1%@)", 2D) = "black" {}
+///
+/// IF MASK2
+	/// IF !UVMASK2
+		[NoScaleOffset]
+	///
+		_Mask2 ("Mask 2 (@%MASK2%@)", 2D) = "black" {}
+///
+/// IF MASK3
+	/// IF !UVMASK3
+		[NoScaleOffset]
+	///
+		_Mask3 ("Mask 3 (@%MASK3%@)", 2D) = "black" {}
+///
+/// IF MASK1 || MASK2 || MASK3
+	[TCP2Separator]
+///
+	[TCP2HeaderHelp(WATER)]
+/// IF ALPHA || GRAB_PASS
+		_Color ("Water Color (RGB) Opacity (A)", Color) = (0.5,0.5,0.5,1.0)
+/// ELSE
+		_Color ("Water Color", Color) = (0.5,0.5,0.5,1.0)
+///
+/// IF CULL_BACKFACE_COLOR
+		_BackColor ("Water Color (backfaces)", Color) = (0.3,0.3,0.3,1.0)
+///
+/// IF COLORMASK && COLORMASK_SEPARATE
+		_MaskedColor ("Masked Color", Color) = (1.0, 0.0, 0.0, 1.0)
+///
+/// IF DEPTH_BUFFER_COLOR
+
+		[Header(Depth Color)]
+		_DepthColor ("Depth Color", Color) = (0.5,0.5,0.5,1.0)
+		[PowerSlider(5.0)] _DepthDistance ("Depth Distance", Range(0.01,3)) = 0.5
+///
+/// IF DEPTH_BUFFER_FOAM
+
+		[Header(Foam)]
+		_FoamSpread ("Foam Spread", Range(0.01,5)) = 2
+		_FoamStrength ("Foam Strength", Range(0.01,1)) = 0.8
+		_FoamColor ("Foam Color (RGB) Opacity (A)", Color) = (0.9,0.9,0.9,1.0)
+	/// IF !UV_FOAM
+		[NoScaleOffset]
+	///
+		_FoamTex ("Foam (RGB)", 2D) = "white" {}
+	/// IF SMOOTH_FOAM
+		_FoamSmooth ("Foam Smoothness", Range(0,0.5)) = 0.02
+	///
+		_FoamSpeed ("Foam Speed", Vector) = (2,2,2,2)
+///
+/// IF DEPTH_BUFFER_ALPHA && ALPHA
+		[Header(Depth based Transparency)]
+		[PowerSlider(5.0)] _DepthAlpha ("Depth Alpha", Range(0.01,10)) = 0.5
+		_DepthMinAlpha ("Depth Min Alpha", Range(0,1)) = 0.5
+///
+/// IF WIGGLE_MAP
+		_WiggleMap ("Wiggle (RGB)", 2D) = "gray" {}
+///
+/// IF NORMAL_MAP
+
+		[Header(Waves Normal Map)]
+		[TCP2HelpBox(Info,There are two normal maps blended. The tiling offsets affect each map uniformly.)]
+		_BumpMap ("Normal Map", 2D) = "bump" {}
+		[PowerSlider(2.0)] _BumpScale ("Normal Scale", Range(0.01,2)) = 1.0
+		_BumpSpeed ("Normal Speed", Vector) = (0.2,0.2,0.3,0.3)
+	/// IF USE_DEPTH_BUFFER && NORMAL_MAP_DEPTH
+		_NormalDepthInfluence ("Depth/Reflection Influence", Range(0,1)) = 0.5
+	///
+///
+/// IF VERTEX_SIN_WAVES
+
+		[Header(Vertex Waves Animation)]
+		_WaveSpeed ("Speed", Float) = 2
+		_WaveHeight ("Height", Float) = 0.1
+		_WaveFrequency ("Frequency", Range(0,10)) = 1
+///
+/// IF UV_SCROLLING
+
+		[Header(UV Scrolling)]
+		_UVScrollingX ("X Speed", Float) = 0.1
+		_UVScrollingY ("Y Speed", Float) = 0.1
+	/// IF SECOND_TEX
+		_UVScrolling2X ("X Speed (Second Tex)", Float) = 0.2
+		_UVScrolling2Y ("Y Speed (Second Tex)", Float) = 0.2
+	///
+///
+/// IF UV_SIN_WAVES
+
+		[Header(UV Waves Animation)]
+		_UVWaveSpeed ("Speed", Float) = 1
+		_UVWaveAmplitude ("Amplitude", Range(0.001,0.5)) = 0.05
+		_UVWaveFrequency ("Frequency", Range(0,10)) = 1
+	/// IF SECOND_TEX && USW_SECOND_TEX
+		[Header(UV Waves Second Tex)]
+		_UVWaveSpeed2 ("Speed", Float) = 0.5
+		_UVWaveAmplitude2 ("Amplitude", Range(0.001,0.5)) = 0.07
+		_UVWaveFrequency2 ("Frequency", Range(0,10)) = 1.5
+	///
+///
+	[TCP2Separator]
+/// IF SPECULAR
+	[TCP2HeaderHelp(SPECULAR, Specular)]
+		//SPECULAR
+		_SpecColor ("Specular Color", Color) = (0.5, 0.5, 0.5, 1)
+		_Shininess ("Roughness", Range(0.0,10)) = 0.1
+	/// IF SPECULAR_TOON
+		_SpecSmooth ("Smoothness", Range(0,1)) = 0.05
+	///
+	[TCP2Separator]
+///
+/// IF REFLECTION
+	[TCP2HeaderHelp(REFLECTION, Reflection)]
+		//REFLECTION
+	/// IF REFLECTION_CUBEMAP
+		[NoScaleOffset] _Cube ("Reflection Cubemap", Cube) = "_Skybox" {}
+		/// IF REFL_ROUGH
+		_ReflRoughness ("Reflection Roughness", Range(0,9)) = 0
+		///
+	/// ELIF REFLECTION_PROBES
+		_ReflRoughness ("Reflection Roughness", Range(0,1)) = 0
+		_ReflStrength ("Reflection Strength", Range(0,1)) = 1
+	///
+	/// IF REFL_COLOR
+		_ReflectColor ("Reflection Color (RGB)", Color) = (1,1,1,1)
+	///
+		_ReflStrength ("Reflection Strength", Range(0,1)) = 1
+	/// IF PLANAR_REFLECTION
+		[HideInInspector] _ReflectionTex ("Planar Reflection RenderTexture", 2D) = "white" {}
+	///
+	[TCP2Separator]
+///
+/// IF RIM
+	[TCP2HeaderHelp(RIM, Rim)]
+		//RIM LIGHT
+		_RimColor ("Rim Color", Color) = (0.8,0.8,0.8,0.6)
+		_RimMin ("Rim Min", Range(0,1)) = 0.5
+		_RimMax ("Rim Max", Range(0,1)) = 1.0
+	[TCP2Separator]
+///
+/// IF EMISSION_COLOR
+	[TCP2HeaderHelp(EMISSION, Emission)]
+	/// IF EMISSION_COLOR_HDR
+		[HDR] _EmissionColor ("Emission Color", Color) = (1,1,1,1.0)
+	/// ELSE
+		_EmissionColor ("Emission Color", Color) = (1,1,1,1.0)
+	///
+	/// IF EMISSION_PULSE
+		_EmisPulseMin ("Emission Min", Float) = 0
+		_EmisPulseSpeed ("Pulse Speed", Float) = 2
+	///
+	[TCP2Separator]
+///
+/// IF SKETCH || SKETCH_GRADIENT
+	[TCP2HeaderHelp(SKETCH, Sketch)]
+		//SKETCH
+		_SketchTex ("Sketch (Alpha)", 2D) = "white" {}
+	/// IF SKETCH_ANIM
+		_SketchSpeed ("Sketch Anim Speed", Range(1.1, 10)) = 6
+	///
+	/// IF SKETCH_GRADIENT
+		_SketchColor ("Sketch Color (RGB)", Color) = (0,0,0,1)
+		_SketchHalftoneMin ("Sketch Halftone Min", Range(0,1)) = 0.2
+		_SketchHalftoneMax ("Sketch Halftone Max", Range(0,1)) = 1.0
+	///
+	[TCP2Separator]
+///
+/// IF CUBE_AMBIENT || DIRAMBIENT
+	[TCP2HeaderHelp(CUSTOM AMBIENT)]
+///
+/// IF CUBE_AMBIENT
+		//AMBIENT CUBEMAP
+		_AmbientCube ("Ambient Cubemap", Cube) = "_Skybox" {}
+///
+/// IF DIRAMBIENT
+		_TCP2_AMBIENT_RIGHT ("Right", Color) = (0,0,0,1)
+		_TCP2_AMBIENT_LEFT ("Left", Color) = (0,0,0,1)
+		_TCP2_AMBIENT_TOP ("Top", Color) = (0,0,0,1)
+		_TCP2_AMBIENT_BOTTOM ("Bottom", Color) = (0,0,0,1)
+		_TCP2_AMBIENT_FRONT ("Front", Color) = (0,0,0,1)
+		_TCP2_AMBIENT_BACK ("Back", Color) = (0,0,0,1)
+///
+/// IF CUBE_AMBIENT || DIRAMBIENT
+	[TCP2Separator]
+///
+/// IF ALPHA
+	[TCP2HeaderHelp(TRANSPARENCY)]
+		//Blending
+		[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlendTCP2 ("Blending Source", Float) = 5
+		[Enum(UnityEngine.Rendering.BlendMode)] _DstBlendTCP2 ("Blending Dest", Float) = 10
+	[TCP2Separator]
+///
+/// IF SUBSURFACE
+	[TCP2HeaderHelp(SUBSURFACE SCATTERING, Subsurface Scattering)]
+		_SSDistortion ("Distortion", Range(0,2)) = 0.2
+		_SSPower ("Power", Range(0.1,16)) = 3.0
+		_SSScale ("Scale", Float) = 1.0
+		_SSColor ("Color (RGB)", Color) = (0.5,0.5,0.5,1)
+		_SSAmbColor ("Ambient Color (RGB)", Color) = (0.5,0.5,0.5,1)
+	[TCP2Separator]
+///
+		//Avoid compile error if the properties are ending with a drawer
+		[HideInInspector] __dummy__ ("unused", Float) = 0
+	}
+
+	SubShader
+	{
+/// IF DISABLE_BATCHING
+		Tags { "DisableBatching" = "True" }
+///
+/// IF ALPHA
+		Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
+		Blend [_SrcBlendTCP2] [_DstBlendTCP2]
+/// ELIF GRAB_PASS
+		Tags {"Queue"="AlphaTest+40" "IgnoreProjector"="True" "RenderType"="Opaque"}
+/// ELSE
+		Tags {"Queue"="Geometry" "RenderType"="Opaque"}
+///
+/// IF CULL_OFF
+		Cull Off
+/// ELIF CULL_FRONT
+		Cull Front
+///
+
+/// IF GRAB_PASS
+		GrabPass { "_GrabTexture" }
+///
+
+		CGPROGRAM
+
+		#pragma surface surf ToonyColorsWater keepalpha vertex:vert @%SURF_PARAMS%@
+		#pragma target @%SHADER_TARGET%@
+
+		//================================================================
+		// VARIABLES
+
+		fixed4 _Color;
+/// IF CULL_BACKFACE_COLOR
+		fixed4 _BackColor;
+///
+/// IF COLORMASK && COLORMASK_SEPARATE
+		fixed4 _MaskedColor;
+///
+		sampler2D _MainTex;
+		float4 _MainTex_ST;
+/// IF SECOND_TEX
+		sampler2D _MainTex2;
+		float4 _MainTex2_ST;
+///
+/// IF TEXTURED_THRESHOLD
+		sampler2D _ThresholdTex;
+///
+/// IF MASK1
+		sampler2D _Mask1;
+///
+/// IF MASK2
+		sampler2D _Mask2;
+///
+/// IF MASK3
+		sampler2D _Mask3;
+///
+/// IF EMISSION_COLOR
+		half4 _EmissionColor;
+	/// IF EMISSION_PULSE
+		half _EmisPulseMin;
+		half _EmisPulseSpeed;
+	///
+///
+/// IF CUBE_AMBIENT
+		samplerCUBE _AmbientCube;
+///
+/// IF WIGGLE_MAP
+		sampler2D _WiggleMap;
+///
+/// IF SKETCH_ANIM
+		fixed _SketchSpeed;
+///
+/// IF NORMAL_MAP
+		sampler2D _BumpMap;
+		float4 _BumpMap_ST;
+		half _BumpScale;
+		half4 _BumpSpeed;
+	/// IF USE_DEPTH_BUFFER && NORMAL_MAP_DEPTH
+		half _NormalDepthInfluence;
+	///
+///
+/// IF USE_DEPTH_BUFFER
+		sampler2D_float _CameraDepthTexture;
+///
+/// IF DEPTH_BUFFER_COLOR
+		fixed4 _DepthColor;
+		half _DepthDistance;
+///
+/// IF DEPTH_BUFFER_FOAM
+		half4 _FoamSpeed;
+		half _FoamSpread;
+		half _FoamStrength;
+		sampler2D _FoamTex;
+	/// IF UV_FOAM
+		float4 _FoamTex_ST;
+	///
+		fixed4 _FoamColor;
+	/// IF SMOOTH_FOAM
+		half _FoamSmooth;
+	///
+///
+/// IF DEPTH_BUFFER_ALPHA && ALPHA
+		half _DepthAlpha;
+		fixed _DepthMinAlpha;
+///
+/// IF CUSTOM_TIME
+		half unityTime;
+///
+/// IF VERTEX_SIN_WAVES
+		half _WaveHeight;
+		half _WaveFrequency;
+		half _WaveSpeed;
+///
+/// IF UV_SCROLLING
+		half _UVScrollingX;
+		half _UVScrollingY;
+	/// IF SECOND_TEX
+		half _UVScrolling2X;
+		half _UVScrolling2Y;
+	///
+///
+/// IF UV_SIN_WAVES
+		half _UVWaveAmplitude;
+		half _UVWaveFrequency;
+		half _UVWaveSpeed;
+	/// IF SECOND_TEX && USW_SECOND_TEX
+		half _UVWaveAmplitude2;
+		half _UVWaveFrequency2;
+		half _UVWaveSpeed2;
+	///
+///
+
+/// IF RIM
+		fixed4 _RimColor;
+		fixed _RimMin;
+		fixed _RimMax;
+///
+
+/// IF SUBSURFACE
+		half _SSDistortion;
+		half _SSPower;
+		half _SSScale;
+		fixed4 _SSColor;
+		fixed4 _SSAmbColor;
+///
+/// IF GRAB_PASS
+		sampler2D _GrabTexture;
+///
+/// IF REFLECTION
+		half _ReflStrength;
+	/// IF REFL_COLOR
+		half4 _ReflectColor;
+	///
+	/// IF (REFL_ROUGH && REFLECTION_CUBEMAP) || REFLECTION_PROBES
+		half _ReflRoughness;
+	///
+	/// IF REFLECTION_CUBEMAP
+		samplerCUBE _Cube;
+	/// ELIF PLANAR_REFLECTION
+		sampler2D _ReflectionTex;
+	///
+///
+
+		struct Input
+		{
+/// IF SECOND_TEX
+			float4 texcoord;
+/// ELSE
+			float2 texcoord;
+///
+/// IF UVMASK1
+			half2 uv_Mask1;
+///
+/// IF UVMASK2
+			half2 uv_Mask2;
+///
+/// IF UVMASK3
+			half2 uv_Mask3;
+///
+/// IF WIGGLE_MAP
+			half2 uv_WiggleMap;
+///
+/// IF TEXTURED_THRESHOLD
+			half2 uv_ThresholdTex;
+///
+/// IF NORMAL_MAP
+			half2 bump_texcoord;
+///
+/// IF DEPTH_BUFFER_FOAM && UV_FOAM
+			half2 foam_texcoord;
+///
+/// IF USE_NdotV
+			half ndv;
+/// ELIF USE_NdotV_FRAGMENT
+			half3 viewDir;
+///
+/// IF GRAB_PASS
+			float4 grabPos;
+///
+/// IF UV_SIN_WAVES && !VERTEX_USW
+	/// IF SECOND_TEX && USW_SECOND_TEX
+			float4 sinAnim;
+	/// ELSE
+			float2 sinAnim;
+	///
+///
+/// IF (REFLECTION_PROBES && !NORMAL_MAP) || CUBE_AMBIENT
+			float3 worldNormal;
+///
+/// IF REFLECTION_PROBES
+			float3 wPos;
+			INTERNAL_DATA
+///
+/// IF REFLECTION_CUBEMAP
+			float3 worldRefl;
+	/// IF  NORMAL_MAP
+			INTERNAL_DATA
+	///
+///
+/// IF VERTEX_COLORS_TO_FRAGMENT
+			float4 color : COLOR;
+///
+/// IF SKETCH || SKETCH_GRADIENT
+	/// IF SKETCH_VERTEX
+			half2 sketchUv;
+	/// ELSE
+			half4 sketchUv;
+	///
+///
+/// IF DIRAMBIENT
+			fixed3 ambient;
+///
+/// IF USE_SCREENPOS
+			float4 sPos;
+///
+/// IF CULL_BACKFACE_COLOR || (DEPTH_BUFFER_FOAM && NO_FOAM_BACKFACE)
+			float vFace : VFACE;
+///
+		};
+
+		//================================================================
+		// CUSTOM LIGHTING
+
+		//Lighting-related variables
+		half4 _HColor;
+		half4 _SColor;
+/// IF WRAP_CUSTOM
+		half _WrapFactor;
+///
+/// IF COLOR_MULTIPLIERS
+		fixed _HighlightMultiplier;
+		fixed _ShadowMultiplier;
+///
+/// IF TEXTURE_RAMP
+		sampler2D _Ramp;
+	/// IF RAMP_MAIN_OTHER
+		sampler2D _RampOtherLights;
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+		sampler2D _RampPoint;
+		sampler2D _RampSpot;
+		sampler2D _RampDir;
+	///
+/// ELIF RGB_RAMP
+		float4 _RampThresholdRGB;
+		half _RampSmooth;
+	/// IF RAMP_MAIN_OTHER
+		float4 _RampThresholdOtherLightsRGB;
+		half _RampSmoothOtherLights;
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+		half4 _RampThresholdPointRGB;
+		fixed _RampSmoothPoint;
+		half4 _RampThresholdSpotRGB;
+		fixed _RampSmoothSpot;
+		half4 _RampThresholdDirRGB;
+		fixed _RampSmoothDir;
+	///
+/// ELSE
+		half _RampThreshold;
+		half _RampSmooth;
+	/// IF RAMP_MAIN_OTHER
+		half _RampThresholdOtherLights;
+		half _RampSmoothOtherLights;
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+		half _RampThresholdPoint;
+		half _RampSmoothPoint;
+		half _RampThresholdSpot;
+		half _RampSmoothSpot;
+		half _RampThresholdDir;
+		half _RampSmoothDir;
+	///
+///
+/// IF SPECULAR || SPECULAR_ANISOTROPIC
+		fixed _Shininess;
+	/// IF SPECULAR_TOON
+		fixed _SpecSmooth;
+	///
+///
+/// IF SKETCH || SKETCH_GRADIENT
+		sampler2D _SketchTex;
+		float4 _SketchTex_ST;
+	/// IF SKETCH_GRADIENT
+		fixed4 _SketchColor;
+		fixed _SketchHalftoneMin;
+		fixed _SketchHalftoneMax;
+	///
+///
+
+		// Instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
+		// See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
+		// #pragma instancing_options assumeuniformscaling
+/// IF UNITY_2018_1
+		UNITY_INSTANCING_BUFFER_START(Props)
+			// put more per-instance properties here
+		UNITY_INSTANCING_BUFFER_END(Props)
+/// ELSE
+		UNITY_INSTANCING_CBUFFER_START(Props)
+			// put more per-instance properties here
+		UNITY_INSTANCING_CBUFFER_END
+///
+
+		//Custom SurfaceOutput
+		struct SurfaceOutputWater
+		{
+/// IF !LIGHTING_UNITY4
+			half atten;
+///
+/// IF BYPASS_POINT_FALLOFF || BYPASS_SPOT_FALLOFF
+			float4 WorldPos_LightCoords;	//WorldPos for POINT, LightCoords for SPOT
+///
+			fixed3 Albedo;
+			fixed3 Normal;
+			fixed3 Emission;
+/// IF SPECULAR
+			half Specular;
+			fixed Gloss;
+///
+			fixed Alpha;
+/// IF TEXTURED_THRESHOLD
+			fixed TexThreshold;
+///
+/// IF SKETCH || SKETCH_GRADIENT
+			half2 ScreenUVs;
+///
+		};
+
+/// IF BYPASS_POINT_FALLOFF || BYPASS_SPOT_FALLOFF
+	//----------------------------------------------------------------------
+	//Override UNITY_LIGHT_ATTENUATION macro
+	// - Only include shadowmap in 'atten' for Point/Spot lights
+	// - Falloff/cookie will be based on the ramp
+
+	/// IF BYPASS_POINT_FALLOFF
+	#ifdef POINT
+		#if defined(UNITY_LIGHT_ATTENUATION)
+			#undef UNITY_LIGHT_ATTENUATION
+			#if UNITY_VERSION >= 560
+				#define UNITY_LIGHT_ATTENUATION(destName, input, worldPos) \
+					fixed destName = UNITY_SHADOW_ATTENUATION(input, worldPos); \
+					o.WorldPos_LightCoords = float4(worldPos.xyz, 1);	// o = SurfaceOutputCustom, avoid recalculating worldPos
+			#else
+				#define UNITY_LIGHT_ATTENUATION(destName, input, worldPos) \
+					fixed destName = SHADOW_ATTENUATION(input); \
+					o.WorldPos_LightCoords = float4(worldPos.xyz, 1);	// o = SurfaceOutputCustom, avoid recalculating worldPos
+			#endif
+		#endif
+	#endif
+	///
+	/// IF BYPASS_SPOT_FALLOFF
+	#ifdef SPOT
+		#if defined(UNITY_LIGHT_ATTENUATION)
+			#undef UNITY_LIGHT_ATTENUATION
+			#if UNITY_VERSION >= 560
+				#define UNITY_LIGHT_ATTENUATION(destName, input, worldPos) \
+					unityShadowCoord4 lightCoord = mul(unity_WorldToLight, unityShadowCoord4(worldPos, 1)); \
+					fixed shadow = UNITY_SHADOW_ATTENUATION(input, worldPos); \
+					fixed destName = (lightCoord.z > 0) * shadow; \
+					o.WorldPos_LightCoords = lightCoord;	// o = SurfaceOutputCustom, avoid recalculating worldPos
+			#else
+				#define UNITY_LIGHT_ATTENUATION(destName, input, worldPos) \
+					unityShadowCoord4 lightCoord = mul(unity_WorldToLight, unityShadowCoord4(worldPos, 1)); \
+					fixed destName = (lightCoord.z > 0) * SHADOW_ATTENUATION(input); \
+					o.WorldPos_LightCoords = lightCoord;	// o = SurfaceOutputCustom, avoid recalculating worldPos
+			#endif
+		#endif
+	#endif
+///
+	//----------------------------------------------------------------------
+
+///
+/// IF LIGHTING_UNITY4
+		inline half4 LightingToonyColorsWater (inout SurfaceOutputWater s, half3 lightDir, half3 viewDir, half atten)
+/// ELSE
+		inline half4 LightingToonyColorsWater (inout SurfaceOutputWater s, half3 viewDir, UnityGI gi)
+///
+		{
+/// IF !LIGHTING_UNITY4
+			half3 lightDir = gi.light.dir;
+		#if defined(UNITY_PASS_FORWARDBASE)
+			half3 lightColor = _LightColor0.rgb;
+			half atten = s.atten;
+		#else
+			half3 lightColor = gi.light.color.rgb;
+			half atten = 1;
+		#endif
+/// ELSE
+			half3 lightColor = _LightColor0.rgb;
+///
+/// IF BYPASS_POINT_FALLOFF
+
+		#if POINT
+			float4 lightCoord = mul(unity_WorldToLight, s.WorldPos_LightCoords);
+			float lightFalloff = 1 - dot(lightCoord.xyz, lightCoord.xyz);
+		#endif
+///
+/// IF BYPASS_SPOT_FALLOFF
+
+		#if SPOT
+			float4 lightCoord = s.WorldPos_LightCoords;
+			float lightFalloff = 1 - dot(lightCoord.xyz, lightCoord.xyz);
+			//custom cookie so that it follows a 1D ramp instead of the built-in 2D circle texture
+			float2 cookieCoords = lightCoord.xy / lightCoord.w;
+			float rampCoords = saturate(1 - dot(cookieCoords, cookieCoords) * 4) * lightFalloff;
+		#endif
+///
+
+			s.Normal = normalize(s.Normal);			
+/// IF WRAPPED_LIGHTING
+			fixed ndl = max(0, dot(s.Normal, lightDir) * 0.5 + 0.5);
+/// ELIF WRAP_CUSTOM
+			fixed ndl = max(0, (dot(s.Normal, lightDir) + _WrapFactor) / (1+_WrapFactor));
+/// ELSE
+			fixed ndl = max(0, dot(s.Normal, lightDir));
+	///
+/// IF BYPASS_POINT_FALLOFF
+		#if POINT
+			ndl *= lightFalloff;
+		#endif
+///
+/// IF BYPASS_SPOT_FALLOFF 
+		#if SPOT
+			#define NDL	rampCoords
+		#else
+			#define NDL ndl
+		#endif
+/// ELSE
+			#define NDL ndl
+///
+/// IF TEXTURED_THRESHOLD
+			ndl += s.TexThreshold;
+///
+/// IF TEXTURE_RAMP
+#===============================================================================
+# TEXTURE RAMP
+#===============================================================================
+
+	/// IF RAMP_MAIN_OTHER
+		#if defined(UNITY_PASS_FORWARDBASE)
+			#define		RAMP_TEXTURE	_Ramp
+		#else
+			#define		RAMP_TEXTURE	_RampOtherLights
+		#endif
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+		#if defined(UNITY_PASS_FORWARDBASE)
+			#define		RAMP_TEXTURE	_Ramp
+		#else
+		  #if POINT
+			#define		RAMP_TEXTURE	_RampPoint
+		  #elif SPOT
+			#define		RAMP_TEXTURE	_RampSpot
+		  #else
+			#define		RAMP_TEXTURE	_RampDir
+		  #endif
+		#endif
+	/// ELSE
+			#define		RAMP_TEXTURE	_Ramp
+	///
+/// ELIF RGB_RAMP
+#===============================================================================
+# RGB RAMP
+#===============================================================================
+	/// IF RAMP_MAIN_OTHER
+		#if defined(UNITY_PASS_FORWARDBASE)
+			#define		RAMP_THRESHOLD	(1-_RampThresholdRGB.rgb)
+			#define		RAMP_SMOOTH		_RampSmooth.xxx
+		#else
+			#define		RAMP_THRESHOLD	(1-_RampThresholdOtherLightsRGB.rgb)
+			#define		RAMP_SMOOTH		_RampSmoothOtherLights.xxx
+		#endif
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+		#if defined(UNITY_PASS_FORWARDBASE)
+			#define		RAMP_THRESHOLD	(1-_RampThresholdRGB.rgb)
+			#define		RAMP_SMOOTH		_RampSmooth.xxx
+		#else
+		  #if POINT
+			#define		RAMP_THRESHOLD	(1-_RampThresholdPointRGB.rgb)
+			#define		RAMP_SMOOTH		_RampSmoothPoint.xxx
+		  #elif SPOT
+			#define		RAMP_THRESHOLD	(1-_RampThresholdSpotRGB.rgb)
+			#define		RAMP_SMOOTH		_RampSmoothSpot.xxx
+		  #else
+			#define		RAMP_THRESHOLD	(1-_RampThresholdDirRGB.rgb)
+			#define		RAMP_SMOOTH		_RampSmoothDir.xxx
+		  #endif
+		#endif
+	/// ELSE
+			#define		RAMP_THRESHOLD	(1-_RampThresholdRGB.rgb)
+			#define		RAMP_SMOOTH		_RampSmooth.xxx
+	///
+/// ELSE
+#===============================================================================
+# SLIDER RAMP
+#===============================================================================
+	/// IF RAMP_MAIN_OTHER
+		#if defined(UNITY_PASS_FORWARDBASE)
+			#define		RAMP_THRESHOLD	_RampThreshold
+			#define		RAMP_SMOOTH		_RampSmooth
+		#else
+			#define		RAMP_THRESHOLD	_RampThresholdOtherLights
+			#define		RAMP_SMOOTH		_RampSmoothOtherLights
+		#endif
+	/// ELIF RAMP_MAIN_LIGHTTYPE
+		#if defined(UNITY_PASS_FORWARDBASE)
+			#define		RAMP_THRESHOLD	_RampThreshold
+			#define		RAMP_SMOOTH		_RampSmooth
+		#else
+		  #if POINT
+			#define		RAMP_THRESHOLD	_RampThresholdPoint
+			#define		RAMP_SMOOTH		_RampSmoothPoint
+		  #elif SPOT
+			#define		RAMP_THRESHOLD	_RampThresholdSpot
+			#define		RAMP_SMOOTH		_RampSmoothSpot
+		  #else
+			#define		RAMP_THRESHOLD	_RampThresholdDir
+			#define		RAMP_SMOOTH		_RampSmoothDir
+		  #endif
+		#endif
+	/// ELSE
+			#define		RAMP_THRESHOLD	_RampThreshold
+			#define		RAMP_SMOOTH		_RampSmooth
+	///
+///
+
+/// IF TEXTURE_RAMP
+			fixed3 ramp = tex2D(RAMP_TEXTURE, fixed2(NDL,NDL)).rgb;
+/// ELSE
+			fixed3 ramp = smoothstep(RAMP_THRESHOLD - RAMP_SMOOTH*0.5, RAMP_THRESHOLD + RAMP_SMOOTH*0.5, NDL);
+///
+/// IF BYPASS_SPOT_FALLOFF
+		#if SPOT
+			ramp *= ndl;
+		#endif
+///
+/// IF BYPASS_POINT_FALLOFF
+		#if POINT
+			ramp *= step(0, lightFalloff);	//make sure to not exceed the point light circle range
+		#endif
+///
+/// IF !BYPASS_POINT_FALLOFF
+		#if !(POINT) && !(SPOT)
+///
+			ramp *= atten;
+/// IF !BYPASS_POINT_FALLOFF
+		#endif
+///
+/// IF SKETCH || SKETCH_GRADIENT
+			//Sketch
+			fixed sketch = tex2D(_SketchTex, s.ScreenUVs).a;
+	/// IF SKETCH_GRADIENT
+			sketch = smoothstep(sketch - 0.2, sketch, clamp(ramp, _SketchHalftoneMin, _SketchHalftoneMax));	//Gradient halftone
+	/// ELSE
+			sketch = lerp(sketch, 1, ramp);	//Regular sketch overlay
+	///
+///
+/// IF !ENABLE_SHADOW_2ND_LIGHTS
+		#if !defined(UNITY_PASS_FORWARDBASE)
+			_SColor = fixed4(0,0,0,1);
+		#endif
+///
+/// IF COLOR_MULTIPLIERS
+			_SColor = lerp(_HColor, _SColor, _SColor.a * _ShadowMultiplier);	//Shadows intensity through alpha
+			ramp = lerp(_SColor.rgb, _HColor.rgb * _HighlightMultiplier, ramp);
+/// ELSE
+			_SColor = lerp(_HColor, _SColor, _SColor.a);	//Shadows intensity through alpha
+			ramp = lerp(_SColor.rgb, _HColor.rgb, ramp);
+///
+			fixed4 c;
+			c.rgb = s.Albedo * lightColor.rgb * ramp;
+			c.a = s.Alpha;
+/// IF LIGHTING_UNITY4
+		#if (POINT || SPOT)
+			c.rgb *= atten;
+		#endif
+///
+/// IF SPECULAR
+			//Specular
+			half3 h = normalize(lightDir + viewDir);
+			float ndh = max(0, dot (s.Normal, h));
+			float spec = pow(ndh, (s.Specular+1e-4f)*128.0) * s.Gloss * 2.0;
+		/// IF SPECULAR_TOON
+			spec = smoothstep(0.5-_SpecSmooth*0.5, 0.5+_SpecSmooth*0.5, spec);
+		///
+			spec *= atten;
+			c.rgb += lightColor.rgb * _SpecColor.rgb * spec;
+///
+/// IF SUBSURFACE
+		#if (POINT || SPOT)
+			//Subsurface Scattering
+			half3 ssLight = lightDir + s.Normal * _SSDistortion;
+			half ssDot = pow(saturate(dot(viewDir, -ssLight)), _SSPower) * _SSScale;
+		  #if (POINT || SPOT)
+			half ssAtten = atten * 2;
+		  #else
+			half ssAtten = 1;
+		  #endif
+			//half3 ssColor = ssAtten * ((ssDot * _SSColor.rgb) + _SSAmbColor.rgb);
+			half3 ssColor = ssAtten * (ssDot * _SSColor.rgb);
+			ssColor.rgb *= lightColor.rgb;
+			c.rgb += ssColor;
+		#endif
+///
+/// IF SKETCH
+	/// IF SKETCH_COLORBURN
+			c.rgb = max((1.0 - ((1.0 - c.rgb) / sketch)), 0.0);
+	/// ELSE
+			c.rgb *= sketch;
+	///
+/// ELIF SKETCH_GRADIENT
+			c.rgb *= lerp(_SketchColor.rgb, fixed3(1,1,1), sketch);
+///
+/// IF !LIGHTING_UNITY4
+
+		#ifdef UNITY_LIGHT_FUNCTION_APPLY_INDIRECT
+			c.rgb += s.Albedo * gi.indirect.diffuse;
+		#endif
+///
+			return c;
+		}
+/// IF !LIGHTING_UNITY4
+
+		void LightingToonyColorsWater_GI(inout SurfaceOutputWater s, UnityGIInput data, inout UnityGI gi)
+		{
+			gi = UnityGlobalIllumination(data, 1.0, s.Normal);
+
+			gi.light.color = _LightColor0.rgb;	//remove attenuation
+			s.atten = data.atten;	//transfer attenuation to lighting function
+		}
+///
+
+		//================================================================
+		// VERTEX FUNCTION
+
+/// IF (SKETCH || SKETCH_GRADIENT) && !NO_SKETCH_OFFSET
+	//Adjust screen UVs relative to object to prevent screen door effect
+	inline void ObjSpaceUVOffset(inout float2 screenUV, in float screenRatio)
+	{
+		// UNITY_MATRIX_P._m11 = Camera FOV
+		float4 objPos = float4(-UNITY_MATRIX_T_MV[3].x * screenRatio * UNITY_MATRIX_P._m11, -UNITY_MATRIX_T_MV[3].y * UNITY_MATRIX_P._m11, UNITY_MATRIX_T_MV[3].z, UNITY_MATRIX_T_MV[3].w);
+
+		float offsetFactorX = 0.5;
+		float offsetFactorY = offsetFactorX * screenRatio;
+	/// IF !SKETCH_VERTEX
+		offsetFactorX *= _SketchTex_ST.x;
+		offsetFactorY *= _SketchTex_ST.y;
+	///
+
+		if (unity_OrthoParams.w < 1)	//don't scale with orthographic camera
+		{
+			//adjust uv scale
+			screenUV -= float2(offsetFactorX, offsetFactorY);
+			screenUV *= objPos.z;	//scale with cam distance
+			screenUV += float2(offsetFactorX, offsetFactorY);
+
+			// sign(UNITY_MATRIX_P[1].y) is different in Scene and Game views
+			screenUV.x -= objPos.x * offsetFactorX * sign(UNITY_MATRIX_P[1].y);
+			screenUV.y -= objPos.y * offsetFactorY * sign(UNITY_MATRIX_P[1].y);
+		}
+		else
+		{
+			// sign(UNITY_MATRIX_P[1].y) is different in Scene and Game views
+			screenUV.x += objPos.x * offsetFactorX * sign(UNITY_MATRIX_P[1].y);
+			screenUV.y += objPos.y * offsetFactorY * sign(UNITY_MATRIX_P[1].y);
+		}
+	}
+///
+/// IF DIRAMBIENT
+		fixed4 _TCP2_AMBIENT_RIGHT;
+		fixed4 _TCP2_AMBIENT_LEFT;
+		fixed4 _TCP2_AMBIENT_TOP;
+		fixed4 _TCP2_AMBIENT_BOTTOM;
+		fixed4 _TCP2_AMBIENT_FRONT;
+		fixed4 _TCP2_AMBIENT_BACK;
+
+		half3 DirAmbient (half3 normal)
+		{
+			fixed3 retColor =
+				saturate( normal.x * _TCP2_AMBIENT_LEFT) +
+				saturate(-normal.x * _TCP2_AMBIENT_RIGHT) +
+				saturate( normal.y * _TCP2_AMBIENT_TOP) +
+				saturate(-normal.y * _TCP2_AMBIENT_BOTTOM) +
+				saturate( normal.z * _TCP2_AMBIENT_FRONT) +
+				saturate(-normal.z * _TCP2_AMBIENT_BACK);
+			return retColor * UNITY_LIGHTMODEL_AMBIENT.a;
+		}
+///
+
+		struct appdata_tcp2
+		{
+			float4 vertex : POSITION;
+			float3 normal : NORMAL;
+			float4 texcoord : TEXCOORD0;
+			float4 texcoord1 : TEXCOORD1;
+			float4 texcoord2 : TEXCOORD2;
+/// IF !NORMAL_MAP
+	#if !defined(LIGHTMAP_OFF) && defined(DIRLIGHTMAP_COMBINED)
+///
+			float4 tangent : TANGENT;
+/// IF !NORMAL_MAP
+	#endif
+///
+/// IF USE_VERTEX_COLORS
+			float4 color : COLOR;
+///
+	#if UNITY_VERSION >= 550
+			UNITY_VERTEX_INPUT_INSTANCE_ID
+	#endif
+		};
+
+/// IF CUSTOM_TIME
+			#define TIME unityTime
+/// ELSE
+			#define TIME (_Time.y)
+///
+
+		void vert(inout appdata_tcp2 v, out Input o)
+		{
+			UNITY_INITIALIZE_OUTPUT(Input, o);
+
+			//Main texture UVs
+/// IF USE_WORLDPOS_IN_VERTEX
+			float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+	/// IF REFLECTION_PROBES
+			o.wPos = worldPos;
+	///
+///
+/// IF WORLDSPACE_UV
+	/// IF SECOND_TEX
+			float4 mainTexcoords = worldPos.xzxz * 0.1;
+	/// ELSE
+			float2 mainTexcoords = worldPos.xz * 0.1;
+	///
+/// ELSE
+	/// IF SECOND_TEX
+			half4 mainTexcoords = v.texcoord.xyxy;
+	/// ELSE
+			half2 mainTexcoords = v.texcoord.xy;
+	///
+///
+/// IF UV_SCROLLING
+			mainTexcoords.xy += half2(_UVScrollingX, _UVScrollingY) * TIME * 0.1;
+	/// IF SECOND_TEX
+			mainTexcoords.zw += half2(_UVScrolling2X, _UVScrolling2Y) * TIME * 0.1;
+	///
+///
+			o.texcoord.xy = TRANSFORM_TEX(mainTexcoords.xy, _MainTex);
+/// IF SECOND_TEX
+			o.texcoord.zw = TRANSFORM_TEX(mainTexcoords.zw, _MainTex2);
+///
+/// IF DEPTH_BUFFER_FOAM && UV_FOAM
+			o.foam_texcoord.xy = TRANSFORM_TEX(mainTexcoords.xy, _FoamTex);
+///
+/// IF NORMAL_MAP
+			o.bump_texcoord = mainTexcoords.xy + TIME.xx * _BumpSpeed.xy * 0.1;
+///
+/// IF UV_SIN_WAVES
+	/// IF SECOND_TEX && USW_SECOND_TEX
+			half4 x;
+			x.xy = ((v.vertex.xy+v.vertex.yz) * _UVWaveFrequency) + (TIME.xx * _UVWaveSpeed);
+			x.zw = ((v.vertex.xy+v.vertex.yz) * _UVWaveFrequency2) + (TIME.xx * _UVWaveSpeed2);
+	/// ELSE
+			half2 x = ((v.vertex.xy+v.vertex.yz) * _UVWaveFrequency) + (TIME.xx * _UVWaveSpeed);
+	///
+	/// IF !VERTEX_USW
+			o.sinAnim = x;
+	/// ELSE
+		/// IF SECOND_TEX && USW_SECOND_TEX
+			half4 uvDistort;
+			uvDistort.xy = ((sin(0.9*x) + sin(1.33*x+3.14) + sin(2.4*x+5.3))/3) * _UVWaveAmplitude; 
+			uvDistort.zw = ((sin(2.7*x) + sin(0.8*x+2.21) + sin(1.2*x+1.8))/3) * _UVWaveAmplitude2; 
+			o.texcoord.zw += uvDistort.zw;
+		/// ELSE
+			half2 uvDistort = ((sin(0.9*x) + sin(1.33*x+3.14) + sin(2.4*x+5.3))/3) * _UVWaveAmplitude; 
+		///
+			o.texcoord.xy += uvDistort.xy;
+		/// IF USW_NORMAL
+			o.bump_texcoord.xy += uvDistort.xy;
+		///
+	///
+///
+/// IF VERTEX_SIN_WAVES
+			//vertex waves
+	/// IF VSW_WORLDPOS
+			float3 _pos = worldPos.xyz * _WaveFrequency;
+	/// ELSE
+			float3 _pos = v.vertex.xyz * _WaveFrequency;
+	///
+			float _phase = TIME * _WaveSpeed;
+	/// IF VSW_2
+			half4 vsw_offsets = half4(1.0, 2.2, 0.6, 1.3);
+			half4 vsw_ph_offsets = half4(1.0, 1.3, 2.2, 0.4);
+			half4 waveXZ = sin((_pos.xxzz * vsw_offsets) + (_phase.xxxx * vsw_ph_offsets));
+			// float waveFactorX = (waveXZ.x + waveXZ.y) * _WaveHeight / 2;
+			// float waveFactorZ = (waveXZ.z + waveXZ.w) * _WaveHeight / 2;
+			float waveFactorX = dot(waveXZ.xy, 1) * _WaveHeight / 2;
+			float waveFactorZ = dot(waveXZ.zw, 1) * _WaveHeight / 2;
+	/// ELIF VSW_4
+			half4 vsw_offsets_x = half4(1.0, 2.2, 2.7, 3.4);
+			half4 vsw_ph_offsets_x = half4(1.0, 1.3, 0.7, 1.75);
+			half4 vsw_offsets_z = half4(0.6, 1.3, 3.1, 2.4);
+			half4 vsw_ph_offsets_z = half4(2.2, 0.4, 3.3, 2.9);
+			half4 waveX = sin((_pos.xxxx * vsw_offsets_x) + (_phase.xxxx * vsw_ph_offsets_x));
+			half4 waveZ = sin((_pos.zzzz * vsw_offsets_z) + (_phase.xxxx * vsw_ph_offsets_z));
+			// float waveFactorX = (waveX.x + waveX.y + waveX.z + waveX.w) * _WaveHeight / 4;
+			// float waveFactorZ = (waveZ.x + waveZ.y + waveZ.z + waveZ.w) * _WaveHeight / 4;
+			float waveFactorX = dot(waveX.xyzw, 1) * _WaveHeight / 4;
+			float waveFactorZ = dot(waveZ.xyzw, 1) * _WaveHeight / 4;
+	/// ELIF VSW_8
+			half4 vsw_offsets_x = half4(1.0, 2.2, 2.7, 3.4);
+			half4 vsw_ph_offsets_x = half4(1.0, 1.3, 0.7, 1.75);
+			half4 vsw_offsets_z = half4(0.6, 1.3, 3.1, 2.4);
+			half4 vsw_ph_offsets_z = half4(2.2, 0.4, 3.3, 2.9);
+
+			half4 vsw_offsets_x2 = half4(1.4, 1.8, 4.2, 3.6);
+			half4 vsw_ph_offsets_x2 = half4(0.2, 2.6, 0.7, 3.1);
+			half4 vsw_offsets_z2 = half4(1.1, 2.8, 1.7, 4.3);
+			half4 vsw_ph_offsets_z2 = half4(0.5, 4.8, 3.1, 2.3);
+
+			half4 waveX = sin((_pos.xxxx * vsw_offsets_x) + (_phase.xxxx * vsw_ph_offsets_x));
+			half4 waveZ = sin((_pos.zzzz * vsw_offsets_z) + (_phase.xxxx * vsw_ph_offsets_z));
+			half4 waveX2 = sin((_pos.xxxx * vsw_offsets_x2) + (_phase.xxxx * vsw_ph_offsets_x2));
+			half4 waveZ2 = sin((_pos.zzzz * vsw_offsets_z2) + (_phase.xxxx * vsw_ph_offsets_z2));
+
+			float waveFactorX = (dot(waveX.xyzw, 1) + dot(waveX2.xyzw, 1)) * _WaveHeight / 8;
+			float waveFactorZ = (dot(waveZ.xyzw, 1) + dot(waveZ2.xyzw, 1)) * _WaveHeight / 8;
+	/// ELSE
+			float waveFactorX = sin(_pos.x + _phase) * _WaveHeight;
+			float waveFactorZ = sin(_pos.z + _phase) * _WaveHeight;
+	///
+	/// IF VSW_VCOLOR_R
+		#define VSW_STRENGTH v.color.r
+	/// ELIF VSW_VCOLOR_G
+		#define VSW_STRENGTH v.color.g
+	/// ELIF VSW_VCOLOR_B
+		#define VSW_STRENGTH v.color.b
+	/// ELIF VSW_VCOLOR_A
+		#define VSW_STRENGTH v.color.a
+	/// ELSE
+		#define VSW_STRENGTH 1
+	///
+	/// IF VSW_FOLLOWNORM
+			v.vertex.xyz += v.normal.xyz * (waveFactorX + waveFactorZ) * VSW_STRENGTH;
+	/// ELIF VSW_AXIS_Z
+			v.vertex.z += (waveFactorX + waveFactorZ) * VSW_STRENGTH;
+	/// ELIF VSW_AXIS_X
+			v.vertex.x += (waveFactorX + waveFactorZ) * VSW_STRENGTH;
+	/// ELSE
+			v.vertex.y += (waveFactorX + waveFactorZ) * VSW_STRENGTH;
+	///
+	/// IF VERTEX_SIN_NORMALS
+		/// IF VSW_2
+			half4 waveXZn = cos((_pos.xxzz * vsw_offsets) + (_phase.xxxx * vsw_ph_offsets)) * (vsw_offsets / 2);
+			float xn = -_WaveHeight * (waveXZn.x + waveXZn.y);
+			float zn = -_WaveHeight * (waveXZn.z + waveXZn.w);
+		/// ELIF VSW_4
+			half4 waveXn = cos((_pos.xxxx * vsw_offsets_x) + (_phase.xxxx * vsw_ph_offsets_x)) * vsw_offsets_x;
+			half4 waveZn = cos((_pos.zzzz * vsw_offsets_z) + (_phase.xxxx * vsw_ph_offsets_z)) * vsw_offsets_z;
+			float xn = -_WaveHeight * (waveXn.x + waveXn.y + waveXn.z + waveXn.w) / 4;
+			float zn = -_WaveHeight * (waveZn.x + waveZn.y + waveZn.z + waveZn.w) / 4;
+		/// ELIF VSW_8
+			half4 waveXn = cos((_pos.xxxx * vsw_offsets_x) + (_phase.xxxx * vsw_ph_offsets_x)) * vsw_offsets_x;
+			half4 waveZn = cos((_pos.zzzz * vsw_offsets_z) + (_phase.xxxx * vsw_ph_offsets_z)) * vsw_offsets_z;
+			half4 waveX2n = cos((_pos.xxxx * vsw_offsets_x2) + (_phase.xxxx * vsw_ph_offsets_x2)) * vsw_offsets_x2;
+			half4 waveZ2n = cos((_pos.zzzz * vsw_offsets_z2) + (_phase.xxxx * vsw_ph_offsets_z2)) * vsw_offsets_z2;
+			float xn = -_WaveHeight * (waveXn.x + waveXn.y + waveXn.z + waveXn.w + waveX2n.x + waveX2n.y + waveX2n.z + waveX2n.w) / 8;
+			float zn = -_WaveHeight * (waveZn.x + waveZn.y + waveZn.z + waveZn.w + waveZ2n.x + waveZ2n.y + waveZ2n.z + waveZ2n.w) / 8;
+		/// ELSE
+			float xn = -_WaveHeight * cos(_pos.x + _phase);
+			float zn = -_WaveHeight * cos(_pos.z + _phase);
+		///
+			v.normal = normalize(float3(xn, 1, zn));
+	///
+///
+/// IF USE_POS
+			float4 pos = UnityObjectToClipPos(v.vertex);
+///
+/// IF USE_SCREENPOS
+			o.sPos = ComputeScreenPos(pos);
+///
+/// IF SKETCH || SKETCH_GRADIENT
+
+			//SKETCH
+	/// IF SKETCH_VERTEX
+		/// IF USE_SCREENPOS
+			float4 screenPos = o.sPos;
+		/// ELSE
+			float4 screenPos = ComputeScreenPos(pos);
+		///
+			float2 screenUV = screenPos.xy / screenPos.w;
+			float screenRatio = _ScreenParams.y / _ScreenParams.x;
+			screenUV.y *= screenRatio;
+		/// IF !NO_SKETCH_OFFSET
+			ObjSpaceUVOffset(screenUV, screenRatio);
+		///
+			o.sketchUv = screenUV;
+	/// ELSE
+			o.sketchUv = o.sPos;
+	///
+			o.sketchUv.xy = TRANSFORM_TEX(o.sketchUv, _SketchTex);
+
+	/// IF SKETCH_VERTEX && SKETCH_ANIM
+			half2 random = round(half2(_Time.z, -_Time.x) * _SketchSpeed) / _SketchSpeed;
+			o.sketchUv.xy += random.xy;
+	///
+///
+/// IF USE_NdotV
+			float3 viewDir = normalize(ObjSpaceViewDir(v.vertex));
+			o.ndv = saturate(dot(viewDir, v.normal));
+///
+/// IF USE_DEPTH_BUFFER || GRAB_PASS
+	/// IF USE_DEPTH_BUFFER
+			COMPUTE_EYEDEPTH(o.sPos.z);
+	///
+	/// IF GRAB_PASS
+			o.grabPos = ComputeGrabScreenPos(pos);
+	///
+///
+/// IF DIRAMBIENT
+			float3 worldN = mul((float3x3)unity_ObjectToWorld, v.normal);
+	/// IF DIRAMBIENT_VIEW
+			worldN = mul(UNITY_MATRIX_V, worldN);
+	///
+			o.ambient = DirAmbient(worldN);
+///
+		}
+
+		//================================================================
+		// SURFACE FUNCTION
+
+/// IF VCOLORS_MASK
+	#define vcolors IN.color
+
+///
+		void surf(Input IN, inout SurfaceOutputWater o)
+		{
+/// IF UV_SIN_WAVES && !VERTEX_USW
+
+		/// IF SECOND_TEX && USW_SECOND_TEX
+			half4 uvDistort;
+			uvDistort.xy = ((sin(0.9*IN.sinAnim.xy) + sin(1.33*IN.sinAnim.xy+3.14) + sin(2.4*IN.sinAnim.xy+5.3))/3) * _UVWaveAmplitude; 
+			uvDistort.zw = ((sin(2.7*IN.sinAnim.zw) + sin(0.8*IN.sinAnim.zw+2.21) + sin(1.2*IN.sinAnim.zw+1.8))/3) * _UVWaveAmplitude2; 
+			IN.texcoord.zw += uvDistort.zw;
+		/// ELSE
+			half2 uvDistort = ((sin(0.9*IN.sinAnim.xy) + sin(1.33*IN.sinAnim.xy+3.14) + sin(2.4*IN.sinAnim.xy+5.3))/3) * _UVWaveAmplitude;
+		///
+			IN.texcoord.xy += uvDistort.xy;
+///
+/// IF MASK1
+	/// IF UVMASK1
+			fixed4 mask1 = tex2D(_Mask1, IN.uv_Mask1);
+	/// ELSE
+			fixed4 mask1 = tex2D(_Mask1, IN.texcoord.xy);
+	///
+///
+/// IF MASK2
+	/// IF UVMASK2
+			fixed4 mask2 = tex2D(_Mask2, IN.uv_Mask2);
+	/// ELSE
+			fixed4 mask2 = tex2D(_Mask2, IN.texcoord.xy);
+	///
+///
+/// IF MASK3
+	/// IF UVMASK3
+			fixed4 mask3 = tex2D(_Mask3, IN.uv_Mask3);
+	/// ELSE
+			fixed4 mask3 = tex2D(_Mask3, IN.texcoord.xy);
+	///
+///
+/// IF WIGGLE_MAP
+			//Wiggle map
+			fixed4 wiggle = tex2D(_WiggleMap, IN.uv_WiggleMap + TIME.xx * 0.05);
+			IN.texcoord.xy += wiggle.rb * 0.1;
+			IN.sPos.xy += wiggle.rb * 0.1;
+///
+/// IF NORMAL_MAP
+	/// IF UV_SIN_WAVES && !VERTEX_USW && USW_NORMAL
+			IN.bump_texcoord.xy += uvDistort.xy;
+	///
+			half3 normal = UnpackScaleNormal(tex2D(_BumpMap, IN.bump_texcoord.xy * _BumpMap_ST.xx), _BumpScale).rgb;
+			half3 normal2 = UnpackScaleNormal(tex2D(_BumpMap, IN.bump_texcoord.xy * _BumpMap_ST.yy + TIME.xx * _BumpSpeed.zw  * 0.1), _BumpScale).rgb;
+			normal = (normal+normal2)/2;
+			o.Normal = normal;
+	/// IF USE_DEPTH_BUFFER && NORMAL_MAP_DEPTH
+			IN.sPos.xy += normal.rg * _NormalDepthInfluence;
+	///
+///
+/// IF USE_NdotV
+			half ndv = IN.ndv;
+/// ELIF USE_NdotV_FRAGMENT
+	/// IF NORMAL_MAP
+			half ndv = dot(IN.viewDir, normal);
+	/// ELSE
+			half ndv = saturate( dot(IN.viewDir, o.Normal) );
+	///
+///
+			fixed4 mainTex = tex2D(_MainTex, IN.texcoord.xy);
+/// IF SECOND_TEX
+			mainTex = (mainTex + tex2D(_MainTex2, IN.texcoord.zw)) / 2;
+///
+/// IF VCOLORS
+
+			//Vertex Colors
+			float4 vertexColors = IN.color;
+	/// IF VCOLORS_LINEAR
+		#if UNITY_VERSION >= 550
+		  #ifndef UNITY_COLORSPACE_GAMMA
+			vertexColors.rgb = GammaToLinearSpace(vertexColors.rgb);
+		  #endif
+		#else
+			vertexColors.rgb = IsGammaSpace() ? vertexColors.rgb : GammaToLinearSpace(vertexColors.rgb);
+		#endif
+	///
+			mainTex *= vertexColors;
+///
+/// IF USE_DEPTH_BUFFER
+			float sceneZ = SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(IN.sPos));
+			if(unity_OrthoParams.w > 0)
+			{
+				//orthographic camera
+			#if defined(UNITY_REVERSED_Z)
+				sceneZ = 1.0f - sceneZ;
+			#endif
+				sceneZ = (sceneZ * _ProjectionParams.z) + _ProjectionParams.y;
+			}
+			else
+				//perspective camera
+				sceneZ = LinearEyeDepth(sceneZ);
+			float partZ = IN.sPos.z;
+			float depthDiff = abs(sceneZ - partZ);
+	/// IF DEPTH_VIEW_CORRECTION
+			depthDiff *= ndv * 2;
+	///
+///
+/// IF DEPTH_BUFFER_FOAM
+			//Depth-based foam
+	/// IF UV_FOAM
+			half2 foamUV = IN.foam_texcoord.xy;
+	/// ELSE
+			half2 foamUV = IN.texcoord.xy;
+	///
+	/// IF WIGGLE_MAP
+			foamUV.xy += TIME.xx*_FoamSpeed.xy*0.05 + (wiggle.rb * 0.1);
+			fixed4 foam = tex2D(_FoamTex, foamUV);
+			foamUV.xy += TIME.xx*_FoamSpeed.zw*0.05  + (wiggle.rb * 0.1);
+			fixed4 foam2 = tex2D(_FoamTex, foamUV);
+	/// ELSE
+			foamUV.xy += TIME.xx*_FoamSpeed.xy*0.05;
+			fixed4 foam = tex2D(_FoamTex, foamUV);
+			foamUV.xy += TIME.xx*_FoamSpeed.zw*0.05;
+			fixed4 foam2 = tex2D(_FoamTex, foamUV);
+	///
+			foam = (foam + foam2) / 2;
+			float foamDepth = saturate(_FoamSpread * depthDiff);
+	/// IF SMOOTH_FOAM
+			half foamTerm = (smoothstep(foam.r - _FoamSmooth, foam.r + _FoamSmooth, saturate(_FoamStrength - foamDepth)) * saturate(1 - foamDepth)) * _FoamColor.a;
+	/// ELSE
+			half foamTerm = (step(foam.rgb, saturate(_FoamStrength - foamDepth)) * saturate(_FoamStrength - foamDepth)) * _FoamColor.a;
+	///
+///
+/// IF DEPTH_BUFFER_COLOR
+			//Alter color based on depth buffer (soft particles technique)
+			mainTex.rgb = lerp(_DepthColor.rgb, mainTex.rgb, saturate(_DepthDistance * depthDiff));	//N.V corrects the result based on view direction (depthDiff tends to not look consistent depending on view angle)));
+///
+/// IF COLORMASK
+	/// IF COLORMASK_SEPARATE
+			_Color.rgb = lerp(_Color.rgb, _MaskedColor.rgb, @%COLORMASK%@@%COLORMASK_CHANNEL%@);
+	/// ELSE
+			_Color = lerp(fixed4(1,1,1,1), _Color, @%COLORMASK%@@%COLORMASK_CHANNEL%@);
+	///
+///
+/// IF CULL_OFF && CULL_BACKFACE_COLOR
+			_Color = lerp(_BackColor, _Color, saturate(IN.vFace));
+///
+/// IF DEPTH_BUFFER_FOAM && NO_FOAM_BACKFACE
+			foamTerm *= saturate(IN.vFace);
+///
+/// IF DEPTH_BUFFER_FOAM
+			o.Albedo = lerp(mainTex.rgb * _Color.rgb, _FoamColor.rgb, foamTerm);
+/// ELSE
+			o.Albedo = mainTex.rgb * _Color.rgb;
+///
+/// IF DEPTH_BUFFER_ALPHA && ALPHA
+			_Color.a *= saturate((_DepthAlpha * depthDiff) + _DepthMinAlpha);
+///
+/// IF ALPHA_NO_MAINTEX && ALPHA_NO_COLOR
+			o.Alpha = 1;
+/// ELIF ALPHA_NO_MAINTEX
+			o.Alpha = _Color.a;
+/// ELIF ALPHA_NO_COLOR
+			o.Alpha = mainTex.a;
+/// ELSE
+			o.Alpha = mainTex.a * _Color.a;
+///
+/// IF DEPTH_BUFFER_FOAM
+			o.Alpha = lerp(o.Alpha, _FoamColor.a, foamTerm);
+///
+/// IF GRAB_PASS
+	/// IF NORMAL_MAP
+			IN.grabPos.xy += normal.rg;
+	///
+			half4 grab = tex2Dproj(_GrabTexture, IN.grabPos);
+			o.Albedo = lerp(o.Albedo, grab.rgb, 1-o.Alpha);
+///
+/// IF SKETCH || SKETCH_GRADIENT
+			//Sketch
+	/// IF SKETCH_VERTEX
+			o.ScreenUVs = IN.sketchUv;
+	/// ELSE
+			float2 screenUV = IN.sketchUv.xy / IN.sketchUv.w;
+			float screenRatio = _ScreenParams.y / _ScreenParams.x;
+			screenUV.y *= screenRatio;
+		/// IF !NO_SKETCH_OFFSET
+			ObjSpaceUVOffset(screenUV, screenRatio);
+		///
+		/// IF !SKETCH_VERTEX && SKETCH_ANIM
+			half2 random = round(half2(_Time.z, -_Time.x) * _SketchSpeed) / _SketchSpeed;
+			screenUV.xy += random.xy;
+		///
+			o.ScreenUVs = screenUV;
+	///
+///
+/// IF SPECULAR || SPECULAR_ANISOTROPIC
+	/// IF SPEC_SHIN_MASK
+			_Shininess *= @%SPEC_SHIN_MASK%@@%SPEC_SHIN_MASK_CHANNEL%@;
+	///
+			//Specular
+	/// IF SPECULAR_MASK
+			o.Gloss = @%SPEC_MASK%@@%SPEC_MASK_CHANNEL%@;
+	/// ELSE
+			o.Gloss = 1;
+	///
+			o.Specular = _Shininess;
+///
+/// IF RIM
+			//Rim
+			half3 rim = smoothstep(_RimMax, _RimMin, 1-Pow4(1-ndv)) * _RimColor.rgb * _RimColor.a;
+	/// IF RIM_MASK
+			rim *= @%RIM_MASK%@@%RIM_MASK_CHANNEL%@;
+	///
+			o.Emission += rim.rgb;
+///
+/// IF EMISSION || EMISSION_COLOR
+	/// IF EMISSION
+		/// IF EMISSION_COLOR
+			half3 emissionCol = mainTex.rgb * (@%EMISSION_MASK%@@%EMISSION_MASK_CHANNEL%@ * _EmissionColor.a) * _EmissionColor.rgb;
+		/// ELSE
+			half3 emissionCol = mainTex.rgb * @%EMISSION_MASK%@@%EMISSION_MASK_CHANNEL%@;
+		///
+	/// ELIF EMISSION_COLOR
+			half3 emissionCol = _EmissionColor.rgb;
+	///
+	/// IF EMISSION_PULSE
+		/// IF EM_PULSE_MASK
+			emissionCol *= lerp(_EmisPulseMin, 1, sin((TIME + @%EM_PULSE_MASK%@@%EM_PULSE_MASK_CHANNEL%@ * @%EM_PULSE_MULT%@) * _EmisPulseSpeed)*0.5+0.5);
+		/// ELSE
+			emissionCol *= lerp(_EmisPulseMin, 1, sin(TIME * _EmisPulseSpeed)*0.5+0.5);
+		///
+	///
+			o.Emission += emissionCol;
+///
+/// IF REFLECTION_PROBES
+			half3 eyeVec = IN.wPos.xyz - _WorldSpaceCameraPos.xyz;
+		/// IF NORMAL_MAP
+			half3 worldNormal = reflect(eyeVec, WorldNormalVector(IN, o.Normal));
+		/// ELSE
+			half3 worldNormal = reflect(eyeVec, IN.worldNormal);
+		///
+			fixed3 reflColor = fixed3(0,0,0);
+		#if UNITY_SPECCUBE_BOX_PROJECTION
+			half3 worldNormal0 = BoxProjectedCubemapDirection (worldNormal, IN.wPos, unity_SpecCube0_ProbePosition, unity_SpecCube0_BoxMin, unity_SpecCube0_BoxMax);
+		#else
+			half3 worldNormal0 = worldNormal;
+		#endif
+			half3 env0 = Unity_GlossyEnvironment (UNITY_PASS_TEXCUBE(unity_SpecCube0), unity_SpecCube0_HDR, worldNormal0, _ReflRoughness);
+
+		#if UNITY_SPECCUBE_BLENDING
+			const float kBlendFactor = 0.99999;
+			float blendLerp = unity_SpecCube0_BoxMin.w;
+			UNITY_BRANCH
+			if (blendLerp < kBlendFactor)
+			{
+			#if UNITY_SPECCUBE_BOX_PROJECTION
+				half3 worldNormal1 = BoxProjectedCubemapDirection (worldNormal, IN.wPos, unity_SpecCube1_ProbePosition, unity_SpecCube1_BoxMin, unity_SpecCube1_BoxMax);
+			#else
+				half3 worldNormal1 = worldNormal;
+			#endif
+
+		/// IF UNITY_5_4
+				half3 env1 = Unity_GlossyEnvironment (UNITY_PASS_TEXCUBE_SAMPLER(unity_SpecCube1,unity_SpecCube0), unity_SpecCube1_HDR, worldNormal1, _ReflRoughness);
+		/// ELSE
+				half3 env1 = Unity_GlossyEnvironment (UNITY_PASS_TEXCUBE(unity_SpecCube1), unity_SpecCube1_HDR, worldNormal1, 1-oneMinusRoughness);
+		///
+				reflColor = lerp(env1, env0, blendLerp);
+			}
+			else
+			{
+				reflColor = env0;
+			}
+		#else
+			reflColor = env0;
+		#endif
+			reflColor *= 0.5;
+/// ELIF REFLECTION_CUBEMAP
+	/// IF NORMAL_MAP
+			half3 worldRefl = WorldReflectionVector(IN, o.Normal);
+	/// ELSE
+			half3 worldRefl = IN.worldRefl;
+	///
+	/// IF REFL_ROUGH
+			fixed4 reflColor = texCUBElod(_Cube, half4(worldRefl.xyz, _ReflRoughness));
+	/// ELSE
+			fixed4 reflColor = texCUBE(_Cube, worldRefl);
+	///
+/// ELIF PLANAR_REFLECTION
+			fixed4 reflColor = tex2Dproj(_ReflectionTex, UNITY_PROJ_COORD(IN.sPos));
+///
+/// IF REFLECTION_PROBES || REFLECTION_CUBEMAP || PLANAR_REFLECTION
+	/// IF REFL_MASK
+			reflColor *= @%REFL_MASK%@@%REFL_MASK_CHANNEL%@;
+	///
+	/// IF REFL_COLOR
+			reflColor.rgb *= _ReflectColor.rgb;
+	///
+			o.Emission += reflColor.rgb * _ReflStrength;
+///
+/// IF TEXTURED_THRESHOLD
+			//TEXTURED THRESHOLD
+			o.TexThreshold = tex2D(_ThresholdTex, IN.uv_ThresholdTex).a - 0.5;
+///
+/// IF CUSTOM_AMBIENT
+#ifdef FORWARD_BASE
+	/// IF CUBE_AMBIENT
+			//Ambient Cubemap
+			fixed4 cubeAmbient = texCUBE(_AmbientCube, IN.worldNormal);
+	///
+	/// IF CUBE_AMBIENT
+			o.Emission += o.Albedo * cubeAmbient.rgb * UNITY_LIGHTMODEL_AMBIENT.a;
+	/// ELIF DIRAMBIENT
+			o.Emission += IN.ambient;
+	///
+#endif
+///
+		}
+
+		ENDCG
+
+	}
+
+	//Fallback "Diffuse"
+	CustomEditor "TCP2_MaterialInspector_SG"
+}

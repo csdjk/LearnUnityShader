@@ -1,0 +1,227 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Rim Lighting
+
+#FEATURES
+mult	lbl="Rim Effects"				kw=Off|,Rim Lighting|RIM,Rim Outline|RIM_OUTLINE		help="featuresreference/lighting/rimeffects"		tt="Rim effects (e.g. fake light coming from behind the model)"
+sngl	lbl="Vertex Rim"				kw=RIM_VERTEX															needsOr=RIM,RIM_OUTLINE	indent		tt="Compute rim lighting per-vertex (faster but inaccurate)"
+sngl	lbl="Directional Rim"			kw=RIM_DIR																needsOr=RIM,RIM_OUTLINE	indent		tt="Allows you to control the direction of the rim effect"
+sngl	lbl="Perspective Correction"	kw=RIM_DIR_PERSP_CORRECTION								needs=RIM_DIR	needsOr=RIM,RIM_OUTLINE	indent=2	tt="Will try to correct the directional rim calculation so that the effect isn't offset when the objects are  near the sides of the screen"
+sngl	lbl="Light-based Mask"		kw=RIM_LIGHTMASK														needs=RIM				indent		tt="Will make rim be influenced by nearby lights"
+sngl	lbl="Make Optional"			kw=RIM_SHADER_FEATURE													needsOr=RIM,RIM_OUTLINE	indent		tt="Will make the rim lighting/outline optional in the material inspector, using a shader keyword"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF RIM || RIM_OUTLINE
+	header			Rim Lighting
+		color		Rim Color		lighting, imp(color, label = "Rim Color", default = (0.8, 0.8, 0.8, 0.5))
+		float		Rim Strength	lighting, imp(constant, default = 1.0)
+	/// IF RIM_VERTEX
+		float		Rim Min Vert	vertex, imp(range, label = "Rim Min", default = 0.5, min = 0, max = 2)
+		float		Rim Max Vert	vertex, imp(range, label = "Rim Max", default = 1.0, min = 0, max = 2)
+		/// IF RIM_DIR
+		float3		Rim Dir Vert	vertex, imp(vector, label = "Rim Direction", default = (0,0,1,1))
+		///
+	/// ELSE
+		float		Rim Min			lighting, imp(range, label = "Rim Min", default = 0.5, min = 0, max = 2)
+		float		Rim Max			lighting, imp(range, label = "Rim Max", default = 1.0, min = 0, max = 2)
+		/// IF RIM_DIR
+		float3		Rim Dir			lighting, imp(vector, label = "Rim Direction", default = (0,0,1,1))
+		///
+	///
+		float		Rim Term		lighting, label = "Rim Term", imp(hook, label = "rim"), help = "The calculated raw rim term, i.e. dot(Normal, View)"
+///
+#END
+
+//================================================================
+
+#KEYWORDS
+/// IF RIM
+	set_keyword		RIM_LABEL	Rim Lighting
+/// ELIF RIM_OUTLINE
+	set_keyword		RIM_LABEL	Rim Outline
+///
+
+/// IF RIM || RIM_OUTLINE
+#With rim direction, we have to manually calculate NDV term
+	/// IF RIM_DIR
+		/// IF RIM_DIR_PERSP_CORRECTION
+			feature_on		USE_SCREEN_POSITION_FRAGMENT
+		///
+		/// IF RIM_VERTEX
+			feature_on		USE_VIEW_DIRECTION_VERTEX
+		/// ELSE
+			feature_on		USE_WORLD_POSITION_FRAGMENT
+			feature_on		USE_VIEW_DIRECTION_FRAGMENT
+		///
+	/// ELSE
+		/// IF RIM_VERTEX
+			feature_on		USE_NDV_VERTEX
+		/// ELSE
+			feature_on		USE_NDV_FRAGMENT
+		///
+	///
+///
+#END
+
+//================================================================
+
+#SHADER_FEATURES_BLOCK
+/// IF RIM_SHADER_FEATURE
+	/// IF RIM
+		#pragma shader_feature TCP2_RIM_LIGHTING
+	/// ELIF RIM_OUTLINE
+		#pragma shader_feature TCP2_RIM_OUTLINE
+	///
+///
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF RIM || RIM_OUTLINE
+
+		[TCP2HeaderHelp(@%RIM_LABEL%@)]
+/// IF RIM_SHADER_FEATURE
+	/// IF RIM
+		[Toggle(TCP2_RIM_LIGHTING)] _UseRim ("Enable Rim Lighting", Float) = 0
+	/// ELIF RIM_OUTLINE
+		[Toggle(TCP2_RIM_OUTLINE)] _UseRim ("Enable Rim Outline", Float) = 0
+	///
+///
+		[[PROP:Rim Color]]
+		[[PROP:Rim Strength]]
+	/// IF RIM_VERTEX
+		[[PROP:Rim Min Vert]]
+		[[PROP:Rim Max Vert]]
+		/// IF RIM_DIR
+		//Rim Direction
+		[[PROP:Rim Dir Vert]]
+		///
+	/// ELSE
+		[[PROP:Rim Min]]
+		[[PROP:Rim Max]]
+		/// IF RIM_DIR
+		//Rim Direction
+		[[PROP:Rim Dir]]
+		///
+	///
+		[TCP2Separator]
+///
+#END
+
+//================================================================
+
+#VARIABLES
+#END
+
+//================================================================
+
+// or #VERTEX_TO_FRAG ?
+#INPUT
+/// IF (RIM || RIM_OUTLINE) && RIM_VERTEX
+	half rim;
+///
+#END
+
+//================================================================
+
+#VERTEX(float ndv, float3 viewDir, float3 normal, struct output)
+/// IF RIM || RIM_OUTLINE
+	/// IF RIM_SHADER_FEATURE
+		/// IF RIM
+		#if defined(TCP2_RIM_LIGHTING)
+		/// ELIF RIM_OUTLINE
+		#if defined(TCP2_RIM_OUTLINE)
+		///
+	///
+	/// IF RIM_VERTEX
+	/// IF RIM_DIR
+		half3 rViewDir = viewDir;
+		half3 rimDir = [[VALUE:Rim Dir Vert]];
+		rViewDir = normalize(UNITY_MATRIX_V[0].xyz * rimDir.x + UNITY_MATRIX_V[1].xyz * rimDir.y + UNITY_MATRIX_V[2].xyz * rimDir.z);
+		half rim = 1.0f - saturate(dot(rViewDir, normal.xyz));
+	/// ELSE
+		half rim = 1 - ndv;
+	///
+		rim = smoothstep([[VALUE:Rim Min Vert]], [[VALUE:Rim Max Vert]], rim);
+		output.[[INPUT_VALUE:rim]] = rim;
+	///
+	/// IF RIM_SHADER_FEATURE
+		#endif
+	///
+///
+#END
+
+//================================================================
+
+#LIGHTING(float ndv, float4 color, float4 colorOutline, float3 normal, float3 viewDir, float4 screenPosition, float ndl, float atten, struct surfaceInput)
+/// IF RIM || RIM_OUTLINE
+				// @%RIM_LABEL%@
+	/// IF RIM_SHADER_FEATURE
+		/// IF RIM
+				#if defined(TCP2_RIM_LIGHTING)
+		/// ELIF RIM_OUTLINE
+				#if defined(TCP2_RIM_OUTLINE)
+		///
+	///
+	/// IF !RIM_LIGHTMASK && !LWRP
+				#if !defined(UNITY_PASS_FORWARDADD)
+	///
+	/// IF RIM_VERTEX
+				half rim = surfaceInput.[[INPUT_VALUE:rim]];
+				rim = [[SAMPLE_VALUE_SHADER_PROPERTY:Rim Term]];
+	/// ELSE
+		/// IF RIM_DIR
+				half3 rViewDir = viewDir;
+				half3 rimDir = [[VALUE:Rim Dir]];
+			/// IF RIM_DIR_PERSP_CORRECTION
+				half3 screenPosOffset = (screenPosition.xyz / screenPosition.w) - 0.5;
+				rimDir.xyz -= screenPosOffset.xyz;
+			///
+				rViewDir = normalize(UNITY_MATRIX_V[0].xyz * rimDir.x + UNITY_MATRIX_V[1].xyz * rimDir.y + UNITY_MATRIX_V[2].xyz * rimDir.z);
+				half rim = 1.0f - saturate(dot(rViewDir, normal));
+		/// ELSE
+				half rim = 1 - ndv;
+		///
+				rim = [[SAMPLE_VALUE_SHADER_PROPERTY:Rim Term]];
+				half rimMin = [[VALUE:Rim Min]];
+				half rimMax = [[VALUE:Rim Max]];
+				rim = smoothstep(rimMin, rimMax, rim);
+	///
+				half3 rimColor = [[VALUE:Rim Color]];
+				half rimStrength = [[VALUE:Rim Strength]];
+	/// IF RIM && RIM_LIGHTMASK
+				//Rim light mask
+				color.rgb += ndl * atten * rim * rimColor * rimStrength;
+	/// ELIF RIM
+				color.rgb += rim * rimColor * rimStrength;
+	/// ELIF RIM_OUTLINE
+				colorOutline.rgb = lerp(colorOutline.rgb, rimColor, rim * rimStrength);
+	///
+	/// IF !RIM_LIGHTMASK && !LWRP
+				#endif
+	///
+	/// IF RIM_SHADER_FEATURE
+				#endif
+	///
+///
+#END
+
+#LIGHTING:ADDITIONAL_LIGHT(float ndv, float4 color, float3 normal, float3 viewDir, float4 screenPosition, float ndl, float atten, struct surfaceInput)
+/// IF RIM  && RIM_LIGHTMASK
+	/// IF RIM_SHADER_FEATURE
+		#if defined(TCP2_RIM_LIGHTING)
+	///
+		// Rim light mask
+		half3 rimColor = [[VALUE:Rim Color]];
+		half rimStrength = [[VALUE:Rim Strength]];
+		color.rgb += ndl * atten * rim * rimColor * rimStrength;
+	/// IF RIM_SHADER_FEATURE
+		#endif
+	///
+///
+#END

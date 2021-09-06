@@ -1,0 +1,159 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Wind Vertex Animations
+// TODO: pivot-based wind option, as in Book of the Dead
+
+#FEATURES
+mult	lbl="Wind Animation"		kw=Off|,Sine Wave|WIND_ANIM_SIN,Scrolling Texture|WIND_ANIM_TEX		toggles=WIND_ANIM	tt="Adds some vertex movement to simulate wind"		help="featuresreference/specialeffects/windanimation"
+mult	lbl=Sine Functions Count	kw=1|,2|WIND_SIN_2,4|WIND_SIN_4,6|WIND_SIN_6	nohelp	indent	needs=WIND_ANIM_SIN		tt="Number of sine functions to add together (more randomness but also more shader instructions)"
+sngl	lbl="Make Optional"			kw=WIND_SHADER_FEATURE									indent	needs=WIND_ANIM			tt="Will make wind animation optional in the material inspector, using a shader keyword"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF WIND_ANIM
+		header		Wind
+		float3		Wind Direction				vertex, imp(vector, label = "Direction", default = (1.0, 0.0, 0.0)), help = "The global direction of the wind, in world space. This vector is normalized in the code."
+///
+/// IF WIND_ANIM_SIN
+		float		Wind Speed					vertex, imp(range, label = "Speed", default = 2.5, min = 0, max = 10)
+		float		Wind Frequency				vertex, imp(constant, label = "Frequency", default = 1.0)
+/// ELIF WIND_ANIM_TEX
+		float3		Wind Texture				vertex, imp(texture, label = "Movement Texture", default = gray, uv_shaderproperty = "Wind Texture UV", swizzle = "XY"), help = "Usually a noise texture, where tiling values will define the frequency and scrolling values will define the speed of the wind effect"
+		float2		Wind Texture UV				vertex, imp(world_position, label = "Wind Texture UV", swizzle = "XZ"), imp(custom_code, code = "* {4}.xy + (_Time.yy + {3}) * {4}.zw"), imp(shader_property_ref, reference = "Wind Time Offset"), imp(vector, label = "Tiling (XY) Speed (ZW)", variable = "_WindTexTilingSpeed", default = (0.2, 0.2, 0.1, 0.1))
+///
+/// IF WIND_ANIM
+		float		Wind Strength				vertex, imp(range, label = "Strength", default = 0.025, min = 0, max = 0.2)
+		float3		Wind Mask					vertex, imp(vertex_color, label = "Mask", swizzle = "RRR"), help = "Defines which vertices are affected by the wind movement"
+		float		Wind Time Offset			vertex, imp(vertex_color, label = "Mask", swizzle = "G"), help = "Defines a time offset for different parts of the mesh. This helps to add a sway movement for grass blades for example, where higher part of the blade is offset from its lower part."
+///
+/// IF WIND_ANIM_SIN
+	/// IF WIND_SIN_2 || WIND_SIN_4 || WIND_SIN_6
+		float4		Wind Sine Scale 2			vertex, imp(constant, default = (2.3, 1.7, 1.4, 1.2))
+		float		Wind Sine Strength 2		vertex, imp(constant, default = 0.6)
+	///
+	/// IF WIND_SIN_4 || WIND_SIN_6
+		float4		Wind Sine Scale 3			vertex, imp(constant, default = (1.3, 2.9, 2.1, 0.8))
+		float		Wind Sine Strength 3		vertex, imp(constant, default = 0.5)
+		float4		Wind Sine Scale 4			vertex, imp(constant, default = (3.4, 2.6, 3.1, 1.5)
+		float		Wind Sine Strength 4		vertex, imp(constant, default = 0.2)
+	///
+	/// IF WIND_SIN_6
+		float4		Wind Sine Scale 5			vertex, imp(constant, default = (1.4, 2.3, 2.7, 1.1)
+		float		Wind Sine Strength 5		vertex, imp(constant, default = 0.4)
+		float4		Wind Sine Scale 6			vertex, imp(constant, default = (2.9, 1.6, 3.3, 0.9)
+		float		Wind Sine Strength 6		vertex, imp(constant, default = 0.3)
+	///
+///
+#END
+
+//================================================================
+
+#KEYWORDS
+/// IF WIND_ANIM
+	feature_on	APPLY_WORLD_POSITION
+///
+#END
+
+//================================================================
+
+#SHADER_FEATURES_BLOCK
+/// IF WIND_ANIM && WIND_SHADER_FEATURE
+	#pragma shader_feature TCP2_WIND
+///
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF WIND_ANIM
+	#if_not_empty
+
+		[Header(Wind)]
+	#start_not_empty_block
+	/// IF WIND_SHADER_FEATURE
+		[Toggle(TCP2_WIND)] _UseWind ("Enable Wind", Float) = 0
+	///
+		[[PROP:Wind Direction]]
+		[[PROP:Wind Strength]]
+		[[PROP:Wind Time Offset]]
+		[[PROP:Wind Mask]]
+	/// IF WIND_ANIM_SIN
+		[[PROP:Wind Speed]]
+		[[PROP:Wind Frequency]]
+	/// ELIF WIND_ANIM_TEX
+		[[PROP:Wind Texture]]
+		[[PROP:Wind Texture UV]]
+	///
+	#end_not_empty_block
+	#end_not_empty
+///
+#END
+
+//================================================================
+
+#FUNCTIONS
+#END
+
+//================================================================
+
+#INPUT
+#END
+
+//================================================================
+
+#VERTEX(float3 worldPosition)
+/// IF WIND_ANIM
+	/// IF WIND_SHADER_FEATURE
+		#if defined(TCP2_WIND)
+	///
+		// Wind Animation
+		float windTimeOffset = [[VALUE:Wind Time Offset]];
+///
+/// IF WIND_ANIM_SIN
+		float windSpeed = [[VALUE:Wind Speed]];
+		float3 windFrequency = worldPosition * [[VALUE:Wind Frequency]];
+		float windPhase = (_Time.y + windTimeOffset) * windSpeed;
+		float3 windFactor = sin(windPhase + windFrequency);
+	/// IF WIND_SIN_2 || WIND_SIN_4 || WIND_SIN_6
+		float4 windSin2scale = [[VALUE:Wind Sine Scale 2]];
+		float windSin2strength = [[VALUE:Wind Sine Strength 2]];
+		windFactor += sin(windPhase.xxx * windSin2scale.www + windFrequency * windSin2scale.xyz) * windSin2strength;
+	///
+	/// IF WIND_SIN_4 || WIND_SIN_6
+		float4 windSin3scale = [[VALUE:Wind Sine Scale 3]];
+		float windSin3strength = [[VALUE:Wind Sine Strength 3]];
+		windFactor += sin(windPhase.xxx * windSin3scale.www + windFrequency * windSin3scale.xyz) * windSin3strength;
+		float4 windSin4scale = [[VALUE:Wind Sine Scale 4]];
+		float windSin4strength = [[VALUE:Wind Sine Strength 4]];
+		windFactor += sin(windPhase.xxx * windSin4scale.www + windFrequency * windSin4scale.xyz) * windSin4strength;
+	///
+	/// IF WIND_SIN_6
+		float4 windSin5scale = [[VALUE:Wind Sine Scale 5]];
+		float windSin5strength = [[VALUE:Wind Sine Strength 5]];
+		windFactor += sin(windPhase.xxx * windSin5scale.www + windFrequency * windSin5scale.xyz) * windSin5strength;
+		float4 windSin6scale = [[VALUE:Wind Sine Scale 6]];
+		float windSin6strength = [[VALUE:Wind Sine Strength 6]];
+		windFactor += sin(windPhase.xxx * windSin6scale.www + windFrequency * windSin6scale.xyz) * windSin6strength;
+	///
+/// ELIF WIND_ANIM_TEX
+		float2 windUv = [[VALUE:Wind Texture UV]];
+		float3 windFactor = [[SAMPLE_VALUE_SHADER_PROPERTY:Wind Texture(uv:windUv)]] * 2.0 - 1.0;
+///
+/// IF WIND_ANIM
+		float3 windDir = normalize([[VALUE:Wind Direction]]);
+		float3 windMask = [[VALUE:Wind Mask]];
+		float windStrength = [[VALUE:Wind Strength]];
+		worldPosition += windDir * windFactor * windMask * windStrength;
+	/// IF WIND_SHADER_FEATURE
+		#endif
+	///
+///
+#END
+
+//================================================================
+
+#FRAGMENT
+#END

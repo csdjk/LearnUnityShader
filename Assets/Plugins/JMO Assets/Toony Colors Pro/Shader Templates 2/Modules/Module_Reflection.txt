@@ -1,0 +1,104 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Reflection
+// NOTE: 'REFLECTION_SHADER_FEATURE' has to be defined in the Template file
+
+#FEATURES
+sngl	lbl="Reflection Cubemap"		kw=REFLECTION_CUBEMAP												tt="Enables cubemap reflection"
+sngl	lbl="Reflection Roughness"		kw=REFL_ROUGH				needs=REFLECTION_CUBEMAP	indent		tt="Simulates reflection smoothness/roughness using the cubemap's mipmap levels\n\nMake sure to enable mipmaps and specular convolution for the cubemap texture!"
+sngl	lbl="Fresnel Reflections"		kw=REFLECTION_FRESNEL		needsOr=REFLECTION_CUBEMAP,GLOSSY_REFLECTIONS	tt="Makes the reflections be more intense at grazing angles"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF REFLECTION_CUBEMAP
+	header			Reflection
+	color			Reflection Cubemap Color		lighting, imp(color, label = "Color", default = (1, 1, 1, 1))
+	/// IF REFL_ROUGH
+		float		Reflection Cubemap Roughness	lighting, imp(range, label = "Cubemap Roughness", default = 0.5, min = 0, max = 1)
+	///
+///
+/// IF REFLECTION_FRESNEL
+		float		Fresnel Min			lighting, imp(range, label = "Fresnel Min", default = 0.0, min = 0, max = 2)
+		float		Fresnel Max			lighting, imp(range, label = "Fresnel Max", default = 1.5, min = 0, max = 2)
+///
+#END
+
+//================================================================
+
+#KEYWORDS
+/// IF REFLECTION_CUBEMAP
+	feature_on			USE_WORLD_NORMAL_FRAGMENT
+	feature_on			USE_VIEW_DIRECTION_FRAGMENT
+///
+/// IF REFLECTION_FRESNEL
+	feature_on		USE_NDV_FRAGMENT
+///
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF REFLECTION_CUBEMAP
+
+		[NoScaleOffset] _Cube ("Reflection Cubemap", Cube) = "black" {}
+		[[PROP:Reflection Cubemap Color]]
+	/// IF REFL_ROUGH
+		[[PROP:Reflection Cubemap Roughness]]
+	///
+///
+/// IF REFLECTION_FRESNEL
+		[[PROP:Fresnel Min]]
+		[[PROP:Fresnel Max]]
+///
+#END
+
+//================================================================
+
+#VARIABLES
+/// IF REFLECTION_CUBEMAP
+	samplerCUBE _Cube;
+///
+#END
+
+//================================================================
+
+#INPUT
+#END
+
+//================================================================
+
+#VERTEX
+#END
+
+//================================================================
+
+#LIGHTING(float3 reflectionColor, float3 normal, float3 viewDir, float ndv)
+/// IF REFLECTION_CUBEMAP
+
+/// IF REFLECTION_SHADER_FEATURE
+		#if defined(TCP2_REFLECTIONS)
+///
+		//Reflection cubemap
+	/// IF !(LWRP && GLOSSY_REFLECTIONS)
+		half3 reflectVector = reflect(-viewDir, normal);
+	///
+	/// IF REFL_ROUGH
+		reflectionColor.rgb += texCUBElod(_Cube, half4(reflectVector.xyz, [[VALUE:Reflection Cubemap Roughness]] * 10.0)).rgb;
+	/// ELSE
+		reflectionColor.rgb += texCUBE(_Cube, reflectVector).rgb;
+	///
+		reflectionColor.rgb *= [[VALUE:Reflection Cubemap Color]];
+	/// IF REFLECTION_SHADER_FEATURE
+		#endif
+	///
+///
+/// IF REFLECTION_FRESNEL
+		half fresnelMin = [[VALUE:Fresnel Min]];
+		half fresnelMax = [[VALUE:Fresnel Max]];
+		half fresnelTerm = smoothstep(fresnelMin, fresnelMax, 1 - ndv);
+		reflectionColor *= fresnelTerm;
+///
+#END

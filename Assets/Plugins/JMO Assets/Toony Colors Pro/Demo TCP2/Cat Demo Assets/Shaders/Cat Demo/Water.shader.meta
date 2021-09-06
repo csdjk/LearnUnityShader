@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 931c98f5451d03f4e83ec061ccc91c8a
+timeCreated: 1549374330
+licenseType: Store
+ShaderImporter:
+  defaultTextures:
+  - _NoTileNoiseTex: {fileID: 2800000, guid: af5515bfe14f1af4a9b8b3bf306b9261, type: 3}
+  - _Ramp: {fileID: 2800000, guid: ccad9b0732473ee4e95de81e50e9050f, type: 3}
+  userData: USER,FWORLDSPACE_UV,FRIM,FVERTEX_SIN_WAVES,FVSW_2,FVSW_WORLDPOS,FVERTEX_SIN_NORMALS,FDEPTH_BUFFER_COLOR,FDEPTH_BUFFER_FOAM,FSMOOTH_FOAM,FUV_SIN_WAVES,FCOLORMASK,FMASK_MAINTEX,FDEPTH_VIEW_CORRECTION,fnolightmap,KCOLORMASK_CHANNEL:.a,KUV_mask1:Main
+    Tex UV,KCOLORMASK:mainTex,KSHADER_TARGET:3.0,ch2A12827F,cSM:30,cCT:water,cCF:TCP2_ShaderTemplate_Water
+  assetBundleName: 
+  assetBundleVariant: 
