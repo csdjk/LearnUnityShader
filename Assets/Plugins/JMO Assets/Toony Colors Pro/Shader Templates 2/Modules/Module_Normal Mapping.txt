@@ -1,0 +1,164 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Normal Mapping & Parallax
+// NOTE:  '#if defined(_NORMALMAP)' are inserted in the Template code directly
+
+// TODO optional object space normal map support
+
+#FEATURES
+sngl	lbl="Normal/Bump Map"			kw=BUMP			help="featuresreference/surface/normal/bumpmap"
+sngl	lbl="Bump Scale"				kw=BUMP_SCALE			needs=BUMP	indent
+sngl	lbl="Parallax/Height Map"		kw=PARALLAX				needs=BUMP	indent
+sngl	lbl="Make Optional"			kw=BUMP_SHADER_FEATURE		needs=BUMP	indent		tt="Will make normal mapping optional in the material inspector, using a shader keyword"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF BUMP
+		header		Normal Mapping
+		color_rgba	Normal Map				fragment, imp(texture, label = "Normal Map", variable = "_BumpMap", default = bump)
+	/// IF BUMP_SCALE
+		float		Bump Scale				fragment, imp(float, label = "Scale", variable = "_BumpScale", default = 1.0)
+	///
+	/// IF PARALLAX
+		float		Parallax Height			fragment, manually_sampled = true, cant_reference = true, imp(range, label = "Height", variable = "_Parallax", default = 0.02, min = 0.005, max = 0.08)
+		float		Parallax Height Map		fragment, manually_sampled = true, cant_reference = true, imp(texture, label = "Height Map", variable = "_ParallaxMap", default = black, channels = A)
+	///
+///
+#END
+
+//================================================================
+
+#KEYWORDS
+/// IF BUMP
+		feature_on		USE_TANGENT_FRAGMENT
+		feature_on		USE_BITANGENT_FRAGMENT
+	/// IF PARALLAX
+		feature_on		USE_VIEW_DIRECTION_FRAGMENT
+	///
+///
+#END
+
+//================================================================
+
+#SHADER_FEATURES_BLOCK
+/// IF BUMP && BUMP_SHADER_FEATURE
+	#pragma shader_feature _NORMALMAP
+///
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF BUMP
+
+		[TCP2HeaderHelp(Normal Mapping)]
+/// IF BUMP_SHADER_FEATURE
+		[Toggle(_NORMALMAP)] _UseNormalMap ("Enable Normal Mapping", Float) = 0
+///
+		[[PROP:Normal Map]]
+	/// IF BUMP_SCALE
+		[[PROP:Bump Scale]]
+	///
+	/// IF PARALLAX
+		[[PROP:Parallax Height Map]]
+		[[PROP:Parallax Height]]
+	///
+		[TCP2Separator]
+///
+#END
+
+//================================================================
+
+#FUNCTIONS
+/// IF BUMP && PARALLAX
+
+	// Calculates UV offset for parallax bump mapping
+	inline float2 TCP2_ParallaxOffset( half h, half height, half3 viewDir )
+	{
+		h = h * height - height/2.0;
+		float3 v = normalize(viewDir);
+		v.z += 0.42;
+		return h * (v.xy / v.z);
+	}
+///
+#END
+
+//================================================================
+
+#INPUT
+#END
+
+//================================================================
+
+#VERTEX
+#END
+
+//================================================================
+
+#LIGHTING:BUILD_TANGENT_MATRIX(float3 tangent, float3 bitangent, float3 normal)
+	half3x3 tangentToWorldMatrix = half3x3(tangent, bitangent, normal);
+#END
+
+#LIGHTING:PARALLAX_SRP(float3 viewDir, float2 texcoord)
+/// IF BUMP && PARALLAX
+	//Parallax Offset
+	[[SAMPLE_SHADER_PROPERTY:Parallax Height Map]]
+	[[SAMPLE_SHADER_PROPERTY:Parallax Height]]
+	half height = [[VALUE:Parallax Height Map]];
+	half3 viewDirTS = mul(viewDir, tangentToWorldMatrix);
+	float2 offset = TCP2_ParallaxOffset(height, [[VALUE:Parallax Height]], viewDirTS);
+	texcoord += offset;
+///
+#END
+
+#LIGHTING:PARALLAX_SURFACE(float3 viewDir, float2 texcoord)
+/// IF BUMP && PARALLAX
+	//Parallax Offset
+	[[SAMPLE_SHADER_PROPERTY:Parallax Height Map]]
+	[[SAMPLE_SHADER_PROPERTY:Parallax Height]]
+	half height = [[VALUE:Parallax Height Map]];
+	float2 offset = ParallaxOffset(height, [[VALUE:Parallax Height]], viewDir);
+	texcoord += offset;
+///
+#END
+
+//================================================================
+
+// Version for surface shaders
+#LIGHTING:BUMP_SAMPLE
+/// IF BUMP
+
+	// Normal Mapping
+	half4 normalMap = [[VALUE:Normal Map]];
+///
+#END
+
+#LIGHTING:UNPACK_BUMP_SURFACE(float3 outNormal, float4 normalMap)
+/// IF BUMP
+	/// IF BUMP_SCALE
+		outNormal = UnpackScaleNormal(normalMap, [[VALUE:Bump Scale]]);
+	/// ELSE
+		outNormal = UnpackNormal(normalMap);
+	///
+///
+#END
+
+// Version for SRP shaders (e.g. LWRP)
+#LIGHTING:UNPACK_BUMP_SRP(float4 normalMap, float3 normalTS)
+/// IF BUMP
+	/// IF BUMP_SCALE
+		half3 normalTS = UnpackNormalScale(normalMap, [[VALUE:Bump Scale]]);
+	/// ELSE
+		half3 normalTS = UnpackNormal(normalMap);
+	///
+///
+#END
+
+#LIGHTING:APPLY_BUMP_SRP(float3 outNormal, float3 normalTS)
+/// IF BUMP
+	outNormal = mul(normalTS, tangentToWorldMatrix);
+///
+#END

@@ -1,0 +1,91 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Aura 2 Support
+
+#FEATURES
+sngl			lbl="Aura 2 Support"		kw=AURA2			tt="Adds support for Aura 2"
+sngl			lbl="Lighting"				kw=AURA2_LIGHT		indent		needs=AURA2		tt="Lighting support for Aura 2"
+sngl			lbl="Fog"					kw=AURA2_FOG		indent		needs=AURA2		tt="Fog support for Aura 2"
+keyword_str		lbl="Include File"			kw=AURA2_INCLUDE	indent		needs=AURA2		forceKeyword=true	default="Assets/Aura 2/Core/Code/Shaders/Aura.cginc"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF AURA2 && AURA2_LIGHT
+	float		Aura2 Lighting Factor		lighting, imp(float, label = "Lighting Factor", default = 0)
+///
+#END
+
+//================================================================
+
+#KEYWORDS
+#END
+
+//================================================================
+
+#SHADER_FEATURES_BLOCK
+/// IF AURA2
+	#pragma shader_feature _ AURA
+///
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF AURA2 && AURA2_LIGHT
+	#if_not_empty
+		[Header(Aura 2)]
+	#start_not_empty_block
+		[[PROP:Aura2 Lighting Factor]]
+	#end_not_empty_block
+		[TCP2Separator]
+	#end_not_empty
+///
+#END
+
+//================================================================
+
+#FUNCTIONS
+/// IF AURA2
+	#include "@%AURA2_INCLUDE%@"
+///
+#END
+
+//================================================================
+
+#INPUT
+/// IF AURA2
+	float3 auraPosition;
+///
+#END
+
+//================================================================
+
+#VERTEX(float4 vertex, struct output)
+/// IF AURA2
+	//Aura 2
+	#if defined(AURA)
+		output.[[INPUT_VALUE:auraPosition]] = Aura2_GetFrustumSpaceCoordinates(vertex);
+	#endif
+///
+#END
+
+//================================================================
+
+#FRAGMENT(float3 color, struct surfaceInput)
+/// IF AURA2
+		//Aura 2
+		#if defined(AURA)
+			float3 auraPosition = surfaceInput.[[INPUT_VALUE:auraPosition]];
+	/// IF AURA2_LIGHT
+			float lightingFactor = [[VALUE:Aura2 Lighting Factor]];
+			Aura2_ApplyLighting(color, auraPosition, lightingFactor);
+	///
+	/// IF AURA2_FOG
+			Aura2_ApplyFog(color, auraPosition);
+	///
+		#endif
+///
+#END

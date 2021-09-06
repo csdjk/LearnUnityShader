@@ -1,0 +1,1917 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+#NAME=Default (Lightweight Pipeline)
+#ID=TEMPLATE_LWRP
+#TEMPLATE_KEYWORDS=TEMPLATE_LWRP
+#SG2
+
+#================================================================================================================================================================================================================================================================
+
+#MODULES
+
+# needed by Shader Generator 2:
+NoTile Sampling
+HSV
+Screen Space UV
+Hash Functions
+
+# lighting:
+Ramp Shading LWRP
+ShadowHSV
+Specular
+Rim Lighting
+Reflection
+Subsurface Scattering
+MatCap
+Custom Ambient
+
+# surface:
+AlbedoHSV
+Normal Mapping
+Texture Blending
+Triplanar
+
+# stylization:
+NdotL Stylization
+Sketch
+Outline
+
+# special effects:
+Dissolve
+Vertical Fog
+VertExmotion
+CurvedWorld
+
+#END
+
+#================================================================================================================================================================================================================================================================
+
+#FEATURES
+
+[[MODULE:FEATURES:Screen Space UV]]
+dd_start	lbl=LIGHTING
+---
+[[MODULE:FEATURES:Ramp Shading LWRP]]
+sngl	lbl=Bypass Additional Lights Falloff		kw=BYPASS_LIGHT_FALLOFF								tt="Bypass the point and spot light falloff calculation and only use the TCP2 ramp shading instead"
+---
+mult	lbl=Shadow Color Mode			kw=Multiply|,Replace Color|SHADOW_COLOR_LERP					tt="How to blend the shadow color on the model"		help="featuresreference/lighting/shadowcolormode"
+mult	lbl=Shadow Color Shading		kw=All Lights|,Main Directional Light|SHADOW_COLOR_MAIN_DIR		tt="How the shadow color is applied, either globally across all lights, or based on the main directional light only (same behavior as in the legacy render pipeline)"
+mult	lbl=Shadow Color (other lights)	kw=Off|,Enabled|ENABLE_SHADOW_2ND_LIGHTS,Enabled (clamped)|ENABLE_SHADOW_2ND_LIGHTS_SAT		needs=SHADOW_COLOR_MAIN_DIR		tt="Enable shadow color for additive lights; this means that the model will get some tint in unlit areas when using secondary lights."
+[[MODULE:FEATURES:ShadowHSV]]
+---
+[[MODULE:FEATURES:Specular]]
+---
+sngl	lbl=Emission					kw=EMISSION		help="featuresreference/lighting/emission"		tt="Adds emission to the shader.  Modify the Emission property to change the source input (color, texture, etc.) and possibly use a mask."
+---
+[[MODULE:FEATURES:Rim Lighting]]
+---
+[[MODULE:FEATURES:Subsurface Scattering]]
+---
+sngl	lbl=Reflection Probes			kw=GLOSSY_REFLECTIONS																	tt="Enable reflection probes or skybox reflection support"
+[[MODULE:FEATURES:Reflection]]
+sngl	lbl=Make Reflections Optional	kw=REFLECTION_SHADER_FEATURE		needsOr=REFLECTION_CUBEMAP,GLOSSY_REFLECTIONS		tt="Will make reflections optional in the material inspector, using a shader keyword"
+---
+[[MODULE:FEATURES:MatCap]]
+---
+subh	lbl=Ambient Lighting/Indirect Diffuse		help="featuresreference/lighting/ambientlighting/indirectdiffuse"
+sngl	lbl=Disable Ambient Lighting	kw=NO_AMBIENT				tt="Disable ambient lighting calculated by the engine (as defined in the Lighting Settings)"
+[[MODULE:FEATURES:Custom Ambient]]
+sngl	lbl=Occlusion					kw=OCCLUSION		tt="Adds ambient lighting occlusion support.  Modify the Occlusion property to change the source input (texture, vertex color, etc.)."
+sngl	lbl=Make Ambient Optional		kw=AMBIENT_SHADER_FEATURE	tt="Will make ambient/indirect diffuse lighting optional in the material inspector, using a shader keyword"
+---
+dd_end
+
+dd_start	lbl=SURFACE
+---
+[[MODULE:FEATURES:AlbedoHSV]]
+---
+[[MODULE:FEATURES:Normal Mapping]]
+---
+[[MODULE:FEATURES:Texture Blending]]
+---
+[[MODULE:FEATURES:Triplanar]]
+dd_end
+dd_start	lbl=STYLIZATION
+---
+[[MODULE:FEATURES:NdotL Stylization]]
+[[MODULE:FEATURES:Sketch]]
+[[MODULE:FEATURES:Outline]]
+dd_end
+dd_start	lbl=SPECIAL EFFECTS
+---
+sngl	lbl=Silhouette Pass				kw=PASS_SILHOUETTE										tt="Adds a silhouette pass, to show the object when it is behind obstacles"
+sngl	lbl=Stencil Mask				kw=SILHOUETTE_STENCIL	needs=PASS_SILHOUETTE	indent	tt="Use the Stencil Buffer as a mask for the silhouette, to prevent transparency issues with non-convex meshes or multiple meshes"
+---
+[[MODULE:FEATURES:Dissolve]]
+---
+[[MODULE:FEATURES:Vertical Fog]]
+dd_end
+dd_start	lbl=TRANSPARENCY/BLENDING
+---
+mult	lbl=Blending				kw=Off|,Alpha Blending|ALPHA_BLENDING,Alpha Blending Premultiplied|ALPHA_BLENDING_PREMULT,Additive|ADDITIVE_BLENDING,Multiplicative|MULTIPLICATIVE_BLENDING,Custom Blending|CUSTOM_BLENDING	toggles=SHADER_BLENDING		tt="Enable blending on the shader"
+mult_fs		lbl=Blend Operation		kw=BLEND_OP		options=Default|,Custom|Constant,Material Property|Material Property		shader_property="Blend Operation"		tt="Enable blend operation control"
+warning	msgType=info	needs=CUSTOM_BLENDING	lbl=Look at the <b>Shader Properties</b> tab to setup the custom blending states.
+space	space=4			needs=CUSTOM_BLENDING
+---
+sngl	lbl=Depth pre-pass		kw=DEPTH_PREPASS		tt="Adds a depth only shader pass, to prevent parts of the mesh from being visible through itself."
+#NOTE: not working currently, the additional pass seems to always be drawn after the LightweightForward one, never before, so we can't draw to the depth buffer beforehand.
+---
+sngl	lbl=Alpha Testing (Cutout)		kw=ALPHA_TESTING
+sngl	lbl="Alpha to Coverage"			kw=ALPHA_TO_COVERAGE		needs=ALPHA_TESTING							indent		tt="Enables Alpha to Coverage, which allows MSAA anti-aliasing to be used with alpha testing"
+sngl	lbl="Disable alpha sharpening"	kw=ALPHA_TO_COVERAGE_RAW	needs=ALPHA_TESTING,ALPHA_TO_COVERAGE		indent=2	tt="Disables screen-space alpha sharpening, which is used to get proper anti-aliasing with Alpha to Coverage"
+dd_end
+dd_start	lbl=SHADER STATES
+---
+mult_fs		lbl=Face Culling (Double-sided)		kw=CULLING	options=Default|,Custom|Constant,Material Property|Material Property		shader_property="Face Culling"		tt="Enable face culling control"
+mult	lbl=Backface Lighting		kw=Off|,Flip Normal (Z)|BACKFACE_LIGHTING_Z,Flip Normal (XYZ)|BACKFACE_LIGHTING_XYZ		indent	tt="Invert the normals on backfaces for accurate lighting calculation (this may not work properly with shadows and introduce other artifacts)"
+---
+mult_fs		lbl=Depth Write			kw=ZWRITE		options=Default|,Custom|Constant,Material Property|Material Property	shader_property="Depth Write"		tt="Enable depth write (ZWrite) value control"
+mult_fs		lbl=Depth Test			kw=ZTEST		options=Default|,Custom|Constant,Material Property|Material Property	shader_property="Depth Test"		tt="Enable depth test (ZTest) control"
+---
+mult	lbl=Stencil					kw=Off|,Custom|STENCIL				tt="Enable stencil control (see the Properties tab)"
+warning	msgType=info	needs=STENCIL	lbl=Look at the <b>Shader Properties</b> tab to setup the stencil states.
+space	space=4			needs=STENCIL
+---
+keyword	lbl=Shader Target	kw=SHADER_TARGET	forceKeyword=true	values=2.0 (Old hardware)|2.0,2.5 (Low-end mobile devices)|2.5,3.0 (Recommended default)|3.0,3.5|3.5,4.0|4.0,4.5|4.5,4.6|4.6,5.0|5.0		default=2
+warning	msgType=info		lbl=Use <b>Shader Target 2.5</b> for maximum compatibility across mobile devices (OpenGL ES 2.0 with no extensions).  Increase the number if the shader fails to compile (not enough instructions or interpolators).
+dd_end
+dd_start	lbl=OPTIONS
+---
+sngl		lbl=Disable Shadow Receiving	kw=DISABLE_SHADOW_RECEIVING
+sngl		lbl=Disable Shadow Casting		kw=DISABLE_SHADOW_CASTING
+sngl		lbl=Enable Fog					kw=FOG
+sngl		lbl=Enable Lightmaps			kw=ENABLE_LIGHTMAP
+sngl		lbl=Disable Dynamic Batching	kw=DISABLE_BATCHING						tt="Disable dynamic batching support for this shader"
+sngl		lbl=Enable Meta Pass			kw=ENABLE_META_PASS						tt="Enable meta pass: it is needed to be able to bake lighting but can prevent SRP Batcher compatibility."
+dd_end
+dd_start	lbl=THIRD PARTY PLUGINS
+---
+[[MODULE:FEATURES:VertExmotion]]
+[[MODULE:FEATURES:CurvedWorld]]
+dd_end
+warning	msgType=warning		needs=PASS_SILHOUETTE,OUTLINE	lbl=The Lightweight Render Pipeline only supports up to 1 additional pass in a single shader.  Please disable either the <b>Outline</b> or <b>Silhouette</b> pass.
+
+#END
+
+#================================================================================================================================================================================================================================================================
+
+#PROPERTIES_NEW
+header		Main Properties
+/// IF !CUSTOM_ALBEDO
+color_rgba	Albedo				fragment, imp(texture, label = "Albedo", variable = "_BaseMap", default = white, tiling_offset = true, global = true)
+///
+[[MODULE:PROPERTIES_NEW:AlbedoHSV]]
+color_rgba	Main Color			fragment, imp(color, label = "Color", variable = "_BaseColor", default = (1,1,1,1)), help = "An adjustable color multiplied with the final albedo color.  Set it to a white color constant if you don't plan on using it, to improve the shader performance."
+/// IF !CUSTOM_ALBEDO
+float		Alpha				fragment, imp(shader_property_ref, reference = Albedo, swizzle = A), imp(shader_property_ref, reference = Main Color, swizzle = A), help = "The output alpha value, generally only needed when using alpha blending transparency or alpha testing (cutout)",
+///
+/// IF ALPHA_TESTING
+float		Cutoff				fragment, imp(range, label = "Alpha Cutoff", default = 0.5, min = 0, max = 1), help = "The threshold value at which point pixels are discarded when using alpha testing (cutout)"
+///
+float		Ambient Intensity	lighting, imp(constant, label = "Ambient Intensity", default = 1)
+
+[[MODULE:PROPERTIES_NEW:Ramp Shading LWRP]]
+
+color		Highlight Color		lighting, imp(color, label = "Highlight Color", variable = "_HColor", default = (0.75,0.75,0.75,1))
+color		Shadow Color		lighting, imp(color, label = "Shadow Color", variable = "_SColor", default = (0.2,0.2,0.2,1))
+[[MODULE:PROPERTIES_NEW:ShadowHSV]]
+
+[[MODULE:PROPERTIES_NEW:Specular]]
+[[MODULE:PROPERTIES_NEW:Rim Lighting]]
+/// IF GLOSSY_REFLECTIONS
+	header		Reflection Probes
+	color		Reflection Color			lighting, imp(color, label = "Color", default = (1, 1, 1, 1))
+	float		Reflection Smoothness		lighting, imp(range, label = "Smoothness", default = 0.5, min = 0, max = 1)
+///
+/// IF EMISSION
+	header		Emission
+	color		Emission									fragment, imp(color, label = "Emission Color", default = (0,0,0,1), hdr = true)
+///
+/// IF OCCLUSION
+	header		Occlusion
+	float		Occlusion									lighting, imp(shader_property_ref, reference = Albedo, swizzle = A)
+///
+[[MODULE:PROPERTIES_NEW:Subsurface Scattering]]
+[[MODULE:PROPERTIES_NEW:Reflection]]
+[[MODULE:PROPERTIES_NEW:MatCap]]
+[[MODULE:PROPERTIES_NEW:Custom Ambient]]
+[[MODULE:PROPERTIES_NEW:Normal Mapping]]
+[[MODULE:PROPERTIES_NEW:Triplanar]]
+[[MODULE:PROPERTIES_NEW:Texture Blending]]
+[[MODULE:PROPERTIES_NEW:NdotL Stylization]]
+[[MODULE:PROPERTIES_NEW:Sketch]]
+[[MODULE:PROPERTIES_NEW:Outline]]
+[[MODULE:PROPERTIES_NEW:Dissolve]]
+[[MODULE:PROPERTIES_NEW:Vertical Fog]]
+/// IF PASS_SILHOUETTE
+		header			Silhouette Pass
+		color_rgba		Silhouette Color				lighting, imp(color, label = "Silhouette Color", default = (0,0,0,0.33))
+	/// IF SILHOUETTE_STENCIL
+		fixed_function_float	Silhouette Stencil Reference	fixed, imp(constant, label = "Silhouette Stencil Reference", default = 1)
+	///
+		fixed_function_enum		Silhouette Blend Source			fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.BlendFactor, default = "SrcAlpha")
+		fixed_function_enum		Silhouette Blend Destination	fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.BlendFactor, default = "OneMinusSrcAlpha")
+///
+/// IF CUSTOM_BLENDING || BLEND_OP
+header					Blending
+///
+/// IF CUSTOM_BLENDING
+fixed_function_enum		Blend Source					fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.BlendFactor, default = "SrcAlpha")
+fixed_function_enum		Blend Destination				fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.BlendFactor, default = "OneMinusSrcAlpha")
+///
+/// IF BLEND_OP
+fixed_function_enum		Blend Operation					fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.BlendOperation, default = "Add")
+///
+/// IF ZWRITE || ZTEST || CULLING
+header		Shader States
+///
+/// IF ZWRITE
+fixed_function_enum		Depth Write						fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.DepthWrite, default = "On")
+///
+/// IF ZTEST
+fixed_function_enum		Depth Test						fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.CompareFunction, default = "LEqual")
+///
+/// IF CULLING
+fixed_function_enum		Face Culling					fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.Culling, default = "Back")
+///
+/// IF STENCIL
+		header	Stencil
+		fixed_function_float		Stencil Reference	fixed, imp(constant, label = "Reference", default = 0)
+		fixed_function_float		Stencil Read Mask	fixed, imp(constant, label = "Read Mask", default = 255)
+		fixed_function_float		Stencil Write Mask	fixed, imp(constant, label = "Write Mask", default = 255)
+	/// IF !STENCIL_DOUBLE_SIDED
+		fixed_function_enum			Stencil Comparison	fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.CompareFunction, default = "Always")
+		fixed_function_enum			Stencil Pass		fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.StencilOperation, default = "Keep")
+		fixed_function_enum			Stencil Fail		fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.StencilOperation, default = "Keep")
+		fixed_function_enum			Stencil Depth Fail	fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.StencilOperation, default = "Keep")
+	/// ELSE
+		fixed_function_enum			Stencil Front Comparison	fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.CompareFunction, default = "Always")
+		fixed_function_enum			Stencil Front Pass			fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.StencilOperation, default = "Keep")
+		fixed_function_enum			Stencil Front Fail			fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.StencilOperation, default = "Keep")
+		fixed_function_enum			Stencil Front Depth Fail	fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.StencilOperation, default = "Keep")
+
+		fixed_function_enum			Stencil Back Comparison		fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.CompareFunction, default = "Always")
+		fixed_function_enum			Stencil Back Pass			fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.StencilOperation, default = "Keep")
+		fixed_function_enum			Stencil Back Fail			fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.StencilOperation, default = "Keep")
+		fixed_function_enum			Stencil Back Depth Fail		fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.StencilOperation, default = "Keep")
+	///
+///
+header	Third Party
+[[MODULE:PROPERTIES_NEW:VertExmotion]]
+[[MODULE:PROPERTIES_NEW:CurvedWorld]]
+header			Hooks					"Hooks are special Shader Properties that expose variables from the shader code that can then be freely modified"
+float3			Vertex Position			vertex, label = "Vertex Position (Object Space)", imp(hook, label = "input.vertex.xyz", toggles = HOOK_VERTEX_POSITION), help = "The object-space vertex position, e.g. to make your own vertex displacement function."
+float3			Vertex Position World	vertex, label = "Vertex Position (World Space)", imp(hook, label = "worldPos.xyz", toggles = HOOK_VERTEX_POSITION_WORLD), help = "The world-space vertex position."
+float3			Main Light Direction			lighting, label = "Main Light Direction", imp(hook, label = "lightDir", toggles = HOOK_MAIN_LIGHT_DIR), help = "The direction of the main directional light."
+float3			Additional Lights Direction		lighting, label = "Additional Lights Direction", imp(hook, label = "lightDir", toggles = HOOK_OTHER_LIGHTS_DIR), help = "The direction of additional lights."
+color			Main Light Color				lighting, label = "Main Light Color", imp(hook, label = "lightColor", toggles = HOOK_MAIN_LIGHT_COLOR), help = "The color of the main directional light."
+color			Additional Lights Color			lighting, label = "Additional Lights Color", imp(hook, label = "lightColor", toggles = HOOK_OTHER_LIGHTS_COLOR), help = "The color of additional lights."
+color			Shading Ramp					lighting, label = "Shading Ramp", imp(hook, label = "ramp", toggles = HOOK_RAMP), help = "The colored ramp calculated, depending on the ramp settings, with the highlight and shadow colors."
+color			Main Light Attenuation			lighting, label = "Main Light Attenuation", imp(hook, label = "atten", toggles = HOOK_MAIN_LIGHT_ATTEN), help = "The attenuation of the main directional light (shadow map)."
+color			Additional Lights Attenuation	lighting, label = "Additional Lights Attenuation", imp(hook, label = "atten", toggles = HOOK_OTHER_LIGHTS_ATTEN), help = "The color of additional lights (shadow map and distance attenuation)."
+color			Final Albedo			fragment, imp(hook, label = "albedo.rgb", toggles = HOOK_FINAL_ALBEDO), help = "The final albedo used by the shader before lighting."
+color			Final Ambient			fragment, imp(hook, label = "indirectDiffuse.rgb", toggles = HOOK_FINAL_AMBIENT), help = "The final ambient color used by the shader, with any modifiers applied (e.g. Occlusion)"
+color			Final Color				fragment, imp(hook, label = "color.rgb", toggles = HOOK_FINAL_COLOR), help = "The final color returned by the shader, after having processed all lighting and effects."
+header		Misc
+/// IF USE_NDV_MIN_MAX_VERT
+	float			NDV Min Vert		fragment, imp(range, label = "NDV Min (Vertex)", default = 0.5, min = 0, max = 2)
+	float			NDV Max Vert		fragment, imp(range, label = "NDV Max (Vertex)", default = 1.0, min = 0, max = 2)
+///
+/// IF USE_NDV_MIN_MAX_FRAG
+	float			NDV Min Frag		fragment, imp(range, label = "NDV Min", default = 0.5, min = 0, max = 2)
+	float			NDV Max Frag		fragment, imp(range, label = "NDV Max", default = 1.0, min = 0, max = 2)
+///
+#END
+
+#================================================================================================================================================================================================================================================================
+
+#KEYWORDS
+
+# SRP feature
+feature_on		LWRP
+
+# features
+/// IF GLOSSY_REFLECTIONS
+	feature_on		USE_VIEW_DIRECTION_FRAGMENT
+///
+
+/// IF USE_NDV_VERTEX
+	feature_on		USE_WORLD_NORMAL_VERTEX
+	feature_on		USE_VIEW_DIRECTION_VERTEX
+///
+
+/// IF USE_NDV_FRAGMENT
+	feature_on		USE_WORLD_NORMAL_FRAGMENT
+	feature_on		USE_VIEW_DIRECTION_FRAGMENT
+	feature_on		USE_WORLD_POSITION_FRAGMENT
+///
+
+/// IF BACKFACE_LIGHTING_Z || BACKFACE_LIGHTING_XYZ
+	feature_on		USE_VFACE
+///
+
+/// IF USE_VIEW_DIRECTION_FRAGMENT
+	feature_on		USE_WORLD_POSITION_FRAGMENT
+///
+
+# queue
+/// IF SHADER_BLENDING || OUTLINE_BLENDING
+	feature_on		QUEUE_TRANSPARENT
+///
+/// IF ALPHA_TESTING
+	feature_on		QUEUE_ALPHATEST
+///
+
+# rendertype
+/// IF CURVED_WORLD
+	/// IF ALPHA_TESTING
+		set_keyword		RENDER_TYPE		CurvedWorld_TransparentCutout
+	/// ELSE
+		set_keyword		RENDER_TYPE		CurvedWorld_Opaque
+	///
+/// ELSE
+	/// IF ALPHA_TESTING
+		set_keyword		RENDER_TYPE		TransparentCutout
+	/// ELSE
+		set_keyword		RENDER_TYPE		Opaque
+	///
+///
+
+[[MODULE:KEYWORDS]]
+
+#END
+
+#================================================================================================================================================================================================================================================================
+
+Shader "@%SHADER_NAME%@"
+{
+	Properties
+	{
+		[TCP2HeaderHelp(Base)]
+		[[PROP:Main Color]]
+		[[PROP:Highlight Color]]
+		[[PROP:Shadow Color]]
+		[[MODULE:PROPERTIES_BLOCK:ShadowHSV]]
+/// IF !CUSTOM_ALBEDO
+		[[PROP:Albedo]]
+		[[PROP:Alpha]]
+///
+		[[MODULE:PROPERTIES_BLOCK:AlbedoHSV]]
+/// IF ALPHA_TESTING
+		[[PROP:Cutoff]]
+///
+/// IF OCCLUSION
+		[[PROP:Occlusion]]
+///
+		[TCP2Separator]
+
+		[[MODULE:PROPERTIES_BLOCK:Ramp Shading LWRP]]
+		[[MODULE:PROPERTIES_BLOCK:Specular]]
+/// IF EMISSION
+
+		[TCP2HeaderHelp(Emission)]
+		[[PROP:Emission]]
+		[TCP2Separator]
+///
+		[[MODULE:PROPERTIES_BLOCK:Rim Lighting]]
+/// IF (GLOSSY_REFLECTIONS || REFLECTION_CUBEMAP)
+
+		[TCP2HeaderHelp(Reflections)]
+	/// IF REFLECTION_SHADER_FEATURE
+		[Toggle(TCP2_REFLECTIONS)] _UseReflections ("Enable Reflections", Float) = 0
+	///
+///
+/// IF GLOSSY_REFLECTIONS
+		[[PROP:Reflection Color]]
+		[[PROP:Reflection Smoothness]]
+///
+		[[MODULE:PROPERTIES_BLOCK:Reflection]]
+/// IF (GLOSSY_REFLECTIONS || REFLECTION_CUBEMAP)
+		[TCP2Separator]
+///
+		[[MODULE:PROPERTIES_BLOCK:Subsurface Scattering]]
+		[[MODULE:PROPERTIES_BLOCK:MatCap]]
+	#if_not_empty
+		[Header(Ambient Lighting)]
+	#start_not_empty_block
+/// IF AMBIENT_SHADER_FEATURE
+		[Toggle(TCP2_AMBIENT)] _UseAmbient ("Enable Ambient/Indirect Diffuse", Float) = 0
+///
+		[[PROP:Ambient Intensity]]
+		[[MODULE:PROPERTIES_BLOCK:Custom Ambient]]
+	#end_not_empty_block
+		[TCP2Separator]
+	#end_not_empty
+		[[MODULE:PROPERTIES_BLOCK:Triplanar]]
+		[[MODULE:PROPERTIES_BLOCK:Normal Mapping]]
+		[[MODULE:PROPERTIES_BLOCK:Texture Blending]]
+		[[MODULE:PROPERTIES_BLOCK:NdotL Stylization]]
+		[[MODULE:PROPERTIES_BLOCK:Sketch]]
+		[[MODULE:PROPERTIES_BLOCK:Dissolve]]
+		[[MODULE:PROPERTIES_BLOCK:Vertical Fog]]
+/// IF PASS_SILHOUETTE
+		[TCP2HeaderHelp(Silhouette Pass)]
+		[[PROP:Silhouette Color]]
+		[[PROP:Silhouette Blend Source]]
+		[[PROP:Silhouette Blend Destination]]
+		[TCP2Separator]
+///
+		[[MODULE:PROPERTIES_BLOCK:Outline]]
+		[[MODULE:PROPERTIES_BLOCK:NoTile Sampling]]
+/// IF USE_NDV_MIN_MAX_VERT
+		[[PROP:NDV Min Vert]]
+		[[PROP:NDV Max Vert]]
+		[TCP2Separator]
+///
+/// IF USE_NDV_MIN_MAX_FRAG
+		[[PROP:NDV Min Frag]]
+		[[PROP:NDV Max Frag]]
+		[TCP2Separator]
+///
+	#if_not_empty
+	#start_not_empty_block
+		[[PROP:Vertex Position]]
+		[[PROP:Final Color]]
+	#end_not_empty_block
+		[TCP2Separator]
+	#end_not_empty
+/// IF STENCIL
+		[TCP2HeaderHelp(Stencil)]
+		[[PROP:Stencil Reference]]
+		[[PROP:Stencil Read Mask]]
+		[[PROP:Stencil Write Mask]]
+	/// IF !STENCIL_DOUBLE_SIDED
+		[[PROP:Stencil Comparison]]
+		[[PROP:Stencil Pass]]
+		[[PROP:Stencil Fail]]
+		[[PROP:Stencil Depth Fail]]
+	/// ELSE
+		[[PROP:Stencil Front Comparison]]
+		[[PROP:Stencil Front Pass]]
+		[[PROP:Stencil Front Fail]]
+		[[PROP:Stencil Front Depth Fail]]
+		[[PROP:Stencil Back Comparison]]
+		[[PROP:Stencil Back Pass]]
+		[[PROP:Stencil Back Fail]]
+		[[PROP:Stencil Back Depth Fail]]
+	///
+		[TCP2Separator]
+///
+		[[PROPERTIES]]
+
+/// IF !DISABLE_SHADOW_RECEIVING
+		[ToggleOff(_RECEIVE_SHADOWS_OFF)] _ReceiveShadowsOff ("Receive Shadows", Float) = 1
+
+///
+		//Avoid compile error if the properties are ending with a drawer
+		[HideInInspector] __dummy__ ("unused", Float) = 0
+	}
+
+	SubShader
+	{
+		Tags
+		{
+/// IF DISABLE_BATCHING
+			"DisableBatching" = "True"
+///
+			"RenderPipeline" = "LightweightPipeline"
+# Queues are ordered from highest to lowest in terms of priority
+/// IF QUEUE_TRANSPARENT
+			"RenderType"="Transparent"
+			"Queue"="Transparent"
+			"IgnoreProjectors"="True"
+/// ELIF QUEUE_ALPHATEST
+			"RenderType"="@%RENDER_TYPE%@"
+			"Queue"="AlphaTest"
+/// ELIF PASS_SILHOUETTE
+			"RenderType"="@%RENDER_TYPE%@"
+			"Queue"="Geometry+10" //Make sure that the objects are rendered later to avoid sorting issues with the transparent silhouette
+/// ELSE
+			"RenderType"="@%RENDER_TYPE%@"
+///
+		}
+
+	#if_not_empty
+		CGINCLUDE
+	#start_not_empty_block
+		[[MODULE:VARIABLES:Screen Space UV]]
+		[[MODULE:VARIABLES:HSV]]
+		[[MODULE:VARIABLES:Hash Functions]]
+		[[MODULE:VARIABLES:NoTile Sampling]]
+		[[MODULE:VARIABLES:VertExmotion]]
+		[[MODULE:VARIABLES:CurvedWorld]]
+	#end_not_empty_block
+		ENDCG
+	#end_not_empty
+
+		HLSLINCLUDE
+		#include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/Core.hlsl"
+		#include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/Lighting.hlsl"
+		[[MODULE:VARIABLES:Screen Space UV]]
+		[[MODULE:VARIABLES:HSV]]
+		[[MODULE:VARIABLES:Hash Functions]]
+		[[MODULE:VARIABLES:NoTile Sampling]]
+		[[MODULE:VARIABLES:VertExmotion]]
+		[[MODULE:VARIABLES:CurvedWorld]]
+		ENDHLSL
+#PASS
+/// IF PASS_SILHOUETTE
+		//Silhouette Pass
+		Pass
+		{
+			Name "Silhouette"
+			Blend [[VALUE:Silhouette Blend Source]] [[VALUE:Silhouette Blend Destination]]
+			ZTest Greater
+			ZWrite Off
+	/// IF SILHOUETTE_STENCIL
+
+			Stencil
+			{
+				Ref [[VALUE:Silhouette Stencil Reference]]
+				Comp NotEqual
+				Pass Replace
+				ReadMask [[VALUE:Silhouette Stencil Reference]]
+				WriteMask [[VALUE:Silhouette Stencil Reference]]
+			}
+	///
+
+			CGPROGRAM
+			#pragma vertex vertex_silhouette
+			#pragma fragment fragment_silhouette
+			#pragma target @%SHADER_TARGET%@
+
+			#include "UnityCG.cginc"
+
+			struct appdata_sil
+			{
+				float4 vertex : POSITION;
+				[[VERTEX_INPUT_TEXCOORDS]]
+	/// IF USE_VERTEX_COLORS_VERT
+				fixed4 vertexColor : COLOR;
+	///
+	/// IF VERTEXMOTION_NORMAL || CURVED_WORLD_NORMAL
+				float3 normal : NORMAL;
+				float4 tangent : TANGENT;
+	///
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct v2f_sil
+			{
+				float4 vertex : SV_POSITION;
+				[[INPUT_STRUCT_SEMANTICS:0]]
+#INPUT_VARIABLES
+	/// IF USE_VERTEX_COLORS_FRAG
+				fixed4 vertexColor;
+	///
+	/// IF USE_SCREEN_POSITION_FRAGMENT
+				float4 screenPosition;
+	///
+				[[MODULE:INPUT]]
+#END
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+			[[VARIABLES]]
+			[[VARIABLES_GPU_INSTANCING]]
+
+#INPUT = v
+#OUTPUT = output
+#VERTEX
+			v2f_sil vertex_silhouette (appdata_sil v)
+			{
+				v2f_sil output;
+				UNITY_INITIALIZE_OUTPUT(v2f_sil, output);
+
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, output);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+
+				[[VERTEX_TEXCOORDS]]
+				[[SAMPLE_CUSTOM_PROPERTIES]]
+				[[SAMPLE_SHADER_PROPERTIES]]
+
+				[[MODULE:VERTEX:VertExmotion:LWRP(v.vertex, v.normal, v.tangent.xyz)]]
+				[[MODULE:VERTEX:CurvedWorld(v.vertex, v.normal, v.tangent)]]
+
+	/// IF HOOK_VERTEX_POSITION
+				v.vertex.xyz = [[SAMPLE_VALUE_SHADER_PROPERTY:Vertex Position]];
+	///
+	/// IF HOOK_VERTEX_POSITION_WORLD
+				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+				worldPos.xyz = [[SAMPLE_VALUE_SHADER_PROPERTY:Vertex Position World]];
+				v.vertex.xyz = mul(unity_WorldToObject, float4(worldPos, 1)).xyz;
+	///
+				output.vertex = UnityObjectToClipPos(v.vertex);
+	/// IF USE_VERTEX_COLORS_FRAG
+				output.vertexColor = v.vertexColor;
+	///
+	/// IF USE_CLIP_POSITION_VERTEX || USE_SCREEN_POSITION_FRAGMENT || USE_SCREEN_POSITION_VERTEX
+				float4 clipPos = output.vertex;
+	///
+	/// IF USE_SCREEN_POSITION_FRAGMENT || USE_SCREEN_POSITION_VERTEX
+
+				//Screen Position
+				float4 screenPos = ComputeScreenPos(clipPos);
+		/// IF USE_SCREEN_POSITION_FRAGMENT
+				output.screenPosition = screenPos;
+		///
+	///
+				[[MODULE:VERTEX:Screen Space UV(screenPos, clipPos, output)]]
+				return output;
+			}
+
+#INPUT = input
+#OUTPUT = no_output
+#FRAGMENT
+			half4 fragment_silhouette (v2f_sil input) : SV_Target
+			{
+				UNITY_SETUP_INSTANCE_ID(input);
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
+
+				[[MODULE:FRAGMENT:Screen Space UV(input.screenPosition, input)]]
+				[[SAMPLE_CUSTOM_PROPERTIES]]
+				[[SAMPLE_SHADER_PROPERTIES]]
+				return [[VALUE:Silhouette Color]];
+			}
+			ENDCG
+		}
+
+///
+#PASS
+/// IF OUTLINE
+		// Outline Include
+		CGINCLUDE
+
+		#include "UnityCG.cginc"
+		#include "UnityLightingCommon.cginc"	// needed for LightColor
+
+		[[VARIABLES_INCLUDE]]
+		[[VARIABLES_GPU_INSTANCING_INCLUDE]]
+
+		struct appdata_outline
+		{
+			float4 vertex : POSITION;
+			float3 normal : NORMAL;
+			[[VERTEX_INPUT_TEXCOORDS]]
+	/// IF USE_VERTEX_COLORS_VERT
+			fixed4 vertexColor : COLOR;
+	/// ELSE
+		#if TCP2_COLORS_AS_NORMALS
+			float4 vertexColor : COLOR;
+		#endif
+	///
+		// TODO: need a way to know if texcoord1 is used in the Shader Properties
+		#if TCP2_UV2_AS_NORMALS
+			float2 uv2 : TEXCOORD1;
+		#endif
+	/// IF !USE_TANGENT_VERT && !USE_TANGENT_FRAGMENT && !VERTEXMOTION_NORMAL && !CURVED_WORLD_NORMAL
+		#if TCP2_TANGENT_AS_NORMALS
+	///
+			float4 tangent : TANGENT;
+	/// IF !USE_TANGENT_VERT && !USE_TANGENT_FRAGMENT && !VERTEXMOTION_NORMAL && !CURVED_WORLD_NORMAL
+		#endif
+	///
+			UNITY_VERTEX_INPUT_INSTANCE_ID
+		};
+
+		struct v2f_outline
+		{
+			float4 vertex : SV_POSITION;
+			[[INPUT_STRUCT_SEMANTICS:0]]
+#INPUT_VARIABLES
+	/// IF USE_VERTEX_COLORS_FRAG
+			fixed4 vertexColor;
+	///
+	/// IF USE_SCREEN_POSITION_FRAGMENT
+			float4 screenPosition;
+	///
+			[[MODULE:INPUT:Outline]]
+#END
+			UNITY_VERTEX_INPUT_INSTANCE_ID
+			UNITY_VERTEX_OUTPUT_STEREO
+		};
+
+#INPUT = v
+#OUTPUT = output
+#VERTEX
+		v2f_outline vertex_outline (appdata_outline v)
+		{
+			v2f_outline output;
+			UNITY_INITIALIZE_OUTPUT(v2f_outline, output);
+
+			UNITY_SETUP_INSTANCE_ID(v);
+			UNITY_TRANSFER_INSTANCE_ID(v, output);
+			UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+
+			[[VERTEX_TEXCOORDS]]
+			[[SAMPLE_CUSTOM_PROPERTIES]]
+			[[SAMPLE_SHADER_PROPERTIES]]
+
+			[[MODULE:VERTEX:VertExmotion:LWRP(v.vertex, v.normal, v.tangent.xyz)]]
+			[[MODULE:VERTEX:CurvedWorld(v.vertex, v.normal, v.tangent)]]
+
+	/// IF HOOK_VERTEX_POSITION
+			v.vertex.xyz = [[SAMPLE_VALUE_SHADER_PROPERTY:Vertex Position]];
+	///
+	/// IF HOOK_VERTEX_POSITION_WORLD
+			float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+			worldPos.xyz = [[SAMPLE_VALUE_SHADER_PROPERTY:Vertex Position World]];
+			v.vertex.xyz = mul(unity_WorldToObject, float4(worldPos, 1)).xyz;
+	///
+	/// IF USE_VERTEX_COLORS_FRAG
+			output.vertexColor = v.vertexColor;
+	///
+			[[MODULE:VERTEX:Screen Space UV(screenPos, clipPos, output)]]
+		[[MODULE:VERTEX:Outline(v, output, null)]]
+	/// IF USE_CLIP_POSITION_VERTEX || USE_SCREEN_POSITION_FRAGMENT || USE_SCREEN_POSITION_VERTEX
+			float4 clipPos = output.vertex;
+	///
+	/// IF USE_SCREEN_POSITION_FRAGMENT || USE_SCREEN_POSITION_VERTEX
+
+			//Screen Position
+			float4 screenPos = ComputeScreenPos(clipPos);
+		/// IF USE_SCREEN_POSITION_FRAGMENT
+			output.screenPosition = screenPos;
+		///
+	///
+			return output;
+		}
+
+#INPUT = input
+#OUTPUT = no_output
+#FRAGMENT
+		float4 fragment_outline (v2f_outline input) : SV_Target
+		{
+			UNITY_SETUP_INSTANCE_ID(input);
+			UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
+
+			[[MODULE:FRAGMENT:Screen Space UV(input.screenPosition, input)]]
+			[[SAMPLE_CUSTOM_PROPERTIES]]
+			[[SAMPLE_SHADER_PROPERTIES]]
+			[[MODULE:FRAGMENT:Outline(input)]]
+		}
+
+		ENDCG
+		// Outline Include End
+///
+#PASS
+/// IF DEPTH_PREPASS && ___DISABLED___
+
+		//Depth pre-pass
+		Pass
+		{
+			Name "Depth Prepass"
+			ColorMask 0
+			ZWrite On
+
+			CGPROGRAM
+			#pragma vertex vertex_depthprepass
+			#pragma fragment fragment_depthprepass
+			#pragma target @%SHADER_TARGET%@
+
+			#include "UnityCG.cginc"
+			#include "UnityLightingCommon.cginc"	// needed for LightColor
+
+			struct appdata_sil
+			{
+				float4 vertex : POSITION;
+				[[VERTEX_INPUT_TEXCOORDS]]
+	/// IF USE_VERTEX_COLORS_VERT
+				fixed4 vertexColor : COLOR;
+	///
+	/// IF VERTEXMOTION_NORMAL || CURVED_WORLD_NORMAL
+				float3 normal : NORMAL;
+				float4 tangent : TANGENT;
+	///
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct v2f_depthprepass
+			{
+				float4 vertex : SV_POSITION;
+				UNITY_VERTEX_OUTPUT_STEREO
+				[[INPUT_STRUCT_SEMANTICS:0]]
+#INPUT_VARIABLES
+	/// IF USE_VERTEX_COLORS_FRAG
+				fixed4 vertexColor;
+	///
+	/// IF USE_SCREEN_POSITION_FRAGMENT
+				float4 screenPosition;
+	///
+				[[MODULE:INPUT]]
+#END
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+			[[VARIABLES]]
+			[[VARIABLES_GPU_INSTANCING]]
+
+#INPUT = v
+#OUTPUT = output
+#VERTEX
+			v2f_depthprepass vertex_depthprepass (appdata_sil v)
+			{
+				v2f_depthprepass output;
+				UNITY_INITIALIZE_OUTPUT(v2f_depthprepass, output);
+
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, output);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+
+				[[VERTEX_TEXCOORDS]]
+				[[SAMPLE_CUSTOM_PROPERTIES]]
+				[[SAMPLE_SHADER_PROPERTIES]]
+
+				[[MODULE:VERTEX:VertExmotion(v.vertex, v.normal, v.tangent)]]
+				[[MODULE:VERTEX:CurvedWorld(v.vertex, v.normal, v.tangent)]]
+
+	/// IF HOOK_VERTEX_POSITION
+				v.vertex.xyz = [[SAMPLE_VALUE_SHADER_PROPERTY:Vertex Position]];
+	///
+	/// IF HOOK_VERTEX_POSITION_WORLD
+				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+				worldPos.xyz = [[SAMPLE_VALUE_SHADER_PROPERTY:Vertex Position World]];
+				v.vertex.xyz = mul(unity_WorldToObject, float4(worldPos, 1)).xyz;
+	///
+				output.vertex = UnityObjectToClipPos(v.vertex);
+	/// IF USE_VERTEX_COLORS_FRAG
+				output.vertexColor = v.vertexColor;
+	///
+	/// IF USE_CLIP_POSITION_VERTEX || USE_SCREEN_POSITION_FRAGMENT || USE_SCREEN_POSITION_VERTEX
+				float4 clipPos = output.vertex;
+	///
+	/// IF USE_SCREEN_POSITION_FRAGMENT || USE_SCREEN_POSITION_VERTEX
+
+				//Screen Position
+				float4 screenPos = ComputeScreenPos(clipPos);
+		/// IF USE_SCREEN_POSITION_FRAGMENT
+				output.screenPosition = screenPos;
+		///
+	///
+				[[MODULE:VERTEX:Screen Space UV(screenPos, clipPos, output)]]
+				return output;
+			}
+
+#INPUT = input
+#OUTPUT = no_output
+#FRAGMENT
+			half4 fragment_depthprepass (v2f_depthprepass input) : SV_Target
+			{
+				UNITY_SETUP_INSTANCE_ID(input);
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
+
+				[[MODULE:FRAGMENT:Screen Space UV(input.screenPosition, input)]]
+				[[SAMPLE_CUSTOM_PROPERTIES]]
+				[[SAMPLE_SHADER_PROPERTIES]]
+				return 0;
+			}
+			ENDCG
+		}
+///
+/// IF OUTLINE && OUTLINE_BEHIND_STENCIL
+
+		Stencil
+		{
+			Ref [[VALUE:Outline Stencil Reference]]
+			Comp Always
+			Pass Replace
+		}
+///
+#PASS
+		Pass
+		{
+			Name "Main"
+			Tags { "LightMode"="LightweightForward" }
+/// IF ALPHA_BLENDING
+			Blend SrcAlpha OneMinusSrcAlpha
+/// ELIF ALPHA_BLENDING_PREMULT
+			Blend One OneMinusSrcAlpha
+/// ELIF ADDITIVE_BLENDING
+			Blend One One
+/// ELIF MULTIPLICATIVE_BLENDING
+			Blend DstColor Zero
+/// ELIF CUSTOM_BLENDING
+			Blend [[VALUE:Blend Source]] [[VALUE:Blend Destination]]
+///
+/// IF BLEND_OP
+			BlendOp [[VALUE:Blend Operation]]
+///
+/// IF ALPHA_TESTING && ALPHA_TO_COVERAGE
+			AlphaToMask On
+///
+/// IF ZWRITE
+			ZWrite [[VALUE:Depth Write]]
+///
+/// IF ZTEST
+			ZTest [[VALUE:Depth Test]]
+///
+/// IF CULLING
+			Cull [[VALUE:Face Culling]]
+///
+/// IF STENCIL
+
+			Stencil
+			{
+				Ref [[VALUE:Stencil Reference]]
+				ReadMask [[VALUE:Stencil Read Mask]]
+				WriteMask [[VALUE:Stencil Write Mask]]
+	/// IF !STENCIL_DOUBLE_SIDED
+				Comp [[VALUE:Stencil Comparison]]
+				Pass [[VALUE:Stencil Pass]]
+				Fail [[VALUE:Stencil Fail]]
+				ZFail [[VALUE:Stencil Depth Fail]]
+	/// ELSE
+				CompFront [[VALUE:Stencil Front Comparison]]
+				PassFront [[VALUE:Stencil Front Pass]]
+				FailFront [[VALUE:Stencil Front Fail]]
+				ZFailFront [[VALUE:Stencil Front Depth Fail]]
+
+				CompBack [[VALUE:Stencil Back Comparison]]
+				PassBack [[VALUE:Stencil Back Pass]]
+				FailBack [[VALUE:Stencil Back Fail]]
+				ZFailBack [[VALUE:Stencil Back Depth Fail]]
+	///
+			}
+/// ELIF PASS_SILHOUETTE && SILHOUETTE_STENCIL
+
+			// Stencil value used for Silhouette Pass to make sure we don't see a
+			// silhouette when the same mesh occludes parts of itself
+			Stencil
+			{
+				Ref [[VALUE:Silhouette Stencil Reference]]
+				Pass Replace
+				ReadMask [[VALUE:Silhouette Stencil Reference]]
+				WriteMask [[VALUE:Silhouette Stencil Reference]]
+			}
+///
+
+			HLSLPROGRAM
+			// Required to compile gles 2.0 with standard SRP library
+			// All shaders must be compiled with HLSLcc and currently only gles is not using HLSLcc by default
+			#pragma prefer_hlslcc gles
+			#pragma exclude_renderers d3d11_9x
+			#pragma target @%SHADER_TARGET%@
+
+			#define fixed half
+			#define fixed2 half2
+			#define fixed3 half3
+			#define fixed4 half4
+
+			// -------------------------------------
+			// Material keywords
+			//#pragma shader_feature _ALPHATEST_ON
+/// IF DISABLE_SHADOW_RECEIVING
+			#pragma multi_compile _RECEIVE_SHADOWS_OFF
+/// ELSE
+			#pragma shader_feature _ _RECEIVE_SHADOWS_OFF
+///
+
+			// -------------------------------------
+			// Lightweight Render Pipeline keywords
+			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+			#pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
+			#pragma multi_compile _ _SHADOWS_SOFT
+			#pragma multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE
+
+			// -------------------------------------
+/// IF ENABLE_LIGHTMAP
+			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
+			#pragma multi_compile _ LIGHTMAP_ON
+///
+/// IF FOG
+			#pragma multi_compile_fog
+///
+
+			//--------------------------------------
+			// GPU Instancing
+			#pragma multi_compile_instancing
+
+			#pragma vertex Vertex
+			#pragma fragment Fragment
+
+	#if_not_empty
+			//--------------------------------------
+			// Toony Colors Pro 2 keywords
+	#start_not_empty_block
+			[[MODULE:SHADER_FEATURES_BLOCK:Specular]]
+			[[MODULE:SHADER_FEATURES_BLOCK:Rim Lighting]]
+/// IF (GLOSSY_REFLECTIONS || REFLECTION_CUBEMAP) && REFLECTION_SHADER_FEATURE
+			#pragma shader_feature TCP2_REFLECTIONS
+///
+/// IF AMBIENT_SHADER_FEATURE
+			#pragma shader_feature TCP2_AMBIENT
+///
+			[[MODULE:SHADER_FEATURES_BLOCK:MatCap]]
+			[[MODULE:SHADER_FEATURES_BLOCK:Subsurface Scattering]]
+			[[MODULE:SHADER_FEATURES_BLOCK:Normal Mapping]]
+			[[MODULE:SHADER_FEATURES_BLOCK:Sketch]]
+			[[MODULE:SHADER_FEATURES_BLOCK:NdotL Stylization]]
+			[[MODULE:SHADER_FEATURES_BLOCK:Dissolve]]
+			[[MODULE:SHADER_FEATURES_BLOCK:Vertical Fog]]
+	#end_not_empty_block
+	#end_not_empty
+
+			// Uniforms
+			CBUFFER_START(UnityPerMaterial)
+			[[VARIABLES]]
+			[[MODULE:VARIABLES]]
+			[[VARIABLES_GPU_INSTANCING]]
+			CBUFFER_END
+
+			// vertex input
+			struct Attributes
+			{
+				float4 vertex       : POSITION;
+				float3 normal       : NORMAL;
+				float4 tangent      : TANGENT;
+/// IF ENABLE_LIGHTMAP
+				float2 uvLM         : TEXCOORD1;
+///
+/// IF USE_VERTEX_COLORS_VERT
+				half4 vertexColor   : COLOR;
+///
+				[[VERTEX_INPUT_TEXCOORDS]]
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			// vertex output / fragment input
+			struct Varyings
+			{
+				float4 positionCS     : SV_POSITION;
+				float3 normal         : NORMAL;
+				float4 worldPosAndFog : TEXCOORD0;
+			#ifdef _MAIN_LIGHT_SHADOWS
+				float4 shadowCoord    : TEXCOORD1; // compute shadow coord per-vertex for the main light
+			#endif
+			#ifdef _ADDITIONAL_LIGHTS_VERTEX
+				half3 vertexLights : TEXCOORD2;
+			#endif
+				[[INPUT_STRUCT_SEMANTICS:3]]
+#INPUT_VARIABLES
+/// IF USE_OBJECT_POSITION_FRAGMENT
+				float3 objPos;
+///
+/// IF USE_OBJECT_NORMAL_FRAGMENT
+				float3 objNormal;
+///
+/// IF USE_VERTEX_COLORS_FRAG
+				half4 vertexColor;
+///
+/// IF USE_TANGENT_FRAGMENT
+				half3 tangent;
+///
+/// IF USE_BITANGENT_FRAGMENT
+				half3 bitangent;
+///
+/// IF USE_SCREEN_POSITION_FRAGMENT
+				float4 screenPosition;
+///
+/// IF FOG
+				float fogFactor;
+///
+/// IF ENABLE_LIGHTMAP
+				float2 uvLM;
+///
+				[[MODULE:INPUT]]
+#END
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+#VERTEX, INPUT = input, OUTPUT = output
+			Varyings Vertex(Attributes input)
+			{
+				Varyings output = (Varyings)0;
+
+				UNITY_SETUP_INSTANCE_ID(input);
+				UNITY_TRANSFER_INSTANCE_ID(input, output);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+
+				[[VERTEX_TEXCOORDS]]
+				[[SAMPLE_CUSTOM_PROPERTIES]]
+				[[SAMPLE_SHADER_PROPERTIES]]
+/// IF ENABLE_LIGHTMAP
+				output.[[INPUT_VALUE:uvLM]] = input.uvLM.xy * unity_LightmapST.xy + unity_LightmapST.zw;
+///
+
+				[[MODULE:VERTEX:VertExmotion:LWRP(input.vertex, input.normal, input.tangent.xyz)]]
+				[[MODULE:VERTEX:CurvedWorld(input.vertex, input.normal, input.tangent)]]
+/// IF HOOK_VERTEX_POSITION
+				input.vertex.xyz = [[SAMPLE_VALUE_SHADER_PROPERTY:Vertex Position]];
+///
+/// IF HOOK_VERTEX_POSITION_WORLD
+				float3 worldPos = mul(unity_ObjectToWorld, input.vertex).xyz;
+				worldPos.xyz = [[SAMPLE_VALUE_SHADER_PROPERTY:Vertex Position World]];
+				input.vertex.xyz = mul(unity_WorldToObject, float4(worldPos, 1)).xyz;
+///
+/// IF USE_OBJECT_POSITION_FRAGMENT
+				output.[[INPUT_VALUE:objPos]] = input.vertex.xyz;
+///
+/// IF USE_OBJECT_NORMAL_FRAGMENT
+				output.[[INPUT_VALUE:objNormal]] = input.normal.xyz;
+///
+				VertexPositionInputs vertexInput = GetVertexPositionInputs(input.vertex.xyz);
+			#ifdef _MAIN_LIGHT_SHADOWS
+				output.shadowCoord = GetShadowCoord(vertexInput);
+			#endif
+/// IF USE_CLIP_POSITION_VERTEX || USE_SCREEN_POSITION_FRAGMENT || USE_SCREEN_POSITION_VERTEX
+				float4 clipPos = vertexInput.positionCS;
+///
+/// IF USE_SCREEN_POSITION_FRAGMENT || USE_SCREEN_POSITION_VERTEX
+
+			//Screen Space UV
+			#if _MAIN_LIGHT_SHADOWS && SHADOWS_SCREEN
+				float4 screenPos = output.shadowCoord;
+			#else
+				float4 screenPos = ComputeScreenPos(clipPos);
+			#endif
+	/// IF USE_SCREEN_POSITION_FRAGMENT
+				output.[[INPUT_VALUE:screenPosition]] = screenPos;
+	///
+///
+				[[MODULE:VERTEX:Screen Space UV(screenPos, clipPos, output)]]
+
+/// IF USE_TANGENT_VERT || USE_TANGENT_FRAGMENT
+				VertexNormalInputs vertexNormalInput = GetVertexNormalInputs(input.normal, input.tangent);
+/// ELSE
+				VertexNormalInputs vertexNormalInput = GetVertexNormalInputs(input.normal);
+///
+			#ifdef _ADDITIONAL_LIGHTS_VERTEX
+				// Vertex lighting
+				output.vertexLights = VertexLighting(vertexInput.positionWS, vertexNormalInput.normalWS);
+			#endif
+
+				// world position
+				output.worldPosAndFog = float4(vertexInput.positionWS.xyz, 0);
+/// IF FOG
+
+				// Computes fog factor per-vertex
+				output.worldPosAndFog.w = ComputeFogFactor(vertexInput.positionCS.z);
+///
+
+				// normal
+				output.normal = NormalizeNormalPerVertex(vertexNormalInput.normalWS);
+/// IF USE_TANGENT_FRAGMENT
+
+				// tangent
+				output.[[INPUT_VALUE:tangent]] = vertexNormalInput.tangentWS;
+///
+/// IF USE_BITANGENT_FRAGMENT
+				output.[[INPUT_VALUE:bitangent]] = vertexNormalInput.bitangentWS;
+///
+
+				// clip position
+				output.positionCS = vertexInput.positionCS;
+
+/// IF USE_VERTEX_COLORS_FRAG
+				output.vertexColor = input.vertexColor;
+///
+/// IF USE_VIEW_DIRECTION_VERTEX
+				half3 viewDirWS = SafeNormalize(GetCameraPositionWS() - vertexInput.positionWS);
+///
+#ENABLE_IMPL: float ndv, lbl = "Special/N·V (Vertex)", help = "The dot product between the normal and view direction.", toggles = "USE_NDV_VERTEX", options = "(Use Min/Max Properties,USE_NDV_MIN_MAX_VERT,config),(Invert,USE_NDV_INVERT_VERT)"
+/// IF USE_NDV_VERTEX
+				half ndv = max(0, dot(viewDirWS, vertexNormalInput.normalWS));
+				half ndvRaw = ndv;
+	/// IF USE_NDV_INVERT_VERT
+				ndv = 1 - ndv;
+	///
+	/// IF USE_NDV_MIN_MAX_VERT
+				ndv = smoothstep([[VALUE:NDV Min Vert]], [[VALUE:NDV Max Vert]], ndv);
+	///
+///
+
+				[[MODULE:VERTEX:Rim Lighting(ndvRaw, viewDirWS, input.normal, output)]]
+				[[MODULE:VERTEX:MatCap(input.normal, screenPos, output)]]
+
+				return output;
+#DISABLE_IMPL_ALL
+			}
+
+/// IF BYPASS_LIGHT_FALLOFF
+			// Copy of LWRP's GetAdditionalLight() with different falloff calculation
+			Light GetAdditionalLight_BypassFalloff(int i, float3 positionWS)
+			{
+				int perObjectLightIndex = GetPerObjectLightIndex(i);
+
+				float3 lightPositionWS = _AdditionalLightsPosition[perObjectLightIndex].xyz;
+				half4 distanceAndSpotAttenuation = _AdditionalLightsAttenuation[perObjectLightIndex];
+				half4 spotDirection = _AdditionalLightsSpotDir[perObjectLightIndex];
+
+				float3 lightVector = lightPositionWS - positionWS;
+				float distanceSqr = max(dot(lightVector, lightVector), HALF_MIN);
+
+				half3 lightDirection = half3(lightVector * rsqrt(distanceSqr));
+				// original line:
+				//half attenuation = DistanceAttenuation(distanceSqr, distanceAndSpotAttenuation.xy);
+				half attenuation = saturate(1 - distanceSqr * distanceAndSpotAttenuation.x);
+				attenuation *= AngleAttenuation(spotDirection.xyz, lightDirection, distanceAndSpotAttenuation.zw);
+
+				Light light;
+				light.direction = lightDirection;
+				light.distanceAttenuation = attenuation;
+				light.shadowAttenuation = AdditionalLightRealtimeShadow(perObjectLightIndex, positionWS);
+				light.color = _AdditionalLightsColor[perObjectLightIndex].rgb;
+
+				return light;
+			}
+
+///
+#FRAGMENT, INPUT = input, OUTPUT = no_output
+/// IF USE_VFACE
+			half4 Fragment(Varyings input, half vFace : VFACE) : SV_Target
+/// ELSE
+			half4 Fragment(Varyings input) : SV_Target
+///
+			{
+				UNITY_SETUP_INSTANCE_ID(input);
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
+
+#ENABLE_IMPL: float vFace, lbl = "Special/VFACE (Face direction)", help = "Indicates if the current face is back or front-facing. Should be used with custom Face Culling.", toggles = "USE_VFACE", custom_code_compatible = true
+				float3 positionWS = input.worldPosAndFog.xyz;
+				float3 normalWS = NormalizeNormalPerPixel(input.normal);
+/// IF BACKFACE_LIGHTING_Z
+				normalWS.z *= (vFace < 0) ? -1.0 : 1.0;
+/// ELIF BACKFACE_LIGHTING_XYZ
+				normalWS.xyz *= (vFace < 0) ? -1.0 : 1.0;
+///
+/// IF USE_VIEW_DIRECTION_FRAGMENT
+				half3 viewDirWS = SafeNormalize(GetCameraPositionWS() - positionWS);
+///
+/// IF USE_TANGENT_FRAGMENT
+				half3 tangentWS = input.[[INPUT_VALUE:tangent]];
+///
+/// IF USE_BITANGENT_FRAGMENT
+				half3 bitangentWS = input.[[INPUT_VALUE:bitangent]];
+///
+#TODO implement POM from PerPixelDisplacement.hlsl instead of the old one?
+/// IF BUMP
+	/// IF BUMP_SHADER_FEATURE
+				#if defined(_NORMALMAP)
+	///
+				[[MODULE:FRAGMENT:Normal Mapping:BUILD_TANGENT_MATRIX(tangentWS.xyz, bitangentWS.xyz, normalWS.xyz)]]
+				[[MODULE:FRAGMENT:Normal Mapping:PARALLAX_SRP(viewDirWS, input.[[INPUT_VALUE:texcoord0]])]]
+	/// IF BUMP_SHADER_FEATURE
+				#endif
+	///
+///
+
+				[[MODULE:FRAGMENT:Screen Space UV(input.[[INPUT_VALUE:screenPosition]], input)]]
+				[[SAMPLE_CUSTOM_PROPERTIES]]
+				[[SAMPLE_SHADER_PROPERTIES]]
+
+/// IF USE_NDV_FRAGMENT && USE_NDV_IGNORE_NORMAL_MAP
+				half3 normalWSVertex = normalWS;
+///
+/// IF BUMP && BUMP_SHADER_FEATURE
+				#if defined(_NORMALMAP)
+///
+				[[MODULE:FRAGMENT:Normal Mapping:BUMP_SAMPLE()]]
+				[[MODULE:FRAGMENT:Texture Blending:BUMP(normalMap)]]
+				[[MODULE:FRAGMENT:Normal Mapping:UNPACK_BUMP_SRP(normalMap, normalTS)]]
+				[[MODULE:FRAGMENT:Normal Mapping:APPLY_BUMP_SRP(normalWS, normalTS)]]
+/// IF BUMP && BUMP_SHADER_FEATURE
+				#endif
+///
+
+#ENABLE_IMPL: float ndv, lbl = "Special/N·V", help = "The dot product between the normal and view direction.", toggles = "USE_NDV_FRAGMENT", options = "(Use Min/Max Properties,USE_NDV_MIN_MAX_FRAG,config),(Invert,USE_NDV_INVERT_FRAG),(Ignore Normal Map,USE_NDV_IGNORE_NORMAL_MAP)"
+/// IF USE_NDV_FRAGMENT
+	/// IF USE_NDV_IGNORE_NORMAL_MAP
+				half ndv = max(0, dot(viewDirWS, normalWSVertex));
+	/// ELSE
+				half ndv = max(0, dot(viewDirWS, normalWS));
+	///
+				half ndvRaw = ndv;
+	/// IF USE_NDV_INVERT_FRAG
+				ndv = 1 - ndv;
+	///
+	/// IF USE_NDV_MIN_MAX_FRAG
+				ndv = smoothstep([[VALUE:NDV Min Frag]], [[VALUE:NDV Max Frag]], ndv);
+	///
+
+///
+				// main texture
+		/// IF CUSTOM_ALBEDO
+				half3 albedo = half3(1,1,1);
+				half alpha = 1;
+		/// ELSE
+				half3 albedo = [[VALUE:Albedo]].rgb;
+				half alpha = [[VALUE:Alpha]];
+		///
+				half3 emission = half3(0,0,0);
+				[[MODULE:FRAGMENT:Dissolve(emission)]]
+		/// IF ALPHA_TESTING
+
+			/// IF !ALPHA_TO_COVERAGE
+				//Alpha Testing
+				clip(alpha - [[VALUE:Cutoff]]);
+			/// ELIF !ALPHA_TO_COVERAGE_RAW
+				//Sharpen Alpha-to-Coverage
+				alpha = (alpha - [[VALUE:Cutoff]]) / max(fwidth(alpha), 0.0001) + 0.5;
+			///
+		///
+/// IF TEXTURE_BLENDING || TRIPLANAR
+				half4 albedoAlpha = half4(albedo, alpha);
+	/// IF TRIPLANAR
+				[[MODULE:FRAGMENT:Triplanar:INPUT(positionWS, normalWS, input.[[INPUT_VALUE:objPos]], input.[[INPUT_VALUE:objNormal]])]]
+				[[MODULE:FRAGMENT:Triplanar(albedoAlpha, positionWS, input.[[INPUT_VALUE:objPos])]]
+	///
+	/// IF TEXTURE_BLENDING
+				[[MODULE:FRAGMENT:Texture Blending(albedoAlpha)]]
+	///
+				albedo = albedoAlpha.rgb;
+				alpha = albedoAlpha.a;
+///
+				[[MODULE:FRAGMENT:AlbedoHSV(albedo)]]
+				albedo *= [[VALUE:Main Color]].rgb;
+/// IF HOOK_FINAL_ALBEDO
+				albedo.rgb = [[SAMPLE_VALUE_SHADER_PROPERTY:Final Albedo]];
+///
+/// IF EMISSION
+				emission += [[VALUE:Emission]];
+///
+
+				[[MODULE:FRAGMENT:Triplanar:BUMP(normalWS)]]
+
+				[[MODULE:FRAGMENT:MatCap(albedo, emission, normalWS, input)]]
+
+				// main light: direction, color, distanceAttenuation, shadowAttenuation
+			#ifdef _MAIN_LIGHT_SHADOWS
+				Light mainLight = GetMainLight(input.shadowCoord);
+			#else
+				Light mainLight = GetMainLight();
+			#endif
+
+				half3 lightDir = mainLight.direction;
+/// IF HOOK_MAIN_LIGHT_DIR
+				lightDir = normalize([[SAMPLE_VALUE_SHADER_PROPERTY:Main Light Direction]]);
+///
+				half3 lightColor = mainLight.color.rgb;
+/// IF HOOK_MAIN_LIGHT_COLOR
+				lightColor = [[SAMPLE_VALUE_SHADER_PROPERTY:Main Light Color]];
+///
+#ENABLE_IMPL: float3 lightColor, lbl = "Special/Light Color", compat = "all", help = "The color of the current light used."
+				half atten = mainLight.shadowAttenuation;
+/// IF HOOK_MAIN_LIGHT_ATTEN
+				atten = [[SAMPLE_VALUE_SHADER_PROPERTY:Main Light Attenuation]];
+///
+#ENABLE_IMPL: float atten, lbl = "Special/Shadow Map", compat = "all", help = "The shadow map value for the current light."
+
+				half ndl = max(0, dot(normalWS, lightDir));
+#ENABLE_IMPL: float ndl, lbl = "Special/N·L", compat = "all", help = "The dot product between the normal and light direction."
+				[[MODULE:FRAGMENT:NdotL Stylization:AFTER_NDL(ndl)]]
+				half3 ramp;
+				[[MODULE:FRAGMENT:Ramp Shading LWRP:MAIN_LIGHT(ramp, ndl)]]
+/// IF USE_NDL_GRAYSCALE
+				fixed3 rampGrayscale = ramp;
+///
+#ENABLE_IMPL: float3 rampGrayscale, lbl = "Special/N·L Ramp (Black and White)", compat = "all", toggles = "USE_NDL_GRAYSCALE", help = "N·L with the ramp modification before the highlight/shadow colors are applied."
+
+				// apply attenuation
+				ramp *= atten;
+
+/// IF SHADOW_COLOR_MAIN_DIR
+				[[MODULE:FRAGMENT:ShadowHSV(albedo, ramp)]]
+				[[MODULE:FRAGMENT:Sketch(ramp)]]
+
+				// highlight/shadow colors
+	/// IF SHADOW_COLOR_LERP
+				albedo = lerp([[VALUE:Shadow Color]], albedo, ramp);
+				ramp = lerp(half3(1,1,1), [[VALUE:Highlight Color]], ramp);
+	/// ELSE
+				ramp = lerp([[VALUE:Shadow Color]], [[VALUE:Highlight Color]], ramp);
+	///
+	/// IF HOOK_RAMP
+				ramp = [[SAMPLE_VALUE_SHADER_PROPERTY:Shading Ramp]];
+	///
+#ENABLE_IMPL: float3 ramp, lbl = "Special/N·L Ramp (With Colors)", compat = "all", help = "N·L with the ramp modification with the highlight/shadow colors applied."
+				[[MODULE:FRAGMENT:NdotL Stylization:AFTER_RAMP(ndl, ramp)]]
+
+				// output color
+				half3 color = half3(0,0,0);
+				[[MODULE:FRAGMENT:Rim Lighting(ndvRaw, color, albedo, normalWS, viewDirWS, input.screenPosition, ndl, atten, input)]]
+				color += albedo * lightColor.rgb * ramp;
+				[[MODULE:FRAGMENT:Sketch:APPLY(color.rgb)]]
+/// ELSE
+	/// IF HOOK_RAMP
+				ramp = [[SAMPLE_VALUE_SHADER_PROPERTY:Shading Ramp]];
+	///
+				[[MODULE:FRAGMENT:NdotL Stylization:AFTER_RAMP(ndl, ramp)]]
+				half3 color = half3(0,0,0);
+				[[MODULE:FRAGMENT:Rim Lighting(ndvRaw, color, albedo, normalWS, viewDirWS, input.screenPosition, ndl, atten, input)]]
+				half3 accumulatedRamp = ramp * max(lightColor.r, max(lightColor.g, lightColor.b));
+				half3 accumulatedColors = ramp * lightColor.rgb;
+///
+
+				[[MODULE:FRAGMENT:Specular(color, normalWS, tangentWS, lightDir, viewDirWS, ndl, ndvRaw, atten)]]
+				[[MODULE:FRAGMENT:Subsurface Scattering:LWRP_MAIN_LIGHT(color, normalWS, viewDirWS, albedo, lightColor, lightDir, atten)]]
+				[[MODULE:FRAGMENT:Reflection(color, normalWS, viewDirWS, ndvRaw)]]
+
+				// Additional lights loop
+			#ifdef _ADDITIONAL_LIGHTS
+				int additionalLightsCount = GetAdditionalLightsCount();
+				for (int i = 0; i < additionalLightsCount; ++i)
+				{
+/// IF BYPASS_LIGHT_FALLOFF
+					Light light = GetAdditionalLight_BypassFalloff(i, positionWS);
+					half atten = light.shadowAttenuation;
+/// ELSE
+					Light light = GetAdditionalLight(i, positionWS);
+					half atten = light.shadowAttenuation * light.distanceAttenuation;
+///
+/// IF HOOK_OTHER_LIGHTS_ATTEN
+					atten = [[SAMPLE_VALUE_SHADER_PROPERTY:Additional Lights Attenuation]];
+///
+					half3 lightDir = light.direction;
+/// IF HOOK_OTHER_LIGHTS_DIR
+					lightDir = normalize([[SAMPLE_VALUE_SHADER_PROPERTY:Additional Lights Direction]]);
+///
+					half3 lightColor = light.color.rgb;
+/// IF HOOK_OTHER_LIGHTS_COLOR
+					lightColor = [[SAMPLE_VALUE_SHADER_PROPERTY:Additional Lights Color]];
+///
+
+					half ndl = max(0, dot(normalWS, lightDir));
+/// IF BYPASS_LIGHT_FALLOFF
+					ndl *= light.distanceAttenuation;
+///
+					[[MODULE:FRAGMENT:NdotL Stylization:AFTER_NDL(ndl)]]
+					half3 ramp;
+					[[MODULE:FRAGMENT:Ramp Shading LWRP:ADDITIONAL_LIGHT(ramp, ndl)]]
+
+/// IF !ENABLE_SHADOW_2ND_LIGHTS && !ENABLE_SHADOW_2ND_LIGHTS_SAT
+					// apply attenuation (shadowmaps & point/spot lights attenuation)
+					ramp *= atten;
+///
+
+/// IF SHADOW_COLOR_MAIN_DIR
+					// apply highlight color
+	/// IF ENABLE_SHADOW_2ND_LIGHTS || ENABLE_SHADOW_2ND_LIGHTS_SAT
+					ramp = lerp([[VALUE:Shadow Color]], [[VALUE:Highlight Color]], ramp);
+		/// IF ENABLE_SHADOW_2ND_LIGHTS_SAT
+					ramp *= saturate(atten);
+		/// ELSE
+					ramp *= atten;
+		///
+	/// ELSE
+					ramp = lerp(half3(0,0,0), [[VALUE:Highlight Color]], ramp);
+	///
+					[[MODULE:FRAGMENT:NdotL Stylization:AFTER_RAMP(ndl, ramp)]]
+#					[[MODULE:FRAGMENT:Sketch(ramp)]]
+
+					// output color
+					color += albedo * lightColor.rgb * ramp;
+#					[[MODULE:FRAGMENT:Sketch:APPLY(color.rgb)]]
+/// ELSE
+					[[MODULE:FRAGMENT:NdotL Stylization:AFTER_RAMP(ndl, ramp)]]
+					accumulatedRamp += ramp * max(lightColor.r, max(lightColor.g, lightColor.b));
+					accumulatedColors += ramp * lightColor.rgb;
+///
+
+					[[MODULE:FRAGMENT:Specular(color, normalWS, tangentWS, lightDir, viewDirWS, ndl, ndvRaw, atten)]]
+					[[MODULE:FRAGMENT:Subsurface Scattering:LWRP_ADDITIONAL_LIGHT(color, normalWS, viewDirWS, albedo, lightColor, lightDir, atten)]]
+					[[MODULE:FRAGMENT:Rim Lighting:ADDITIONAL_LIGHT(ndvRaw, color, normalWS, viewDirWS, input.screenPosition, ndl, atten, input)]]
+				}
+			#endif
+			#ifdef _ADDITIONAL_LIGHTS_VERTEX
+				color += input.vertexLights * albedo;
+			#endif
+/// IF !SHADOW_COLOR_MAIN_DIR
+
+				accumulatedRamp = saturate(accumulatedRamp);
+				[[MODULE:FRAGMENT:ShadowHSV(albedo,accumulatedRamp)]];
+				[[MODULE:FRAGMENT:Sketch(accumulatedRamp)]]
+	/// IF SHADOW_COLOR_LERP
+				albedo = lerp([[VALUE:Shadow Color]], albedo, accumulatedRamp);
+	///
+				half3 shadowColor = (1 - accumulatedRamp.rgb) * [[VALUE:Shadow Color]];
+				accumulatedRamp = accumulatedColors.rgb * [[VALUE:Highlight Color]] + shadowColor;
+				color += albedo * accumulatedRamp;
+				[[MODULE:FRAGMENT:Sketch:APPLY(color.rgb)]]
+///
+
+				// ambient or lightmap
+/// IF ENABLE_LIGHTMAP
+			#ifdef LIGHTMAP_ON
+				// Normal is required in case Directional lightmaps are baked
+				half3 bakedGI = SampleLightmap(input.[[INPUT_VALUE:uvLM]], normalWS);
+			#else
+///
+/// IF NO_AMBIENT
+				half3 bakedGI = half3(0,0,0);
+/// ELSE
+	/// IF AMBIENT_SHADER_FEATURE
+			#if defined(TCP2_AMBIENT)
+	///
+				// Samples SH fully per-pixel. SampleSHVertex and SampleSHPixel functions
+				// are also defined in case you want to sample some terms per-vertex.
+				half3 bakedGI = SampleSH(normalWS);
+	/// IF AMBIENT_SHADER_FEATURE
+			#else
+				half3 bakedGI = half3(0,0,0);
+			#endif
+	///
+///
+/// IF ENABLE_LIGHTMAP
+			#endif
+///
+/// IF OCCLUSION
+				half occlusion = [[VALUE:Occlusion]];
+/// ELSE
+				half occlusion = 1;
+///
+				half3 indirectDiffuse = bakedGI;
+/// IF AMBIENT_SHADER_FEATURE
+			#if defined(TCP2_AMBIENT)
+///
+				[[MODULE:FRAGMENT:Custom Ambient(indirectDiffuse.rgb, normalWS)]]
+				indirectDiffuse *= occlusion * albedo * [[VALUE:Ambient Intensity]];
+				[[MODULE:FRAGMENT:Sketch:APPLY_AMBIENT(indirectDiffuse.rgb)]]
+/// IF HOOK_FINAL_AMBIENT
+				indirectDiffuse.rgb = [[SAMPLE_VALUE_SHADER_PROPERTY:Final Ambient]];
+///
+/// IF AMBIENT_SHADER_FEATURE
+			#endif
+///
+				color += indirectDiffuse;
+
+/// IF GLOSSY_REFLECTIONS
+	/// IF REFLECTION_SHADER_FEATURE
+				#if defined(TCP2_REFLECTIONS)
+	///
+				// world reflection
+				half reflectionRoughness = 1 - [[VALUE:Reflection Smoothness]];
+	/// IF !REFLECTION_CUBEMAP
+				half3 reflectVector = reflect(-viewDirWS, normalWS);
+	///
+				half3 indirectSpecular = GlossyEnvironmentReflection(reflectVector, reflectionRoughness, occlusion);
+				half reflectionRoughness4 = max(pow(reflectionRoughness, 4), 6.103515625e-5);
+				float surfaceReductionRefl = 1.0 / (reflectionRoughness4 + 1.0);
+				color += indirectSpecular * surfaceReductionRefl * [[VALUE:Reflection Color]];
+	/// IF REFLECTION_SHADER_FEATURE
+				#endif
+	///
+///
+				color += emission;
+/// IF FOG
+
+				// Mix the pixel color with fogColor. You can optionally use MixFogColor to override the fogColor with a custom one.
+				float fogFactor = input.worldPosAndFog.w;
+				color = MixFog(color, fogFactor);
+///
+				[[MODULE:FRAGMENT:Vertical Fog(color.rgb, input.worldPosAndFog.xyz)]]
+/// IF HOOK_FINAL_COLOR
+
+				color.rgb = [[SAMPLE_VALUE_SHADER_PROPERTY:Final Color]];
+///
+
+				return half4(color, alpha);
+#DISABLE_IMPL_ALL
+			}
+			ENDHLSL
+		}
+
+/// IF OUTLINE
+		//Outline
+		Pass
+		{
+			Name "Outline"
+			Cull Front
+	/// IF OUTLINE_ZSMOOTH
+			Offset [[VALUE:Outline Offset Factor]],[[VALUE:Outline Offset Units]]
+	///
+	/// IF OUTLINE_BLENDING
+			Blend [[VALUE:Outline Blend Source]] [[VALUE:Outline Blend Destination]]
+	/// ELIF OUTLINE_OPAQUE
+			Blend Off
+	///
+	/// IF OUTLINE_BEHIND_STENCIL
+			Stencil
+			{
+				Ref [[VALUE:Outline Stencil Reference]]
+				Comp NotEqual
+				Pass Keep
+			}
+	///
+
+			CGPROGRAM
+			#pragma vertex vertex_outline
+			#pragma fragment fragment_outline
+			#pragma target @%SHADER_TARGET%@
+			#pragma multi_compile TCP2_NONE TCP2_COLORS_AS_NORMALS TCP2_TANGENT_AS_NORMALS TCP2_UV2_AS_NORMALS
+			#pragma multi_compile_instancing
+			ENDCG
+		}
+///
+#PASS
+		// Depth & Shadow Caster Passes
+		HLSLINCLUDE
+		#if defined(SHADOW_CASTER_PASS) || defined(DEPTH_ONLY_PASS)
+
+			#define fixed half
+			#define fixed2 half2
+			#define fixed3 half3
+			#define fixed4 half4
+
+			float3 _LightDirection;
+
+			CBUFFER_START(UnityPerMaterial)
+			[[VARIABLES]]
+			[[MODULE:VARIABLES]]
+			[[VARIABLES_GPU_INSTANCING]]
+			CBUFFER_END
+
+			struct Attributes
+			{
+				float4 vertex   : POSITION;
+				float3 normal   : NORMAL;
+/// IF VERTEXMOTION_NORMAL || CURVED_WORLD_NORMAL
+				float4 tangent : TANGENT;
+///
+				[[VERTEX_INPUT_TEXCOORDS]]
+/// IF USE_VERTEX_COLORS_VERT
+				half4 vertexColor : COLOR;
+///
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct Varyings
+			{
+				float4 positionCS     : SV_POSITION;
+/// IF CURVED_WORLD || USE_WORLD_NORMAL_FRAGMENT
+				float3 normal         : NORMAL;
+///
+				[[INPUT_STRUCT_SEMANTICS:0]]
+#INPUT_VARIABLES
+/// IF USE_VERTEX_COLORS_FRAG
+				half4 vertexColor;
+///
+/// IF USE_SCREEN_POSITION_FRAGMENT
+				float4 screenPosition;
+///
+/// IF USE_WORLD_POSITION_FRAGMENT
+				float3 positionWS;
+///
+				[[MODULE:INPUT]]
+#END
+			#if defined(DEPTH_ONLY_PASS)
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			#endif
+			};
+
+			float4 GetShadowPositionHClip(Attributes input)
+			{
+				float3 positionWS = TransformObjectToWorld(input.vertex.xyz);
+				float3 normalWS = TransformObjectToWorldNormal(input.normal);
+
+				float4 positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, _LightDirection));
+
+			#if UNITY_REVERSED_Z
+				positionCS.z = min(positionCS.z, positionCS.w * UNITY_NEAR_CLIP_VALUE);
+			#else
+				positionCS.z = max(positionCS.z, positionCS.w * UNITY_NEAR_CLIP_VALUE);
+			#endif
+
+				return positionCS;
+			}
+
+#VERTEX, INPUT = input, OUTPUT = output
+			Varyings ShadowDepthPassVertex(Attributes input)
+			{
+				Varyings output;
+				UNITY_SETUP_INSTANCE_ID(input);
+				#if defined(DEPTH_ONLY_PASS)
+					UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+				#endif
+				[[VERTEX_TEXCOORDS]]
+				[[SAMPLE_CUSTOM_PROPERTIES]]
+				[[SAMPLE_SHADER_PROPERTIES]]
+
+				[[MODULE:VERTEX:VertExmotion:LWRP(input.vertex, input.normal, input.tangent.xyz)]]
+				[[MODULE:VERTEX:CurvedWorld(input.vertex, input.normal, input.tangent)]]
+/// IF USE_VIEW_DIRECTION_VERTEX || USE_CLIP_POSITION_VERTEX || USE_SCREEN_POSITION_FRAGMENT || USE_SCREEN_POSITION_VERTEX || USE_WORLD_POSITION_FRAGMENT
+				VertexPositionInputs vertexInput = GetVertexPositionInputs(input.vertex.xyz);
+///
+/// IF USE_WORLD_NORMAL_VERTEX || USE_WORLD_NORMAL_FRAGMENT
+				VertexNormalInputs vertexNormalInput = GetVertexNormalInputs(input.normal);
+///
+/// IF USE_VIEW_DIRECTION_VERTEX
+				half3 viewDirWS = SafeNormalize(GetCameraPositionWS() - vertexInput.positionWS);
+///
+/// IF USE_NDV_VERTEX
+				half ndv = max(0, dot(viewDirWS, vertexNormalInput.normalWS));
+				half ndvRaw = ndv;
+	/// IF USE_NDV_INVERT_VERT
+				ndv = 1 - ndv;
+	///
+	/// IF USE_NDV_MIN_MAX_VERT
+				ndv = smoothstep([[VALUE:NDV Min Vert]], [[VALUE:NDV Max Vert]], ndv);
+	///
+///
+/// IF HOOK_VERTEX_POSITION
+				input.vertex.xyz = [[SAMPLE_VALUE_SHADER_PROPERTY:Vertex Position]];
+///
+/// IF HOOK_VERTEX_POSITION_WORLD
+				float3 worldPos = mul(unity_ObjectToWorld, input.vertex).xyz;
+				worldPos.xyz = [[SAMPLE_VALUE_SHADER_PROPERTY:Vertex Position World]];
+				input.vertex.xyz = mul(unity_WorldToObject, float4(worldPos, 1)).xyz;
+///
+/// IF USE_SCREEN_POSITION_FRAGMENT || USE_SCREEN_POSITION_VERTEX
+
+				//Screen Space UV
+				#if _MAIN_LIGHT_SHADOWS && SHADOWS_SCREEN
+					float4 screenPos = output.shadowCoord;
+				#else
+					float4 screenPos = ComputeScreenPos(vertexInput.positionCS);
+				#endif
+	/// IF USE_SCREEN_POSITION_FRAGMENT
+				output.[[INPUT_VALUE:screenPosition]] = screenPos;
+	///
+///
+				[[MODULE:VERTEX:Screen Space UV(screenPos, vertexInput.positionCS, output)]]
+/// IF USE_VERTEX_COLORS_FRAG
+				output.vertexColor = input.vertexColor;
+///
+/// IF USE_WORLD_NORMAL_FRAGMENT
+				output.normal = NormalizeNormalPerVertex(vertexNormalInput.normalWS);
+///
+/// IF USE_WORLD_POSITION_FRAGMENT
+				output.[[INPUT_VALUE:positionWS]] = vertexInput.positionWS;
+///
+
+				#if defined(DEPTH_ONLY_PASS)
+					output.positionCS = TransformObjectToHClip(input.vertex.xyz);
+				#elif defined(SHADOW_CASTER_PASS)
+					output.positionCS = GetShadowPositionHClip(input);
+				#else
+					output.positionCS = float4(0,0,0,0);
+				#endif
+
+				return output;
+			}
+
+#FRAGMENT, INPUT = input, OUTPUT = no_output
+			half4 ShadowDepthPassFragment(Varyings input) : SV_TARGET
+			{
+				#if defined(DEPTH_ONLY_PASS)
+					UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
+				#endif
+
+				[[MODULE:FRAGMENT:Screen Space UV(input.[[INPUT_VALUE:screenPosition]], input)]]
+				[[SAMPLE_CUSTOM_PROPERTIES]]
+				[[SAMPLE_SHADER_PROPERTIES]]
+
+/// IF USE_WORLD_POSITION_FRAGMENT
+				float3 positionWS = input.[[INPUT_VALUE:positionWS]];
+///
+/// IF USE_WORLD_NORMAL_FRAGMENT
+				float3 normalWS = NormalizeNormalPerPixel(input.normal);
+///
+/// IF USE_VIEW_DIRECTION_FRAGMENT
+				half3 viewDirWS = SafeNormalize(GetCameraPositionWS() - positionWS);
+///
+/// IF USE_NDV_FRAGMENT
+#		/// IF USE_NDV_IGNORE_NORMAL_MAP
+#				half ndv = max(0, dot(viewDirWS, normalWSVertex));
+#		/// ELSE
+				half ndv = max(0, dot(viewDirWS, normalWS));
+#		///
+				half ndvRaw = ndv;
+	/// IF USE_NDV_INVERT_FRAG
+				ndv = 1 - ndv;
+	///
+	/// IF USE_NDV_MIN_MAX_FRAG
+				ndv = smoothstep([[VALUE:NDV Min Frag]], [[VALUE:NDV Max Frag]], ndv);
+	///
+
+///
+/// IF CUSTOM_ALBEDO
+				half3 albedo = half3(1,1,1);
+				half alpha = 1;
+/// ELSE
+				half3 albedo = [[VALUE:Albedo]].rgb;
+				half alpha = [[VALUE:Alpha]];
+///
+				half3 emission = half3(0,0,0);
+				[[MODULE:FRAGMENT:Dissolve(emission)]]
+/// IF ALPHA_TESTING
+
+	/// IF !ALPHA_TO_COVERAGE
+				//Alpha Testing
+				clip(alpha - [[VALUE:Cutoff]]);
+	/// ELIF !ALPHA_TO_COVERAGE_RAW
+				//Sharpen Alpha-to-Coverage
+				alpha = (alpha - [[VALUE:Cutoff]]) / max(fwidth(alpha), 0.0001) + 0.5;
+	///
+///
+/// IF ALPHA_TESTING && ALPHA_TO_COVERAGE
+				return alpha;
+/// ELSE
+				return 0;
+///
+			}
+
+		#endif
+		ENDHLSL
+/// IF !DISABLE_SHADOW_CASTING
+
+		Pass
+		{
+			Name "ShadowCaster"
+			Tags{"LightMode" = "ShadowCaster"}
+
+	/// IF ALPHA_TESTING && ALPHA_TO_COVERAGE
+			AlphaToMask On
+	///
+			ZWrite On
+			ZTest LEqual
+	/// IF CULLING
+			Cull [[VALUE:Face Culling]]
+	///
+
+			HLSLPROGRAM
+			// Required to compile gles 2.0 with standard srp library
+			#pragma prefer_hlslcc gles
+			#pragma exclude_renderers d3d11_9x
+			#pragma target 2.0
+
+			// using simple #define doesn't work, we have to use this instead
+			#pragma multi_compile SHADOW_CASTER_PASS
+
+			// -------------------------------------
+			// Material Keywords
+			//#pragma shader_feature _ALPHATEST_ON
+			//#pragma shader_feature _GLOSSINESS_FROM_BASE_ALPHA
+
+			//--------------------------------------
+			// GPU Instancing
+			#pragma multi_compile_instancing
+
+			#pragma vertex ShadowDepthPassVertex
+			#pragma fragment ShadowDepthPassFragment
+
+			#include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/Core.hlsl"
+			#include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/Shadows.hlsl"
+
+			ENDHLSL
+		}
+///
+
+		Pass
+		{
+			Name "DepthOnly"
+			Tags{"LightMode" = "DepthOnly"}
+
+/// IF ALPHA_TESTING && ALPHA_TO_COVERAGE
+			AlphaToMask On
+///
+			ZWrite On
+			ColorMask 0
+/// IF CULLING
+			Cull [[VALUE:Face Culling]]
+///
+
+			HLSLPROGRAM
+
+			// Required to compile gles 2.0 with standard srp library
+			#pragma prefer_hlslcc gles
+			#pragma exclude_renderers d3d11_9x
+			#pragma target 2.0
+
+			// -------------------------------------
+			// Material Keywords
+			// #pragma shader_feature _ALPHATEST_ON
+			// #pragma shader_feature _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+
+			//--------------------------------------
+			// GPU Instancing
+			#pragma multi_compile_instancing
+
+			// using simple #define doesn't work, we have to use this instead
+			#pragma multi_compile DEPTH_ONLY_PASS
+
+			#pragma vertex ShadowDepthPassVertex
+			#pragma fragment ShadowDepthPassFragment
+
+			ENDHLSL
+		}
+
+		// Depth prepass
+		// UsePass "Lightweight Render Pipeline/Lit/DepthOnly"
+
+/// IF ENABLE_META_PASS
+		// Used for Baking GI. This pass is stripped from build.
+		UsePass "Lightweight Render Pipeline/Lit/Meta"
+///
+	}
+
+	FallBack "Hidden/InternalErrorShader"
+	CustomEditor "ToonyColorsPro.ShaderGenerator.MaterialInspector_SG2"
+}

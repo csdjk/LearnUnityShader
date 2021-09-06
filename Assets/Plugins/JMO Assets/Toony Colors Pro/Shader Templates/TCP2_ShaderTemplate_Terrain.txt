@@ -1,0 +1,920 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+#NAME=Terrain
+#CONFIG=terrain
+#INFO=Template: Terrain  Three shaders will be generated: Base, FirstPass and AddPass.
+#WARNING=This template is experimental!
+#FEATURES
+header	lbl=Terrain Specific
+sngl	lbl=Height-based Blending		kw=TEXBLEND_HEIGHT													nohelp				tt=Blends the textures based on their alpha channel
+float	lbl=Height Contrast				kw=TEXBLEND_HEIGHT_CONTRAST		default=3.5	needs=TEXBLEND_HEIGHT	nohelp	indent		tt=Adjust the contrast for height-based blending (default: 2.5)
+sngl	lbl=Triplanar Mapping			kw=TRIPLANAR														nohelp				tt=Use Triplanar mapping for the UVs
+sngl	lbl=Tex 1						kw=TRIPLANAR_TEX1							needs=TRIPLANAR			nohelp	indent
+sngl	lbl=Tex 2						kw=TRIPLANAR_TEX2							needs=TRIPLANAR			nohelp	indent
+sngl	lbl=Tex 3						kw=TRIPLANAR_TEX3							needs=TRIPLANAR			nohelp	indent
+sngl	lbl=Tex 4						kw=TRIPLANAR_TEX4							needs=TRIPLANAR			nohelp	indent
+space
+---
+space
+mult	lbl=Ramp Style				kw=Slider Ramp|,Texture Ramp|TEXTURE_RAMP				tt=Defines the transitioning between dark and lit areas of the model
+sngl	lbl=Colors Multipliers		kw=COLOR_MULTIPLIERS						nohelp	tt=Adds multiplier values for highlight and shadow colors to enhance contrast or colors
+#sngl	lbl=Disable Wrapped Lighting		kw=DISABLE_WRAPPED_LIGHTING						tt=Disable wrapped diffuse lighting, making lights appear more focused
+sngl	lbl=Enable Wrapped Lighting			kw=ENABLE_WRAPPED_LIGHTING						tt=Enable half-wrapped diffuse lighting
+sngl	lbl=Textured Threshold		kw=TEXTURED_THRESHOLD									tt=Adds a textured variation to the highlight/shadow threshold, allowing handpainting like effects for example
+---
+sngl	lbl=Disable Normal Map		kw=NO_NORMAL_MAP	nohelp
+---
+sngl	lbl=Specular			kw=SPECULAR
+sngl	lbl=Cartoon Specular	kw=SPECULAR_TOON	needsOr=SPECULAR,SPECULAR_ANISOTROPIC	indent		tt=Enables clear delimitation of specular color
+---
+sngl	lbl=Independent Shadows		kw=INDEPENDENT_SHADOWS	tt=Disable shadow color influence for cast shadows
+---
+mult	lbl=Rim					kw=Off|,Rim Lighting|RIM,Rim Outline|RIM_OUTLINE				hlptop=rim_sg			tt=Rim effects (fake light coming from behind the model)
+sngl	lbl=Light-based Mask	kw=RIM_LIGHTMASK									needs=RIM				indent		tt=Will make rim be influenced by nearby lights
+---
+mult	lbl=Sketch						kw=Off|,Sketch Overlay|SKETCH,Sketch Gradient|SKETCH_GRADIENT					tt=Sketch texture overlay on the shadowed areas\nOverlay: regular texture overlay\nGradient: used for halftone-like effects
+mult	lbl=Sketch Blending				kw=Regular|,Color Burn|SKETCH_COLORBURN		needs=SKETCH	nohelp	indent		tt=Defines how to blend the Sketch texture with the model
+sngl	lbl=Animated Sketch				kw=SKETCH_ANIM			needsOr=SKETCH,SKETCH_GRADIENT		nohelp	indent		tt=Animates the sketch overlay texture, simulating a hand-drawn animation style
+sngl	lbl=Vertex Coords				kw=SKETCH_VERTEX		needsOr=SKETCH,SKETCH_GRADIENT		nohelp	indent		tt=Compute screen coordinates in vertex shader (faster but can cause distortions)\nIf disabled will compute in pixel shader (slower)
+---
+mult	lbl=Outline					kw=Off|,Opaque Outline|OUTLINE,Blended Outline|OUTLINE_BLENDING					tt=Outline around the model
+sngl	lbl=Outline behind model	kw=OUTLINE_BEHIND		needsOr=OUTLINE,OUTLINE_BLENDING		nohelp	indent		tt=If enabled, outline will only show behind model
+---
+#mult	lbl=Culling			kw=Back (default)|,Front|CULL_FRONT,Off (double-sided)|CULL_OFF		nohelp		tt=Defines how to cull faces
+#---
+keyword	lbl=Shader Target	kw=SHADER_TARGET	forceKeyword=true	values=2.0|2.0,2.5|2.5,3.0 (Recommended default)|3.0,3.5|3.5,4.0|4.0,4.5|4.5,4.6|4.6,5.0|5.0	default=2
+---
+space	space=10
+subh	lbl=FLAGS
+flag	lbl=Add Shadow Passes			kw=addshadow													tt=Force the shader to have the Shadow Caster and Collector passes.\nCan help if shadows don't work properly with the shader
+flag	lbl=Full Forward Shadows		kw=fullforwardshadows											tt=Full Forward Shadows", "Enable support for all shadow types in Forward rendering path
+flag	lbl=Disable Shadows				kw=noshadow														tt=Disables all shadow receiving support in this shader
+flag	lbl=Disable Fog					kw=nofog														tt=Disables Unity Fog support.\nCan help if you run out of vertex interpolators and don't need fog.
+flag	lbl=Disable Lightmaps			kw=nolightmap													tt=Disables all lightmapping support in this shader.\nCan help if you run out of vertex interpolators and don't need lightmaps.
+flag	lbl=Disable Ambient Lighting	kw=noambient		excl=DIRAMBIENT,CUBE_AMBIENT,OCCLUSION		tt=Disable ambient lighting
+flag	lbl=Disable Vertex Lighting		kw=novertexlights												tt=Disable vertex lights and spherical harmonics (light probes)
+---
+subh	lbl=FLAGS (Mobile-Friendly)
+flag	lbl=One Directional Light		kw=noforwardadd													tt=Use additive lights as vertex lights.\nRecommended for Mobile
+flag	lbl=Vertex View Dir				kw=interpolateview												tt=Calculate view direction per-vertex instead of per-pixel.\nRecommended for Mobile	needsOr=SPECULAR,SPECULAR_ANISOTROPIC,SUBSURFACE,PARALLAX,RIM,RIM_OUTLINE
+flag	lbl=Half as View				kw=halfasview													tt=Pass half-direction vector into the lighting function instead of view-direction.\nFaster but inaccurate.\nRecommended for Specular, but use Vertex Rim to optimize Rim Effects instead	needsOr=SPECULAR,SPECULAR_ANISOTROPIC,SUBSURFACE,PARALLAX,RIM,RIM_OUTLINE
+#END
+
+#KEYWORDS
+
+#Triplanar safe net
+/// IF !TRIPLANAR
+disable_kw	TRIPLANAR_TEX1
+disable_kw	TRIPLANAR_TEX2
+disable_kw	TRIPLANAR_TEX3
+disable_kw	TRIPLANAR_TEX4
+///
+
+#Custom Lighting Function
+enable_kw	CUSTOM_LIGHTING
+
+#Final Color
+/// IF RIM_LIGHTMASK
+enable_kw		FINAL_COLOR
+enable_flag		finalcolor:fcolor
+///
+
+#Lighting model
+/// IF CUSTOM_LIGHTING
+set		LIGHTING_MODEL		ToonyColorsCustom
+/// ELSE
+	/// IF SPECULAR || SPECULAR_ANISOTROPIC
+set		LIGHTING_MODEL		ToonyColorsSpec
+	/// ELSE
+set		LIGHTING_MODEL		ToonyColors
+	///
+///
+#END
+
+Shader "@%SHADER_NAME%@"
+{
+	Properties
+	{
+/// IF TRIPLANAR
+		[TCP2Vector4Floats(Contrast X,Contrast Y,Contrast Z,Smoothing,1,16,1,16,1,16,0.05,1)] _TriplanarBlendStrength ("Triplanar Parameters", Vector) = (2,8,2,0.5)
+///
+/// IF TEXBLEND_HEIGHT
+		//Height-based texture blending
+	[TCP2Header(HEIGHT BLENDING)]
+		[TCP2Vector4Floats(R,G,B,A,0.001,2,0.001,2,0.001,2,0.001,2)] _VColorBlendSmooth ("Height Smoothing", Vector) = (0.25,0.25,0.25,0.25)
+		[TCP2Vector4Floats(R,G,B,A)] _VColorBlendOffset ("Height Offset", Vector) = (0,0,0,0)
+		[PowerSlider(4.0)] _BlendContrast ("Blending Contrast", Range(1,4)) = 1
+		[TCP2HelpBox(Info,Height will be taken from each texture alpha channel.  No alpha in the texture will result in linear blending.)]
+	[TCP2Separator]
+///
+		//TOONY COLORS
+		_HColor ("Highlight Color", Color) = (0.6,0.6,0.6,1.0)
+		_SColor ("Shadow Color", Color) = (0.3,0.3,0.3,1.0)
+/// IF COLOR_MULTIPLIERS
+		_HighlightMultiplier ("Highlight Multiplier", Range(0,4)) = 1
+		_ShadowMultiplier ("Shadow Multiplier", Range(0,4)) = 1
+///
+
+		//TOONY COLORS RAMP
+	[TCP2Header(RAMP SETTINGS)]
+/// IF TEXTURE_RAMP
+		[TCP2Gradient] _Ramp ("Toon Ramp (RGB)", 2D) = "gray" {}
+
+/// ELSE
+		_RampThreshold ("Ramp Threshold", Range(0,1)) = 0.5
+		_RampSmooth ("Ramp Smoothing", Range(0.001,1)) = 0.1
+
+///
+/// IF TEXTURED_THRESHOLD
+
+		//THRESHOLD TEXTURE
+		_ThresholdTex ("Threshold Texture (Alpha)", 2D) = "black" {}
+///
+	[TCP2Separator]
+/// IF SPECULAR
+
+	[TCP2HeaderHelp(SPECULAR, Specular)]
+		//SPECULAR
+		_SpecColor ("Specular Color", Color) = (0.5, 0.5, 0.5, 1)
+		_Shininess ("Shininess", Range(0.0,2)) = 0.1
+	/// IF SPECULAR_TOON
+		_SpecSmooth ("Smoothness", Range(0,1)) = 0.05
+	///
+	[TCP2Separator]
+///
+/// IF (RIM || RIM_OUTLINE)
+
+	[TCP2HeaderHelp(RIM, Rim)]
+		//RIM LIGHT
+		_RimColor ("Rim Color", Color) = (0.8,0.8,0.8,0.6)
+		_RimMin ("Rim Min", Range(0,1)) = 0.5
+		_RimMax ("Rim Max", Range(0,1)) = 1.0
+	[TCP2Separator]
+///
+/// IF SKETCH || SKETCH_GRADIENT
+
+	[TCP2HeaderHelp(SKETCH, Sketch)]
+		//SKETCH
+		_SketchTex ("Sketch (Alpha)", 2D) = "white" {}
+	/// IF SKETCH_ANIM
+		_SketchSpeed ("Sketch Anim Speed", Range(1.1, 10)) = 6
+	///
+	/// IF SKETCH_GRADIENT
+		_SketchColor ("Sketch Color (RGB)", Color) = (0,0,0,1)
+		_SketchHalftoneMin ("Sketch Halftone Min", Range(0,1)) = 0.2
+		_SketchHalftoneMax ("Sketch Halftone Max", Range(0,1)) = 1.0
+	///
+	[TCP2Separator]
+///
+/// IF OUTLINE || OUTLINE_BLENDING
+
+	[TCP2HeaderHelp(OUTLINE, Outline)]
+		//OUTLINE
+		_OutlineColor ("Outline Color", Color) = (0.2, 0.2, 0.2, 1.0)
+		_Outline ("Outline Width", Float) = 1
+
+		//Outline Textured
+		_TexLod ("Texture LOD", Range(0,10)) = 5
+
+		//ZSmooth
+		_ZSmooth ("Z Correction", Range(-3.0,3.0)) = -0.5
+
+		//Z Offset
+		_Offset1 ("Z Offset 1", Float) = 0
+		_Offset2 ("Z Offset 2", Float) = 0
+
+	/// IF OUTLINE_BLENDING
+		//Blending
+		_SrcBlendOutline ("Blending Source", Float) = 5
+		_DstBlendOutline ("Blending Dest", Float) = 10
+	///
+	[TCP2Separator]
+///
+
+		//TERRAIN PROPERTIES
+	/// IF !TERRAIN_ADDPASS
+		[HideInInspector] _Control ("Control (RGBA)", 2D) = "red" {}
+	/// ELSE
+		[HideInInspector] _Control ("Control (RGBA)", 2D) = "black" {}
+	///
+		[HideInInspector] _Splat3 ("Layer 3 (A)", 2D) = "white" {}
+		[HideInInspector] _Splat2 ("Layer 2 (B)", 2D) = "white" {}
+		[HideInInspector] _Splat1 ("Layer 1 (G)", 2D) = "white" {}
+		[HideInInspector] _Splat0 ("Layer 0 (R)", 2D) = "white" {}
+		[HideInInspector] _Normal3 ("Normal 3 (A)", 2D) = "bump" {}
+		[HideInInspector] _Normal2 ("Normal 2 (B)", 2D) = "bump" {}
+		[HideInInspector] _Normal1 ("Normal 1 (G)", 2D) = "bump" {}
+		[HideInInspector] _Normal0 ("Normal 0 (R)", 2D) = "bump" {}
+	/// IF !TERRAIN_ADDPASS
+		// used in fallback on old cards & base map
+		[HideInInspector] _MainTex ("BaseMap (RGB)", 2D) = "white" {}
+		[HideInInspector] _Color ("Main Color", Color) = (1,1,1,1)
+	///
+	}
+
+	CGINCLUDE
+		#pragma surface surf @%LIGHTING_MODEL%@ @%SURF_PARAMS%@ vertex:SplatmapVert_TCP2 finalcolor:SplatmapFinalColor_TCP2
+	/// IF TERRAIN_ADDPASS
+		#define TERRAIN_SPLAT_ADDPASS
+	///
+/// IF !CUSTOM_LIGHTING
+		#include "@%INCLUDE_PATH%@/TCP2_Include.cginc"
+///
+
+		#pragma multi_compile_fog
+/// IF TEXTURE_RAMP
+		#pragma multi_compile TCP2_RAMPTEXT
+///
+/// IF SPECULAR_TOON
+		#pragma multi_compile TCP2_SPEC_TOON
+///
+
+/// IF !TERRAIN_BASE
+		sampler2D _Control;
+		float4 _Control_ST;
+		sampler2D _Splat0,_Splat1,_Splat2,_Splat3;
+	#ifdef _TERRAIN_NORMAL_MAP
+		sampler2D _Normal0, _Normal1, _Normal2, _Normal3;
+	#endif
+/// ELSE
+		sampler2D _MainTex;
+///
+
+/// IF TEXTURED_THRESHOLD
+		sampler2D _ThresholdTex;
+///
+/// IF SKETCH_ANIM
+		fixed _SketchSpeed;
+///
+/// IF SPECULAR
+		fixed _Shininess;
+///
+/// IF (RIM || RIM_OUTLINE)
+		fixed4 _RimColor;
+		fixed _RimMin;
+		fixed _RimMax;
+		float4 _RimDir;
+///
+/// IF SKETCH || SKETCH_GRADIENT
+		sampler2D _SketchTex;
+		float4 _SketchTex_ST;
+	/// IF SKETCH_GRADIENT
+		fixed4 _SketchColor;
+		fixed _SketchHalftoneMin;
+		fixed _SketchHalftoneMax;
+	///
+	/// IF SKETCH_ANIM
+		fixed4 _Random;
+	///
+///
+
+		struct Input
+		{
+/// IF !TERRAIN_BASE
+			//TERRAIN
+
+	/// IF !TRIPLANAR_TEX1
+			float2 uv_Splat0 : TEXCOORD0;
+	///
+	/// IF !TRIPLANAR_TEX2
+			float2 uv_Splat1 : TEXCOORD1;
+	///
+	/// IF !TRIPLANAR_TEX3
+			float2 uv_Splat2 : TEXCOORD2;
+	///
+	/// IF !TRIPLANAR_TEX4
+			float2 uv_Splat3 : TEXCOORD3;
+	///
+			float2 tc_Control : TEXCOORD4;	// Not prefixing '_Contorl' with 'uv' allows a tighter packing of interpolators, which is necessary to support directional lightmap.
+			UNITY_FOG_COORDS(5)
+/// ELSE
+			UNITY_FOG_COORDS(0)
+			float2 uv_MainTex;
+///
+
+/// IF (RIM || RIM_OUTLINE)
+			float3 viewDir;
+///
+/// IF SKETCH || SKETCH_GRADIENT
+	/// IF SKETCH_VERTEX
+			half2 sketchUv;
+	/// ELSE
+			half4 sketchUv;
+	///
+///
+/// IF TEXTURED_THRESHOLD
+			half2 uv_ThresholdTex;
+///
+/// IF TRIPLANAR
+		float3 worldPos;
+		float3 worldNormalTriplanar;
+///
+		};
+
+		struct appdata_tcp2
+		{
+			float4 vertex : POSITION;
+			float3 normal : NORMAL;
+			float4 texcoord : TEXCOORD0;
+			float4 texcoord1 : TEXCOORD1;
+			float4 texcoord2 : TEXCOORD2;
+/// IF !RIM && !RIM_OUTLINE && !NO_NORMAL_MAP
+	#ifdef _TERRAIN_NORMAL_MAP
+			float4 tangent : TANGENT;
+	#endif
+/// ELSE
+			float4 tangent : TANGENT;
+///
+	#if UNITY_VERSION >= 550
+			UNITY_VERTEX_INPUT_INSTANCE_ID
+	#endif
+		};
+
+		void SplatmapVert_TCP2(inout appdata_tcp2 v, out Input o)
+		{
+			UNITY_INITIALIZE_OUTPUT(Input, o);
+
+/// IF !TERRAIN_BASE
+			//------------------
+			//TERRAIN
+			o.tc_Control = TRANSFORM_TEX(v.texcoord, _Control);	// Need to manually transform uv here, as we choose not to use 'uv' prefix for this texcoord.
+			float4 pos = UnityObjectToClipPos(v.vertex);
+			UNITY_TRANSFER_FOG(o, pos);		
+	/// IF !NO_NORMAL_MAP
+
+		#ifdef _TERRAIN_NORMAL_MAP
+			v.tangent.xyz = cross(v.normal, float3(0,0,1));
+			v.tangent.w = -1;
+		#endif
+	///
+			//------------------
+
+///
+/// IF SKETCH || SKETCH_GRADIENT
+
+			//SKETCH
+	/// IF TERRAIN_BASE
+			float4 pos = UnityObjectToClipPos(v.vertex);
+	///
+	/// IF SKETCH_VERTEX
+			float4 screenPos = ComputeScreenPos(pos);
+			float2 screenUV = screenPos.xy / screenPos.w;
+			screenUV *= float2(_ScreenParams.x * 0.01, _ScreenParams.y * 0.01);
+		/// IF SKETCH_SCALE
+			screenUV *= UNITY_MATRIX_MV[2][3];
+		///
+			o.sketchUv = screenUV;
+	/// ELSE
+			o.sketchUv = ComputeScreenPos(pos);
+	///
+			o.sketchUv.xy = TRANSFORM_TEX(o.sketchUv, _SketchTex);
+
+	/// IF SKETCH_VERTEX && SKETCH_ANIM
+			_Random.x = round(_Time.z * _SketchSpeed) / _SketchSpeed;
+			_Random.y = -round(_Time.z * _SketchSpeed) / _SketchSpeed;
+			o.sketchUv.xy += _Random.xy;
+	///
+///
+/// IF TRIPLANAR
+			o.worldNormalTriplanar = UnityObjectToWorldNormal(v.normal);
+///
+		}
+
+/// IF !TERRAIN_BASE
+	/// IF TRIPLANAR
+		float4 _TriplanarBlendStrength;
+	  /// IF TRIPLANAR_TEX1
+		float4 _Splat0_ST;
+	  ///
+	  /// IF TRIPLANAR_TEX2
+		float4 _Splat1_ST;
+	  ///
+	  /// IF TRIPLANAR_TEX3
+		float4 _Splat2_ST;
+	  ///
+	  /// IF TRIPLANAR_TEX4
+		float4 _Splat3_ST;
+	  ///
+	///
+	/// IF TEXBLEND_HEIGHT
+		float4 _VColorBlendSmooth;
+		float4 _VColorBlendOffset;
+		float _BlendContrast;
+
+		// Height-based texture blending
+		float4 blend_height_smooth(float4 texture1, float height1, float4 texture2, float height2, float smoothing)
+		{
+			float ma = max(texture1.a + height1, texture2.a + height2) - smoothing;
+			float b1 = max(texture1.a + height1 - ma, 0);
+			float b2 = max(texture2.a + height2 - ma, 0);
+			return (texture1 * b1 + texture2 * b2) / (b1 + b2);
+		}
+	///
+		void SplatmapMix(Input IN, out half4 splat_control, out half weight, out fixed4 mixedDiffuse, inout fixed3 mixedNormal)
+		{
+			splat_control = tex2D(_Control, IN.tc_Control);
+			weight = dot(splat_control, half4(1,1,1,1));
+
+		#if !defined(SHADER_API_MOBILE) && defined(TERRAIN_SPLAT_ADDPASS)
+				clip(weight - 0.0039 /*1/255*/);
+		#endif
+
+			// Normalize weights before lighting and restore weights in final modifier functions so that the overal
+			// lighting result can be correctly weighted.
+			splat_control /= (weight + 1e-3f);
+
+	/// IF TRIPLANAR
+			//Triplanar Texture Blending
+			half2 uv_triX = IN.worldPos.zy / 10;
+			half2 uv_triY = IN.worldPos.xz / 10;
+			half2 uv_triZ = IN.worldPos.xy / 10;
+
+			//blend weights based on normal
+			half3 blendWeights = pow(abs(IN.worldNormalTriplanar), _TriplanarBlendStrength.xyz / _TriplanarBlendStrength.w);
+			blendWeights = blendWeights / (blendWeights.x + abs(blendWeights.y) + blendWeights.z);
+
+			//Sample all 4 terrain textures
+		/// IF TRIPLANAR_TEX1
+			fixed4 tex1 = tex2D(_Splat0, TRANSFORM_TEX(uv_triX, _Splat0)) * blendWeights.x + tex2D(_Splat0, TRANSFORM_TEX(uv_triY, _Splat0)) * blendWeights.y + tex2D(_Splat0, TRANSFORM_TEX(uv_triZ, _Splat0)) * blendWeights.z;
+		/// ELSE
+			fixed4 tex1 = tex2D(_Splat0, IN.uv_Splat0);
+		///
+		/// IF TRIPLANAR_TEX2
+			fixed4 tex2 = tex2D(_Splat1, TRANSFORM_TEX(uv_triX, _Splat1)) * blendWeights.x + tex2D(_Splat1, TRANSFORM_TEX(uv_triY, _Splat1)) * blendWeights.y + tex2D(_Splat1, TRANSFORM_TEX(uv_triZ, _Splat1)) * blendWeights.z;
+		/// ELSE
+			fixed4 tex2 = tex2D(_Splat1, IN.uv_Splat1);
+		///
+		/// IF TRIPLANAR_TEX3
+			fixed4 tex3 = tex2D(_Splat2, TRANSFORM_TEX(uv_triX, _Splat2)) * blendWeights.x + tex2D(_Splat2, TRANSFORM_TEX(uv_triY, _Splat2)) * blendWeights.y + tex2D(_Splat2, TRANSFORM_TEX(uv_triZ, _Splat2)) * blendWeights.z;
+		/// ELSE
+			fixed4 tex3 = tex2D(_Splat2, IN.uv_Splat2);
+		///
+		/// IF TRIPLANAR_TEX4
+			fixed4 tex4 = tex2D(_Splat3, TRANSFORM_TEX(uv_triX, _Splat3)) * blendWeights.x + tex2D(_Splat3, TRANSFORM_TEX(uv_triY, _Splat3)) * blendWeights.y + tex2D(_Splat3, TRANSFORM_TEX(uv_triZ, _Splat3)) * blendWeights.z;
+		/// ELSE
+			fixed4 tex4 = tex2D(_Splat3, IN.uv_Splat3);
+		///
+	/// ELSE
+			//Sample all 4 terrain textures
+			fixed4 tex1 = tex2D(_Splat0, IN.uv_Splat0);
+			fixed4 tex2 = tex2D(_Splat1, IN.uv_Splat1);
+			fixed4 tex3 = tex2D(_Splat2, IN.uv_Splat2);
+			fixed4 tex4 = tex2D(_Splat3, IN.uv_Splat3);
+	///
+
+	/// IF TEXBLEND_HEIGHT
+			#define CONTRAST @%TEXBLEND_HEIGHT_CONTRAST%@
+			#define CONTRAST_half CONTRAST/2
+			#define BLEND_SOURCE splat_control
+
+			//#define BLEND_ADDITIVE
+
+		#ifdef BLEND_ADDITIVE
+			mixedDiffuse = 0.0f;
+			mixedDiffuse += blend_height_smooth(mixedDiffuse, mixedDiffuse.a, tex1, BLEND_SOURCE.r * CONTRAST - CONTRAST_half + tex1.a + _VColorBlendOffset.x, _VColorBlendSmooth.x) * splat_control.r;
+			mixedDiffuse += blend_height_smooth(mixedDiffuse, mixedDiffuse.a, tex2, BLEND_SOURCE.g * CONTRAST - CONTRAST_half + tex2.a + _VColorBlendOffset.y, _VColorBlendSmooth.y) * splat_control.g;
+			mixedDiffuse += blend_height_smooth(mixedDiffuse, mixedDiffuse.a, tex3, BLEND_SOURCE.b * CONTRAST - CONTRAST_half + tex3.a + _VColorBlendOffset.z, _VColorBlendSmooth.z) * splat_control.b;
+			mixedDiffuse += blend_height_smooth(mixedDiffuse, mixedDiffuse.a, tex4, BLEND_SOURCE.a * CONTRAST - CONTRAST_half + tex4.a + _VColorBlendOffset.w, _VColorBlendSmooth.w) * splat_control.a;
+		#else
+			//enhance blend contrast
+			BLEND_SOURCE.rgba = saturate(normalize(BLEND_SOURCE.rgba) * dot(_BlendContrast.xxxx, BLEND_SOURCE.rgba));
+
+			mixedDiffuse = 0.0f;
+			mixedDiffuse = lerp(mixedDiffuse, blend_height_smooth(mixedDiffuse, mixedDiffuse.a, tex1, BLEND_SOURCE.r * CONTRAST - CONTRAST_half + tex1.a + _VColorBlendOffset.x, _VColorBlendSmooth.x), saturate(BLEND_SOURCE.r * CONTRAST_half));
+			mixedDiffuse = lerp(mixedDiffuse, blend_height_smooth(mixedDiffuse, mixedDiffuse.a, tex2, BLEND_SOURCE.g * CONTRAST - CONTRAST_half + tex2.a + _VColorBlendOffset.y, _VColorBlendSmooth.y), saturate(BLEND_SOURCE.g * CONTRAST_half));
+			mixedDiffuse = lerp(mixedDiffuse, blend_height_smooth(mixedDiffuse, mixedDiffuse.a, tex3, BLEND_SOURCE.b * CONTRAST - CONTRAST_half + tex3.a + _VColorBlendOffset.z, _VColorBlendSmooth.z), saturate(BLEND_SOURCE.b * CONTRAST_half));
+			mixedDiffuse = lerp(mixedDiffuse, blend_height_smooth(mixedDiffuse, mixedDiffuse.a, tex4, BLEND_SOURCE.a * CONTRAST - CONTRAST_half + tex4.a + _VColorBlendOffset.w, _VColorBlendSmooth.w), saturate(BLEND_SOURCE.a * CONTRAST_half));
+		#endif
+	/// ELSE
+			mixedDiffuse = 0.0f;
+
+			mixedDiffuse += splat_control.r * tex1;
+			mixedDiffuse += splat_control.g * tex2;
+			mixedDiffuse += splat_control.b * tex3;
+			mixedDiffuse += splat_control.a * tex4;
+	///
+
+	/// IF !NO_NORMAL_MAP
+	#ifdef _TERRAIN_NORMAL_MAP
+
+		/// IF TRIPLANAR
+			//Sample all 4 terrain normal maps
+		/// IF TRIPLANAR_TEX1
+			fixed4 bump1 = tex2D(_Normal0, TRANSFORM_TEX(uv_triX, _Splat0)) * blendWeights.x + tex2D(_Normal0, TRANSFORM_TEX(uv_triY, _Splat0)) * blendWeights.y + tex2D(_Normal0, TRANSFORM_TEX(uv_triZ, _Splat0)) * blendWeights.z;
+		/// ELSE
+			fixed4 bump1 = tex2D(_Normal0, IN.uv_Splat0);
+		///
+		/// IF TRIPLANAR_TEX2
+			fixed4 bump2 = tex2D(_Normal1, TRANSFORM_TEX(uv_triX, _Splat1)) * blendWeights.x + tex2D(_Normal1, TRANSFORM_TEX(uv_triY, _Splat1)) * blendWeights.y + tex2D(_Normal1, TRANSFORM_TEX(uv_triZ, _Splat1)) * blendWeights.z;
+		/// ELSE
+			fixed4 bump2 = tex2D(_Normal1, IN.uv_Splat1);
+		///
+		/// IF TRIPLANAR_TEX3
+			fixed4 bump3 = tex2D(_Normal2, TRANSFORM_TEX(uv_triX, _Splat2)) * blendWeights.x + tex2D(_Normal2, TRANSFORM_TEX(uv_triY, _Splat2)) * blendWeights.y + tex2D(_Normal2, TRANSFORM_TEX(uv_triZ, _Splat2)) * blendWeights.z;
+		/// ELSE
+			fixed4 bump3 = tex2D(_Normal2, IN.uv_Splat2);
+		///
+		/// IF TRIPLANAR_TEX4
+			fixed4 bump4 = tex2D(_Normal3, TRANSFORM_TEX(uv_triX, _Splat3)) * blendWeights.x + tex2D(_Normal3, TRANSFORM_TEX(uv_triY, _Splat3)) * blendWeights.y + tex2D(_Normal3, TRANSFORM_TEX(uv_triZ, _Splat3)) * blendWeights.z;
+		/// ELSE
+			fixed4 bump4 = tex2D(_Normal3, IN.uv_Splat3);
+		///
+	/// ELSE
+			//Sample all 4 terrain normal maps
+			fixed4 bump1 = tex2D(_Normal0, IN.uv_Splat0);
+			fixed4 bump2 = tex2D(_Normal1, IN.uv_Splat1);
+			fixed4 bump3 = tex2D(_Normal2, IN.uv_Splat2);
+			fixed4 bump4 = tex2D(_Normal3, IN.uv_Splat3);
+	///
+		/// IF TEXBLEND_HEIGHT
+
+			//#define BLEND_ADDITIVE
+
+		#ifdef BLEND_ADDITIVE
+			fixed4 nrm = 0.0f;
+			nrm += blend_height_smooth(nrm, nrm.a, bump1, BLEND_SOURCE.r * CONTRAST - CONTRAST_half + bump1.a + _VColorBlendOffset.x, _VColorBlendSmooth.x) * splat_control.r;
+			nrm += blend_height_smooth(nrm, nrm.a, bump2, BLEND_SOURCE.g * CONTRAST - CONTRAST_half + bump2.a + _VColorBlendOffset.y, _VColorBlendSmooth.y) * splat_control.g;
+			nrm += blend_height_smooth(nrm, nrm.a, bump3, BLEND_SOURCE.b * CONTRAST - CONTRAST_half + bump3.a + _VColorBlendOffset.z, _VColorBlendSmooth.z) * splat_control.b;
+			nrm += blend_height_smooth(nrm, nrm.a, bump4, BLEND_SOURCE.a * CONTRAST - CONTRAST_half + bump4.a + _VColorBlendOffset.w, _VColorBlendSmooth.w) * splat_control.a;
+		#else
+			fixed4 nrm = 0.0f;
+			nrm = lerp(nrm, blend_height_smooth(nrm, nrm.a, bump1, BLEND_SOURCE.r * CONTRAST - CONTRAST_half + bump1.a + _VColorBlendOffset.x, _VColorBlendSmooth.x), saturate(BLEND_SOURCE.r * CONTRAST_half));
+			nrm = lerp(nrm, blend_height_smooth(nrm, nrm.a, bump2, BLEND_SOURCE.g * CONTRAST - CONTRAST_half + bump2.a + _VColorBlendOffset.y, _VColorBlendSmooth.y), saturate(BLEND_SOURCE.g * CONTRAST_half));
+			nrm = lerp(nrm, blend_height_smooth(nrm, nrm.a, bump3, BLEND_SOURCE.b * CONTRAST - CONTRAST_half + bump3.a + _VColorBlendOffset.z, _VColorBlendSmooth.z), saturate(BLEND_SOURCE.b * CONTRAST_half));
+			nrm = lerp(nrm, blend_height_smooth(nrm, nrm.a, bump4, BLEND_SOURCE.a * CONTRAST - CONTRAST_half + bump4.a + _VColorBlendOffset.w, _VColorBlendSmooth.w), saturate(BLEND_SOURCE.a * CONTRAST_half));
+		#endif
+		/// ELSE
+			fixed4 nrm = 0.0f;
+			nrm += splat_control.r * bump1;
+			nrm += splat_control.g * bump2;
+			nrm += splat_control.b * bump3;
+			nrm += splat_control.a * bump4;
+		///
+			mixedNormal = UnpackNormal(nrm);
+	#endif
+	///
+		}
+///
+		#ifndef TERRAIN_SURFACE_OUTPUT
+	/// IF CUSTOM_LIGHTING
+			#define TERRAIN_SURFACE_OUTPUT SurfaceOutputCustom
+	/// ELSE
+			#define TERRAIN_SURFACE_OUTPUT SurfaceOutput
+	///
+		#endif
+
+/// IF CUSTOM_LIGHTING
+		//Custom SurfaceOutput
+		struct SurfaceOutputCustom
+		{
+			fixed3 Albedo;
+			fixed3 Normal;
+			fixed3 Emission;
+			half Specular;
+			fixed Gloss;
+			fixed Alpha;
+	/// IF SKETCH || SKETCH_GRADIENT
+			half2 ScreenUVs;
+	///
+	/// IF TEXTURED_THRESHOLD
+			fixed TexThreshold;
+	///
+	/// IF RIM && RIM_LIGHTMASK
+			fixed3 NdlColor;
+			fixed Rim;
+	///
+		};
+///
+
+		void SplatmapFinalColor_TCP2(Input IN, TERRAIN_SURFACE_OUTPUT o, inout fixed4 color)
+		{
+			color *= o.Alpha;
+			#ifdef TERRAIN_SPLAT_ADDPASS
+				UNITY_APPLY_FOG_COLOR(IN.fogCoord, color, fixed4(0,0,0,0));
+			#else
+				UNITY_APPLY_FOG(IN.fogCoord, color);
+			#endif
+
+/// IF RIM && RIM_LIGHTMASK
+			color.rgb += (o.NdlColor.rgb * o.Rim * _RimColor.rgb) * _RimColor.a;
+///
+		}
+
+/// IF CUSTOM_LIGHTING
+		//================================================================
+		// CUSTOM LIGHTING
+
+		//Lighting-related variables
+		fixed4 _HColor;
+		fixed4 _SColor;
+	/// IF COLOR_MULTIPLIERS
+		fixed _HighlightMultiplier;
+		fixed _ShadowMultiplier;
+	///
+	/// IF TEXTURE_RAMP
+		sampler2D _Ramp;
+	/// ELSE
+		float _RampThreshold;
+		float _RampSmooth;
+	///
+	/// IF SPECULAR_TOON
+		fixed _SpecSmooth;
+	///
+
+		inline half4 LightingToonyColorsCustom (inout TERRAIN_SURFACE_OUTPUT s, half3 lightDir, half3 viewDir, half atten)
+		{
+			s.Normal = normalize(s.Normal);
+	/// IF ENABLE_WRAPPED_LIGHTING
+			fixed ndl = max(0, dot(s.Normal, lightDir)*0.5 + 0.5);
+	/// ELSE
+			fixed ndl = max(0, dot(s.Normal, lightDir));
+	///
+
+	/// IF RIM && RIM_LIGHTMASK
+			s.NdlColor = ndl * _LightColor0.rgb * atten;
+
+	///
+	/// IF TEXTURED_THRESHOLD
+			ndl += s.TexThreshold;
+	///
+	/// IF TEXTURE_RAMP
+			fixed3 ramp = tex2D(_Ramp, fixed2(ndl,ndl));
+	/// ELSE
+			fixed3 ramp = smoothstep(_RampThreshold-_RampSmooth*0.5, _RampThreshold+_RampSmooth*0.5, ndl);
+	///
+	/// IF !INDEPENDENT_SHADOWS
+		#if !(POINT) && !(SPOT)
+			ramp *= atten;
+		#endif
+	///
+	/// IF SKETCH || SKETCH_GRADIENT
+			//Sketch
+			fixed sketch = tex2D(_SketchTex, s.ScreenUVs).a;
+		/// IF SKETCH_GRADIENT
+			sketch = smoothstep(sketch - 0.2, sketch, clamp(ramp, _SketchHalftoneMin, _SketchHalftoneMax));	//Gradient halftone
+		/// ELSE
+			sketch = lerp(sketch, 1, ramp);	//Regular sketch overlay
+		///
+	///
+
+	/// IF COLOR_MULTIPLIERS
+			_SColor = lerp(_HColor, _SColor, _SColor.a * _ShadowMultiplier);	//Shadows intensity through alpha
+			ramp = lerp(_SColor.rgb, _HColor.rgb * _HighlightMultiplier, ramp);
+	/// ELSE
+			_SColor = lerp(_HColor, _SColor, _SColor.a);	//Shadows intensity through alpha
+			ramp = lerp(_SColor.rgb, _HColor.rgb, ramp);
+	///
+	/// IF SPECULAR
+
+			//Specular
+			half3 h = normalize(lightDir + viewDir);
+			float ndh = max(0, dot (s.Normal, h));
+			float spec = pow(ndh, (s.Specular+1e-4f)*128.0) * s.Gloss * 2.0;
+		/// IF SPECULAR_TOON
+			spec = smoothstep(0.5-_SpecSmooth*0.5, 0.5+_SpecSmooth*0.5, spec);
+		///
+			spec *= atten;
+			fixed4 c;
+			c.rgb = s.Albedo * _LightColor0.rgb * ramp;
+		/// IF INDEPENDENT_SHADOWS
+			c.rgb *= atten;
+		/// ELSE
+		#if (POINT || SPOT)
+			c.rgb *= atten;
+		#endif
+		///
+			c.rgb += _LightColor0.rgb * _SpecColor.rgb * spec;
+			c.a = s.Alpha + _LightColor0.a * _SpecColor.a * spec;
+	/// ELSE
+			fixed4 c;
+			c.rgb = s.Albedo * _LightColor0.rgb * ramp;
+			c.a = s.Alpha;
+		/// IF INDEPENDENT_SHADOWS
+			c.rgb *= atten;
+		/// ELSE
+		#if (POINT || SPOT)
+			c.rgb *= atten;
+		#endif
+		///
+	///
+	/// IF SKETCH
+		/// IF SKETCH_COLORBURN
+			c.rgb = max((1.0 - ((1.0 - c.rgb) / sketch)), 0.0);
+		/// ELSE
+			c.rgb *= sketch;
+		///
+	/// ELIF SKETCH_GRADIENT
+			c.rgb *= lerp(_SketchColor.rgb, fixed3(1,1,1), sketch);
+	///
+			return c;
+		}
+
+///
+
+		//================================================================
+
+		void surf(Input IN, inout TERRAIN_SURFACE_OUTPUT o)
+		{
+
+/// IF !TERRAIN_BASE
+			//TERRAIN
+			half4 splat_control;
+			half weight;
+			fixed4 mixedDiffuse;
+			SplatmapMix(IN, splat_control, weight, mixedDiffuse, o.Normal);
+			o.Albedo = mixedDiffuse.rgb;
+			o.Alpha = weight;
+/// ELSE
+			fixed4 tex = tex2D(_MainTex, IN.uv_MainTex);
+			o.Albedo = tex.rgb;
+			o.Alpha = 1.0f;
+///
+
+/// IF SKETCH || SKETCH_GRADIENT
+			//Sketch
+	/// IF SKETCH_VERTEX
+			o.ScreenUVs = IN.sketchUv;
+	/// ELSE
+			float2 screenUV = IN.sketchUv.xy / IN.sketchUv.w;
+			screenUV *= float2(_ScreenParams.x * 0.01, _ScreenParams.y * 0.01);
+		/// IF !SKETCH_VERTEX && SKETCH_ANIM
+			_Random.x = round(_Time.z * _SketchSpeed) / _SketchSpeed;
+			_Random.y = -round(_Time.z * _SketchSpeed) / _SketchSpeed;
+			screenUV.xy += _Random.xy;
+		///
+		/// IF SKETCH_SCALE
+			screenUV *= UNITY_MATRIX_MV[2][3];
+		///
+			o.ScreenUVs = screenUV;
+	///
+
+///
+/// IF SPECULAR
+	/// IF SPEC_SHIN_MASK
+			_Shininess *= @%SPEC_SHIN_MASK%@@%SPEC_SHIN_MASK_CHANNEL%@;
+	///
+			//Specular
+	/// IF SPECULAR_MASK
+			o.Gloss = @%SPEC_MASK%@@%SPEC_MASK_CHANNEL%@;
+	/// ELSE
+			o.Gloss = 1;
+	///
+			o.Specular = _Shininess;
+///
+/// IF (RIM || RIM_OUTLINE)
+			//Rim
+			float3 viewDir = normalize(mul((float3x3)unity_WorldToObject, IN.viewDir));
+			half rim = 1.0f - saturate( dot(viewDir, o.Normal) );
+			rim = smoothstep(_RimMin, _RimMax, rim);
+	/// IF RIM_MASK
+			rim *= @%RIM_MASK%@@%RIM_MASK_CHANNEL%@;
+	///
+	/// IF RIM
+		/// IF REFLECTION && RIM_REFL
+			o.Emission += (_RimColor.rgb * rim * reflColor.rgb) * _RimColor.a;
+		/// ELIF RIM_LIGHTMASK
+			o.Rim = rim;
+		/// ELSE
+			o.Emission += (_RimColor.rgb * rim) * _RimColor.a;
+		///
+	///
+	/// IF RIM_OUTLINE
+			o.Albedo = lerp(o.Albedo.rgb, _RimColor.rgb, rim * _RimColor.a);
+	///
+///
+/// IF TEXTURED_THRESHOLD
+			//TEXTURED THRESHOLD
+			o.TexThreshold = tex2D(_ThresholdTex, IN.uv_ThresholdTex).a - 0.5;
+///
+		}
+	ENDCG
+
+	Category
+	{
+		Tags
+		{
+		/// IF !TERRAIN_BASE
+			"Queue" = "Geometry-99"
+		/// ELSE
+			"Queue" = "Geometry-100"
+		///
+		/// IF TERRAIN_ADDPASS
+			"IgnoreProjector"="True"
+		///
+			"RenderType" = "Opaque"
+		}
+
+/// IF !TERRAIN_BASE
+		// TODO: Seems like "#pragma target 3.0 _TERRAIN_NORMAL_MAP" can't fallback correctly on less capable devices?
+		// Use two sub-shaders to simulate different features for different targets and still fallback correctly.
+		// SM3+ targets
+		SubShader
+		{
+/// IF OUTLINE || OUTLINE_BLENDING && OUTLINE_BEHIND && !TERRAIN_ADDPASS
+
+		//Outlines
+	/// IF OUTLINE
+			Tags { "Queue"="Transparent" }
+		/// IF FORCE_SM2
+			UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind (Shader Model 2)/OUTLINE"
+		/// ELSE
+			UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind/OUTLINE"
+		///
+	///
+	/// IF OUTLINE_BLENDING
+			Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjectors"="True" }
+		/// IF FORCE_SM2
+			UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind (Shader Model 2)/OUTLINE_BLENDING"
+		/// ELSE
+			UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind/OUTLINE_BLENDING"
+		///
+	///
+///
+			CGPROGRAM
+				#pragma target @%SHADER_TARGET%@
+/// IF !NO_NORMAL_MAP
+				#pragma multi_compile __ _TERRAIN_NORMAL_MAP
+///
+			ENDCG
+/// IF OUTLINE || OUTLINE_BLENDING && !OUTLINE_BEHIND && !TERRAIN_ADDPASS
+
+		//Outlines
+	/// IF OUTLINE
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only (Shader Model 2)/OUTLINE"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only/OUTLINE"
+		///
+	///
+	/// IF OUTLINE_BLENDING
+		Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjectors"="True" }
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only (Shader Model 2)/OUTLINE_BLENDING"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only/OUTLINE_BLENDING"
+		///
+	///
+///
+		}
+///
+
+/// IF TERRAIN_BASE
+		SubShader
+		{
+  /// IF OUTLINE || OUTLINE_BLENDING && OUTLINE_BEHIND && !TERRAIN_ADDPASS
+
+		//Outlines
+	/// IF OUTLINE
+			Tags { "Queue"="Transparent" }
+		/// IF FORCE_SM2
+			UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind (Shader Model 2)/OUTLINE"
+		/// ELSE
+			UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind/OUTLINE"
+		///
+	///
+	/// IF OUTLINE_BLENDING
+			Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjectors"="True" }
+		/// IF FORCE_SM2
+			UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind (Shader Model 2)/OUTLINE_BLENDING"
+		/// ELSE
+			UsePass "Hidden/Toony Colors Pro 2/Outline Only Behind/OUTLINE_BLENDING"
+		///
+	///
+  ///
+			CGPROGRAM
+			ENDCG
+  /// IF OUTLINE || OUTLINE_BLENDING && !OUTLINE_BEHIND && !TERRAIN_ADDPASS
+
+		//Outlines
+	/// IF OUTLINE
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only (Shader Model 2)/OUTLINE"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only/OUTLINE"
+		///
+	///
+	/// IF OUTLINE_BLENDING
+		Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjectors"="True" }
+		/// IF FORCE_SM2
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only (Shader Model 2)/OUTLINE_BLENDING"
+		/// ELSE
+		UsePass "Hidden/Toony Colors Pro 2/Outline Only/OUTLINE_BLENDING"
+		///
+	///
+  ///
+		}
+///
+	}
+
+/// IF !TERRAIN_ADDPASS && !TERRAIN_BASE
+	Dependency "AddPassShader" = "Hidden/@%SHADER_NAME%@-AddPass"
+	Dependency "BaseMapShader" = "Hidden/@%SHADER_NAME%@-Base"
+	Dependency "Details0"      = "Hidden/TerrainEngine/Details/Vertexlit"
+	Dependency "Details1"      = "Hidden/TerrainEngine/Details/WavingDoublePass"
+	Dependency "Details2"      = "Hidden/TerrainEngine/Details/BillboardWavingDoublePass"
+	Dependency "Tree0"         = "Hidden/TerrainEngine/BillboardTree"
+///
+
+	Fallback "Diffuse"
+	CustomEditor "TCP2_MaterialInspector_SG"
+}

@@ -1,0 +1,83 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Shadow HSV
+
+#FEATURES
+sngl	lbl="Shadow HSV"			kw=SHADOW_HSV			help="featuresreference/lighting/shadowhsv"		tt="Adds Hue, Saturation, Value controls to shadowed areas"
+sngl	lbl="Mask"				kw=SHADOW_HSV_MASK		indent		needs=SHADOW_HSV					tt="Mask the Shadow HSV change (see the Shader Properties tab to change the masking value)"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF SHADOW_HSV
+	float	Shadow Hue			lighting, imp(range, label = "Hue", variable = "_Shadow_HSV_H", default = 0, min = -180, max = 180)
+	float	Shadow Saturation	lighting, imp(range, label = "Saturation", variable = "_Shadow_HSV_S", default = 0, min = -1, max = 1)
+	float	Shadow Value		lighting, imp(range, label = "Value", variable = "_Shadow_HSV_V", default = 0, min = -1, max = 1)
+///
+
+/// IF SHADOW_HSV && SHADOW_HSV_MASK
+	float	Shadow HSV Mask		lighting, imp(shader_property_ref, reference = Albedo, swizzle = A)
+///
+
+#END
+
+//================================================================
+
+#KEYWORDS
+
+/// IF SHADOW_HSV
+	feature_on		USE_HSV_FULL
+///
+
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF SHADOW_HSV
+	#if_not_empty
+		[HideInInspector] __BeginGroup_ShadowHSV ("Shadow HSV", Float) = 0
+	#start_not_empty_block
+		[[PROP:Shadow Hue]]
+		[[PROP:Shadow Saturation]]
+		[[PROP:Shadow Value]]
+	#end_not_empty_block
+		[HideInInspector] __EndGroup ("Shadow HSV", Float) = 0
+	#end_not_empty
+	/// IF SHADOW_HSV_MASK
+		[[PROP:Shadow HSV Mask]]
+	///
+///
+#END
+
+//================================================================
+
+#VARIABLES
+#END
+
+//================================================================
+
+#INPUT
+#END
+
+//================================================================
+
+#VERTEX
+#END
+
+//================================================================
+
+#FRAGMENT(float3 albedo, float3 ramp)
+/// IF SHADOW_HSV
+
+		//Shadow HSV
+		float3 albedoShadowHSV = ApplyHSV_3(albedo, [[VALUE:Shadow Hue]], [[VALUE:Shadow Saturation]], [[VALUE:Shadow Value]]);
+	/// IF SHADOW_HSV_MASK
+		albedo = lerp(albedoShadowHSV, albedo, ramp + [[VALUE:Shadow HSV Mask]] * (1 - ramp));
+	/// ELSE
+		albedo = lerp(albedoShadowHSV, albedo, ramp);
+	///
+///
+#END

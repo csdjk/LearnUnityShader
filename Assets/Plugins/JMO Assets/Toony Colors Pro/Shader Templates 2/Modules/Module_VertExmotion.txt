@@ -1,0 +1,88 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: VertExmotion Support
+
+#FEATURES
+mult			lbl="VertExmotion Support"	kw=Off|,Position|VERTEXMOTION_SIMPLE,Position+Normal|VERTEXMOTION_NORMAL	toggles=VERTEXMOTION			tt="Adds support for VertExmotion"
+keyword_str		lbl="Include File"			kw=VERTEXMOTION_INCLUDE		indent		needs=VERTEXMOTION		forceKeyword=true	default="Assets/VertExmotion/Shaders/VertExmotion.cginc"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF VERTEXMOTION
+	float4			VertExmotion Data		vertex, imp(vertex_color, label = "VertExmotion Data")
+///
+#END
+
+//================================================================
+
+#KEYWORDS
+/// IF VERTEXMOTION_NORMAL
+	feature_on		USE_TANGENT_VERT
+///
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF VERTEXMOTION
+	#if_not_empty
+	#start_not_empty_block
+		[[PROP:VertExmotion Data]]
+	#end_not_empty_block
+		[TCP2Separator]
+	#end_not_empty
+///
+#END
+
+//================================================================
+
+#FUNCTIONS
+/// IF VERTEXMOTION
+	/// IF LWRP
+		#define VERTEXMOTION_ASE_HD_LW_RP
+	///
+		#include "@%VERTEXMOTION_INCLUDE%@"
+///
+#END
+
+//================================================================
+
+#INPUT
+#END
+
+//================================================================
+
+#VERTEX(float4 vertex, float3 normal, float4 tangent)
+/// IF VERTEXMOTION
+		//VertExmotion
+		float4 vxData = [[VALUE:VertExmotion Data]];
+	/// IF VERTEXMOTION_SIMPLE
+		vertex = VertExmotion(vertex, vxData);
+	/// ELIF VERTEXMOTION_NORMAL
+		vertex = VertExmotion(vertex, vxData, normal, tangent);
+	///
+///
+#END
+
+#VERTEX:LWRP(float4 vertex, float3 normal, float3 tangent)
+/// IF VERTEXMOTION
+		//VertExmotion
+		float4 vxData = [[VALUE:VertExmotion Data]];
+		float4 worldPos = mul(unity_ObjectToWorld, vertex);
+		float w = 0;
+	/// IF VERTEXMOTION_SIMPLE
+		worldPos = VertExmotionBase(worldPos, vxData, w);
+	/// ELIF VERTEXMOTION_NORMAL
+		worldPos = VertExmotionWorldPosASE(worldPos, vxData, normal, tangent);
+	///
+		vertex.xyz = mul(unity_WorldToObject, worldPos).xyz;
+///
+#END
+
+//================================================================
+
+#FRAGMENT
+#END

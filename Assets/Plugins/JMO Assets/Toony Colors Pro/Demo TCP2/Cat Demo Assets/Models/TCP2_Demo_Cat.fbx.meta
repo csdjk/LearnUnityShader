@@ -1,0 +1,196 @@
+fileFormatVersion: 2
+guid: 994c301cb6f15aa4bb37ea2d87877435
+timeCreated: 1510733407
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: CatMesh
+    100004: HatandTie
+    100006: Controls
+    100008: Head
+    100010: HeadEnd
+    100012: Hips
+    100014: LeftArm
+    100016: LeftEar
+    100018: LeftEarEnd
+    100020: LeftEye
+    100022: LeftFoot
+    100024: LeftForeArm
+    100026: LeftHand
+    100028: LeftHandEnd
+    100030: LeftLeg
+    100032: LeftLowerLid
+    100034: LeftLowerLidEnd
+    100036: LeftShoulder
+    100038: LeftToe
+    100040: LeftToeEnd
+    100042: LeftUpLeg
+    100044: LeftUpperLid
+    100046: LeftUpperLidEnd
+    100048: Mesh
+    100050: Neck
+    100052: RightArm
+    100054: RightEar
+    100056: RightEarEnd
+    100058: RightEye
+    100060: RightFoot
+    100062: RightForeArm
+    100064: RightHand
+    100066: RightHandEnd
+    100068: RightLeg
+    100070: RightLowerLid
+    100072: RightLowerLidEnd
+    100074: RightShoulder
+    100076: RightToe
+    100078: RightToeEnd
+    100080: RightUpLeg
+    100082: RightUpperLid
+    100084: RightUpperLidEnd
+    100086: Skeleton
+    100088: Spine1
+    100090: Spine2
+    100092: Tail1
+    100094: Tail2
+    100096: Tail3
+    100098: Tail4
+    100100: ConstructionGearMesh
+    100102: PartHatandBowtie
+    100104: CatMesh_vcolors
+    400000: //RootNode
+    400002: CatMesh
+    400004: HatandTie
+    400006: Controls
+    400008: Head
+    400010: HeadEnd
+    400012: Hips
+    400014: LeftArm
+    400016: LeftEar
+    400018: LeftEarEnd
+    400020: LeftEye
+    400022: LeftFoot
+    400024: LeftForeArm
+    400026: LeftHand
+    400028: LeftHandEnd
+    400030: LeftLeg
+    400032: LeftLowerLid
+    400034: LeftLowerLidEnd
+    400036: LeftShoulder
+    400038: LeftToe
+    400040: LeftToeEnd
+    400042: LeftUpLeg
+    400044: LeftUpperLid
+    400046: LeftUpperLidEnd
+    400048: Mesh
+    400050: Neck
+    400052: RightArm
+    400054: RightEar
+    400056: RightEarEnd
+    400058: RightEye
+    400060: RightFoot
+    400062: RightForeArm
+    400064: RightHand
+    400066: RightHandEnd
+    400068: RightLeg
+    400070: RightLowerLid
+    400072: RightLowerLidEnd
+    400074: RightShoulder
+    400076: RightToe
+    400078: RightToeEnd
+    400080: RightUpLeg
+    400082: RightUpperLid
+    400084: RightUpperLidEnd
+    400086: Skeleton
+    400088: Spine1
+    400090: Spine2
+    400092: Tail1
+    400094: Tail2
+    400096: Tail3
+    400098: Tail4
+    400100: ConstructionGearMesh
+    400102: PartHatandBowtie
+    400104: CatMesh_vcolors
+    2300000: CatMesh
+    2300002: HatandTie
+    3300000: CatMesh
+    3300002: HatandTie
+    4300000: CatMesh
+    4300002: HatandTie
+    4300004: PartHatandBowtie
+    4300006: ConstructionGearMesh
+    4300008: CatMesh_vcolors
+    11100000: //RootNode
+    13700000: CatMesh
+    13700002: HatandTie
+    13700004: ConstructionGearMesh
+    13700006: PartHatandBowtie
+    13700008: CatMesh_vcolors
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

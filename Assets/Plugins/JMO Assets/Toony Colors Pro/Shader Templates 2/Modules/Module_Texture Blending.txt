@@ -1,0 +1,301 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Texture Blending
+
+#FEATURES
+sngl	lbl="Texture Splatting/Blending"	kw=TEXTURE_BLENDING		help="featuresreference/surface/texturesplatting/blending"	tt="Enable texture blending: blend between multiple textures based on a source map"
+#mult	lbl="Texture Blending"			kw=Off|,Vertex Colors|TEXBLEND_VCOLORS,Texture Map|TEXBLEND_MAP	toggles=TEXTURE_BLENDING				tt="Enable texture blending"
+mult	lbl="Blend Method"				kw=Linear|TEXBLEND_LINEAR,Linear (Additive)|TEXBLEND_LINEAR_ADD,Height (Texture Alpha)|TEXBLEND_HEIGHT	indent	needs=TEXTURE_BLENDING		tt="Defines how to blend textures (see documentation)"
+sngl	lbl="Enhance Blend Contrast"		kw=TEXBLEND_NORMALIZE		indent	needs=TEXTURE_BLENDING	excl=TEXBLEND_LINEAR_ADD	tt="Enhance contrast between colors when the blend channel is not 0.\nSee documentation for more info."
+warning	msgType=info					needs=TEXBLEND_HEIGHT		lbl="The order in which textures are sampled matters when using height blending, because the alpha from the textures is cumulative!"
+sngl	lbl="Texture 1"					kw=BLEND_TEX1	tt="Additional texture blended based on a vertex color channel"		indent	needs=TEXTURE_BLENDING		half
+keyword	lbl="Color Channel"				kw=BLEND_TEX1_CHNL	values=R|r,G|g,B|b,A|a			needs=TEXTURE_BLENDING,BLEND_TEX1	default=0	forceKeyword=true	inline
+sngl	lbl="Texture 2"					kw=BLEND_TEX2	tt="Additional texture blended based on a vertex color channel"		indent	needs=TEXTURE_BLENDING		half
+keyword	lbl="Color Channel"				kw=BLEND_TEX2_CHNL	values=R|r,G|g,B|b,A|a			needs=TEXTURE_BLENDING,BLEND_TEX2	default=1	forceKeyword=true	inline
+sngl	lbl="Texture 3"					kw=BLEND_TEX3	tt="Additional texture blended based on a vertex color channel"		indent	needs=TEXTURE_BLENDING		half
+keyword	lbl="Color Channel"				kw=BLEND_TEX3_CHNL	values=R|r,G|g,B|b,A|a			needs=TEXTURE_BLENDING,BLEND_TEX3	default=2	forceKeyword=true	inline
+sngl	lbl="Texture 4"					kw=BLEND_TEX4	tt="Additional texture blended based on a vertex color channel"		indent	needs=TEXTURE_BLENDING		half
+keyword	lbl="Color Channel"				kw=BLEND_TEX4_CHNL	values=R|r,G|g,B|b,A|a			needs=TEXTURE_BLENDING,BLEND_TEX4	default=3	forceKeyword=true	inline
+sngl	lbl="Normal Map Blending"		kw=TEXBLEND_BUMP				toggles=BUMP		needs=TEXTURE_BLENDING				indent		tt="Enables texture blending for the normal map"
+warning	msgType=info					needs=TRIPLANAR,TEXTURE_BLENDING		lbl="When using <b>Triplanar Mapping</b>, the <b>Texture Blending</b> feature will only affect the ground texture."
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF TEXTURE_BLENDING
+			header	Texture Blending
+			color_rgba	Blending Source		fragment, imp(texture, label = "Blending Source", default = black)
+	/// IF BLEND_TEX1
+			color_rgba	Blend Texture 1		fragment, imp(texture, label = "Texture 1", variable = "_BlendTex1", default = white, tiling_offset = true)
+	///
+	/// IF BLEND_TEX2
+			color_rgba	Blend Texture 2		fragment, imp(texture, label = "Texture 2", variable = "_BlendTex2", default = white, tiling_offset = true)
+	///
+	/// IF BLEND_TEX3
+			color_rgba	Blend Texture 3		fragment, imp(texture, label = "Texture 3", variable = "_BlendTex3", default = white, tiling_offset = true)
+	///
+	/// IF BLEND_TEX4
+			color_rgba	Blend Texture 4		fragment, imp(texture, label = "Texture 4", variable = "_BlendTex4", default = white, tiling_offset = true)
+	///
+	/// IF BUMP && TEXBLEND_BUMP
+		/// IF BLEND_TEX1
+			color_rgba	Blend Normal Map 1		fragment, imp(texture, label = "Normal Map 1", variable = "_BlendMap1", default = bump, tiling_offset = true, tiling_offset_var = "_BlendTex1_ST")
+		///
+		/// IF BLEND_TEX2
+			color_rgba	Blend Normal Map 2		fragment, imp(texture, label = "Normal Map 2", variable = "_BlendMap2", default = bump, tiling_offset = true, tiling_offset_var = "_BlendTex2_ST")
+		///
+		/// IF BLEND_TEX3
+			color_rgba	Blend Normal Map 3		fragment, imp(texture, label = "Normal Map 3", variable = "_BlendMap3", default = bump, tiling_offset = true, tiling_offset_var = "_BlendTex3_ST")
+		///
+		/// IF BLEND_TEX4
+			color_rgba	Blend Normal Map 4		fragment, imp(texture, label = "Normal Map 4", variable = "_BlendMap4", default = bump, tiling_offset = true, tiling_offset_var = "_BlendTex4_ST")
+		///
+	///
+	/// IF TEXBLEND_HEIGHT
+			float	Blending Height Contrast	fragment, imp(constant, default = 2.5)
+	///
+	/// IF TEXBLEND_NORMALIZE
+			float4	Blending Contrast	fragment, imp(vector, label = "Blending Contrast", default = (1,1,1,0))
+	///
+///
+#END
+
+//================================================================
+
+#KEYWORDS
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF TEXTURE_BLENDING
+
+				[TCP2HeaderHelp(Texture Blending)]
+				[[PROP:Blending Source]]
+	/// IF BLEND_TEX1
+				[[PROP:Blend Texture 1]]
+		/// IF BUMP && TEXBLEND_BUMP && BLEND_TEX1
+				[[PROP:Blend Normal Map 1]]
+		///
+	///
+	/// IF BLEND_TEX2
+				[[PROP:Blend Texture 2]]
+		/// IF BUMP && TEXBLEND_BUMP && BLEND_TEX1
+				[[PROP:Blend Normal Map 2]]
+		///
+	///
+	/// IF BLEND_TEX3
+				[[PROP:Blend Texture 3]]
+		/// IF BUMP && TEXBLEND_BUMP && BLEND_TEX1
+				[[PROP:Blend Normal Map 3]]
+		///
+	///
+	/// IF BLEND_TEX4
+				[[PROP:Blend Texture 4]]
+		/// IF BUMP && TEXBLEND_BUMP && BLEND_TEX1
+				[[PROP:Blend Normal Map 4]]
+		///
+	///
+	/// IF TEXBLEND_NORMALIZE
+				[[PROP:Blending Contrast]]
+	///
+	/// IF TEXBLEND_HEIGHT
+				[TCP2HeaderHelp(Height Blending Parameters)]
+				[[PROP:Blending Height Contrast]]
+				[TCP2Vector4Floats(R,G,B,A,0.001,2,0.001,2,0.001,2,0.001,2)] _VColorBlendSmooth ("Height Smoothing", Vector) = (0.25,0.25,0.25,0.25)
+				[TCP2Vector4Floats(R,G,B,A)] _VColorBlendOffset ("Height Offset", Vector) = (0,0,0,0)
+				[TCP2HelpBox(Info,Height will be taken from each texture alpha channel.  No alpha in the texture will result in linear blending.)]
+	///
+				[TCP2Separator]
+///
+#END
+
+//================================================================
+
+#VARIABLES
+/// IF TEXTURE_BLENDING
+	/// IF TEXBLEND_HEIGHT
+
+		//Texture Blending Params
+		float4 _VColorBlendSmooth;
+		float4 _VColorBlendOffset;
+	///
+///
+#END
+
+//================================================================
+
+#FUNCTIONS
+/// IF TEXTURE_BLENDING
+	/// IF TEXBLEND_HEIGHT
+
+		// Height-based texture blending
+		float4 blend_height_smooth(float4 texture1, float height1, float4 texture2, float height2, float smoothing)
+		{
+			float ma = max(texture1.a + height1, texture2.a + height2) - smoothing;
+			float b1 = max(texture1.a + height1 - ma, 0);
+			float b2 = max(texture2.a + height2 - ma, 0);
+			return (texture1 * b1 + texture2 * b2) / (b1 + b2);
+		}
+	///
+///
+#END
+
+//================================================================
+
+#INPUT
+#END
+
+//================================================================
+
+#VERTEX
+#END
+
+//================================================================
+
+// Initialize the procedural UVs
+#FRAGMENT:INIT_UVS
+/// IF TEXTURE_BLENDING
+		// Texture Blending: initialize
+		fixed4 blendingSource = [[VALUE:Blending Source]];
+	/// IF TEXBLEND_NORMALIZE
+		blendingSource.rgba = saturate(normalize(blendingSource.rgba) * dot([[VALUE:Blending Contrast]], blendingSource.rgba));
+	///
+	/// IF TEXBLEND_LINEAR_ADD
+		float blackChannel = 1 - dot(blendingSource.rgba, half4(1, 1, 1, 1));
+	/// ELIF TEXBLEND_HEIGHT
+		float contrast = [[VALUE:Blending Height Contrast]];
+		float contrast_half = contrast/2;
+	///
+	/// IF BLEND_TEX1
+		fixed4 tex1 = [[VALUE:Blend Texture 1]];
+	///
+	/// IF BLEND_TEX2
+		fixed4 tex2 = [[VALUE:Blend Texture 2]];
+	///
+	/// IF BLEND_TEX3
+		fixed4 tex3 = [[VALUE:Blend Texture 3]];
+	///
+	/// IF BLEND_TEX4
+		fixed4 tex4 = [[VALUE:Blend Texture 4]];
+	///
+///
+#END
+
+#FRAGMENT(float4 mainTex)
+/// IF TEXTURE_BLENDING
+
+			// Texture Blending: sample
+#			fixed4 blendingSource = [[VALUE:Blending Source]];
+#	/// IF TEXBLEND_NORMALIZE
+#			blendingSource.rgba = saturate(normalize(blendingSource.rgba) * dot([[VALUE:Blending Contrast]], blendingSource.rgba));
+#	///
+
+	/// IF TEXBLEND_LINEAR
+		/// IF BLEND_TEX1
+			mainTex = lerp(mainTex, tex1, blendingSource.@%BLEND_TEX1_CHNL%@);
+		///
+		/// IF BLEND_TEX2
+			mainTex = lerp(mainTex, tex2, blendingSource.@%BLEND_TEX2_CHNL%@);
+		///
+		/// IF BLEND_TEX3
+			mainTex = lerp(mainTex, tex3, blendingSource.@%BLEND_TEX3_CHNL%@);
+		///
+		/// IF BLEND_TEX4
+			mainTex = lerp(mainTex, tex4, blendingSource.@%BLEND_TEX4_CHNL%@);
+		///
+	/// ELIF TEXBLEND_LINEAR_ADD
+			mainTex *= blackChannel;
+
+		/// IF BLEND_TEX1
+			mainTex += tex1 * blendingSource.@%BLEND_TEX1_CHNL%@;
+		///
+		/// IF BLEND_TEX2
+			mainTex += tex2 * blendingSource.@%BLEND_TEX2_CHNL%@;
+		///
+		/// IF BLEND_TEX3
+			mainTex += tex3 * blendingSource.@%BLEND_TEX3_CHNL%@;
+		///
+		/// IF BLEND_TEX4
+			mainTex += tex4 * blendingSource.@%BLEND_TEX4_CHNL%@;
+		///
+	/// ELIF TEXBLEND_HEIGHT
+		/// IF BLEND_TEX1
+			mainTex = lerp(mainTex, blend_height_smooth(mainTex, mainTex.a, tex1, blendingSource.r * contrast - contrast_half + tex1.a + _VColorBlendOffset.x, _VColorBlendSmooth.x), saturate(blendingSource.r * contrast_half));
+		///
+		/// IF BLEND_TEX2
+			mainTex = lerp(mainTex, blend_height_smooth(mainTex, mainTex.a, tex2, blendingSource.g * contrast - contrast_half + tex2.a + _VColorBlendOffset.y, _VColorBlendSmooth.y), saturate(blendingSource.g * contrast_half));
+		///
+		/// IF BLEND_TEX3
+			mainTex = lerp(mainTex, blend_height_smooth(mainTex, mainTex.a, tex3, blendingSource.b * contrast - contrast_half + tex3.a + _VColorBlendOffset.z, _VColorBlendSmooth.z), saturate(blendingSource.b * contrast_half));
+		///
+		/// IF BLEND_TEX4
+			mainTex = lerp(mainTex, blend_height_smooth(mainTex, mainTex.a, tex4, blendingSource.a * contrast - contrast_half + tex4.a + _VColorBlendOffset.w, _VColorBlendSmooth.w), saturate(blendingSource.a * contrast_half));
+		///
+	///
+///
+#END
+
+#FRAGMENT:BUMP(float4 normalMap)
+/// IF TEXTURE_BLENDING && TEXBLEND_BUMP
+
+		// Texture Blending: normal maps
+  /// IF BLEND_TEX1
+		half4 bump1 = [[VALUE:Blend Normal Map 1]];
+  ///
+  /// IF BLEND_TEX2
+		half4 bump2 = [[VALUE:Blend Normal Map 2]];
+  ///
+  /// IF BLEND_TEX3
+		half4 bump3 = [[VALUE:Blend Normal Map 3]];
+  ///
+  /// IF BLEND_TEX4
+		half4 bump4 = [[VALUE:Blend Normal Map 4]];
+  ///
+  /// IF TEXBLEND_LINEAR
+	/// IF BLEND_TEX1
+		normalMap = lerp(normalMap, bump1, blendingSource.@%BLEND_TEX1_CHNL%@);
+	///
+	/// IF BLEND_TEX2
+		normalMap = lerp(normalMap, bump2, blendingSource.@%BLEND_TEX2_CHNL%@);
+	///
+	/// IF BLEND_TEX3
+		normalMap = lerp(normalMap, bump3, blendingSource.@%BLEND_TEX3_CHNL%@);
+	///
+	/// IF BLEND_TEX4
+		normalMap = lerp(normalMap, bump4, blendingSource.@%BLEND_TEX4_CHNL%@);
+	///
+  /// ELIF TEXBLEND_LINEAR_ADD
+		normalMap *= blackChannel;
+
+	/// IF BLEND_TEX1
+		normalMap += bump1 * blendingSource.@%BLEND_TEX1_CHNL%@;
+	///
+	/// IF BLEND_TEX2
+		normalMap += bump2 * blendingSource.@%BLEND_TEX2_CHNL%@;
+	///
+	/// IF BLEND_TEX3
+		normalMap += bump3 * blendingSource.@%BLEND_TEX3_CHNL%@;
+	///
+	/// IF BLEND_TEX4
+		normalMap += bump4 * blendingSource.@%BLEND_TEX4_CHNL%@;
+	///
+  /// ELIF TEXBLEND_HEIGHT
+
+	/// IF BLEND_TEX1
+		normalMap = lerp(normalMap, blend_height_smooth(normalMap, tex1.a, bump1, blendingSource.r * contrast - contrast_half + tex1.a + _VColorBlendOffset.x, _VColorBlendSmooth.x), saturate(blendingSource.r * contrast_half));
+	///
+	/// IF BLEND_TEX2
+		normalMap = lerp(normalMap, blend_height_smooth(normalMap, tex2.a, bump2, blendingSource.g * contrast - contrast_half + tex2.a + _VColorBlendOffset.y, _VColorBlendSmooth.y), saturate(blendingSource.g * contrast_half));
+	///
+	/// IF BLEND_TEX3
+		normalMap = lerp(normalMap, blend_height_smooth(normalMap, tex3.a, bump3, blendingSource.b * contrast - contrast_half + tex3.a + _VColorBlendOffset.z, _VColorBlendSmooth.z), saturate(blendingSource.b * contrast_half));
+	///
+	/// IF BLEND_TEX4
+		normalMap = lerp(normalMap, blend_height_smooth(normalMap, tex4.a, bump4, blendingSource.a * contrast - contrast_half + tex4.a + _VColorBlendOffset.w, _VColorBlendSmooth.w), saturate(blendingSource.a * contrast_half));
+	///
+  ///
+///
+#END

@@ -1,0 +1,315 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Outline Pass
+// Note: only handles UI, implementation is made in the templates directly
+
+#FEATURES
+sngl	lbl="Outline"		kw=OUTLINE					tt="Add an outline around the model using the inverted hull method"
+sngl	lbl="URP Renderer Feature"	kw=OUTLINE_URP_FEATURE		needs=OUTLINE	templates=TEMPLATE_URP	indent		tt="Set the outline pass to be used as a Renderer Feature (see documentation)"
+mult	lbl="Blending"		kw=Inherit|,Opaque|OUTLINE_OPAQUE,Custom|OUTLINE_BLENDING		needs=OUTLINE	indent		tt="How the outline will be blended with the scene"
+mult	lbl="Space"			kw=Object Space|,Clip Space|OUTLINE_CLIP_SPACE					indent		tt="In which space should the outline mesh vertices be moved"
+#legacy:
+mult	lbl="Outline behind model"	kw=Off|,Depth Buffer|OUTLINE_BEHIND_DEPTH,Stencil Buffer|OUTLINE_BEHIND_STENCIL		needs=OUTLINE	templates=TEMPLATE_DEFAULT	indent		tt="Show outline behind model"
+#lwrp:
+mult	lbl="Outline behind model"	kw=Off|,Stencil Buffer|OUTLINE_BEHIND_STENCIL		needs=OUTLINE	templates=TEMPLATE_LWRP,TEMPLATE_URP	indent		tt="Show outline behind model"
+sngl	lbl="Depth Pass"				kw=OUTLINE_DEPTH	needs=OUTLINE	needs=OUTLINE_BEHIND_DEPTH	templates=TEMPLATE_DEFAULT	indent=2	tt="Adds a depth writing pass for the outline behind model: this can solve issues with sorting and drawing order"
+sngl	lbl="Constant-size"			kw=OUTLINE_CONSTANT_SIZE	needs=OUTLINE								indent		tt="Constant-size outline independent from the camera distance"
+sngl	lbl="Pixel-Perfect"			kw=OUTLINE_PIXEL_PERFECT	needs=OUTLINE	needs=OUTLINE_CLIP_SPACE,OUTLINE_CONSTANT_SIZE	indent=2		tt="Pixel-perfect outline width (needs Outline in Clip Space)"
+sngl	lbl="Z Correction"			kw=OUTLINE_ZSMOOTH			needs=OUTLINE		indent		tt="Add parameters to adjust the Z position of the outline.  Can help with some sorting artefacts with the base geometry."
+#sngl	lbl="Vertex Lighting"			kw=OUTLINE_LIGHTING_VERT			needs=OUTLINE						indent		tt="Apply basic vertex lighting to attenuate the outline color based on the main directional light"
+mult	lbl="Lighting"				kw=Off|,Vertex|OUTLINE_LIGHTING_VERT,Fragment|OUTLINE_LIGHTING_FRAG		toggles=OUTLINE_LIGHTING	needs=OUTLINE	indent			tt="Apply basic lighting to attenuate the outline color based on the main directional light"
+sngl	lbl="Wrapped Lighting"		kw=OUTLINE_LIGHTING_WRAP	needs=OUTLINE_LIGHTING	needs=OUTLINE	indent=2		tt="Use wrapped lighting for the outline. See the Shader Properties to tweak the wrapping value if needed."
+mult	lbl="Outline as fake rim"		kw=Off|,Based on Main Directional Light|OUTLINE_FAKE_RIM_DIRLIGHT,Manual Offset|OUTLINE_FAKE_RIM		needs=OUTLINE	indent			tt="Use the outline as a fake crisp rim light"
+sngl	lbl="Shadow/Depth Pass"		kw=OUTLINE_SHADOWCASTER	needs=OUTLINE	templates=TEMPLATE_DEFAULT		indent		tt="Adds a shadow caster pass based on the outline vertices. This will ensure that the cast shadows include the thickness of the outline, and also that the outline is included in the depth texture (e.g. for post effects like depth of field)"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF OUTLINE
+		header			Outline
+		float			Outline Width		vertex, label = "Width", imp(range, label = "Width", default = 1, min = 0.1, max = 4)
+	/// IF OUTLINE_FAKE_RIM
+		float3			Outline Offset		vertex, label = "Position Offset", imp(vector, label = "Offset", default = (0,0,0))
+	///
+		color_rgba		Outline Color				fragment, label = "Color", imp(constant, label = "Color", default = (1,1,1,1)), help = "The outline color.  The alpha channel is used for blending when using blended outlines."
+		color_rgba		Outline Color Vertex		vertex, label = "Color (Per-Vertex)", imp(color, label = "Color", default = (0,0,0,1)), help = "The outline color, calculated per-vertex.  The alpha channel is used for blending when using blended outlines."
+	/// IF USE_NDV_OUTLINE_MIN_MAX_VERT
+		float			Outline NDV Min Vert		vertex, imp(range, label = "Outline NDV Min (Vertex)", default = 0.5, min = 0, max = 2)
+		float			Outline NDV Max Vert		vertex, imp(range, label = "Outline NDV Max (Vertex)", default = 1.0, min = 0, max = 2)
+	///
+	/// IF USE_NDV_OUTLINE_MIN_MAX_FRAG
+		float			Outline NDV Min Frag		fragment, imp(range, label = "Outline NDV Min", default = 0.5, min = 0, max = 2)
+		float			Outline NDV Max Frag		fragment, imp(range, label = "Outline NDV Max", default = 1.0, min = 0, max = 2)
+	///
+	/// IF OUTLINE_ZSMOOTH
+		float					Outline ZSmooth					vertex, imp(range, label = "Z Correction", default = 0, min = -3, max = 3)
+		fixed_function_float	Outline Offset Factor			fixed, imp(constant, label = "Offset Factor", default = 0)
+		fixed_function_float	Outline Offset Units			fixed, imp(constant, label = "Offset Units", default = 0)
+	///
+	/// IF OUTLINE_LIGHTING_VERT && OUTLINE_LIGHTING_WRAP
+		float					Outline Lighting Wrap Factor Vertex		vertex, label = "Lighting Wrap Factor", imp(constant, label = "Wrap Factor", default = 1)
+	/// ELIF OUTLINE_LIGHTING_FRAG && OUTLINE_LIGHTING_WRAP
+		float					Outline Lighting Wrap Factor Fragment	fragment, label = "Lighting Wrap Factor", imp(constant, label = "Wrap Factor", default = 1)
+	///
+	/// IF OUTLINE_BLENDING
+		fixed_function_enum		Outline Blend Source			fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.BlendFactor, default = 6, label = "Blend Source")
+		fixed_function_enum		Outline Blend Destination		fixed, imp(enum, enum_type = ToonyColorsPro.ShaderGenerator.BlendFactor, default = 7, label = "Blend Destination")
+	///
+	/// IF OUTLINE_BEHIND_STENCIL
+		fixed_function_float	Outline Stencil Reference		fixed, imp(constant, label = "Outline Stencil Reference", default = 2)
+	///
+///
+#END
+
+//================================================================
+
+#KEYWORDS
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF OUTLINE
+
+		[TCP2HeaderHelp(Outline)]
+		[[PROP:Outline Width]]
+		[[PROP:Outline Color]]
+		[[PROP:Outline Color Vertex]]
+	/// IF OUTLINE_FAKE_RIM
+		[[PROP:Outline Offset]]
+	///
+	/// IF USE_NDV_OUTLINE_MIN_MAX_VERT
+		[[PROP:Outline NDV Min Vert]]
+		[[PROP:Outline NDV Max Vert]]
+	///
+	/// IF USE_NDV_OUTLINE_MIN_MAX_FRAG
+		[[PROP:Outline NDV Min Frag]]
+		[[PROP:Outline NDV Max Frag]]
+	///
+	/// IF OUTLINE_ZSMOOTH
+#if_not_empty
+		[Space]
+#start_not_empty_block
+		[[PROP:Outline ZSmooth]]
+		[[PROP:Outline Offset Factor]]
+		[[PROP:Outline Offset Units]]
+#end_not_empty
+	///
+	/// IF OUTLINE_BLENDING
+
+		[TCP2Header(Outline Blending)]
+		[[PROP:Outline Blend Source]]
+		[[PROP:Outline Blend Destination]]
+	///
+	/// IF OUTLINE_BEHIND_STENCIL
+		[[PROP:Outline Stencil Reference]]
+	///
+	/// IF !OUTLINE_FAKE_RIM_DIRLIGHT && !OUTLINE_FAKE_RIM
+		// Outline Normals
+		[TCP2MaterialKeywordEnumNoPrefix(Regular, _, Vertex Colors, TCP2_COLORS_AS_NORMALS, Tangents, TCP2_TANGENT_AS_NORMALS, UV1, TCP2_UV1_AS_NORMALS, UV2, TCP2_UV2_AS_NORMALS, UV3, TCP2_UV3_AS_NORMALS, UV4, TCP2_UV4_AS_NORMALS)]
+		_NormalsSource ("Outline Normals Source", Float) = 0
+		[TCP2MaterialKeywordEnumNoPrefix(Full XYZ, TCP2_UV_NORMALS_FULL, Compressed XY, _, Compressed ZW, TCP2_UV_NORMALS_ZW)]
+		_NormalsUVType ("UV Data Type", Float) = 0
+		[TCP2Separator]
+	///
+///
+#END
+
+//================================================================
+
+#FUNCTIONS
+/// IF LWRP
+
+	// Built-in renderer (CG) to SRP (HLSL) bindings
+	#define UnityObjectToClipPos TransformObjectToHClip
+	#define _WorldSpaceLightPos0 _MainLightPosition
+
+///
+#END
+
+//================================================================
+
+#INPUT
+half4 vcolor;
+/// IF OUTLINE_LIGHTING_VERT
+half ndl;
+///
+/// IF (!OUTLINE_LIGHTING_VERT && OUTLINE_LIGHTING_FRAG) || USE_NDV_OUTLINE_FRAGMENT
+float3 normal;
+///
+/// IF USE_NDV_OUTLINE_FRAGMENT
+float3 worldPos;
+///
+#END
+
+//================================================================
+
+#VERTEX(struct v, struct output, float4 outputClipPos)
+/// IF OUTLINE
+#ENABLE_IMPL: float ndv, lbl = "Special/N·V (Vertex)", compat = "all", help = "The dot product between the normal and view direction.", toggles = "USE_NDV_OUTLINE_VERTEX", options = "(Use Min/Max Properties,USE_NDV_OUTLINE_MIN_MAX_VERT,config),(Invert,USE_NDV_OUTLINE_INVERT)"
+/// IF USE_NDV_OUTLINE_VERTEX
+		half3 viewDirOS = normalize(ObjSpaceViewDir(v.vertex));
+		float ndv = abs(dot(viewDirOS, v.normal.xyz));
+	/// IF USE_NDV_OUTLINE_INVERT
+		ndv = 1 - ndv;
+	///
+	/// IF USE_NDV_OUTLINE_MIN_MAX_VERT
+		ndv = smoothstep([[VALUE:Outline NDV Min Vert]], [[VALUE:Outline NDV Max Vert]], ndv);
+	///
+///
+/// IF OUTLINE_FAKE_RIM_DIRLIGHT || OUTLINE_LIGHTING_VERT
+		float3 objSpaceLight = normalize(mul(unity_WorldToObject, _WorldSpaceLightPos0).xyz);
+///
+/// IF OUTLINE_FAKE_RIM_DIRLIGHT
+		float3 normal = objSpaceLight.xyz;
+/// ELIF OUTLINE_FAKE_RIM
+		float3 normal = [[VALUE:Outline Offset]];
+///
+/// IF OUTLINE_LIGHTING_VERT
+	/// IF OUTLINE_LIGHTING_WRAP
+		half lightWrap = [[VALUE:Outline Lighting Wrap Factor Vertex]];
+		half ndl = max(0, (dot(v.normal.xyz, objSpaceLight.xyz) + lightWrap) / (1 + lightWrap));
+	/// ELSE
+		half ndl = max(0, dot(v.normal.xyz, objSpaceLight.xyz));
+	///
+		output.[[INPUT_VALUE:ndl]] = ndl;
+#ENABLE_IMPL: float ndl, lbl = "Special/N·L Vertex Lighting", help = "The dot product between the normal and light direction."
+///
+/// IF (!OUTLINE_LIGHTING_VERT && OUTLINE_LIGHTING_FRAG) || USE_NDV_OUTLINE_FRAGMENT
+		output.[[INPUT_VALUE:normal]] = normalize(mul(unity_ObjectToWorld, v.normal).xyz);
+///
+/// IF USE_NDV_OUTLINE_FRAGMENT
+		output.[[INPUT_VALUE:worldPos]] = mul(unity_ObjectToWorld, v.vertex).xyz;
+///
+
+/// IF !OUTLINE_FAKE_RIM_DIRLIGHT && !OUTLINE_FAKE_RIM
+	#ifdef TCP2_COLORS_AS_NORMALS
+		//Vertex Color for Normals
+		float3 normal = (v.vertexColor.xyz*2) - 1;
+	#elif TCP2_TANGENT_AS_NORMALS
+		//Tangent for Normals
+		float3 normal = v.tangent.xyz;
+	#elif TCP2_UV1_AS_NORMALS || TCP2_UV2_AS_NORMALS || TCP2_UV3_AS_NORMALS || TCP2_UV4_AS_NORMALS
+		#if TCP2_UV1_AS_NORMALS
+			#define uvChannel texcoord0
+		#elif TCP2_UV2_AS_NORMALS
+			#define uvChannel texcoord1
+		#elif TCP2_UV3_AS_NORMALS
+			#define uvChannel texcoord2
+		#elif TCP2_UV4_AS_NORMALS
+			#define uvChannel texcoord3
+		#endif
+
+		#if TCP2_UV_NORMALS_FULL
+		//UV for Normals, full
+		float3 normal = v.uvChannel.xyz;
+		#else
+		//UV for Normals, compressed
+		#if TCP2_UV_NORMALS_ZW
+			#define ch1 z
+			#define ch2 w
+		#else
+			#define ch1 x
+			#define ch2 y
+		#endif
+		float3 n;
+		//unpack uvs
+		v.uvChannel.ch1 = v.uvChannel.ch1 * 255.0/16.0;
+		n.x = floor(v.uvChannel.ch1) / 15.0;
+		n.y = frac(v.uvChannel.ch1) * 16.0 / 15.0;
+		//- get z
+		n.z = v.uvChannel.ch2;
+		//- transform
+		n = n*2 - 1;
+		float3 normal = n;
+		#endif
+	#else
+		float3 normal = v.normal;
+	#endif
+
+	#if TCP2_ZSMOOTH_ON
+		//Correct Z artefacts
+		normal = UnityObjectToViewPos(normal);
+		normal.z = -_ZSmooth;
+	#endif
+///
+/// IF OUTLINE_ZSMOOTH
+
+		//Z correction in view space
+		normal = mul(UNITY_MATRIX_V, float4(normal, 0)).xyz;
+		normal.z += [[VALUE:Outline ZSmooth]];
+		normal = mul(float4(normal, 0), UNITY_MATRIX_V).xyz;
+///
+/// IF OUTLINE_CONSTANT_SIZE && !OUTLINE_CLIP_SPACE
+
+		//Camera-independent outline size
+		float dist = distance(_WorldSpaceCameraPos.xyz, mul(unity_ObjectToWorld, v.vertex).xyz);
+		float size = dist;
+/// ELSE
+		float size = 1;
+///
+
+	#if !defined(SHADOWCASTER_PASS)
+/// IF OUTLINE_CLIP_SPACE
+		output.vertex = UnityObjectToClipPos(v.vertex.xyz);
+	/// IF !OUTLINE_FAKE_RIM_DIRLIGHT && !OUTLINE_FAKE_RIM
+		normal = mul(unity_ObjectToWorld, float4(normal, 0)).xyz;
+	///
+		float2 clipNormals = normalize(mul(UNITY_MATRIX_VP, float4(normal,0)).xy);
+	/// IF OUTLINE_CONSTANT_SIZE
+		clipNormals.xy *= output.vertex.w;
+		/// IF OUTLINE_PIXEL_PERFECT
+		clipNormals.xy = (clipNormals.xy / _ScreenParams.xy) * 2.0;
+		///
+	///
+	/// IF !(OUTLINE_PIXEL_PERFECT && OUTLINE_CONSTANT_SIZE)
+		clipNormals.xy *= 0.01;
+	///
+		output.vertex.xy += clipNormals.xy * [[VALUE:Outline Width]] * size;
+/// IF OUTLINE_ZSMOOTH
+		output.vertex.z += [[VALUE:Outline ZSmooth]] * 0.0001;
+///
+/// ELSE
+		output.vertex = UnityObjectToClipPos(v.vertex.xyz + normal * [[VALUE:Outline Width]] * size * 0.01);
+///
+	#else
+		v.vertex = v.vertex + float4(normal,0) * [[VALUE:Outline Width]] * size * 0.01;
+	#endif
+
+		output.[[INPUT_VALUE:vcolor]] = [[VALUE:Outline Color Vertex]];
+#DISABLE_IMPL_ALL
+///
+#END
+
+//================================================================
+
+#FRAGMENT(struct input)
+/// IF OUTLINE
+#ENABLE_IMPL: float ndvf, lbl = "Special/N·V", compat = "all", help = "The dot product between the normal and view direction.", toggles = "USE_NDV_OUTLINE_FRAGMENT", options = "(Use Min/Max Properties,USE_NDV_OUTLINE_MIN_MAX_FRAG,config),(Invert,USE_NDV_OUTLINE_INVERT)"
+/// IF USE_NDV_OUTLINE_FRAGMENT
+		half3 viewDir = normalize(UnityWorldSpaceViewDir(input.[[INPUT_VALUE:worldPos]]));
+		float ndvf = abs(dot(viewDir, input.[[INPUT_VALUE:normal]]));
+	/// IF USE_NDV_OUTLINE_INVERT
+		ndvf = 1 - ndvf;
+	///
+	/// IF USE_NDV_OUTLINE_MIN_MAX_FRAG
+		ndvf = smoothstep([[VALUE:Outline NDV Min Frag]], [[VALUE:Outline NDV Max Frag]], ndvf);
+	///
+///
+		half4 outlineColor = [[VALUE:Outline Color]] * input.[[INPUT_VALUE:vcolor]];
+/// IF OUTLINE_LIGHTING_VERT
+		outlineColor *= input.[[INPUT_VALUE:ndl]];
+/// ELIF OUTLINE_LIGHTING_FRAG
+	/// IF OUTLINE_LIGHTING_WRAP
+		half lightWrap = [[VALUE:Outline Lighting Wrap Factor Fragment]];
+		half ndl = max(0, (dot(input.[[INPUT_VALUE:normal]], _WorldSpaceLightPos0) + lightWrap) / (1 + lightWrap));
+	/// ELSE
+		half ndl = max(0, dot(input.[[INPUT_VALUE:normal]], _WorldSpaceLightPos0));
+	///
+		outlineColor *= ndl;
+///
+#DISABLE_IMPL_ALL
+///
+#END

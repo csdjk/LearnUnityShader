@@ -1,0 +1,61 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Curved World Support
+
+#FEATURES
+mult			lbl="Curved World Support"	kw=Off|,Position|CURVED_WORLD_SIMPLE,Position+Normal|CURVED_WORLD_NORMAL	toggles=CURVED_WORLD			tt="Adds support for Curved World"
+keyword_str		lbl="Include File"			kw=CURVED_WORLD_INCLUDE		indent		needs=CURVED_WORLD		forceKeyword=true	default="Assets/VacuumShaders/Curved World/Shaders/cginc/CurvedWorld_Base.cginc"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+#END
+
+//================================================================
+
+#KEYWORDS
+/// IF CURVED_WORLD_NORMAL
+	feature_on		USE_TANGENT_VERT
+///
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+#END
+
+//================================================================
+
+#FUNCTIONS
+/// IF CURVED_WORLD
+	/// IF LWRP
+		#define UNITY_MATRIX_I_M   unity_WorldToObject // needed for Curved World
+	///
+		#include "@%CURVED_WORLD_INCLUDE%@"
+///
+#END
+
+//================================================================
+
+#INPUT
+#END
+
+//================================================================
+
+#VERTEX(float4 vertex, float3 normal, float4 tangent)
+/// IF CURVED_WORLD
+		//Curved World
+	/// IF CURVED_WORLD_NORMAL
+		CURVED_WORLD_TRANSFORM_POINT_AND_NORMAL(vertex, normal, tangent);
+	/// ELSE
+		CURVED_WORLD_TRANSFORM_POINT(vertex);
+	///
+///
+#END
+
+//================================================================
+
+#FRAGMENT
+#END

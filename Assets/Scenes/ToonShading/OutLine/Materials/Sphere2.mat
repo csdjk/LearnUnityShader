@@ -9,7 +9,15 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Sphere2
   m_Shader: {fileID: 4800000, guid: 473a01c7b112cad41a8ae8f0b28390fb, type: 3}
+<<<<<<< HEAD
   m_ShaderKeywords: _ _GROUP_OUTLINE_ON _GROUP_SHADOW_ON _KEYWORD
+=======
+<<<<<<<< HEAD:Assets/Scenes/ToonShading/OutLine/Materials/Sphere2.mat
+  m_ShaderKeywords: _ _GROUP_OUTLINE_ON _GROUP_SHADOW_ON _KEYWORD
+========
+  m_ShaderKeywords: _ _GROUP_OUTLINE_ON _GROUP_SHADOW_ON _KEYWORD _USE_SMOOTH_NORMAL_ON
+>>>>>>>> master:Assets/Scenes/ToonShading/OutLine/Materials/keqing_hair.mat
+>>>>>>> master
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -67,9 +75,21 @@ Material:
     - _Mode: 0
     - _OUTLINE_SWITCH: 1
     - _OcclusionStrength: 1
+<<<<<<< HEAD
     - _OffsetFactor: 0
     - _OffsetUnits: 9
     - _OutlinePower: 0.0681
+=======
+<<<<<<<< HEAD:Assets/Scenes/ToonShading/OutLine/Materials/Sphere2.mat
+    - _OffsetFactor: 0
+    - _OffsetUnits: 9
+    - _OutlinePower: 0.0788
+========
+    - _OffsetFactor: 184
+    - _OffsetUnits: 200
+    - _OutlinePower: 0.0066
+>>>>>>>> master:Assets/Scenes/ToonShading/OutLine/Materials/keqing_hair.mat
+>>>>>>> master
     - _Parallax: 0.02
     - _Power: 0.0269
     - _RefValue: 0
@@ -84,13 +104,22 @@ Material:
     - _SpecularThreshold: 0.132
     - _SrcBlend: 1
     - _USE_SECOND_LEVELS: 0
+<<<<<<< HEAD
     - _USE_SMOOTH_NORMAL: 0
+=======
+<<<<<<<< HEAD:Assets/Scenes/ToonShading/OutLine/Materials/Sphere2.mat
+    - _USE_SMOOTH_NORMAL: 0
+========
+    - _USE_SMOOTH_NORMAL: 1
+>>>>>>>> master:Assets/Scenes/ToonShading/OutLine/Materials/keqing_hair.mat
+>>>>>>> master
     - _UVSec: 0
     - _ZWrite: 1
     - _group_outline: 1
     - _group_shadow: 1
     - _power: 0.0094
     m_Colors:
+<<<<<<< HEAD
     - _Color: {r: 0, g: 0.8897755, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _LineColor: {r: 0, g: 1, b: 0.1686275, a: 1}
@@ -99,3 +128,20 @@ Material:
     - _ShadowColor2: {r: 0.38688147, g: 0.39489958, b: 0.509434, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _lineColor: {r: 0, g: 0, b: 0, a: 1}
+=======
+    - _Color: {r: 1, g: 0.7731253, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _LineColor: {r: 0, g: 0, b: 0, a: 1}
+<<<<<<<< HEAD:Assets/Scenes/ToonShading/OutLine/Materials/Sphere2.mat
+    - _ShadowColor: {r: 0.6862745, g: 0.6862745, b: 0.827451, a: 1}
+    - _ShadowColor1: {r: 0.11764703, g: 0.45317996, b: 0.8, a: 1}
+    - _ShadowColor2: {r: 0.38688147, g: 0.39489958, b: 0.509434, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _lineColor: {r: 0, g: 0, b: 0, a: 1}
+========
+    - _ShadowColor1: {r: 0.91339624, g: 0.8726415, b: 1, a: 1}
+    - _ShadowColor2: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _lineColor: {r: 0.28627467, g: 1, b: 0, a: 1}
+>>>>>>>> master:Assets/Scenes/ToonShading/OutLine/Materials/keqing_hair.mat
+>>>>>>> master

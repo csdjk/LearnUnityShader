@@ -1,0 +1,1339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html itemscope itemtype="http://schema.org/Product" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="description" content="Toony Colors Pro 2 - Documentation">
+
+		<title>JMO Assets - Toony Colors Pro 2  - Documentation</title>
+		<link rel="stylesheet" type="text/css" href="Documentation Data/TCP2_Documentation.css" />
+		<link rel="stylesheet" type="text/css" href="Documentation Data/TCP2_Atlas.css" />
+		<style type="text/css">
+		.tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
+		.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
+		.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#f0f0f0;}
+		.tg .tg-pi4w{background-color:#efefef;font-weight:bold;font-size:16px;color:#656565;text-align:center;vertical-align:top}
+		.tg .tg-a62e{font-weight:bold;font-size:18px;background-color:#e3e3e3;color:#343434;text-align:center;vertical-align:top}
+		.tg .tg-2kvj{font-weight:bold;font-size:18px;background-color:#e3e3e3;color:#343434;text-align:center}
+		.tg .tg-7u1r{font-weight:bold;font-size:16px;background-color:#efefef;color:#656565;text-align:center;vertical-align:top}
+		.tg .tg-yw4l{vertical-align:top; width:25%;}
+		.tg .tg-b7b8{background-color:#fbfbfb;vertical-align:top;  width:25%;}
+		
+		#old_doc
+		{
+			border: solid 1px #FF8000;
+			padding: 12px;
+			font-size: 16px;
+			font-weight: bold;
+			text-align: center;
+			background-color: rgb(255, 255, 220);
+			border-radius: 8px;
+			border-bottom-width: 3px;
+			margin-top: 10px;
+			width: 90%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		</style>
+	</head>
+	<body>
+	<div class="main">
+
+		<div class="otherassets">Other JMO assets for Unity:</div>
+		<table class="amenu bottom" cellspacing="0" cellpadding="0" border="0">
+		  <tr>
+			<td><a href="https://www.jeanmoreno.com/cartoonfx/">Cartoon FX 1</a></td>
+			<td><a href="https://www.jeanmoreno.com/cartoonfx2/">Cartoon FX 2</a></td>
+			<td><a href="https://www.jeanmoreno.com/cartoonfx3/">Cartoon FX 3</a></td>
+			<td><a href="https://www.jeanmoreno.com/cartoonfx4/">Cartoon FX 4</a></td>
+			<td><a href="https://www.jeanmoreno.com/shapefx/">Shape FX</a></td>
+			<td><a href="https://www.jeanmoreno.com/warfx/">War FX</a></td>
+			<td style="border-right:none;"><a href="https://www.jeanmoreno.com/matcap/">MatCap Shaders <span class="free">(Free)</span></a></td>
+		  </tr>
+		</table>
+
+		<div id="old_doc">
+		Note: this is the old documentation of Toony Colors Pro 2.
+		Please go here for the new one:<br><a href="https://www.jeanmoreno.com/unity/toonycolorspro/doc/">https://www.jeanmoreno.com/unity/toonycolorspro/doc/</a>
+		</div>
+
+<!-- ################################################################################################################################ -->
+		<!-- HEADER -->
+		<div id="top" class="title">
+		<h1>Toony Colors Pro+Mobile 2</h1>
+		<h2>Documentation</h2>
+		</div>
+		<div class="footer">v2.5.0 - august 2020 (<a href="/unity/toonycolorspro/doc/changelog">changelog</a>)<br />
+		© 2014-2020 - <a href="https://www.jeanmoreno.com/" target="_blank">Jean Moreno (JMO)</a></div>
+
+		<div class="toplink"><a href="#top">back to top</a></div>
+
+		<!-- THANKS! -->
+		<div class="box"><p>Thank you for your interest in <strong>Toony Colors Pro+Mobile 2</strong>!<br />This document will explain and provide examples for each feature of Toony Colors Pro 2.<br /><br />
+		Note that topics of this documentation can be accessed directly from Unity by clicking on the <span class="icon icon_help">&nbsp;</span> icons.</p>
+		<br />
+		
+		<br />
+
+		<!-- INDEX -->
+		<div class="index">
+			<div class="column" style="width: 27%;">
+				<ul>
+					<li><h5>General</h5>
+					<li><a href="#about">About</a></li>
+					<li><a href="#legacy_or_pbs">Legacy or PBS?</a></li>
+					<li><a href="#getting_started">Getting Started</a></li>
+					<li><a href="#pbs_shader">PBS Material Inspector</a></li>
+					<li><a href="#unified_shader">Unified Material Inspector</a></li>
+					<li><a href="#unpack_shaders">Unpack Shaders</a>
+					<li><a href="#help">Further Help</a>
+				</ul>
+				<br />
+				<ul>
+					<li><h5>Tools</h5>
+					<li><a href="#shader_generator">Shader Generator</a></li>
+					<li><a href="#masks">Shader Generator : Masks</a></li>
+					<li><a href="#smoothed_normals_utility">Smoothed Normals Utility</a>
+					<li><a href="#ramp_generator">Ramp Generator</a>
+				</ul>
+				<br />
+				<ul>
+					<li><h5>Misc</h5>
+					<li><a href="#curvedworld">Using Curved World</a></li>
+					<li><a href="#vertexmotion">Using VertExmotion</a></li>
+					<li><a href="#lightweight_srp">Using the Universal Pipeline (URP)</a></li>
+					<li><a href="#deferred">About Deferred Shading</a></li>
+				</ul>
+			</div>
+			<div class="column" style="width: 20%;">
+				<ul>
+					<li><h5>Unified Material Features</h5></li>
+					<li><a href="#base_properties">Base Properties</a></li>
+					<li><a href="#ramp_style">Ramp Style</a></li>
+					<li><a href="#normal_bump_map">Normal/Bump Map</a></li>
+					<li><a href="#specular">Specular</a></li>
+					<li><a href="#reflection">Reflection (Desktop)</a></li>
+					<li><a href="#matcap">MatCap (Mobile)</a></li>
+					<li><a href="#rim">Rim Effects</a></li>
+					<li><a href="#outline">Outline</a></li>
+					<!--<li><a href="#lightmap">Lightmap</a></li>-->
+				</ul>
+			</div>
+			<div class="column" style="width: 26%;">
+				<ul>
+					<li><h5>Shader Generator Features</h5></li>
+					<li><a href="#ramp_style_sg">Ramp Style</a></li>
+					<li><a href="#ramp_control_sg">Ramp Control</a></li>
+					<li><a href="#wrapped_lighting">Wrapped Lighting</a></li>
+					<li><a href="#specular_sg">Specular</a></li>
+					<li><a href="#reflection_sg">Reflection</a></li>
+					<li><a href="#rim_sg">Rim Effects</a></li>
+					<li><a href="#matcap_sg">MatCap</a></li>
+					<li><a href="#cubemap_ambient">Cubemap Ambient</a></li>
+					<li><a href="#directional_ambient">Directional Ambient</a></li>
+					<li><a href="#normal_bump_map_sg">Normal/Bump Map</a></li>
+					<li><a href="#tessellation">Tessellation</a></li>
+					<li><a href="#detail_texture">Detail Texture</a></li>
+					<li><a href="#color_mask">Color Mask</a></li>
+					<li><a href="#vertex_colors">Vertex Colors</a></li>
+					<li><a href="#texture_blending">Texture Blending</a></li>
+					<li><a href="#triplanar">Triplanar Mapping</a></li>
+					<li><a href="#subsurface_scattering">Subsurface Scattering</a></li>
+					<li><a href="#self-illumination_map">Emission (Self-Illumination)</a></li>
+					<!--<li><a href="#independent_shadows">Independent Shadows</a></li>-->
+					<li><a href="#textured_threshold">Textured Threshold</a></li>
+					<li><a href="#diffuse_tint">Diffuse Tint</a></li>
+					<li><a href="#sketch">Sketch Overlay</a></li>
+					<li><a href="#alpha_blending">Alpha Blending (Transparency)</a></li>
+					<li><a href="#alpha_testing_(cutout)">Alpha Testing (Cutout)</a></li>
+					<li><a href="#shader_target">Shader Target</a></li>
+				</ul>
+			</div>
+		</div>
+
+<!-- ################################################################################################################################ -->
+	<div id="about" class="header">About</div>
+	<div class="box">
+		<p><strong>Toony Colors Pro 2</strong> (abbreviated <strong>TCP2</strong>) is a set of shaders and scripts used to help you give a <strong>stylized look</strong> to your Unity game or application.<br />
+		<br />
+		As of version 2.2, there are two main workflows to choose from:
+		<ul>
+		<li><strong>Physically-Based Shaders</strong> based on Unity's Standard shader</li>
+		<li><strong>"Legacy" Shaders</strong> based on the shaders before Unity 5 (using Lambert diffuse and Blinn-Phong specular models)</li>
+		</ul>
+		<br />
+		The shaders come with two main features:</p>
+		<ul>
+		<li>a set of shaders with a <a href="#unified_shader">Unified Material Inspector</a>: you only select the base Shader in Unity and TCP2 handles selecting the correct one depending on the options you toggle</li>
+		<li>the <a href="#shader_generator">Shader Generator</a> allowing you to generate your own Unity shader, with even more features available than in the unified shader</li>
+		</ul>
+		<p>Here are some examples on a basic sphere:</p>
+		<div class="center">
+			<div class="img SphDiffuse"><span>Unity Diffuse Shader</span></div>
+			<div class="img SphTCP2"><span>Toony Colors Pro 2</span></div>
+			<div class="img SphTCP2_HardLine"><span>TCP2 with no Ramp Smoothing</span></div>
+			<div class="img SphTCP2_Ramp"><span>TCP2 with Texture Ramp</span></div>
+			<div class="img SphTCP2_SketchOutline"><span>Sketch Overlay and Outline</span></div>
+			<div class="img SphTCP2_TexturedRamp"><span>Texture Ramp and Textured Threshold</span></div>
+			<div class="img SphTCP2_DetailHalftone"><span>Detail texture and Halftone Sketch</span></div>
+			<div class="img SphTCP2_RimRefl"><span>Rim Reflection and black Outline</span></div>
+			<div class="img SphTCP2_BumpRim"><span>Bump, Rim, Outline and Colored Shadows</span></div>
+		</div>
+	</div>
+
+<!-- ################################################################################################################################ -->
+
+<div id="legacy_or_pbs" class="header">Legacy or Physically-Based?</div>
+	<div class="box">
+		<p>Choosing between the two workflows might not be as easy as it seems: because TCP2 is used to get stylized visuals, there may be some cases where you want to avoid replicating the physical reality of light interaction.<br />
+		In such cases, using PBS shaders should be avoided in favor of the Legacy ones.<br />
+		<br />
+		Here is a pros/cons list that can help choosing between either workflow:</p>
+
+		<table class="tg">
+		  <tr>
+			<th class="tg-2kvj" colspan="2">Standard PBS</th>
+			<th class="tg-a62e" colspan="2">Legacy Shaders</th>
+		  </tr>
+		  <tr>
+			<td class="tg-7u1r">PROS</td>
+			<td class="tg-7u1r">CONS</td>
+			<td class="tg-7u1r">PROS</td>
+			<td class="tg-7u1r">CONS</td>
+		  </tr>
+		  <tr>
+			<td class="tg-yw4l"><strong>Easier material setup</strong> similar to Unity's Standard shader, with additional stylization options</td>
+			<td class="tg-b7b8"><strong>Less stylization options</strong>: features like sketch or textured threshold are not supported in the PBS shaders</td>
+			<td class="tg-yw4l"><strong>More control</strong>: you can precisely tweak all values to get the exact look wanted</td>
+			<td class="tg-b7b8"><strong>Longer material setup</strong>: more control means more settings to adjust!</td>
+		  </tr>
+		  <tr>
+			<td class="tg-yw4l"><strong>Works in all lighting settings</strong>: no need to do further tweaks to materials once they're properly configured</td>
+			<td class="tg-b7b8"><strong>Limited value ranges</strong>: you can't go too much outside the "physical" values and get extreme results (that's actually the whole point of PBS!)</td>
+			<td class="tg-yw4l"><strong>More Stylization</strong>: e.g. comic-book like visuals using features like halftone or sketch features</td>
+			<td class="tg-b7b8"><strong>Less consistency</strong>: you may have to readjust material settings so that they fit in each environment</td>
+		  </tr>
+		  <tr>
+			<td class="tg-yw4l"><strong>Automatic mobile version</strong>: the correct shader is loaded internally depending on the target platform</td>
+			<td class="tg-b7b8"><strong>Higher Cost</strong>: the Standard shader generally requires more GPU power than the Legacy ones (even though there's also a mobile version)</td>
+			<td class="tg-yw4l"><strong>Better Performance</strong>: e.g. unlike Standard where everything has specular and reflections, you can entirely disable these features in Legacy thus resulting in a faster shader</td>
+			<td class="tg-b7b8"></td>
+		  </tr>
+		  <tr>
+			<td class="tg-yw4l"><strong>Stylization in 1 click</strong>: the shader will get settings defined for a material using the default Standard shader</td>
+			<td class="tg-b7b8"></td>
+			<td class="tg-yw4l"><strong>Shader Generator</strong>: more features to choose from, and get the ultimate stripped-down shader with just the code you need</td>
+			<td class="tg-b7b8"></td>
+		  </tr>
+		</table>
+	</div>
+
+<!-- ################################################################################################################################ -->
+	<div id="getting_started" class="header">Getting Started</div>
+	<div class="box">
+		<h3>Physically Based Workflow</h3>
+		<p>Assign the following shaders depending on the wanted workflow:</p>
+		<ul>
+			<li><strong>Toony Colors Pro 2 > Standard PBS</strong> for the Metallic workflow</li>
+			<li><strong>Toony Colors Pro 2 > Standard PBS (Specular)</strong> for the Specular workflow</li>
+		</ul>
+		<p>From there, similarly to Unity's Standard shader, the correct subshader will be used based on the texture maps and features used, as well as the target platform (meaning that the <strong>mobile version</strong> of the shaders will automatically be loaded when targeting mobile devices).<br />
+		TCP2 will additionally load the relevant Outline shader if that feature is enabled.
+		</p>
+		<h3>Legacy Workflow</h3>
+		<p>Assign one of the Unified Shader to your material(s) depending on the device you target:<br />
+		<ul>
+		<li><strong>Toony Colors Pro 2 > Desktop</strong></li>
+		<li><strong><strong>Toony Colors Pro 2 > Mobile</strong></strong></li>
+		</ul>
+		You can then select the options you want for your material (bump, specular, rim lighting, outlines...) and it will automatically choose the correct shader, making sure you don't have any unused feature loaded.<br/>
+		<br />Internally the shader selection works in two steps:<br />
+		- it chooses the correct <strong>high-level .shader file</strong> depending on the selected features (outlines for example)<br />
+		- Unity then loads an <strong>internal shader variation</strong> based on the settings chosen, just as it regularly does to turn lightmaps on or off for example (using multi_compile directive)</p>
+		<div class="helpbox"><table><td><div class="icon icon_info"></div></td><td><div>
+		Each .shader file has up to 928 internal variations, which is why the compilation may take a little longer for some of the shaders!<br/>The compilation only happens <b>once</b> when first importing the pack.
+		</div></td></table></div>
+		<div class="warning"><table><td><div class="icon icon_warning"></div></td><td><div>
+		At <b>Build Time</b>, the compilation can take a lot of time depending on how many shaders are used. This is because Unity will fully compile each variation in each shader file.<br />
+		These compiled shaders are then <b>cached</b>, so <b>this will only happen during the first build</b> of your application, as long as you don't modify the shaders afterwards.
+		</div></td></table></div>
+	</div>
+
+<!-- ################################################################################################################################ -->
+	<div class="header" id="pbs_shader">PBS Material Inspector / Standard PBS Shader</div>
+	<div class="box">
+		<p>The <strong>Standard PBS Material Inspector</strong> is based on Unity's Standard material interface, with additional stylization options.<br />
+		<br />
+		The <strong>Standard Properties</strong> are the same that you will find on the Standard shader:<br />
+			<ul>
+				<li>Rendering Mode (opaque, transparent, cutout)</li>
+				<li>Albedo Map & Color</li>
+				<li>Metallic/Specular Maps (depending on workflow)</li>
+				<li>Smoothness</li>
+				<li>Specular</li>
+				<li>Reflection (using Reflection Probes)</li>
+				<li>Normal Map (enables Bump Mapping)</li>
+				<li>Height Map (enables Parallax mapping)</li>
+				<li>Occlusion Map</li>
+				<li>Emission Map & Color</li>
+				<li>Secondary Maps (Albedo + Normal)</li>
+			</ul>
+		<p>Please refer to the <a href="https://docs.unity3d.com/Manual/StandardShaderMaterialParameters.html" target="_blank" class="external">Unity manual</a> for more information about the Standard Properties.</p>
+		<br />
+		The <strong>Toony Colors Pro 2</strong> properties control the following features:</p>
+		<ul>
+			<li><b>Same as Legacy</b></li>
+			<ul>
+				<li><a href="#ramp_style">Ramp Style</a></li>
+				<li><a href="#base_properties">Colored Highlights/Shadows</a></li>
+				<li><a href="#base_properties">Light Wrapping</a></li>
+				<li><a href="#outline">Outline</a></li>
+			</ul>
+			<li><b>Additional features</b></li>
+			<ul>
+				<li><a href="#ramp_control">Main and Additional Lights Ramp Control</a></li>
+				<li><a href="#stylized_specular">Stylized Specular</a></li>
+				<li><a href="#stylized_fresnel">Stylized Fresnel</a></li>
+			</ul>
+		</ul>
+
+		<br />
+		<div class="separator">&nbsp;</div>
+
+		<!-- RAMP CONTROL -->
+		<div id="ramp_control" class="section">
+			<h4>Main and Additional Lights Ramp Control</h4>
+			<p>When not using a ramp texture, you have an additional setting to define a separate smoothing for the main directional light and additional lights.</p>
+			<ul>
+				<li><strong>Threshold</strong>: defines the separation between shadows and highlights</li>
+				<li><strong>Main Light Smoothing</strong>: smoothing of the separation between shadows and highlights for the main directional light</li>
+				<li><strong>Other Lights Smoothing</strong>: smoothing of the separation between shadows and highlights for additional lights</li>
+			</ul>
+
+			<div class="img PBS_RampSmooth_M01A01"><span>Main Light = 0.1<br />Additional Lights = 0.1</span></div>
+			<div class="img PBS_RampSmooth_M10A01"><span>Main Light = 1.0<br />Additional Lights = 0.1</span></div>
+			<div class="img PBS_RampSmooth_M01A10"><span>Main Light = 0.1<br />Additional Lights = 1.0</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- STYLIZED SPECULAR -->
+		<div id="stylized_specular" class="section">
+			<h4>Stylized Specular</h4>
+			<p>Will add a smoothing value allowing to get a crisper specular term. You can also blend between the regular and the stylized specular to get an hybrid look.</p>
+			<ul>
+				<li><strong>Specular Smoothing</strong>: defines how crisp the specular highlights should look</li>
+				<li><strong>Specular Blend</strong>: blending value between the Standard and Stylized specular visuals</li>
+			</ul>
+
+			<div class="img PBS_StylizedSpecular_Off"><span>Stylized Specular disabled</span></div>
+			<div class="img PBS_StylizedSpecular_On"><span>Stylized Specular enabled</span></div>
+			<div class="img PBS_StylizedSpecular_Hybrid"><span>Stylized Specular with 0.5 blending</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- STYLIZED FRESNEL -->
+		<div id="stylized_fresnel" class="section">
+			<h4>Stylized Fresnel</h4>
+			<p>Will add an enhanced Fresnel effect linked to lights around the model.</p>
+			<ul>
+				<li><strong>Fresnel Strength</strong>: defines how visible is the enhanced Fresnel effect (note that the strength is also dependent on the Smoothness of the material)</li>
+				<li><strong>Fresnel Min/Max</strong>: defines the threshold values for the Fresnel effect (similar to the <a href="#rim">Rim</a> effect)</li>
+			</ul>
+
+			<div class="img PBS_StylizedFresnel_On"><span>Stylized Fresnel enabled</span></div>
+			<div class="img PBS_StylizedFresnel_Off"><span>Stylized Fresnel disabled</span></div>
+		</div>
+	</div>
+
+<!-- ################################################################################################################################ -->
+	<div class="header" id="unified_shader">Unified Material Inspector / Unified Shader</div>
+	<div class="box">
+		<p>The <strong>Unified Material Inspector</strong> allows you to toggle features on and off and let Unity pick and compile the right shader for you. This will ensure that only the features you care about are included in the compiled shader, so that it runs as fast as possible.<br /><br />
+		There are two versions of the Unified Shader included with Toony Colors Pro 2:</p>
+		<ul>
+		<li><strong>Toony Colors Pro 2 > Desktop</strong> with all features in their high quality version</li>
+		<li><strong>Toony Colors Pro 2 > Mobile</strong> with all features optimized to be as fast as possible</li>
+		</ul>
+		<div class="helpbox"><table><td><div class="icon icon_info"></div></td><td><div>
+		Note that the desktop version can work smoothly on some high-end mobile devices, so it can make sense to use it for mobile on your main character for example.
+		</div></td></table></div>
+
+		<div class="center">
+			<div class="img Inspector"><span>Toony Colors Pro 2<br />Unified Material Inspector</span></div>
+		</div>
+
+		<h3>FEATURES</h3>
+
+		<!-- BASE PROPERTIES -->
+		<div id="base_properties" class="section">
+			<h4>Base Properties</h4>
+			<p>There are 3 colors in the base properties:</p>
+			<ul>
+			<li><strong>Color</strong> is the regular tint Color multiplied with the whole model</li>
+			<li><strong>Highlight Color</strong> is the a tint Color only applied to the lit parts of the model</li>
+			<li><strong>Shadow Color</strong> is the a tint Color only applied to the unlit parts of the model</li>
+			</ul>
+			<p>Examples:</p>
+			<div class="img US1_Color_A"><span>Default Colors</span></div>
+			<div class="img US1_Color_B"><span>Green Color</span></div>
+			<div class="img US1_Color_C"><span>Green Highlight Color</span></div>
+			<div class="img US1_Color_D"><span>Green Shadow Color</span></div>
+			<p>The <strong>Base</strong> texture is the main one. Its alpha channel can be used as a gloss map when Specular is enabled.</p>
+
+			<div class="img US9_Wrapped_Diffuse_1"><span>Wrapped Lighting with one point light</span></div>
+			<div class="img US9_Wrapped_Diffuse_2"><span>Wrapped Lighting disabled</span></div>
+			<ul>
+			<li id="disable_wrapped_lighting"><strong>Disable Wrapped Lighting</strong> will change how diffuse lights cover the models, meaning lighting will appear more focused.<br />It can also help when real-time shadow artifacts become too apparent on the model.</li>
+			</ul>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- RAMP STYLE -->
+		<div id="ramp_style" class="section">
+			<h4>Ramp Style</h4>
+			<p>The <strong>slider ramp</strong> style allows you to define the <strong>lit/unlit threshold</strong> value, as well as its <strong>smoothness</strong> (hard or soft line separating shadows from highlights).</p>
+			<p>The <strong>texture ramp</strong> style allows you to use a 1D texture (horizontal texture with 1 pixel height) defining the shading from lit to unlit.</p>
+			<p>Slider Ramp Examples:</p>
+			<div class="img US2_Ramp_p5p1"><span>Threshold = 0.5<br />Smoothness = 0.2</span></div>
+			<div class="img US2_Ramp_p3p5"><span>Threshold = 0.3<br />Smoothness = 0.5</span></div>
+			<div class="img US2_Ramp_p75p01"><span>Threshold = 0.75<br />Smoothness = 0.01</span></div>
+			<p>Texture Ramp Examples:</p>
+			<div class="img US2_Ramp_t1"><span>Unity toon ramp</span></div>
+			<div class="img US2_Ramp_t2"><span>Old school ramp</span></div>
+			<div class="img US2_Ramp_t3"><span>4-levels ramp</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- BUMP MAPS -->
+		<div id="normal_bump_map" class="section">
+			<h4>Normal/Bump Map</h4>
+			<p>Enables normal map support.</p>
+			<div class="img US3_Bump"><span>Stars normal map<br />Ramp Smoothing = 0.1</span></div>
+			<div class="img US3_Bump_2"><span>Granular normal map<br />Ramp Smoothing = 0.4</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- SPECULAR -->
+		<div id="specular" class="section">
+			<h4>Specular</h4>
+			<p>Enables Blinn-Phong specular.</p>
+			<ul>
+				<li><strong>Regular</strong>: default Blinn-Phong specular</li>
+				<li><strong>Cartoon</strong>: allows you to define the smoothness of the specular highlight</li>
+			</ul>
+			<div class="img US4_Spec_s1"><span>Regular Specular<br />Shininess = 0.1</span></div>
+			<div class="img US4_Spec_s1s1"><span>Cartoon Specular<br />Smoothness = 0.1</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- REFLECTION -->
+		<div id="reflection" class="section">
+			<h4>Reflection (Desktop)</h4>
+			<p>Enables cubemap-based reflections.</p>
+			<ul>
+				<li><strong>Global</strong>: applies the reflection on the whole model</li>
+				<li><strong>Masked</strong>: uses the main texture's alpha channel to mask parts of the reflection</li>
+				<li><strong>Reflection Color (RGB)</strong>: tint color applied to the reflection</li>
+				<li><strong>Reflection Color (Alpha)</strong>: defines the reflection intensity</li>
+				<li><strong>Use Reflection Probes</strong>: will take reflection data from Reflection Probes</li>
+			</ul>
+			<div class="img US5_Refl"><span>Global Reflection</span></div>
+			<div class="img US5_Refl_2"><span>Masked Reflection</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- MATCAP -->
+		<div id="matcap" class="section">
+			<h4>MatCap (Mobile)</h4>
+			<p>Enables texture-based fixed reflections, using a simple square texture. See my free <a href="https://www.jeanmoreno.com/matcap/" target="_blank" class="external">MatCap Shader Pack</a> for more examples!</p>
+			<ul>
+				<li><strong>Global</strong>: applies the reflection on the whole model</li>
+				<li><strong>Masked</strong>: uses the main texture's alpha channel to mask parts of the reflection</li>
+				<li><strong>Reflection Color (RGB)</strong>: tint color applied to the reflection</li>
+				<li><strong>Reflection Color (Alpha)</strong>: defines the reflection intensity</li>
+			</ul>
+			<div class="img US5b_MatCap"><span>Additive MatCap</span></div>
+			<div class="img US5b_MatCapTex"><span>MatCap texture used</span></div>
+			<div class="img US5b_MatCap_2"><span>Multiplicative MatCap</span></div>
+			<div class="img US5b_MatCapTex_2"><span>MatCap texture used</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- RIM -->
+		<div id="rim" class="section">
+			<h4>Rim Effects</h4>
+			<p>Enables rim effects, where intensity depends on the view direction and the face normal.</p>
+			<ul>
+				<li><strong>Lighting</strong>: adds a color based on the rim factor (a.k.a. <strong>rim lighting</strong>)</li>
+				<li><strong>Outline</strong>: multiplies a color based on the rim factor</li>
+				<li><strong>Rim Color (RGB)</strong>: defines the rim color</li>
+				<li><strong>Rim Color (Alpha)</strong>: defines the rim intensity</li>
+				<li><strong>Rim Min/Max</strong>: define the thresholds based on the rim value</li>
+				<li><strong>Directional Rim (XY)</strong>: allows control of the rim direction (e.g. only coming from top)</li>
+			</ul>
+			<div class="img US6_Rim"><span>Red rim lighting<br />Min = 0.3, Max = 1</span></div>
+			<div class="img US6_Rim_2"><span>Red rim lighting<br />Min = 0.6, Max = 0</span></div>
+			<div class="img US6_Rim_5"><span>Directional rim lighting<br />Direction Y = 0.5</span></div>
+			<div class="img US6_Rim_3"><span>Black rim outline<br />Min = 0.2, Max = 0.8</span></div>
+			<div class="img US6_Rim_4"><span>Red rim outline<br />Min = 0.5, Max = 0.55</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- OUTLINE -->
+		<div id="outline" class="section">
+			<h4>Outline</h4>
+			<p>Adds a mesh-based outline to the model. Note that this will <strong>add 1 draw call</strong>.<br /><br />
+			The outline works as follow:<br />
+			- an extruded version of the mesh (based on its normals) is rendered with a full unlit color, and with its faces flipped<br />
+			- the regular model is rendered on top of it, creating the illusion of outlines
+			</p>
+			<div class="warning"><table><td><div class="icon icon_warning"></div></td><td><div>
+			The outline may show incorrectly for meshes with hard edges. In this case you can use TCP2's <a href="#smoothed_normals_utility">Smoothed Normals Utility</a> to correct the artifacts.
+			</div></td></table></div>
+			<div class="center">
+			<div class="img SNormalsCube_1"><span>Regular hard edge normals</span></div>
+			<div class="img SNormalsCube_2"><span>Smoothed normals stored in UV2<br />(hard edge shading is preserved)</span></div>
+			</div>
+			<ul>
+				<li><strong>Opaque</strong>: solid color outlines</li>
+				<li><strong>Blended</strong>: allows you to set a blending mode to the outlines, to make them <strong>transparent</strong> for example</li>
+			</ul>
+			<ul>
+				<li><strong>Outline Color</strong>: alpha can control opacity depending on the blending mode selected with <strong>Blended Outlines</strong></li>
+				<li><strong>Outline Width</strong>: defines how much to extrude the mesh from the vertex normals to draw the outline</li>
+				<li><strong>Outline Color From Texture</strong> (<b>Desktop only</b>): takes the outline color from the main texture (averaged and multiplied with the outline color)
+				<ul><li><strong>Texture Outline LOD</strong>: defines the mip map level from which to sample the texture color (higher = more blurring)</li></ul>
+				</li>
+				<li><strong>Constant Size Outline</strong>: outline size will stay the same relatively to the screen</li>
+				<li><strong>Correct Z Artifacts</strong>: allows you to tweak the outline extrusion to correct artifacts from complex models</li>
+				<h5>Outline Normals</h5>
+			</ul>
+			<ul>
+				<li><strong>Regular</strong>: use the regular vertex normals</li>
+				<li><strong>Vertex Colors</strong>: use the vertex colors as normals</li>
+				<li><strong>Tangents</strong>: use the vertex tangents as normals (will prevent bump maps and anisotropic specular from working)</li>
+				<li><strong>UV2</strong>: use the vertex second texture coordinates as normals</li>
+			</ul>
+		<div class="helpbox"><table><td><div class="icon icon_info"></div></td><td><div>
+		Change this setting when you use TCP2's <a href="#smoothed_normals_utility">Smoothed Normals Utility</a> to correct hard-edged models.
+		</div></td></table></div>
+			<ul>
+				<h5>Outline Blending</h5>
+				<li><strong>Source Factor</strong>: hardware blending source factor</li>
+				<li><strong>Destination Factor</strong>: hardware blending destination factor</li>
+			</ul>
+		<div class="helpbox"><table><td><div class="icon icon_info"></div></td><td><div>
+		Blending modes examples:<br />
+		<b>SrcAlpha / OneMinusSrcAlpha</b>: alpha transparency<br />
+		<b>DstColor / Zero</b>: multiplicative<br />
+		<b>One / One</b>: additive<br />
+		<b>OneMinusDstColor / One</b>: soft additive
+		</div></td></table></div>
+			<div class="img US7_Outline_1"><span>Black opaque outlines<br />Width = 1.5</span></div>
+			<div class="img US7_Outline_2"><span>Outline color from texture</span></div>
+			<div class="img US7_Outline_3"><span>Additive blended outline</span></div>
+
+		<h5>Shader Generator options</h5>
+		<ul>
+			<li><strong>Outline behind model</strong>: will make the outline appear behind the model (sorting may not work correctly with other objects)<br />
+			<strong>Depth Buffer</strong> and <strong>Stencil Buffer</strong> are two different techniques to achieve the effect - you may want to try one or another depending on the artifacts you get.<br />
+			With <strong>Stencil Buffer</strong>, you can choose stencil groups for your objects to determine where the outline should appear between them (using the <strong>Stencil Outline Group</strong> value):<br />
+				<div class="img SG19_StencilOutline_Same"><span>Same Stencil Group</span></div>
+				<div class="img SG19_StencilOutline_Diff"><span>Different Stencil Group</span></div>
+			</li>
+		</ul>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- LIGHTMAP -->
+		<!--
+		<div id="lightmap" class="section">
+			<h4>Lightmap (Unity 4 only)</h4>
+			<p>Enables TCP2's lightmap decoding.<br />
+			Lightmaps will be affected by the <a href="#base_properties">Highlight and Shadow</a> color properties, as well as the <a href="#ramp_style">Ramp</a> properties.<br />
+			The shader will take the luminance of the lightmap and the ramp settings to determine which areas are dark or bright, and will then apply colors accordingly.</p>
+		<div class="helpbox"><table><td><div class="icon icon_info"></div></td><td><div>
+		Color values are doubled, so setting a mid-gray value (RGB 128,128,128) for both Highlight and Shadow colors will give the same result as Unity's lightmaps
+		</div></td></table></div>
+		<div class="warning"><table><td><div class="icon icon_warning"></div></td><td><div>
+		Custom lightmap decoding is only available in Unity 4. Support for custom lightmap decoding has been dropped in Unity 5+ with the addition of the new Global Illumination and Standard shader features.
+		</div></td></table></div>
+		<br />
+			<div class="img US8_LightmapUnity"><span>Default Unity lightmap</div>
+			<div class="img US8_LightmapTCP2"><span>TCP2 lightmap with reinforced blue shadows</span></div>
+		</div>
+		-->
+
+	</div>
+
+<!-- ################################################################################################################################ -->
+		<div class="header" id="shader_generator">Shader Generator</div>
+		<div class="box">
+
+		<div class="helpbox"><table><td><div class="icon icon_info"></div></td><td><div>
+		The <b>Shader&nbsp;Generator&nbsp;2</b> beta is currently available as of version 2.4.0.<br />
+		It is a much more flexible system that remains as simple as it was to enable features, but allows further customization of various properties of the resulting shader.<br />
+		For example, you can change options for any texture used (enable/disable tiling/offset, use scrolling UVs, use screen-space UVs...), or use another data source (e.g. vertex colors), or define your own custom mask for about any property in the shader.<br />
+		It will eventually replace the current Shader Generator, and is currently the only option for <a href="#lightweight_srp">URP support</a>.<br />
+		You can read its <a href="https://jeanmoreno.com/unity/toonycolorspro/doc/shader_generator_2" target="_blank" class="external">documentation here</a>.
+		</div></td></table></div>
+
+		<p>The <strong>Shader Generator</strong> allows you to generate your own shader files with even more features than in the <a href="#unified_shader">Unified Material Inspector</a>. Indeed each on/off feature in the Unified Shader doubles the number of internal variants, which quickly adds up to lots of internal shader programs. Moreover, Unity's shader_feature directive has its limits.</p>
+		<p>Thus generating your own shader files with no variants and exactly the features you need allows for <strong>faster compilation and iteration</strong>.</p>
+
+		<!-- USAGE -->
+		<h3>USAGE</h3>
+		<ul>
+			<li>Open the Shader Generator via the menu: <strong>Tools > Toony Colors Pro 2 > Shader Generator</strong></li>
+			<li>Select a previously generated shader you want to modify, or New Shader if you want to create one</li>
+			<li>(New Shader) Choose the name of your shader. The forward slashes will indicate the folders in Unity's shaders drop-down list.</li>
+			<li>(Optional) Choose the shader filename if the 'Automatic Names' option is disabled</li>
+			<li>Select the features you want on the shader</li>
+			<li>Click on 'Generate Shader' (or 'Update Shader' if you are modifying an existing one)</li>
+		</ul>
+		<p>There are a lot of additional features available, however if you select <strong>too many</strong> at the same times the shader might not be able to compile. This is generally due to the limitations of vertex interpolators in Shader Model 3.</p>
+
+		<div class="helpbox"><table><td><div class="icon icon_info"></div></td><td><div>
+		You can open a generated shader for modification directly in the Shader Generator by <b>clicking on the <span class="icon icon_cog">&nbsp;</span> icon</b> in the Material Inspector!
+		</div></td></table></div>
+
+		<div class="warning"><table><td><div class="icon icon_warning"></div></td><td><div>
+		The Shader Generator relies on the <b>ShaderImporter.userData</b> string to store information about the features so that they show correctly in the Inspector. Be careful if you also use it in your scripts.
+		</div></td></table></div>
+
+		<br />
+		<h3>TEMPLATES</h3>
+		<p>You can load other templates to generate different types of shaders.<br />
+		List of included templates:<br />
+		<ul>
+			<li><strong>Default</strong>: Extend the base desktop/mobile shader</li>
+			<li><strong>Surface Standard PBS</strong>: Extend the PBS shader (based on Unity's Standard shader)</li>
+			<li><strong>Terrain</strong>: Generate Unity-terrain compatible shaders (experimental)</li>
+			<li><strong>Water</strong>: Generate water shaders (or other liquids such as lava or poison)</li>
+			<li><strong>Curved World/Default & Curved World/Water</strong>: Templates with support for Curved World system (requires <a href="https://www.assetstore.unity3d.com/en/#!/content/26165" target="_blank" class="external">Curved World</a> from the Unity Asset Store)</li>
+			<li><strong>Legacy/Standard PBS</strong>: Old PBS shader template that uses vertex/fragment shaders (the new one uses surface shaders and has more options)</li>
+		</ul>
+		<p>By default the template files are in the <strong>JMO Assets/Toony Colors Pro/Editor/Shader Templates/</strong> folder.</p>
+
+		<br />
+		<h3>ADDITIONAL FEATURES (only available with the Shader Generator)</h3>
+
+		<div class="helpbox"><table><td><div class="icon icon_info"></div></td><td><div>
+		This list is not exhaustive, feel free to try the options you see in the Shader Generator and see what they do!<br />
+		You can also leave the mouse cursor on most of the labels to show a help tooltip!
+		</div></td></table></div>
+
+		<!-- RAMP STYLE -->
+		<div id="ramp_style_sg" class="section">
+			<h4>Ramp Style</h4>
+			<p>Defines how to apply ramp shading based on the diffuse term.</p>
+			<ul>
+				<li><strong>Slider Ramp</strong>: Define the <strong>lit/unlit threshold</strong> value, as well as its <strong>smoothness</strong> (hard or soft line separating shadows from highlights)</li>
+				<li><strong>RGB Slider Ramp</strong>: Same as Slider Ramp, but uses a color for the threshold, thus separating it for the three RGB channels.</li>
+				<li><strong>Texture Ramp</strong>: Use a 1D texture (horizontal texture with 1 pixel height) defining the shading from lit to unlit</li>
+			</ul>
+			<p>Slider Ramp Examples:</p>
+			<div class="img US2_Ramp_p5p1"><span>Threshold = 0.5<br />Smoothing = 0.2</span></div>
+			<div class="img US2_Ramp_p3p5"><span>Threshold = 0.3<br />Smoothing = 0.5</span></div>
+			<div class="img US2_Ramp_p75p01"><span>Threshold = 0.75<br />Smoothing = 0.01</span></div>
+			<p>RGB Slider Ramp Examples:</p>
+			<div class="img US2_Ramp_rgb1"><span>Threshold (128,100,80)<br />Smoothing = 0.15</div>
+			<div class="img US2_Ramp_rgb2"><span>Threshold (128,100,80)<br />Smoothing = 0.6</div>
+			<div class="img US2_Ramp_rgb3"><span>Threshold (80,90,120)<br />Smoothing = 0.3</div>
+			<p>Texture Ramp Examples:</p>
+			<div class="img US2_Ramp_t1"><span>Unity toon ramp</span></div>
+			<div class="img US2_Ramp_t2"><span>Old school ramp</span></div>
+			<div class="img US2_Ramp_t3"><span>4-levels ramp</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- RAMP CONTROL -->
+		<div id="ramp_control_sg" class="section">
+			<h4>Ramp Control</h4>
+			<p>Defines how many ramp control you get in the material.</p>
+			<ul>
+				<li><strong>Global</strong>: Unique ramp control for all lights</li>
+				<li><strong>Main + Other Lights</strong>: One ramp control for the main directional light, and one for all other lights regardless of their type</li>
+				<li><strong>Main + Light Type</strong>: One ramp control for the main directional light, and one per light type (directional, point, spot) for all other lights</li>
+			</ul>
+			<br />
+			<p>In the example below, the sphere is lit by one main directional light, one blue point light, and one yellow spot light.</p>
+			<div class="img SG15_RampControl_Global"><span>Global<br />Smoothing = 0.2</span></div>
+			<div class="img SG15_RampControl_MainOther"><span>Main + Other<br />2 different smoothings</span></div>
+			<div class="img SG15_RampControl_MainType"><span>Main + Light Type<br />3 different smoothings</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- WRAPPED LIGHTING -->
+		<div id="wrapped_lighting" class="section">
+			<h4>Wrapped Lighting</h4>
+			<p>Wrap the diffuse term around the mesh, providing a softer light.</p>
+			<ul>
+				<li><strong>Off</strong>: No wrapped lighting</li>
+				<li><strong>Half</strong>: Wrap lighting by half</li>
+				<li><strong>Custom</strong>: Wrap lighting by a custom factor</li>
+			</ul>
+			<p>Ramp smoothing is 0.5 in the following examples:</p>
+			<div class="img SG16_WrappedLighting_Off"><span>Off</div>
+			<div class="img SG16_WrappedLighting_Half"><span>Half</div>
+			<div class="img SG16_WrappedLighting_Custom"><span>Custom (1.5)</div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- SPECULAR -->
+		<div id="specular_sg" class="section">
+			<h4>Specular (Shader Generator)</h4>
+			<p>Enables specular highlights.</p>
+			<h5>Options (Shader Generator)</h5>
+			<ul>
+				<li><strong>Regular</strong>: default Blinn-Phong specular</li>
+				<li><strong>Anisotropic</strong>: Ward anisotropic specular</li>
+				<li><strong>Specular Mask</strong>: uses a <a href="#masks">mask</a> for specular (aka gloss map)</li>
+				<li><strong>Shininess Mask</strong>: uses a <a href="#masks">mask</a> for shininess (allows variable shininess on the same material)</li>
+				<li><strong>Cartoon Specular</strong>: allows you to define the smoothness of the specular highlight</li>
+			</ul>
+			<div class="img US4_Spec_s1"><span>Regular Specular<br />Shininess = 0.1</span></div>
+			<div class="img US4_Spec_s1s1"><span>Cartoon Specular<br />Smoothness = 0.1</span></div>
+			<div class="img SG6b_Spec"><span>Anisotropic Specular<br />Aniso. Spread = 0.65</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- REFLECTION -->
+		<div id="reflection_sg" class="section">
+			<h4>Reflection (Shader Generator)</h4>
+			<p>Enables cubemap-based reflections.</p>
+			<h5>Options (Shader Generator)</h5>
+			<ul>
+				<li><strong>Reflection Mask</strong>: uses a <a href="#masks">mask</a> for reflection</li>
+				<li><strong>Reflection Color</strong>: tints the reflection color (RGB) and sets its strength (Alpha)</li>
+				<li><strong>Reflection Roughness</strong>: defines the MipMap level at which to sample the texture, to simulate blurry reflections</li>
+				<li><strong>Rim Reflection/Fresnel</strong>: the reflection will only appear according to the rim settings (i.e. at grazing angles on the model)</li>
+			</ul>
+		<div class="warning"><table><td><div class="icon icon_warning"></div></td><td><div>
+		MipMaps need to be enabled on the Cubemap texture for Roughness to work!
+		</div></td></table></div>
+		<br />
+			<div class="img US5_Refl"><span>Global Reflection</span></div>
+			<div class="img US5_Refl_2"><span>Masked Reflection</span></div>
+			<div class="img SG7_Refl"><span>Blurry Reflection<br />Roughness = 6</span></div>
+			<div class="img SG7_Refl_2"><span>Rim/Fresnel Reflection</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- RIM -->
+		<div id="rim_sg" class="section">
+			<h4>Rim Effects (Shader Generator)</h4>
+			<p>Enables rim effects, where intensity depends on the view direction and the face normal.</p>
+			<h5>Properties</h5>
+			<ul>
+				<li><strong>Rim Color (RGB)</strong>: defines the rim color</li>
+				<li><strong>Rim Color (Alpha)</strong>: defines the rim intensity</li>
+				<li><strong>Rim Min/Max</strong>: define the thresholds based on the rim value</li>
+				<li><strong>Rim Direction (XY)</strong>: allows control of the rim direction (e.g. only coming from top)</li>
+			</ul>
+			<h5>Options (Shader Generator)</h5>
+			<ul>
+				<li><strong>Rim Lighting</strong>: adds a color based on the rim factor (a.k.a. <strong>rim lighting</strong>)</li>
+				<li><strong>Rim Outline</strong>: multiplies a color based on the rim factor</li>
+				<li><strong>Vertex Rim</strong>: calculates the rim term per-vertex rather than per-pixel (less accurate but much faster)</li>
+				<li><strong>Directional Rim</strong>: enables the Rim Direction property</li>
+				<li><strong>Rim Mask</strong>: uses a <a href="#masks">mask</a> for the rim effect</li>
+				<li><strong>Light-based Mask</strong>: masks the rim effect based on nearby lights</li>
+			</ul>
+			<div class="img US6_Rim"><span>Red rim lighting<br />Min = 0.3, Max = 1</span></div>
+			<div class="img US6_Rim_2"><span>Red rim lighting<br />Min = 0.6, Max = 0</span></div>
+			<div class="img US6_Rim_5"><span>Directional rim lighting<br />Direction Y = 0.5</span></div>
+			<div class="img US6_Rim_3"><span>Black rim outline<br />Min = 0.2, Max = 0.8</span></div>
+			<div class="img US6_Rim_4"><span>Red rim outline<br />Min = 0.5, Max = 0.55</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- MATCAP -->
+		<div id="matcap_sg" class="section">
+			<h4>MatCap (Shader Generator)</h4>
+			<p>Enables texture-based fixed reflections, using a simple square texture. See my free <a href="https://www.jeanmoreno.com/matcap/" target="_blank" class="external">MatCap Shader Pack</a> for more examples!</p>
+			<h5>Properties</h5>
+			<ul>
+				<li><strong>MatCap Texture (RGB)</strong>: the MatCap texture</li>
+				<li><strong>MatCap Color (RGB)</strong>: tints the MatCap</li>
+				<li><strong>MatCap Color (Alpha)</strong>: sets the strength of the MatCap</li>
+			</ul>
+			<h5>Options (Shader Generator)</h5>
+			<ul>
+				<li><strong>MatCap Add</strong>: MatCap will be added</li>
+				<li><strong>MatCap Multiply</strong>: MatCap will be multiplied</li>
+				<li><strong>MatCap Mask</strong>: uses a <a href="#masks">mask</a> for the MatCap effect</li>
+				<li><strong>Pixel MatCap</strong>: compute MatCap effect per-pixel, useful if you are using <a href="#normal_bump_map_sg">normal maps</a></li>
+				<li><strong>MatCap Color</strong>: enable the MatCap Color property</li>
+			</ul>
+			<div class="img US5b_MatCap"><span>Additive MatCap</span></div>
+			<div class="img US5b_MatCapTex"><span>MatCap texture used</span></div>
+			<div class="img US5b_MatCap_2"><span>Multiplicative MatCap</span></div>
+			<div class="img US5b_MatCapTex_2"><span>MatCap texture used</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+	<div id="custom_ambient" class="section"> <!-- Custom Ambient -->
+
+		<!-- CUBEMAP AMBIENT -->
+		<div id="cubemap_ambient" class="section">
+			<h4>Cubemap Ambient</h4>
+			<p>Enables cubemap-based ambient lighting. Think of it as directional ambient colors (for example, ambient light from the top will be blue like the sky, ambient light coming from the bottom will be brown like the ground).<br />
+			The effect is very subtle but really helps to anchor your dynamic objects in your scene.</p>
+			<h5>Properties</h5>
+			<ul>
+				<li><strong>Ambient Cubemap</strong>: the cubemap from which to sample colors</li>
+			</ul>
+		<div class="helpbox"><table><td><div class="icon icon_info"></div></td><td><div>
+		It is recommended to use a blurred version of the skybox cubemap as your Ambient Cubemap!
+		</div></td></table></div>
+		<br />
+			<div class="img US1_Color_A"><span>Default</span></div>
+			<div class="img SG8_Amb"><span>Cubemap Ambient</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- DIRECTIONAL AMBIENT -->
+		<div id="directional_ambient" class="section">
+			<h4>Directional Ambient</h4>
+			<p>Enables directional ambient lighting, using 6 user-defined colors. This is cheaper than Cubemap Ambient and colors can be easily interpolated to simulate dynamic ambient lighting for example.<br />
+			The effect can be very subtle but really helps to anchor your dynamic objects in your scene.</p>
+			<h5>Properties</h5>
+			<ul>
+				<li><strong>Right, Left, Top, Bottom, Front, Back</strong>: the 6 colors corresponding to the 6 world axis (positive and negative XYZ)</li>
+			</ul>
+		<br />
+			<div class="img US1_Color_A"><span>Default</span></div>
+			<div class="img SG12_DirAmb"><span>Directional Ambient<br />with strong colors</span></div>
+		</div>
+
+	</div> <!-- Custom Ambient -->
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- BUMP MAPS -->
+		<div id="normal_bump_map_sg" class="section">
+			<h4>Normal/Bump Map (Shader Generator)</h4>
+			<p>Enables normal map support.</p>
+			<h5>Properties</h5>
+			<ul>
+				<li><strong>Normal Map (RGB)</strong>: normal map texture</li>
+				<li><strong>Heightmap (Alpha)</strong>: heightmap controlling the parallax effect (alpha channel only, can be the same texture defined in the normal map)</li>
+				<li><strong>Height</strong>: strength of the height parallax effect</li>
+			</ul>
+			<h5>Options (Shader Generator)</h5>
+			<ul class="options">
+				<li><strong>Bump Scale</strong>: adds a float value to control the bump strength, like Unity's Standard shader</li>
+				<li><strong>Parallax/Height Map</strong>: enables the Parallax/Height map support</li>
+			</ul>
+			<div class="img US3_Bump"><span>Stars normal map<br />Ramp Smoothing = 0.1</span></div>
+			<div class="img US3_Bump_2"><span>Granular normal map<br />Ramp Smoothing = 0.4</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- TESSELLATION -->
+		<div id="tessellation" class="section">
+			<h4>Tessellation</h4>
+			<p>Enables GPU tessellation on the shader (requires Shader Model 4.6+).<br />
+			You can choose between these techniques:</p>
+			<ul>
+				<li><strong>Phong</strong>: smooths the mesh based on its normals</li>
+				<li><strong>Fixed</strong>: tessellate according to a displacement map and a fixed value</li>
+				<li><strong>Distance Based</strong>: tessellate according to a displacement map and the distance between the mesh and the camera</li>
+				<li><strong>Edge Length Based</strong>: tessellate according to a displacement map and the screen-space length of the mesh's edges</li>
+			</ul>
+			<p>For more information and examples, please look at <a href="https://docs.unity3d.com/Manual/SL-SurfaceShaderTessellation.html" target="_blank" class="external">Unity's Documentation about Tessellation</a> in Surface shaders.</p>
+			<div class="warning"><table><td><div class="icon icon_warning"></div></td><td><div>
+			<b>Tessellation</b> is incompatible with using a custom vertex function.  The shader <b>may not compile properly</b> depending on the used features (this is unfortunately a Unity limitation).
+			</div></td></table></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- DETAIL TEX -->
+		<div id="detail_texture" class="section">
+			<h4>Detail Texture</h4>
+			<p>Adds another texture on top of the main one, with its own tiling and offset values.</p>
+			<h5>Properties</h5>
+			<ul>
+				<li><strong>Detail (RGB)</strong>: the detail texture</li>
+			</ul>
+			<h5>Options (Shader Generator)</h5>
+			<ul class="options">
+				<li><strong>Use UV2 coordinates</strong>: use second UV coordinates for the detail texture</li>
+			</ul>
+			<p>Example:</p>
+			<div class="img SG2_DetailTex"><span>Rock detail texture over main checker texture</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- COLOR MASK -->
+		<div id="color_mask" class="section">
+			<h4>Color Mask</h4>
+			<p>Enables main color <a href="#masks">masking</a>. Can be useful if you want to create a customizable color based on the main texture's alpha channel, for example.</p>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- VERTEX COLORS -->
+		<div id="vertex_colors" class="section">
+			<h4>Vertex Colors</h4>
+			<p>Tints the whole model according to its <strong>vertex colors</strong>.<br />Can be used to simulate ambient occlusion, vertex-based lightmap, or regular tinting to add color variations on the same texture while keeping <strong>dynamic batching</strong>.</p>
+			<p>Example:</p>
+			<div class="img SG3_VColors"><span>Simple vertex-based color tinting</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- TEXTURE BLENDING -->
+		<div id="texture_blending" class="section">
+			<h4>Texture Blending</h4>
+			<p>Blends up to 5 textures based on vertex colors or a texture map, linearly or alpha-based (height blending).<br />
+			By default the textures are mapped like this:</p>
+			<table style="padding-left:10px;">
+			<tr><td style="width:80px;"><strong>Black:</strong></td><td>Main Texture</td></tr>
+			<tr><td><strong>Red:</strong></td><td>Texture 1</td></tr>
+			<tr><td><strong>Green:</strong></td><td>Texture 2</td></tr>
+			<tr><td><strong>Blue:</strong></td><td>Texture 3</td></tr>
+			<tr><td><strong>Alpha:</strong></td><td>Texture 4</td></tr>
+			</table>
+			<h5>Options</h5>
+			<ul class="options">
+				<li><strong>Texture Blending</strong>: defines the mapping source, where each color corresponds to a texture (<strong>Vertex Colors</strong> or <strong>Texture Map</strong>)</li>
+				<li><strong>Blend Method</strong>: how to visually blend the textures</li>
+				<ul>
+					<li><strong>Linear</strong>: smooth linear transition based on the source colors</li>
+					<li><strong>Linear (Additive)</strong>: smooth linear transition, but each texture is added rather than linearly blended</li>
+					<li><strong>Height (Texture Alpha)</strong>: texture alpha-based blending, to simulate a more natural blending</li>
+				</ul>
+				<li><strong>Enhance Blend Contrast</strong>: add a Vector4 property to the material to allow fine-tuning the contrast of each color of the source map</li>
+				<li><strong>Texture # / Color Channel</strong>: set the number of textures, and define the color channel they will map to from the source</li>
+				<li><strong>Normal Map Blending</strong>: add a normal map slot for each additional texture (will enable the <a href="#normal_bump_map_sg">Normal/Bump Map</a> feature)</li>
+			</ul>
+
+			<p>Examples:</p>
+			<div class="img SG17_TexBlending_Map"><span>Source Texture Map<br />(white represents alpha)</span></div><br />
+			<div class="img SG17_TexBlending_Linear"><span>Linear Blending</span></div>
+			<div class="img SG17_TexBlending_Height"><span>Height Blending</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- TRIPLANAR MAPPING -->
+		<div id="triplanar" class="section">
+			<h4>Triplanar Mapping</h4>
+			<p>Use multiple textures and generate world-based texture UVs according to the orientation of the faces. <br />Triplanar is an efficient way of texturing a terrain mesh.</p>
+			<h5>Options</h5>
+			<ul class="options">
+				<li><strong>Surface Texture</strong>: How many textures to use for the horizontal surfaces</li>
+				<li><strong>Ceiling Mode</strong>: Defines how to map the second surface texture
+				<ul>
+					<li><strong>Y Normal Direction</strong>: map according to the direction of the surface (ground faces up, ceiling faces down)</li>
+					<li><strong>Min Max Threshold</strong>: choose texture based on a defined area (based on the Y position in world space)</li>
+				</ul>
+				</li>
+				<li><strong>Sides Texture</strong>: How many textures to use for the vertical surfaces</li>
+				<li><strong>Height Blending (Alpha)</strong>: Non-linear blending based on alpha channel of surface of side texture(s) (as in <a href="#texture_blending">Texture Blending</a>)</li>
+			</ul>
+			<br />
+			<p>The following mesh doesn't have any UVs:</p>
+			<div class="img SG18_Triplanar"><span>Basic Triplanar Mapping</span></div>
+			<div class="img SG18_Triplanar_Ceiling"><span>Triplanar with 'ceiling' Min Max Threshold</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- SUBSURFACE SCATTERING -->
+		<div id="subsurface_scattering" class="section">
+			<h4>Subsurface Scattering</h4>
+			<p>Enables subsurface scattering, i.e. light that scatters inside the model.</p>
+			<h5>Options (Shader Generator)</h5>
+			<ul>
+				<li><strong>Subsurface Lights</strong>: defines which lights will affect subsurface scattering</li>
+				<li><strong>Subsurface Mask</strong>: mask for the subsurface effect (typically a thickness map)</li>
+				<li><strong>Subsurface Color</strong>: colors the subsurface effect (back lighting only)</li>
+				<li><strong>Subsurface Ambient Color</strong>: adds an ambient subsurface color, affecting both back and front lighting</li>
+				<li><strong>Multiplicative</strong>: makes the subsurface effect multiplied with the diffuse color, instead of added to it</li>
+			</ul>
+		<div class="helpbox"><table><td><div class="icon icon_info"></div></td><td><div>
+		Here's an easy way to generate an approximative thickness map in most 3D modeling software:
+		<ul>
+		<li>Flip your model's normals (i.e. flip faces)</li>
+		<li>Bake the ambient occlusion map</li>
+		<li>Invert the colors on the resulting texture</li>
+		<li>Use it as a mask for subsurface scattering</li>
+		</ul>
+		</div></td></table></div>
+		<br />
+			<div class="img SG13_Subsurface"><span style="font-size:12px;">Point light is <strong>behind</strong> the sphere, with orange subsurface color</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- SELF-ILLUMINATION -->
+		<div id="self-illumination_map" class="section">
+			<h4>Emission (Self-Illumination)</h4>
+			<p>Adds emission based on a mask, a color, or both.</p>
+			<h5>Properties</h5>
+			<ul>
+				<li><strong>Emission Color</strong>: tint color for the emission light (RGB) and emission strength (Alpha)</li>
+			</ul>
+			<h5>Options (Shader Generator)</h5>
+			<ul class="options">
+				<li><strong>Emission Map</strong>: uses a <a href="#masks">mask</a> for emission</li>
+				<li><strong>Emission Color</strong>: enables the Emission Color property</li>
+				<li><strong>HDR Color</strong>: makes the Emission Color an HDR color that can go outside the [0:1] range (useful for effects like bloom)</li>
+			</ul>
+			<p>Example:</p>
+			<div class="img SG5_SelfIllumin"><span>Simple emission</span></div>
+			<div class="img SG5_SelfIllumin2"><span>Color tinted emission</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- TEXTURED THRESHOLD -->
+		<div id="textured_threshold" class="section">
+			<h4>Textured Threshold</h4>
+			<p>This is a powerful feature to achieve a <strong>hand-painted look</strong> directly on the shading.</p>
+			<p>The regular shading is defined on a continuous line, more or less smooth depending on the Ramp Smoothing (or Ramp Texture if using one).<br /><strong>Textured Threshold</strong> allows you to add a <strong>texture pattern along this line</strong>.</p>
+			<h5>Properties</h5>
+			<ul>
+				<li><strong>Threshold Texture (Alpha)</strong>: offset the lit/unlit threshold based on the alpha channel</li>
+			</ul>
+		<div class="helpbox"><table><td><div class="icon icon_info"></div></td><td><div>
+		Only the Alpha channel is used: values > 128 will add to the threshold, values < 128 will subtract from it (a value of 128 has no effect)
+		</div></td></table></div>
+			<p>Examples:</p>
+			<div class="img SG1_TexThr_1"><span>Using a texture ramp (no threshold texture)</span></div>
+			<div class="img SG1_TexThr_2"><span>Achieving a hand-painted look</span></div>
+			<div class="img SG1_TexThr_2tex"><span>Texture used for the hand-painted look</span></div>
+			<div class="img SG1_TexThr_3"><span>Using a noise-based threshold texture</span></div>
+			<div class="img SG1_TexThr_3tex"><span>Noise texture used for the previous look</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- DIFFUSE TINT -->
+		<div id="diffuse_tint" class="section">
+			<h4>Diffuse Tint</h4>
+			<p>Adds a smooth tint to the model, based on the non-ramped diffuse term.<br />Can be used to add subtle color fringing in the transition between highlights and shadows for example.</p>
+			<h5>Properties</h5>
+			<ul>
+				<li><strong>Diffuse Tint</strong>: the tint color</li>
+			</ul>
+			<p>Examples:</p>
+			<div class="img SG14_DiffTint"><span>Regular look</span></div>
+			<div class="img SG14_DiffTint_1"><span>With a blue diffuse tint</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- INDEPENDENT SHADOWS -->
+		<!--
+		<div id="independent_shadows" class="section">
+			<h4>Independent Shadows</h4>
+			<p>Prevents dynamic shadows (the ones that appear when you enable Hard or Soft Shadows in your light settings) from being merged with shadows from direct lighting.</p>
+			<p>In the example below, a cube is projecting its shadow on the sphere:</p>
+			<div class="img SG6_IndShadows"><span>Default: dynamic shadow merged with lighting</span></div>
+			<div class="img SG6_IndShadows_2"><span>Independant shadow: dynamic shadows are separate</span></div>
+		</div>
+		<div class="separator">&nbsp;</div>
+		-->
+
+		<!-- SKETCH -->
+		<div id="sketch" class="section">
+			<h4>Sketch</h4>
+			<p>Adds a screen-space overlay texture on the shadowed areas. Allows a hand-painted stroke effect for example.</p>
+			<h5>Properties</h5>
+			<ul>
+				<li><strong>Sketch (Alpha)</strong>: the overlay texture</li>
+				<li><strong>Sketch Anim Speed</strong>: animation speed when enabled</li>
+			</ul>
+		<div class="helpbox"><table><td><div class="icon icon_info"></div></td><td><div>
+		To easily create an alpha-only texture in Unity, in the Texture Import Settings, set:<br />
+		'<b>Texture Type</b>' to '<b>Single Channel</b>'<br />
+		'<b>Alpha Source</b>' to '<b>Alpha from Grayscale</b>'<br />
+		</div></td></table></div>
+		<div class="warning"><table><td><div class="icon icon_warning"></div></td><td><div>
+		By default the screen-space texture is offset by the object's position, to remove the 'shower door' artifact (seeing that the texture is an overlay on the whole screen)<br /><br />
+		This effect doesn't work correctly in the <b>Scene View</b>: the vertical offset is inverted there.
+		</div></td></table></div>
+			<h5>Options (Shader Generator)</h5>
+			<ul>
+				<li><strong>Sketch Overlay</strong>: adds a screen-space overlay texture on the shadowed areas</li>
+				<li><strong>Sketch Gradient</strong>: binary overlay texture based on min/max values (allows half-tone effects)</li>
+				<li><strong>Sketch Blending</strong>: defines how to blend the sketch texture with the model's color</li>
+				<li><strong>Animated Sketch</strong>: animates the texture coordinates</li>
+				<li><strong>Vertex Coords</strong>: calculate screen-space coordinates per-vertex rather than per-pixel (less accurate but faster)</li>
+				<li><strong>Disable Obj-Space Offset</strong>: disables offsetting the texture from the object's position (the texture will stay fixed relative to the screen, i.e. each pixel on the screen will always map to the same texture color)</li>
+			</ul>
+			<div class="img SG9_Sketch"><span>Sketch Overlay with strokes texture</span></div>
+			<div class="img SG9_Sketch_2"><span>Sketch Gradient with strokes texture</span></div>
+			<div class="img SG9_Sketch_3"><span>Sketch Gradient with halftone texture</span></div>
+			<div class="img SG9_Sketch_4"><span>Textured Sphere with regular Sketch Overlay</span></div>
+			<div class="img SG9_Sketch_5"><span>Textured Sphere with<br />Color Burn blending</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- ALPHA -->
+		<div id="alpha_blending" class="section">
+			<h4>Alpha Blending (Transparency)</h4>
+			<p>Enables blending on the model. Allows soft transparency but may cause sorting issues with other semi-transparent objects.</p>
+			<p>Alpha Blending will be enabled by default, but you can change the source and destination blend factors to create other effects such as additive blending. See <a href="http://docs.unity3d.com/Manual/SL-Blend.html" target="_blank" class="external">Unity's manual</a> about blending for more information.</p>
+			<h5>Properties</h5>
+			<ul>
+				<li><strong>Source Factor</strong>: source blending factor</li>
+				<li><strong>Destination Factor</strong>: destination blending factor</li>
+			</ul>
+			<div class="img SG10_Alpha"><span>Alpha blending over blue background</span></div>
+			<p>You can define other blending modes than regular alpha-based transparency.<br />The following examples are in the form <span style='color:#ff8000;'>Source Factor / Destination Factor > Result</span></p>
+			<ul>
+			<li>Src Alpha / One Minus Src Alpha > Alpha Blending (regular transparency)</li>
+			<li>One / One > Additive Blending</li>
+			<li>One Minus Dst Color / One > Soft Additive Blending</li>
+			<li>Dst Color / Zero > Multiplicative Blending</li>
+			</ul>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- ALPHA TESTING -->
+		<div id="alpha_testing_(cutout)" class="section">
+			<h4>Alpha Testing (Cutout)</h4>
+			<p>Enables alpha testing on the model. Allows binary transparency with proper depth sorting.</p>
+			<p>See <a href="http://docs.unity3d.com/Manual/SL-AlphaTest.html" target="_blank" class="external">Unity's manual</a> about alpha testing for more information.</p>
+			<h5>Properties</h5>
+			<ul>
+				<li><strong>Alpha cutoff</strong>: threshold at which alpha value becomes transparent</li>
+			</ul>
+			<div class="img SG11_Alpha"><span>Alpha testing over blue background</span></div>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- SHADER TARGET -->
+		<div id="shader_target" class="section">
+			<h4>Shader Target</h4>
+			<p>Defines the shader target level to compile for.</p>
+			<p><strong>Shader Model 3.0</strong> is the default value and should work for most GPUs (desktop and mobile).<br />
+			<strong>Shader Model 2.5</strong> is recommended to maximize mobile device compatibility.<br />
+			<strong>Shader Model 2.0</strong> can be used to target very old devices but will limit the complexity of the generated shader.<br />
+			</p>
+			<p>See <a href="https://docs.unity3d.com/Manual/SL-ShaderCompileTargets.html" target="_blank" class="external">Unity's manual</a> about shader compilation target levels for more information.</p>
+		</div>
+
+		<div class="separator">&nbsp;</div>
+
+		<!-- DOUBLE-SIDED -->
+		<div id="double_sided" class="section">
+			<h4>Double-Sided</h4>
+			<p>To get double-sided rendering, use these options:</p>
+			<ul>
+			<li>Set <strong>Culling</strong> to <strong>Off (double-sided)</strong> so that backfaces are rendered.</li>
+			<li>(optional) Enable <strong>Backface lighting</strong> to get accurate lighting calculation for backfaces (Shader Target 3.0+)</li>
+			</ul>
+			<p>See <a href="https://docs.unity3d.com/Manual/SL-ShaderCompileTargets.html" target="_blank" class="external">Unity's manual</a> about shader compilation target levels for more information.</p>
+		</div>
+
+		</div>
+
+<!-- ################################################################################################################################ -->
+
+		<div class="header" id="masks">Shader Generator : Masks</div>
+		<div class="box">
+		<p>Some features can be masked using vertex colors or a texture.<br /><br />Usage is pretty simple:
+		<ul>
+		<li>Select to use <strong>vertex colors</strong> or a <strong>texture</strong> as a mask (either the Main Texture or a new texture slot - up to 3 separate masks textures)</li>
+		<li>If you selected a mask different from the Main Texture, select the <strong>color channel</strong> that will be used for masking</li>
+		<li>If you selected a texture mask, select the <strong>UV settings</strong> that will be used for masking:
+			<ul>
+				<li><strong>Main Tex UV</strong>: will use the texture coordinates of the main texture</li>
+				<li><strong>Independent UV0</strong>: will use independent scale/offsets settings with UVs from the mesh</li>
+				<li><strong>Independent UV1</strong>: will use independent scale/offsets settings with the secondary UVs from the mesh</li>
+			</ul>
+		</li>
+		</ul>
+		</p>
+		<div class="helpbox"><table><td><div class="icon icon_info"></div></td><td><div>
+		The mask UV settings are the same for each mask, so if you change it for Mask 1 anywhere it will be reflected everywhere Mask 1 is used.
+		</div></td></table></div>
+		<p>For example, if you want to use the main texture's alpha channel as a gloss map, in the <strong>Specular Mask</strong> feature choose <strong>Main Texture</strong> and <strong>Alpha</strong>.</p>
+		</div>
+
+<!-- ################################################################################################################################ -->
+		<div class="header" id="smoothed_normals_utility">Smoothed Normals Utility</div>
+		<div class="box">
+		<p>The <strong>Smoothed Normals Utility</strong> allows you to solve this situation:</p>
+		<div class="center">
+		<div class="img SNormalsCube_1"><span>Regular hard edge normals</span></div>
+		<div class="img SNormalsCube_2"><span>Smoothed normals stored in UV2<br />(hard edge shading is preserved)</span></div>
+		</div>
+		<h4>HOW IT WORKS</h4>
+		<p>The outlining technique is based on the mesh normals. When a vertex has multiple normals (aka hard edge shading), it can break the outline as shown above.<br />
+		The <strong>Smoothed Normals Utility</strong> will calculate the <strong>average normals</strong> for each vertex of your mesh, and assign them to an unused part of your mesh data (vertex colors, tangents, or second UV coordinates)</p>
+		<p>By enabling the corresponding option in the <a href="#outline">Outline properties</a>, the shader will take this data as the new normals to draw the outline.<br />This way you get a correctly outlined mesh with hard-edge shading preserved.</p>
+
+		<h4>USAGE</h4>
+		<p>Open the utility via the menu: <strong>Tools > Toony Colors Pro 2 > Smoothed Normals Utility</strong></p>
+		<p>In Unity, select one or multiple:
+		<ul>
+		<li>meshes or models assets from the Project view</li>
+		<li>GameObjects with a MeshFilter or SkinnedMeshRenderer attached</li>
+		</ul>
+		The list of meshes ready to be processed should then appear in the Smoothed Normals Utility.<br />
+		</p>
+		Select the vertex data target to stored the smoothed normals:
+		<ul>
+			<li><strong>Vertex Colors</strong></li>
+			<li><strong>Tangents</strong></li>
+			<li><strong>UV1-UV4</strong></li>
+		</ul>
+		If using UV data, you can select how to store the smoothed normals:
+		<ul>
+			<li><strong>Full XYZ</strong>: will store the data as-is</li>
+			<li><strong>Compressed XY</strong>: will store the data compressed into the XY channels</li>
+			<li><strong>Compressed ZW</strong>: will store the data compressed into the ZW channels</li>
+		</ul>
+		<p>Using compressed types loses precision, but it can be handy to optimize storage.<br />For example, you could keep the regular texture coordinates in UV1.xy, and store smoothed normals in UV1.zw, and thus not need any extra TEXCOORD in the vertex data (or keep them free for other usages).</p>
+
+		<p>
+		Click on "<strong>Generate Smoothed Mesh</strong>" to generate a copy of the mesh with smoothed normals in the selected mesh data.<br />
+		The new mesh will automatically be assigned if you had MeshFilters or SkinnedMeshRenderers selected.
+		</p>
+		<p>
+		You will then have to <strong>select the correct option</strong> in the Material Inspector so that the shader knows where and how to interpret the outline normal data.
+		</p>
+		<div class="warning"><table><td><div class="icon icon_warning"></div></td><td><div>
+		<b>Smoothed Normals</b> will only be stored in <b>Tangents</b> for <b>skinned meshes</b>.<br />This is because normals need to be affected by bones, and in the 3 options available only tangents are affected by bones (vertex colors and UV data are not). Thus smoothed normals can only work stored in tangents for skinned meshes.<br />This means that smoothed normals can't work with normal/bump maps, anisotropic specular or any other feature needing actual tangents on skinned meshes.
+		</div></td></table></div>
+		<div class="warning"><table><td><div class="icon icon_warning"></div></td><td><div>
+		<b>UV1, UV3, UV4</b> targets, and <b>Full XYZ</b> and <b>Compressed ZW</b> UV data types are only supported in shaders made with the <a href="https://jeanmoreno.com/unity/toonycolorspro/shader_generator_2_beta/documentation" target="_blank" class="external"><b>Shader&nbsp;Generator&nbsp;2</b></a>.
+		</div></td></table></div>
+		<!--
+		<h4>FORMAT</h4>
+		<p>Depending on the converted mesh, the format to store the normals may vary (I still haven't figured out why, if you have an idea shoot me an email!)<br />
+		From my tests, the format XYZ will always work when stored in the Tangents. Vertex Colors and UV2 may need the -YZ-X format (as is the case on Unity's Kyle robot model).</p>
+		-->
+		</div>
+
+<!-- ################################################################################################################################ -->
+
+		<div class="header" id="ramp_generator">Ramp Generator</div>
+		<div class="box">
+		<p>The <strong>Ramp Generator</strong> allows you to create a ramp texture (to be used with the <a href="#ramp_style">texture ramp</a> feature) very easily from a gradient.<br />
+		Simply edit the gradient and set a texture width size. The texture height will always be 4 pixels tall.</p>
+		<div class="center">
+		<div class="img RampGenerator"><span>Ramp Generator</span></div>
+		</div>
+		<p>The Ramp Generator can also edit back ramps generated with it, allowing you to edit the gradient and <strong>see the results in real-time on your models/materials</strong>.</p>
+		<p>You can edit a gradient ramp either by:</p>
+		<ul>
+		<li>loading a texture with the Ramp Generator</li>
+		<li>or clicking on <strong>Edit Gradient</strong> in a TCP2 material that uses ramp textures</li>
+		</ul>
+		<div class="center">
+		<div class="img RampGenerator_Edit"><span>Ramp Editor</span></div>
+		</div>
+		</div>
+
+<!-- ################################################################################################################################ -->
+
+		<div class="header" id="unpack_shaders">Unpack Shaders</div>
+		<div class="box">
+		<p>To avoid very long loading times when Toony Colors Pro 2 is imported in Unity, some of its shaders are packed in an archive.<br />You can unpack these shaders by category (reflection, rim effects...) if you ever need them.<br />
+		Depending on your machine, the importing process can be more or less long.</p>
+		<p>You can unpack shaders via the menu: <strong>Tools > Toony Colors Pro 2 > Unpack Shaders > ...</strong></p>
+		</div>
+
+<!-- ################################################################################################################################ -->
+
+		<div class="header" id="curvedworld">Using Curved World</div>
+		<div class="box" style="text-align: left; padding-top: 12px; padding-bottom: 12px;">
+		You can use the <a href="https://assetstore.unity.com/packages/vfx/shaders/curved-world-26165" target="_blank" class="external">Curved World system by Davit Naskidashvili</a> with Toony Colors Pro 2 as of version 2.12.<br />
+		This feature requires the Curved World package from the <a href="https://assetstore.unity.com/packages/vfx/shaders/curved-world-26165" target="_blank" class="external">Asset Store</a>.<br />
+		<br />
+		Open the <a href="#shader_generator">Shader Generator</a>, and load the Curved World template file (default or water) with the "Load..." button.<br />
+		The generated shaders will now be compatible with Curved World and react to its settings.<br />
+		<br />
+		For the <strong>Shader&nbsp;Generator&nbsp;2</strong>, you need to enable <strong>Curved World Support</strong> in the <strong>Third Party Plugins</strong> section.
+		</div>
+
+<!-- ################################################################################################################################ -->
+
+		<div class="header" id="vertexmotion">Using VertExmotion</div>
+		<div class="box" style="text-align: left; padding-top: 12px; padding-bottom: 12px;">
+		You can use the <a href="https://assetstore.unity.com/packages/tools/animation/vertexmotion-23930" target="_blank" class="external">VertExmotion system by Kalagaan</a> with Toony Colors Pro 2 as of version 2.4.0.<br />
+		This feature requires the <a href="https://assetstore.unity.com/packages/tools/animation/vertexmotion-23930" target="_blank" class="external">VertExmotion</a> or <a href="https://assetstore.unity.com/packages/tools/animation/vertexmotion-pro-25127" target="_blank" class="external">VertExmotion Pro</a> package from the Asset Store</a>.<br />
+		<br />
+		Open the <a href="#shader_generator">Shader Generator</a> (or the Shader&nbsp;Generator&nbsp;2), and under the <strong>Third Party Plugins</strong> section enable <strong>VertExmotion Support</strong>.
+		</div>
+
+<!-- ################################################################################################################################ -->
+
+		<div class="header" id="lightweight_srp">Using the Universal Render Pipeline (URP)</div>
+		<div class="box" style="text-align: left; padding-top: 12px; padding-bottom: 12px;">
+		<p>Universal Render Pipeline (formerly Lightweight Render Pipeline) support is available using the corresponding template in the <strong>Shader&nbsp;Generator&nbsp;2</strong>, which is currently in beta as of <strong>version 2.4.0</strong><br />
+		The URP template has been developed using <strong>Unity 2019.3.6</strong> and <strong>URP 7.3.1</strong>.</p>
+		<p>Please refer to the <a href="https://jeanmoreno.com/unity/toonycolorspro/doc/shader_generator_2" target="_blank" class="external">Shader&nbsp;Generator&nbsp;2 documentation</a> for more information!</p>
+		</div>
+
+<!-- ################################################################################################################################ -->
+
+		<div class="header" id="deferred">About Deferred Shading</div>
+		<div class="box" style="text-align: left; padding-top: 12px; padding-bottom: 12px;">
+		<p><strong>Toony Colors Pro 2</strong> only supports <strong>Forward</strong> rendering currently. <br />
+		It will work if your player settings are set to Deferred Shading, although materials using TCP2 will be rendered in Forward on top of the Deferred scene.</p>
+		<p><i>October 2019:</i>
+		<br>After some research, Deferred support development has been dropped due to the lack of requests and the technical challenge involved.<br>
+		I might revisit it later when the Deferred rendering path is released for the Universal Render Pipeline.</p>
+		</div>
+
+<!-- ################################################################################################################################ -->
+
+		<div class="header" id="help">Further Help</div>
+		<div class="box" style="text-align: left; padding-top: 12px; padding-bottom: 12px;">
+		If you have questions, bug reports or suggestions please contact me by email: <a href='mailto&#58;jea&#110;&#46;mor&#101;no&#46;p%7&#53;%&#54;2%6C&#105;c+%&#55;5%&#54;E&#37;69&#37;7&#52;y&#64;%&#54;7mail%2E&#37;&#54;3&#111;&#109;'>jean&#46;&#109;oreno&#46;pu&#98;lic+&#117;&#110;i&#116;&#121;&#64;gmai&#108;&#46;com</a>
+		</div>
+
+		<br />
+		<br />
+		<br />
+
+		<!-- OTHER ASSETS -->
+		<div class="otherassets">Other JMO assets for Unity:</div>
+		<table class="amenu bottom" cellspacing="0" cellpadding="0" border="0">
+		  <tr>
+			<td><a href="https://www.jeanmoreno.com/cartoonfx/">Cartoon FX 1</a></td>
+			<td><a href="https://www.jeanmoreno.com/cartoonfx2/">Cartoon FX 2</a></td>
+			<td><a href="https://www.jeanmoreno.com/cartoonfx3/">Cartoon FX 3</a></td>
+			<td><a href="https://www.jeanmoreno.com/cartoonfx4/">Cartoon FX 4</a></td>
+			<td><a href="https://www.jeanmoreno.com/shapefx/">Shape FX</a></td>
+			<td><a href="https://www.jeanmoreno.com/warfx/">War FX</a></td>
+			<td style="border-right:none;"><a href="https://www.jeanmoreno.com/matcap/">MatCap Shaders <span class="free">(Free)</span></a></td>
+		  </tr>
+		</table>
+		<!-- FOOTER -->
+		<div class="footer">© 2014-2020 - <a href="https://www.jeanmoreno.com/" target="_blank">Jean Moreno (JMO)</a></div>
+	</div>
+	</body>
+</html>

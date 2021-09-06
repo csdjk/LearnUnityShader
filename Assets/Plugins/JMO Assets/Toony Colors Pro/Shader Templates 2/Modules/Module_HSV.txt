@@ -1,0 +1,192 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Hue Value Saturation functions
+
+//================================================================
+
+#FUNCTIONS
+/// IF USE_HSV_FULL || USE_HSV_GRAYSCALE || USE_HSV_COLORIZE
+
+	//--------------------------------
+	// HSV HELPERS
+	// source: http://lolengine.net/blog/2013/07/27/rgb-to-hsv-in-glsl
+
+	float3 rgb2hsv(float3 c)
+	{
+		float4 K = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+		float4 p = lerp(float4(c.bg, K.wz), float4(c.gb, K.xy), step(c.b, c.g));
+		float4 q = lerp(float4(p.xyw, c.r), float4(c.r, p.yzx), step(p.x, c.r));
+
+		float d = q.x - min(q.w, q.y);
+		float e = 1.0e-10;
+		return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+	}
+
+	float3 hsv2rgb(float3 c)
+	{
+		c.g = max(c.g, 0.0); //make sure that saturation value is positive
+		float4 K = float4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+		float3 p = abs(frac(c.xxx + K.xyz) * 6.0 - K.www);
+		return c.z * lerp(K.xxx, saturate(p - K.xxx), c.y);
+	}
+///
+/// IF USE_HSV_FULL
+
+	float3 ApplyHSV_3(float3 color, float h, float s, float v)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv += float3(h/360,s,v);
+		return hsv2rgb(hsv);
+	}
+	float3 ApplyHSV_3(float color, float h, float s, float v) { return ApplyHSV_3(color.xxx, h, s ,v); }
+
+	float4 ApplyHSV_4(float4 color, float h, float s, float v)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv += float3(h/360,s,v);
+		return float4(hsv2rgb(hsv), color.a);
+	}
+	float4 ApplyHSV_4(float color, float h, float s, float v) { return ApplyHSV_4(color.xxxx, h, s, v); }
+///
+/// IF USE_HSV_GRAYSCALE
+
+	#ifdef UNITY_COLORSPACE_GAMMA
+		#define ColorSpaceLuminance half4(0.22, 0.707, 0.071, 0.0) // Legacy: alpha is set to 0.0 to specify gamma mode
+	#else // Linear values
+		#define ColorSpaceLuminance half4(0.0396819152, 0.458021790, 0.00609653955, 1.0) // Legacy: alpha is set to 1.0 to specify linear mode
+	#endif
+
+	float3 ApplyHSVGrayscale(float3 color, float s)
+	{
+		return lerp(dot(color, ColorSpaceLuminance.rgb).xxx, color, s);
+	}
+
+	float4 ApplyHSVGrayscale(float4 color, float s)
+	{
+		return float4(lerp(dot(color.rgb, ColorSpaceLuminance.rgb).xxx, color.rgb, s), color.a);
+	}
+///
+/// IF USE_HSV_COLORIZE
+	/// IF HSV_COLORIZE_HSV
+
+	float3 ColorizeHSV(float3 color, float h, float s, float v)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv.x = h/360;
+		hsv.y = s;
+		hsv.z = v;
+		return hsv2rgb(hsv);
+	}
+	float4 ColorizeHSV(float4 color, float h, float s, float v)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv.x = h/360;
+		hsv.y = s;
+		hsv.z = v;
+		return float4(hsv2rgb(hsv), color.a);
+	}
+	///
+	/// IF HSV_COLORIZE_HS
+
+	float3 ColorizeHS(float3 color, float h, float s)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv.x = h/360;
+		hsv.y = s;
+		return hsv2rgb(hsv);
+	}
+	float4 ColorizeHS(float4 color, float h, float s)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv.x = h/360;
+		hsv.y = s;
+		return float4(hsv2rgb(hsv), color.a);
+	}
+	///
+	/// IF HSV_COLORIZE_HV
+
+	float3 ColorizeHV(float3 color, float h, float v)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv.x = h/360;
+		hsv.z = v;
+		return hsv2rgb(hsv);
+	}
+	float4 ColorizeHV(float4 color, float h, float v)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv.x = h/360;
+		hsv.z = v;
+		return float4(hsv2rgb(hsv), color.a);
+	}
+	///
+	/// IF HSV_COLORIZE_SV
+
+	float3 ColorizeSV(float3 color, float s, float v)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv.y = s;
+		hsv.z = v;
+		return hsv2rgb(hsv);
+	}
+	float4 ColorizeSV(float4 color, float s, float v)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv.y = s;
+		hsv.z = v;
+		return float4(hsv2rgb(hsv), color.a);
+	}
+	///
+	/// IF HSV_COLORIZE_H
+
+	float3 ColorizeH(float3 color, float h)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv.x = h/360;
+		return hsv2rgb(hsv);
+	}
+	float4 ColorizeH(float4 color, float h)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv.x = h/360;
+		return float4(hsv2rgb(hsv), color.a);
+	}
+	///
+	/// IF HSV_COLORIZE_S
+
+	float3 ColorizeS(float3 color, float s)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv.y = s;
+		return hsv2rgb(hsv);
+	}
+	float4 ColorizeS(float4 color, float s)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv.y = s;
+		return float4(hsv2rgb(hsv), color.a);
+	}
+	///
+	/// IF HSV_COLORIZE_V
+
+	float3 ColorizeV(float3 color, float v)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv.z = v;
+		return hsv2rgb(hsv);
+	}
+	float4 ColorizeV(float4 color, float v)
+	{
+		float3 hsv = rgb2hsv(color.rgb);
+		hsv.z = v;
+		return float4(hsv2rgb(hsv), color.a);
+	}
+	///
+	
+	// HSV HELPERS end
+	//--------------------------------
+///
+#END
+
+//================================================================

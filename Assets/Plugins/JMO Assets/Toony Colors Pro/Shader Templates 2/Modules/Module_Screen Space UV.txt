@@ -1,0 +1,124 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Screen Space UV functions
+
+#FEATURES
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+#END
+
+//================================================================
+
+#KEYWORDS
+/// IF USE_SCREEN_SPACE_UV_VERTEX
+	feature_on		USE_SCREEN_POSITION_VERTEX
+/// ELIF USE_SCREEN_SPACE_UV_FRAGMENT && !SCREEN_SPACE_UV_OBJECT_OFFSET
+	feature_on		USE_SCREEN_POSITION_FRAGMENT
+/// ELIF USE_SCREEN_SPACE_UV_FRAGMENT && SCREEN_SPACE_UV_OBJECT_OFFSET
+	feature_on		USE_CLIP_POSITION_VERTEX
+///
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+#END
+
+//================================================================
+
+#FUNCTIONS
+/// IF USE_SCREEN_SPACE_UV_FRAGMENT && SCREEN_SPACE_UV_OBJECT_OFFSET
+
+	//Get screen space UV with object offset taken into account
+	inline float2 GetScreenUV(float2 clipPos)
+	{
+		float4x4 mvpMatrix = mul(unity_MatrixVP, unity_ObjectToWorld);
+		float4 screenSpaceObjPos = float4(mvpMatrix[0][3],mvpMatrix[1][3],mvpMatrix[2][3],mvpMatrix[3][3]);
+		float2 screenUV = clipPos.xy;
+		screenUV.xy -= screenSpaceObjPos.xy / screenSpaceObjPos.ww;
+		float ratio = _ScreenParams.x/_ScreenParams.y;
+		screenUV.x *= ratio;
+		screenUV *= screenSpaceObjPos.w;
+		screenUV.x *= sign(UNITY_MATRIX_P[1].y); // 1 for Game View, -1 for Scene View
+		return screenUV / UNITY_MATRIX_P._m11; // scale with the Camera FoV
+	}
+///
+/// IF __IGNORED__
+		// OLD METHOD:
+		//Adjust screen UVs relative to object to prevent screen door effect
+		inline void ObjSpaceUVOffset(inout float2 screenUV, in float screenRatio)
+		{
+			// UNITY_MATRIX_P._m11 = Camera FOV
+			float4 objPos = float4(-UNITY_MATRIX_T_MV[3].x * screenRatio * UNITY_MATRIX_P._m11, -UNITY_MATRIX_T_MV[3].y * UNITY_MATRIX_P._m11, UNITY_MATRIX_T_MV[3].z, UNITY_MATRIX_T_MV[3].w);
+
+			float offsetFactorX = 0.5;
+			float offsetFactorY = offsetFactorX * screenRatio;
+		#	offsetFactorX *= _SketchTex_ST.x;
+		#	offsetFactorY *= _SketchTex_ST.y;
+
+			if (unity_OrthoParams.w < 1)	//don't scale with orthographic camera
+			{
+				//adjust uv scale
+				screenUV -= float2(offsetFactorX, offsetFactorY);
+				screenUV *= objPos.z;	//scale with cam distance
+				screenUV += float2(offsetFactorX, offsetFactorY);
+
+				// sign(UNITY_MATRIX_P[1].y) is different in Scene and Game views
+				screenUV.x -= objPos.x * offsetFactorX * sign(UNITY_MATRIX_P[1].y);
+				screenUV.y -= objPos.y * offsetFactorY * sign(UNITY_MATRIX_P[1].y);
+			}
+			else
+			{
+				// sign(UNITY_MATRIX_P[1].y) is different in Scene and Game views
+				screenUV.x += objPos.x * offsetFactorX * sign(UNITY_MATRIX_P[1].y);
+				screenUV.y += objPos.y * offsetFactorY * sign(UNITY_MATRIX_P[1].y);
+			}
+		}
+///
+#END
+
+//================================================================
+
+#INPUT
+/// IF USE_SCREEN_SPACE_UV_VERTEX
+	float2 screenUV;
+/// ELIF SCREEN_SPACE_UV_OBJECT_OFFSET
+	float4 clipPosition;
+///
+#END
+
+//================================================================
+
+#VERTEX(float4 screenPos, float4 clipPos, struct output)
+/// IF USE_SCREEN_SPACE_UV_VERTEX
+
+		//Screen Space UV
+		output.[[INPUT_VALUE:screenUV]] = screenPos.xy / screenPos.w;
+/// ELIF USE_SCREEN_SPACE_UV_FRAGMENT && SCREEN_SPACE_UV_OBJECT_OFFSET
+
+		//Screen Space UV
+		output.[[INPUT_VALUE:clipPosition]] = clipPos;
+///
+#END
+
+//================================================================
+
+#FRAGMENT(float4 screenPos, struct input)
+/// IF USE_SCREEN_SPACE_UV_FRAGMENT
+		//Screen Space UV
+	/// IF SCREEN_SPACE_UV_OBJECT_OFFSET
+		float2 screenUV = GetScreenUV(input.[[INPUT_VALUE:clipPosition]].xy / input.[[INPUT_VALUE:clipPosition]].w);
+	/// ELSE
+		float2 screenUV = screenPos.xy / screenPos.w;
+
+	///
+/// ELIF USE_SCREEN_SPACE_UV_VERTEX
+		//Screen Space UV
+		float2 screenUV = input.[[INPUT_VALUE:screenUV]];
+
+///
+#END

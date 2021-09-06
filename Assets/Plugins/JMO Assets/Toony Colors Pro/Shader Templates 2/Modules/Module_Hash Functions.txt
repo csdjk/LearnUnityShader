@@ -1,0 +1,26 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Hash functions
+// Should be the same on all GPUs, and doesn't rely on trigonometry functions
+// (c) 2014 Dave Hoskins, CC BY-SA 4.0 License
+// https://www.shadertoy.com/view/4djSRW
+
+//================================================================
+
+#FUNCTIONS
+/// IF HASH_22
+
+	// Hash without sin and uniform across platforms
+	// Adapted from: https://www.shadertoy.com/view/4djSRW (c) 2014 - Dave Hoskins - CC BY-SA 4.0 License
+	float2 hash22(float2 p)
+	{
+		float3 p3 = frac(p.xyx * float3(443.897, 441.423, 437.195));
+		p3 += dot(p3, p3.yzx + 19.19);
+		return frac((p3.xx+p3.yz)*p3.zy);
+	}
+
+///
+#END
+
+//================================================================

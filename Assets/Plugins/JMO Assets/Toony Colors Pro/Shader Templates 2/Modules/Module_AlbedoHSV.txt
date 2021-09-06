@@ -1,0 +1,98 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: Albedo HSV
+
+#FEATURES
+mult	lbl="Albedo HSV"			kw=Off|,Hue Saturation Value|ALBEDO_HSV,Saturation Only (faster)|ALBEDO_HSV_GRAYSCALE			tt="Adds Hue, Saturation, Value controls to the albedo property"
+sngl	lbl="Mask"				kw=ALBEDO_HSV_MASK		indent		needs=ALBEDO_HSV											tt="Mask the Albedo HSV change (see the Shader Properties tab to change the masking value)"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF ALBEDO_HSV
+	float	Albedo Hue				fragment, imp(range, label = "Hue", variable = "_HSV_H", default = 0, min = -180, max = 180)
+	float	Albedo Saturation		fragment, imp(range, label = "Saturation", variable = "_HSV_S", default = 0, min = -1, max = 1)
+	float	Albedo Value			fragment, imp(range, label = "Value", variable = "_HSV_V", default = 0, min = -1, max = 1)
+/// ELIF ALBEDO_HSV_SATURATION
+	float	Albedo Saturation Only	fragment, imp(range, label = "Albedo Saturation", variable = "_HSV_S", default = 0, min = -1, max = 1)
+///
+/// IF (ALBEDO_HSV || ALBEDO_HSV_SATURATION) && ALBEDO_HSV_MASK
+	float	Albedo HSV Mask			fragment, imp(shader_property_ref, reference = Albedo, swizzle = A)
+///
+
+#END
+
+//================================================================
+
+#KEYWORDS
+
+/// IF ALBEDO_HSV
+	feature_on		USE_HSV_FULL
+///
+/// IF ALBEDO_HSV_SATURATION
+	feature_on		USE_HSV_GRAYSCALE
+///
+
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF ALBEDO_HSV
+	#if_not_empty
+		[Header(Albedo HSV)]
+		[HideInInspector] __BeginGroup_AlbedoHSV ("Albedo HSV", Float) = 0
+	#start_not_empty_block
+		[[PROP:Albedo Hue]]
+		[[PROP:Albedo Saturation]]
+		[[PROP:Albedo Value]]
+	#end_not_empty_block
+		[HideInInspector] __EndGroup ("Albedo HSV", Float) = 0
+	#end_not_empty
+/// ELIF ALBEDO_HSV_SATURATION
+		[[PROP:Albedo Saturation Only]]
+///
+#END
+
+//================================================================
+
+#VARIABLES
+#END
+
+//================================================================
+
+#INPUT
+#END
+
+//================================================================
+
+#VERTEX
+#END
+
+//================================================================
+
+#FRAGMENT(float3 albedo)
+/// IF ALBEDO_HSV
+
+			//Albedo HSV
+	/// IF ALBEDO_HSV_MASK
+			float3 albedoHSV = ApplyHSV_3(albedo, [[VALUE:Albedo Hue]], [[VALUE:Albedo Saturation]], [[VALUE:Albedo Value]]);
+			albedo = lerp(albedo, albedoHSV, [[VALUE:Albedo HSV Mask]]);
+	/// ELSE
+			albedo = ApplyHSV_3(albedo, [[VALUE:Albedo Hue]], [[VALUE:Albedo Saturation]], [[VALUE:Albedo Value]]);
+	///
+/// ELIF ALBEDO_HSV_SATURATION
+			
+			//Albedo Saturation
+			float3 albedoLuminance = Luminance(albedo);
+	/// IF ALBEDO_HSV_MASK
+			float3 albedoSaturation = ApplyHSVGrayscale(albedo, [[VALUE:Albedo Saturation Only]]);
+			albedo = lerp(albedo, albedoSaturation, [[VALUE:Albedo HSV Mask]]);
+	/// ELSE
+			albedo = ApplyHSVGrayscale(albedo, [[VALUE:Albedo Saturation Only]]);
+	///
+///
+
+#END

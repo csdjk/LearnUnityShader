@@ -1,0 +1,131 @@
+// Toony Colors Pro+Mobile 2
+// (c) 2014-2020 Jean Moreno
+
+// Shader Generator Module: MatCap
+
+#FEATURES
+mult	lbl="MatCap"						kw=Off|,Additive|MATCAP_ADD,Multiply|MATCAP_MULT,Blend|MATCAP_BLEND			toggles=MATCAP		help="featuresreference/lighting/matcap"		tt="Enable MatCap effect (fast fake reflections)"
+sngl	lbl="Perspective Correction"		kw=MATCAP_PERSPECTIVE_CORRECTION											needsOr=MATCAP_ADD,MATCAP_MULT	indent	tt="Try to compensate perspective distortion when the mesh is at the edge of the screen"
+sngl	lbl="Per-Pixel (Normal Map)"		kw=MATCAP_PIXEL												needs=BUMP		needsOr=MATCAP_ADD,MATCAP_MULT	indent	tt="Calculate MatCap per-pixel for normal map compatibility  (you need to enable Normal Map first)"
+sngl	lbl="Make Optional"				kw=MATCAP_SHADER_FEATURE													needsOr=MATCAP_ADD,MATCAP_MULT	indent	tt="Will make the MatCap optional in the material inspector, using a shader keyword"
+#END
+
+//================================================================
+
+#PROPERTIES_NEW
+/// IF MATCAP
+		header		MatCap
+		color		MatCap Color			fragment, imp(color, label = "MatCap Color", default = (1, 1, 1, 1))
+	/// IF MATCAP_BLEND
+		float		MatCap Blend Factor		fragment, imp(shader_property_ref, reference = Albedo, swizzle = A), help = "The blending factor determining the blending between the original Albedo and the MatCap color.  0 = albedo, 1 = MatCap color"
+	///
+///
+#END
+
+//================================================================
+
+#KEYWORDS
+/// IF MATCAP && MATCAP_PIXEL
+	feature_on	USE_WORLD_NORMAL_FRAGMENT
+///
+/// IF MATCAP && MATCAP_PERSPECTIVE_CORRECTION
+	feature_on	USE_SCREEN_POSITION_VERTEX
+///
+#END
+
+//================================================================
+
+#SHADER_FEATURES_BLOCK
+/// IF MATCAP && MATCAP_SHADER_FEATURE
+	#pragma shader_feature TCP2_MATCAP
+///
+#END
+
+//================================================================
+
+#PROPERTIES_BLOCK
+/// IF MATCAP
+
+		[TCP2HeaderHelp(MatCap)]
+	/// IF MATCAP_SHADER_FEATURE
+		[Toggle(TCP2_MATCAP)] _UseMatCap ("Enable MatCap", Float) = 0
+	///
+	/// IF MATCAP_ADD
+		[NoScaleOffset] _MatCapTex ("MatCap (RGB)", 2D) = "black" {}
+	/// ELIF MATCAP_MULT
+		[NoScaleOffset] _MatCapTex ("MatCap (RGB)", 2D) = "white" {}
+	/// ELIF MATCAP_BLEND
+		[NoScaleOffset] _MatCapTex ("MatCap (RGB)", 2D) = "gray" {}
+	///
+		[[PROP:MatCap Color]]
+	/// IF MATCAP_BLEND
+		[[PROP:MatCap Blend Factor]]
+	///
+		[TCP2Separator]
+///
+#END
+
+//================================================================
+
+#VARIABLES
+/// IF MATCAP
+	sampler2D _MatCapTex;
+///
+#END
+
+//================================================================
+
+#INPUT
+/// IF MATCAP && !(MATCAP_PIXEL && BUMP)
+	half2 matcap;
+///
+#END
+
+//================================================================
+
+#VERTEX(float3 normal, float4 screenPos, struct output)
+/// IF MATCAP && !(MATCAP_PIXEL && BUMP)
+	/// IF MATCAP_SHADER_FEATURE
+	#if defined(TCP2_MATCAP)
+	///
+	//MatCap
+	float3 worldNorm = normalize(unity_WorldToObject[0].xyz * normal.x + unity_WorldToObject[1].xyz * normal.y + unity_WorldToObject[2].xyz * normal.z);
+	worldNorm = mul((float3x3)UNITY_MATRIX_V, worldNorm);
+	/// IF MATCAP_PERSPECTIVE_CORRECTION
+	float3 perspectiveOffset = (screenPos.xyz / screenPos.w) - 0.5;
+	worldNorm.xy -= (perspectiveOffset.xy * perspectiveOffset.z) * 0.5;
+	///
+	output.[[INPUT_VALUE:matcap]] = worldNorm.xy * 0.5 + 0.5;
+	/// IF MATCAP_SHADER_FEATURE
+	#endif
+	///
+///
+#END
+
+//================================================================
+
+#LIGHTING(float3 albedo, float3 emission, float3 worldNormal, struct input)
+/// IF MATCAP
+
+		//MatCap
+	/// IF MATCAP_SHADER_FEATURE
+		#if defined(TCP2_MATCAP)
+	///
+	/// IF MATCAP_PIXEL && BUMP
+		half2 capCoord = mul((float3x3)UNITY_MATRIX_V, worldNormal).xy * 0.5 + 0.5;
+		fixed3 matcap = tex2D(_MatCapTex, capCoord).rgb * [[VALUE:MatCap Color]];
+	/// ELSE
+		fixed3 matcap = tex2D(_MatCapTex, input.[[INPUT_VALUE:matcap]]).rgb * [[VALUE:MatCap Color]];
+	///
+	/// IF MATCAP_MULT
+		albedo *= matcap;
+	/// ELIF MATCAP_ADD
+		emission += matcap;
+	/// ELIF MATCAP_BLEND
+		albedo = lerp(albedo, matcap, saturate([[VALUE:MatCap Blend Factor]]));
+	///
+	/// IF MATCAP_SHADER_FEATURE
+		#endif
+	///
+///
+#END
