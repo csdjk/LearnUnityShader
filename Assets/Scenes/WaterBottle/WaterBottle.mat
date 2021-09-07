@@ -23,5 +23,25 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors: []
+    m_Floats:
+    - _BottleSpecularGloss: 12.3
+    - _BottleThickness: 0.012
+    - _FillAmount: -0.28
+    - _FoamLineWidth: 0.0071
+    - _LiquidRimIntensity: 1.84
+    - _LiquidRimPower: 3.85
+    - _Rim: 0
+    - _RimPower: 0
+    - _WobbleX: 0
+    - _WobbleZ: 0
+    m_Colors:
+    - _BottleColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BottleSpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _LiquidColor: {r: 1, g: 1, b: 1, a: 1}
+    - _LiquidFoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _LiquidRimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _LiquidTopColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _TopColor: {r: 0.22530259, g: 0.5754717, b: 0.29170942, a: 1}
