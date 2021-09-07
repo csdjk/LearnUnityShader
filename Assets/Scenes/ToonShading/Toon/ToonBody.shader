@@ -28,10 +28,21 @@ Shader "lcl/ToonShading/ToonBody"
         [Sub(lighting)]_RampOffset ("Ramp Offset", Range(-1, 1)) = 0.5
 
         [Title(lighting, Specular)]
+        [Tex(lighting)]_MetalMap ("MetalMap", 2D) = "white" {}
+        [Sub(lighting)]_MetalMapV ("_MetalMapV", Range(0,10)) = 0
+        [Sub(lighting)]_MetalMapIntensity ("_MetalMapIntensity", Range(0,10)) = 0
+
         [Sub(lighting)]_SpecularColor("Specular Color",Color)=(0.5, 0.5, 0.5)
         [Sub(lighting)]_SpecularPower ("Specular Power", Range(8,200)) = 8
-        [Sub(lighting)]_SpecularScale("Specular Scale",Range(0,200)) =1
-        [Sub(lighting)]_SpecularSmoothness ("Specular Smoothness", Range(0,1)) = 0
+        // [Sub(lighting)]_SpecularScale("Specular Scale",Range(0,200)) =1
+        // [Sub(lighting)]_SpecularSmoothness ("Specular Smoothness", Range(0,1)) = 0
+
+
+        [Sub(lighting)]_StepSpecularWidth ("_StepSpecularWidth", Range(0,10)) = 0
+        [Sub(lighting)]_StepSpecularWidth2 ("_StepSpecularWidth2", Range(0,10)) = 0
+        [Sub(lighting)]_StepSpecularWidth3 ("_StepSpecularWidth3", Range(0,10)) = 0
+
+
         [Title(, Rim)]
         [Sub(lighting)]_RimIntensity ("RimIntensity", Range(0,10)) = 0
         [Sub(lighting)]_RimWidth ("RimWidth", Range(0,1)) = 0
@@ -60,20 +71,27 @@ Shader "lcl/ToonShading/ToonBody"
     };
     int _TestMode;
 
-    sampler2D _MainTex,_LightMap;
+    sampler2D _MainTex,_LightMap,_MetalMap;
     float4 _MainTex_TexelSize;
     float4 _Color,_EmissionColor;
     // 描边
     float _OutlinePower;
     float4 _LineColor;
-    // 阴影
+    // Diffuse
     sampler2D _ShadowRamp;
     float4 _ShadowColor;
     float _ShadowSmoothness,_ShadowRange,_RampOffset;
+    float _ShadowRampLerp,_LightThreshold,_RampLerp,_DarkIntensit;
+
     // 高光
     float4 _SpecularColor;
+    float _MetalMapV,_MetalMapIntensity;
     float _SpecularPower,_SpecularScale;
     float _SpecularSmoothness;
+
+    float _StepSpecularWidth,_StepSpecularWidth2,_StepSpecularWidth3;
+    float4 _StepSpecular;
+
 
     float _RimWidth;
     float _RimIntensity;
@@ -90,7 +108,8 @@ Shader "lcl/ToonShading/ToonBody"
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile _ _USE_SECOND_LEVELS_ON
-            #pragma enable_d3d11_debug_symbols
+            // #pragma enable_d3d11_debug_symbols
+
 
             v2f vert (appdata v)
             {
@@ -161,29 +180,68 @@ Shader "lcl/ToonShading/ToonBody"
                 //漫反射分类 用于区别Ramp 
                 //高光也分类 用于区别高光 
                 float PixelInRamp = RampPixelY * (RampIndex * 2 - 1); 
-                ShadowAOMask = 1 - smoothstep(saturate(ShadowAOMask), 0.2, 0.6); //平滑ShadowAOMask,减弱 //为了将ShadowAOMask区域常暗显示 
+                ShadowAOMask = 1 - smoothstep(saturate(ShadowAOMask), 0.2, 0.6); //平滑ShadowAOMask,减弱 
+                //为了将ShadowAOMask区域常暗显示 
                 float3 ramp = tex2D(_ShadowRamp, saturate(float2(halfLambert * lerp(0.5, 1.0, ShadowAOMask),PixelInRamp))); 
 
-
-                // float3 BaseMapShadowed = lerp(BaseMap * ramp, BaseMap, ShadowAOMask); 
-                // BaseMapShadowed = lerp(BaseMap, BaseMapShadowed, _ShadowRampLerp); 
-                // float IsBrightSide = ShadowAOMask * step(_LightThreshold, halfLambert); 
-                // float3 Diffuse = lerp(lerp(BaseMapShadowed, BaseMap * ramp, _RampLerp) * _DarkIntensit
-
-
                 //------------------------【Diffuse】-----------------------------
-                // fixed halfLambert = 0.5 * NdotL + 0.5;
-                // float rampValue = smoothstep(0,_ShadowSmoothness,halfLambert-_ShadowRange);
-                // float ramp =  tex2D(_ShadowRamp, float2(saturate(rampValue), 0.5));
-                // float ramp = calculateRamp(_ShadowRange,halfLambert,_ShadowSmoothness);
+                float3 BaseMap = texCol.rgb;
+                float3 BaseMapShadowed = lerp(BaseMap * ramp, BaseMap, ShadowAOMask); 
+                BaseMapShadowed = lerp(BaseMap, BaseMapShadowed, _ShadowRampLerp); 
+                float IsBrightSide = ShadowAOMask * step(_LightThreshold, halfLambert); 
+                // float3 diffuse = lerp(lerp(BaseMapShadowed, BaseMap * ramp, _RampLerp) * _DarkIntensit;
 
-                // float ramp =  tex2D(_ShadowRamp, halfLambert);
-                float3 diffuse = lerp( _ShadowColor*texCol,texCol,ramp);
+                float3 diffuse = lerp(BaseMapShadowed, BaseMap * ramp, _RampLerp);
+                // float3 diffuse = lerp( _ShadowColor*texCol,texCol,ramp);
 
                 
                 //------------------------【Specular】-----------------------------
-                float3 specular = pow(saturate(NdotH),_SpecularPower * LightMap.r )*_SpecularScale * LightMap.b;
-                specular = saturate(specular * _SpecularColor);
+                // float3 specular = pow(saturate(NdotH),_SpecularPower * LightMap.r )*_SpecularScale * LightMap.b;
+                // specular = saturate(specular * _SpecularColor);
+
+                float MetalMap = saturate(tex2D(_MetalMap, mul((float3x3)UNITY_MATRIX_V, normalDir).xy * 0.5f)); 
+                MetalMap = step(_MetalMapV,MetalMap)*_MetalMapIntensity;
+
+                float3 Specular = 0; 
+                float3 StepSpecular = 0; 
+                float3 StepSpecular2 = 0; 
+                float LinearMask = pow(LightMap.r, 1 / 2.2); //图片格式全部去掉勾选SRGB 
+                // float LinearMask =LightMap.r; //图片格式全部去掉勾选SRGB 
+                float SpecularLayer = LinearMask * 255;
+
+                //不同的高光层 LightMap.b 用途不一样 //裁边高光 (高光在暗部消失) 
+                if (SpecularLayer > 100 && SpecularLayer < 150) 
+                { 
+                    StepSpecular = step(1 - _StepSpecularWidth, saturate(dot(normalDir, viewDir))) * 1 * _SpecularColor;
+                    StepSpecular *= BaseMap; 
+                    // return fixed4(0,0,1,1);
+                    // return fixed4(StepSpecular,1);
+                }
+                //裁边高光 (StepSpecular2常亮 无视明暗部分)
+                if (SpecularLayer > 150 && SpecularLayer < 250) 
+                { 
+                    float StepSpecularMask = step(200, pow(SpecularIntensityMask, 1 / 2.2) * 255); 
+                    StepSpecular = step(1 - _StepSpecularWidth2, saturate(dot(normalDir, viewDir))) * 1 * _SpecularColor;
+                    StepSpecular2 = step(1 - _StepSpecularWidth3 * 5, saturate(dot(normalDir, viewDir))) * StepSpecular;
+                    StepSpecular = lerp(StepSpecular, 0, StepSpecularMask); 
+                    StepSpecular2 *= BaseMap; 
+                    StepSpecular *= BaseMap;
+                    // return fixed4(1,0,0,1);
+                }
+                //BlinPhong高光 
+                if (SpecularLayer >= 250) 
+                {
+                    Specular = pow(saturate(NdotH), 1 * _SpecularPower) * SpecularIntensityMask * _SpecularColor;
+                    Specular = max(0, Specular); 
+                    Specular += MetalMap; 
+                    Specular *= BaseMap; 
+                    // return fixed4(0,1,0,1);
+                    // return fixed4(BaseMap,1);
+                }
+                Specular = lerp(StepSpecular, Specular, LinearMask); 
+                Specular = lerp(0, Specular, LinearMask); 
+                Specular = lerp(0, Specular, IsBrightSide) + StepSpecular2; 
+                // FinalColor.rgb = Diffuse + Specular;
 
                 //------------------------【Rim】-----------------------------
                 // float3 Rim = step(1-_RimWidth,1-NdotV)*_RimIntensity;
@@ -192,7 +250,7 @@ Shader "lcl/ToonShading/ToonBody"
                 // 自发光
                 float3 emission = texCol.a * _EmissionColor;
 
-                fixed3 result = diffuse + specular + emission;
+                fixed3 result = diffuse + Specular + emission;
 
 
                 int mode = 1;

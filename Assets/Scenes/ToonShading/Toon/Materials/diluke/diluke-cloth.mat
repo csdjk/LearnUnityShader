@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: diluke-cloth
   m_Shader: {fileID: 4800000, guid: 513c78d331a39114e922356a2f7a673e, type: 3}
-  m_ShaderKeywords: _ _TESTMODE_NONE
+  m_ShaderKeywords: _ _TESTMODE_BASECOLOR
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -47,6 +47,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: bcd08854cb62d4b4ab7219cfee2bd961, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MetalMap:
+        m_Texture: {fileID: 2800000, guid: 5112b4663b9e95f43879aad15d117519, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -71,6 +75,8 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
+    - _MetalMapIntensity: 3.04
+    - _MetalMapV: 1.22
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -87,12 +93,15 @@ Material:
     - _ShadowThreshold2: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SpecularPower: 8
-    - _SpecularScale: 1
+    - _SpecularPower: 44.6
+    - _SpecularScale: 3.5
     - _SpecularSmoothness: 0
     - _SpecularThreshold: 0
     - _SrcBlend: 1
-    - _TestMode: 0
+    - _StepSpecularWidth: 0
+    - _StepSpecularWidth2: 2.72
+    - _StepSpecularWidth3: 1.7
+    - _TestMode: 6
     - _USE_SECOND_LEVELS: 0
     - _USE_SMOOTH_NORMAL: 0
     - _UVSec: 0
@@ -101,9 +110,10 @@ Material:
     - _group_shadow: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 2, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 7.129739, g: 0.11198542, b: 0, a: 1}
     - _LineColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowColor: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 0.2}
     - _ShadowColor1: {r: 0.7, g: 0.7, b: 0.7, a: 1}
     - _ShadowColor2: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _SpecularColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _StepSpecular: {r: 0.5, g: 0.5, b: 0.5, a: 1}
