@@ -48,6 +48,7 @@
                 float3 viewDir : COLOR;
                 float3 normal : COLOR2;		
                 float fillEdge : TEXCOORD1;
+                float3 test : TEXCOORD2;
             };
             
             sampler2D _MainTex;
@@ -56,6 +57,7 @@
             float4 _TopColor, _RimColor, _FoamColor, _Tint;
             float _Rim, _RimPower;
             
+            // 返回的float中x是vertex.y, y是旋转后的x，z是旋转前的z,w是旋转后的z
             float4 RotateAroundYInDegrees (float4 vertex, float degrees)
             {
                 float alpha = degrees * UNITY_PI / 180;
@@ -75,7 +77,7 @@
                 // get world position of the vertex
                 float3 worldPos = mul (unity_ObjectToWorld, v.vertex.xyz);   
                 // rotate it around XY
-                float3 worldPosX= RotateAroundYInDegrees(float4(worldPos,0),360);
+                float3 worldPosX = RotateAroundYInDegrees(float4(worldPos,0),360);
                 // rotate around XZ
                 float3 worldPosZ = float3 (worldPosX.y, worldPosX.z, worldPosX.x);		
                 // combine rotations with worldPos, based on sine wave from script
@@ -85,11 +87,15 @@
                 
                 o.viewDir = normalize(ObjSpaceViewDir(v.vertex));
                 o.normal = v.normal;
+
+                o.test.xyz = worldPosAdjusted.zzz;
                 return o;
             }
             
             fixed4 frag (v2f i, fixed facing : VFACE) : SV_Target
             {
+                return fixed4(i.test,1);
+
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv) * _Tint;
                 
@@ -111,10 +117,12 @@
                 // color of backfaces/ top
                 float4 topColor = _TopColor * (foam + result);
                 //VFACE returns positive for front facing, negative for backfacing
-                return facing > 0 ? finalResult: topColor;
+                // return facing > 0 ? finalResult: topColor;
 
+                
 
-                return facing > 0 ? finalResult: topColor;
+                return fixed4(i.fillEdge.xxx,1);
+
             }
             ENDCG
         }

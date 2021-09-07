@@ -33,7 +33,7 @@ Shader "lcl/ToonShading/ToonBody"
         [Sub(lighting)]_MetalMapIntensity ("_MetalMapIntensity", Range(0,10)) = 0
 
         [Sub(lighting)]_SpecularColor("Specular Color",Color)=(0.5, 0.5, 0.5)
-        [Sub(lighting)]_SpecularPower ("Specular Power", Range(8,200)) = 8
+        [Sub(lighting)]_SpecularPower ("Specular Power", Range(0,10)) = 8
         // [Sub(lighting)]_SpecularScale("Specular Scale",Range(0,200)) =1
         // [Sub(lighting)]_SpecularSmoothness ("Specular Smoothness", Range(0,1)) = 0
 
@@ -108,7 +108,7 @@ Shader "lcl/ToonShading/ToonBody"
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile _ _USE_SECOND_LEVELS_ON
-            // #pragma enable_d3d11_debug_symbols
+            #pragma enable_d3d11_debug_symbols
 
 
             v2f vert (appdata v)
@@ -205,7 +205,7 @@ Shader "lcl/ToonShading/ToonBody"
                 float3 Specular = 0; 
                 float3 StepSpecular = 0; 
                 float3 StepSpecular2 = 0; 
-                float LinearMask = pow(LightMap.r, 1 / 2.2); //图片格式全部去掉勾选SRGB 
+                float LinearMask = pow(SpecularLayerMask, 1 / 2.2); //图片格式全部去掉勾选SRGB 
                 // float LinearMask =LightMap.r; //图片格式全部去掉勾选SRGB 
                 float SpecularLayer = LinearMask * 255;
 
@@ -236,7 +236,7 @@ Shader "lcl/ToonShading/ToonBody"
                     Specular += MetalMap; 
                     Specular *= BaseMap; 
                     // return fixed4(0,1,0,1);
-                    // return fixed4(BaseMap,1);
+                    return fixed4(BaseMap,1);
                 }
                 Specular = lerp(StepSpecular, Specular, LinearMask); 
                 Specular = lerp(0, Specular, LinearMask); 

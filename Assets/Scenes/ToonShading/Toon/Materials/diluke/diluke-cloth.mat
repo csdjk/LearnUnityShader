@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: bcd08854cb62d4b4ab7219cfee2bd961, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9d78a8eb6dfd47f47aa12fcfac61fcc6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetalMap:
@@ -93,7 +93,7 @@ Material:
     - _ShadowThreshold2: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SpecularPower: 44.6
+    - _SpecularPower: 0.22
     - _SpecularScale: 3.5
     - _SpecularSmoothness: 0
     - _SpecularThreshold: 0
