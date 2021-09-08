@@ -29,8 +29,8 @@ Shader "lcl/ToonShading/ToonBody"
 
         [Title(lighting, Specular)]
         [Tex(lighting)]_MetalMap ("MetalMap", 2D) = "white" {}
-        [Sub(lighting)]_MetalMapV ("_MetalMapV", Range(0,10)) = 0
-        [Sub(lighting)]_MetalMapIntensity ("_MetalMapIntensity", Range(0,10)) = 0
+        [Sub(lighting)]_MetalMapV ("_MetalMapV", Range(0,1)) = 0
+        [Sub(lighting)]_MetalMapIntensity ("_MetalMapIntensity", Range(0,1)) = 0
 
         [Sub(lighting)]_SpecularColor("Specular Color",Color)=(0.5, 0.5, 0.5)
         [Sub(lighting)]_SpecularPower ("Specular Power", Range(0,10)) = 8
@@ -108,7 +108,7 @@ Shader "lcl/ToonShading/ToonBody"
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile _ _USE_SECOND_LEVELS_ON
-            #pragma enable_d3d11_debug_symbols
+            // #pragma enable_d3d11_debug_symbols
 
 
             v2f vert (appdata v)
@@ -193,7 +193,7 @@ Shader "lcl/ToonShading/ToonBody"
 
                 float3 diffuse = lerp(BaseMapShadowed, BaseMap * ramp, _RampLerp);
                 // float3 diffuse = lerp( _ShadowColor*texCol,texCol,ramp);
-
+                diffuse *= IsBrightSide;
                 
                 //------------------------【Specular】-----------------------------
                 // float3 specular = pow(saturate(NdotH),_SpecularPower * LightMap.r )*_SpecularScale * LightMap.b;
@@ -205,8 +205,8 @@ Shader "lcl/ToonShading/ToonBody"
                 float3 Specular = 0; 
                 float3 StepSpecular = 0; 
                 float3 StepSpecular2 = 0; 
-                float LinearMask = pow(SpecularLayerMask, 1 / 2.2); //图片格式全部去掉勾选SRGB 
-                // float LinearMask =LightMap.r; //图片格式全部去掉勾选SRGB 
+                // float LinearMask = pow(SpecularLayerMask, 1 / 2.2); //图片格式全部去掉勾选SRGB 
+                float LinearMask = SpecularLayerMask; //图片格式全部去掉勾选SRGB 
                 float SpecularLayer = LinearMask * 255;
 
                 //不同的高光层 LightMap.b 用途不一样 //裁边高光 (高光在暗部消失) 
@@ -220,7 +220,7 @@ Shader "lcl/ToonShading/ToonBody"
                 //裁边高光 (StepSpecular2常亮 无视明暗部分)
                 if (SpecularLayer > 150 && SpecularLayer < 250) 
                 { 
-                    float StepSpecularMask = step(200, pow(SpecularIntensityMask, 1 / 2.2) * 255); 
+                    float StepSpecularMask = step(200, SpecularIntensityMask * 255); 
                     StepSpecular = step(1 - _StepSpecularWidth2, saturate(dot(normalDir, viewDir))) * 1 * _SpecularColor;
                     StepSpecular2 = step(1 - _StepSpecularWidth3 * 5, saturate(dot(normalDir, viewDir))) * StepSpecular;
                     StepSpecular = lerp(StepSpecular, 0, StepSpecularMask); 
@@ -236,7 +236,8 @@ Shader "lcl/ToonShading/ToonBody"
                     Specular += MetalMap; 
                     Specular *= BaseMap; 
                     // return fixed4(0,1,0,1);
-                    return fixed4(BaseMap,1);
+                    // return fixed4(Specular,1);
+                    // return MetalMap;
                 }
                 Specular = lerp(StepSpecular, Specular, LinearMask); 
                 Specular = lerp(0, Specular, LinearMask); 

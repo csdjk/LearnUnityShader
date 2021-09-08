@@ -25,8 +25,8 @@ Shader "lcl/ToonShading/ToonHair"
 
         [Title(lighting, Specular)]
         [Sub(lighting)]_SpecularColor("Specular Color",Color)=(0.5, 0.5, 0.5)
-        [Sub(lighting)]_SpecularPower ("Specular Power", Range(8,200)) = 8
-        [Sub(lighting)]_SpecularScale("Specular Scale",Range(0,200)) =1
+        [Sub(lighting)]_SpecularPower ("Specular Power", Range(0,200)) = 8
+        [Sub(lighting)]_SpecularScale("Specular Scale",Range(0,10)) =1
         [Sub(lighting)]_SpecularSmoothness ("Specular Smoothness", Range(0,1)) = 0
 
         // [Title(, Rim)]
