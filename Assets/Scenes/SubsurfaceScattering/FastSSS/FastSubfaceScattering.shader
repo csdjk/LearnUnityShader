@@ -87,7 +87,6 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering" {
 				o.normalDir = UnityObjectToWorldNormal (v.normal);
 				o.viewDir = UnityWorldSpaceViewDir(o.worldPos);
 				o.lightDir = UnityWorldSpaceLightDir(o.worldPos);
-				o.lightDir = UnityWorldSpaceLightDir(o.worldPos);
 				o.thickness = v.color;
 				return o;
 			};
