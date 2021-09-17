@@ -25,17 +25,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Distortion: 0.583
-    - _DistortionBack: 0.479
+    - _DistortionBack: 0.406
     - _DistortionFont: 0
     - _FrontSssIntensity: 0.135
-    - _Gloss: 94
-    - _InteriorColorPower: 2.7
+    - _Gloss: 80.1
+    - _InteriorColorPower: 3.7
     - _Power: 2.17
-    - _PowerBack: 1
+    - _PowerBack: 2.1
     - _PowerBackFont: 0
     - _PowerFont: 1
     - _RimIntensity: 0.2
-    - _RimPower: 0
+    - _RimPower: 5.4
     - _Scale: 1
     - _ScaleBack: 1
     - _ScaleBackFont: 0

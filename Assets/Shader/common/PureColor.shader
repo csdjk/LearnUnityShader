@@ -39,7 +39,8 @@ Shader "lcl/Common/PureColor"
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-				return _Color;
+				// return _Color;
+				return fixed4(1,1,1,1);
 			}
 			ENDCG
 		}

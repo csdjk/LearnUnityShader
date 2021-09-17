@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FastSSSTourise2
+  m_Shader: {fileID: 4800000, guid: 102de85a5f7d766458d283fc9b5e37e7, type: 3}
+  m_ShaderKeywords: _ _CALCULATE_POINTLIGHT_ON _GROUP_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _CALCULATE_POINTLIGHT: 1
+    - _DistortionBack: 0.745
+    - _DistortionFont: 0
+    - _FrontSssIntensity: 0.2
+    - _Gloss: 200
+    - _InteriorColorPower: 0
+    - _PowerBack: 1
+    - _PowerFont: 0
+    - _RimIntensity: 0.273
+    - _RimPower: 4.8
+    - _ScaleBack: 1
+    - _ScaleFont: 0
+    - _ScatterWidth: 0
+    - _ThicknessPower: 1.34
+    - _WrapValue: 0.751
+    - _group: 1
+    m_Colors:
+    - _BaseColor: {r: 0.8490566, g: 0.06808474, b: 0.06808474, a: 1}
+    - _InteriorColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ScatterColor: {r: 0.972549, g: 0, b: 0.30323058, a: 1}
+    - _Specular: {r: 1, g: 1, b: 1, a: 1}
