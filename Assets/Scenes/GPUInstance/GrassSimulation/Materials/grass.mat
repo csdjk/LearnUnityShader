@@ -77,10 +77,10 @@ Material:
     - _TimeDelay: 1
     - _TimeScale: 9.13
     - _UVSec: 0
-    - _WindNoiseStrength: 9.9
+    - _WindNoiseStrength: 7.56
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.4280348, g: 0.8207547, b: 0.058072258, a: 1}
+    - _Color: {r: 0.36541045, g: 0.81960785, b: 0.05882351, a: 1}
     - _Direction: {r: 0, g: 0, b: 0.2, a: 35.42}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Wind: {r: 1, g: 0, b: 1, a: 27}
+    - _Wind: {r: 1, g: 0, b: 1, a: 30}

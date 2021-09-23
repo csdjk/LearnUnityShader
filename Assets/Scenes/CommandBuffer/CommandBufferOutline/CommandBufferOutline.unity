@@ -295,8 +295,8 @@ MonoBehaviour:
   purecolorShader: {fileID: 4800000, guid: a835737945756904c938334369c39ef0, type: 3}
   shader: {fileID: 4800000, guid: d5f73505b3b0f6447a8a8af8c2e67015, type: 3}
   iterations: 2
-  blurSpread: 1.34
-  outlineColor: {r: 1, g: 0.13757895, b: 0, a: 1}
+  blurSpread: 0.768
+  outlineColor: {r: 1, g: 0.036188774, b: 0, a: 1}
   targetObjects:
   - {fileID: 919560605}
   - {fileID: 4579108827110723103}

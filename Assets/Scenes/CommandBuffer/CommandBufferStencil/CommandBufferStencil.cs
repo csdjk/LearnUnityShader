@@ -8,8 +8,7 @@ using UnityEngine.Rendering;
 public class CommandBufferStencil : MonoBehaviour
 {
 
-    [SerializeField]
-    private Shader _shader;
+    public Shader shader;
 
     private void Awake()
     {
@@ -19,7 +18,7 @@ public class CommandBufferStencil : MonoBehaviour
     private void Initialize()
     {
         var camera = GetComponent<Camera>();
-        var material = new Material(_shader);
+        var material = new Material(shader);
 
         var commandBuffer = new CommandBuffer();
         commandBuffer.name = "mosaic";

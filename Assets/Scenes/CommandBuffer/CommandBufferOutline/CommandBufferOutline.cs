@@ -3,6 +3,7 @@
 /// </summary>
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 
 //编辑状态下也运行  
@@ -55,7 +56,7 @@ public class CommandBufferOutline : PostEffectsBase
 
 
         if (renderTexture == null)
-            renderTexture = RenderTexture.GetTemporary(Screen.width >> downSample, Screen.height >> downSample, 0);
+            renderTexture = RenderTexture.GetTemporary(Screen.width >> downSample, Screen.height >> downSample, 0,RenderTextureFormat.Default,RenderTextureReadWrite.Default,4);
 
         //创建描边prepass的command buffer
         commandBuffer = new CommandBuffer();

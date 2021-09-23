@@ -315,4 +315,27 @@ public class Cloth : MonoBehaviour
         }
     }
 
+
+
+
+    private void OnGUI()
+    {
+        if (GUILayout.Button("风力开关", GUILayout.Width(100)))
+        {
+           randomForce.RangeX = Vector3.zero;
+           randomForce.RangeY = Vector3.zero;
+           randomForce.RangeZ = Vector3.zero;
+           randomInterval = 1;
+        }
+        if (GUILayout.Button("移除固定节点", GUILayout.Width(100)))
+        {
+          for (int i = 0; i < massCount; i++)
+            {
+                for (int j = 0; j < massCount; j++)
+                {
+                    allMass[i, j].isStaticPos = false;
+                }
+            }
+        }
+    }
 }
