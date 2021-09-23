@@ -31,9 +31,13 @@ Shader "lcl/DepthShieldOutline/ObjectDepth"
                 o.depth01 = COMPUTE_DEPTH_01;
                 return o;
             }
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
             fixed4 frag (v2f i) : SV_Target
             {
+                fixed4 col = tex2D(_MainTex, i.uv);
                 float depth = i.depth01;
+                // clip(col.a - 0.2);
                 return fixed4(depth,depth,depth,1);
             }
             ENDCG

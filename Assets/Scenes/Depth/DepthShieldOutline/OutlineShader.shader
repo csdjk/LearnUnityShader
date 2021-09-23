@@ -54,18 +54,22 @@ Shader "lcl/Depth/Depth_OutlineShader"
                 float depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv);
                 depth = Linear01Depth(depth);
                 
-
                 // return objDepth;
-                // 计算被遮挡部分
-                if(objDepth >= 0.8){
-                    return 0;
-                }
-                // clip(0.99 - objDepth);
+                // return depth;
 
-                if(objDepth-0.01 > depth){
-                    return 1;
-                }
-                return 0;
+                // 计算被遮挡部分
+                float isObj = 1-step(1,objDepth);
+                float shield = step(depth,objDepth-0.0001);
+                return shield*isObj;
+
+                // // 计算被遮挡部分
+                // if(objDepth >= 0.8){
+                //     return 0;
+                // }
+                // if(objDepth-0.0001 > depth){
+                //     return 1;
+                // }
+                // return 0;
             }
             ENDCG
         }
@@ -142,9 +146,12 @@ Shader "lcl/Depth/Depth_OutlineShader"
                 half2 uv: TEXCOORD0;
             };
             sampler2D _MainTex;
-            float4 _MainTex_TexelSize;  
+            float4 _MainTex_TexelSize;
             sampler2D _BlurTex;
             sampler2D _ObjectDepthTex;
+            float4 _OutlineColor;
+            float _OutlinePower;
+            
             v2f vert(appdata_img v)
             {
                 v2f o;
@@ -164,14 +171,14 @@ Shader "lcl/Depth/Depth_OutlineShader"
                 fixed4 mainColor = tex2D(_MainTex, i.uv);
                 //对blur之前的rt进行采样
                 fixed4 srcColor = tex2D(_ObjectDepthTex, i.uv);
+                srcColor = 1-step(1,srcColor);
                 //对blur后的纹理进行采样
                 fixed4 blurColor = tex2D(_BlurTex, i.uv);
                 //相减后得到轮廓图
-                // fixed4 outline = ( blurColor - srcColor ) * _OutlineColor;
-                //输出：blur部分为0的地方返回原始图像，否则为0，然后叠加描边
-                // fixed4 final = saturate(outline) + mainColor;
-
-                return srcColor;
+                fixed4 outline = ( blurColor - srcColor) * _OutlineColor * _OutlinePower;
+                // 叠加原图
+                fixed4 final = saturate(outline) + mainColor;
+                return final;
             }
             ENDCG  
         }
