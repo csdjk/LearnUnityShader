@@ -1,88 +1,91 @@
-# learn Unity Shader
+# Learn Unity Shader
 
-学习unity Shader过程中的一些记录。
+学习UnityShader过程中的一些Demo记录。
 
 大致分为3部分：
-- 《unity shader入门精要》里的一些shader。
-- 自己学习shader过程中的一些实现。
-- shaderToy上的一些特效。
+- 《Unity Shader入门精要》里的一些Shader实现。
+- 学习Shader过程中的一些效果实现及拓展。
+- ShaderToy上的一些特效。
 
-
-
-## 基础光照（漫反射、高光反射） 透明度测试、透明度混合
-
+# 入门精要Shader：
+## [基础光照（Lambert、半Lambert、Phong、BlinnPhong等） 透明度测试、透明度混合](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader1)
 ![learnShader1.png](https://i.loli.net/2020/03/11/4rBM2lRtoyCQhve.png)
 
-## 玻璃折射
-![GlassRefraction.png](https://i.loli.net/2020/03/11/3ex4YgdwCLTvlQc.png)
+## [广告牌（Board）](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader2/Board)
+[![4JjZ6S.gif](https://z3.ax1x.com/2021/09/21/4JjZ6S.gif)](https://imgtu.com/i/4JjZ6S)
+## [反射、折射、菲涅尔](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader2/Refraction_Reflection_Fresnel)
+[![4JXjSK.png](https://z3.ax1x.com/2021/09/21/4JXjSK.png)](https://imgtu.com/i/4JXjSK)
+## [Alpha Test和Shadow](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader2/ForwardRendering)
+[![4JXvQO.png](https://z3.ax1x.com/2021/09/21/4JXvQO.png)](https://imgtu.com/i/4JXvQO)
+## [序列帧动画](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader2/ImageSquenceAnim)
+[![4JjCTA.gif](https://z3.ax1x.com/2021/09/21/4JjCTA.gif)](https://imgtu.com/i/4JjCTA)
+## [UV动画](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader2/uvAnimation)
+[![4JjiFI.gif](https://z3.ax1x.com/2021/09/21/4JjiFI.gif)](https://imgtu.com/i/4JjiFI)
+## [亮度,饱和度,对比度调整](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader3)
+<center class = "half">
+<img src = "https://z3.ax1x.com/2021/09/21/4JXxyD.png"  width = "50%" align = left><img src = "https://z3.ax1x.com/2021/09/21/4JjFYt.png"  width = "50%" align = right>
+<div style="border-bottom: 1px solid #d9d9d9;display: inline-block;color:#FFF;padding: 2px;">处理后 - 原图</div>
+</center>
 
-## 镜子
-![mirror.png](https://i.loli.net/2020/03/11/UbAI1vWeOnP8DNm.png)
+## [边缘检测及提取](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader3)
+<center class = "half">
+<img src = "https://z3.ax1x.com/2021/09/21/4JXzOe.png"  width = "50%" align = left><img src = "https://z3.ax1x.com/2021/09/21/4JjpeH.png"  width = "50%" align = right>
+<div style="border-bottom: 1px solid #d9d9d9;display: inline-block;color: #fff;padding: 2px;">在原图上叠加 - 边缘提取</div>
+</center>
 
-## 序列帧动画
-![imageSquenceAnim.gif](https://i.loli.net/2020/03/11/MVPdy1IACq2ajzg.gif)
+## [高斯模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader3)
+<center class = "half">
+<img src = "https://z3.ax1x.com/2021/09/21/4Jj9wd.png"  width = "50%" align = left><img src = "https://z3.ax1x.com/2021/09/21/4JjFYt.png"  width = "50%" align = right>
+<div style="border-bottom: 1px solid #d9d9d9;display: inline-block;color:#FFF;padding: 2px;">处理后 - 原图</div>
+</center>
 
-
-## 广告牌
-
-![Board.gif](https://i.loli.net/2020/03/11/cA3bp7FlQUOCE1B.gif)
-
-## UV动画
-![UVAnimation.gif](https://i.loli.net/2020/03/11/GAaCRqidIFw7z61.gif)
-
-# 后期特效
-
-## 亮度、饱和度和对比度
-![BrightnessSaturationAndContrast.png](https://i.loli.net/2020/03/11/bsKPwvZDJLkxqWH.png)
-
-## 边缘检测
-![edgeDetection.png](https://i.loli.net/2020/03/11/VWjlwY8EUmIqOoc.png)
-
-## 高斯模糊
-![GaussBlur.png](https://i.loli.net/2020/03/11/lXaxwGe4bo3ji7n.png)
-
-## 径向模糊
-![RadialBlur.png](https://i.loli.net/2020/03/11/nm9ZeaAo6EG2H8x.png)
-
-## 放大镜
-![Zoom3.gif](https://i.loli.net/2020/04/08/REiPqfXO52SLghx.gif)
-
-## Bloom 泛光
-![bloom.png](https://i.loli.net/2020/05/13/mPvF612b4nsJa78.png)
-
-# Shader 2D
-
-## 2D描边
-![OutLine2D.png](https://i.loli.net/2020/03/11/D6uELWUtNjnvdxp.png)
-
-## 雾
-![Fog.gif](https://i.loli.net/2020/03/11/IqERVenuobM3QS1.gif)
-
-# Shader3D
-
-## 溶解
-![Dissolve.gif](https://i.loli.net/2020/03/11/YSy7Nkh1EH8bFPG.gif)
-
-## 能量球
-![ColumbBall.gif](https://i.loli.net/2020/03/11/qnKUr4hVPtjReJD.gif)
-
-## 翻书
-![FlipBook.gif](https://i.loli.net/2020/03/11/m2JkKwET1CZLXOl.gif)
-
-## 模型粒子化，爆炸
-![Geometry.gif](https://i.loli.net/2020/03/11/8CbuIp79zheQ5gl.gif)
-
-## 残影
-![Ghost.gif](https://i.loli.net/2020/03/11/jVbav1cFpZkB32R.gif)
+## [运动模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader3)
+[![4JjVl8.gif](https://z3.ax1x.com/2021/09/21/4JjVl8.gif)](https://imgtu.com/i/4JjVl8)
 
 
 
-# ShaderToy
 
-## 太阳
-![sun.gif](https://i.loli.net/2020/03/11/EL93quJFXIVwbZg.gif)
+# 动画模拟
 
-## 海洋
-![sea.gif](https://i.loli.net/2020/03/11/p5MgibcNUrhDV4z.gif)
+## [绳子（质点弹簧系统）](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/AnimationSimulation/MassSpringSystem)
+
+[![4aBg6f.gif](https://z3.ax1x.com/2021/09/23/4aBg6f.gif)](https://imgtu.com/i/4aBg6f)
+## [布料模拟（质点弹簧系统）](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/AnimationSimulation/ClothSimulate)
+[![4aB2X8.gif](https://z3.ax1x.com/2021/09/23/4aB2X8.gif)](https://imgtu.com/i/4aB2X8)
 
 
+
+# CommandBuffer
+## [局部后处理](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/CommandBuffer/CommandBufferStencil)
+[![4aBH10.png](https://z3.ax1x.com/2021/09/23/4aBH10.png)](https://imgtu.com/i/4aBH10)
+
+## [景深](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/CommandBuffer/CommandBufferDepthFiled)
+[![4aBqXT.png](https://z3.ax1x.com/2021/09/23/4aBqXT.png)](https://imgtu.com/i/4aBqXT)
+
+
+# Depth
+## [深度图](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Depth/2_DepthTexture)
+[![4aDShR.png](https://z3.ax1x.com/2021/09/23/4aDShR.png)](https://imgtu.com/i/4aDShR)
+
+## [扫描光线](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Depth/DepthScan)
+[![4aBbcV.gif](https://z3.ax1x.com/2021/09/23/4aBbcV.gif)](https://imgtu.com/i/4aBbcV)
+
+# 几何着色器的基本应用
+## [点图元和线图元](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/GeometryShader/Base)
+[![4aBOnU.png](https://z3.ax1x.com/2021/09/23/4aBOnU.png)](https://imgtu.com/i/4aBOnU)
+
+## [粒子爆炸](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/GeometryShader/Example)
+[![4aBXBF.gif](https://z3.ax1x.com/2021/09/23/4aBXBF.gif)](https://imgtu.com/i/4aBXBF)
+
+
+# 其他着色器
+## 玻璃
+[![4aBj74.gif](https://z3.ax1x.com/2021/09/23/4aBj74.gif)](https://imgtu.com/i/4aBj74)
+
+
+# GPU Instance
+## [粒子爆炸](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/GPUInstance/GrassSimulation)
+[![4arwid.gif](https://z3.ax1x.com/2021/09/23/4arwid.gif)](https://imgtu.com/i/4arwid)
+
+
+...

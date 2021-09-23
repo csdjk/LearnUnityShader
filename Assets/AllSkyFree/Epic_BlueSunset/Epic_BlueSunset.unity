@@ -335,6 +335,10 @@ PrefabInstance:
       value: 0.4852941
       objectReference: {fileID: 0}
     - target: {fileID: 12322300, guid: 6e58b6f7d760a4942b5d1887cdb4a815, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 12322300, guid: 6e58b6f7d760a4942b5d1887cdb4a815, type: 3}
       propertyPath: m_Brightness
       value: 0.25
       objectReference: {fileID: 0}

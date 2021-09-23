@@ -25,6 +25,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _FresnelScale: 0.992
-    - _Power: 1
+    - _Power: 0.74
     m_Colors:
     - _Color: {r: 1, g: 0.44879463, b: 0, a: 1}

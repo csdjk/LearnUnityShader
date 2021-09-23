@@ -21,7 +21,7 @@ public class GrassTerrian : MonoBehaviour
     [Range(0, 10)]
     public float crashRadius;
     // 下压强度
-     [Range(0, 100)]
+    [Range(0, 100)]
     public float pushStrength;
 
     private int cachedGrassCount = -1;
@@ -42,7 +42,7 @@ public class GrassTerrian : MonoBehaviour
 
     void Update()
     {
-        if (cachedGrassCount != grassCount || !cachedGrassQuadSize.Equals(grassQuadSize) )
+        if (cachedGrassCount != grassCount || !cachedGrassQuadSize.Equals(grassQuadSize))
             UpdateBuffers();
 
         Vector4 playerPos = playerTrs.TransformPoint(Vector3.zero);
@@ -95,8 +95,7 @@ public class GrassTerrian : MonoBehaviour
                 // 三角形内随机采样
                 Vector3 randPos = Tools.RandomTriangle(vertex1, vertex2, vertex3);
                 // 向法线方向偏移
-                randPos += normal * 0.5f * grassQuadSize.y;
-
+                randPos += normal.normalized * 0.5f * grassQuadSize.y;
 
                 // 旋转
                 float rot = Random.Range(0, 180);
@@ -107,6 +106,7 @@ public class GrassTerrian : MonoBehaviour
                 var localToWorld = Matrix4x4.TRS(transform.TransformPoint(randPos), upToNormal * Quaternion.Euler(0, rot, 0), Vector3.one);
                 // var localToWorld = Matrix4x4.TRS(transform.TransformPoint(randPos), upToNormal, Vector3.one);
                 // localToWorld = transform.localToWorldMatrix * localToWorld;
+
                 var grassInfo = new GrassInfo()
                 {
                     localToWorld = localToWorld,

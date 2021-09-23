@@ -152,12 +152,15 @@
                 float radius = _PlayerPos.w;
 
                 // 下压
-                float isPushRange = step(dis,radius);
+                // float isPushRange = step(dis,radius);
+                float isPushRange = smoothstep(dis,dis+0.8,radius);
+                // float isPushRange = 1-smoothstep(radius,radius+0.8,dis);
                 windDir.xz = offsetDir.xz*isPushRange + windDir.xz * (1-isPushRange);
                 windStrength += _PushStrength*isPushRange;
+
                 // if(dis<=radius){
-                //     windDir.xz = offsetDir.xz;
-                //     windStrength += _PushStrength;
+                    //     windDir.xz = offsetDir.xz;
+                    //     windStrength += _PushStrength;
                 // }
 
                 positionWS.xyz = applyWind(positionWS.xyz,grassUpDir,windDir,windStrength,localVertexHeight);
@@ -165,6 +168,7 @@
                 //输出到片段着色器
                 o.uv = uv;
                 o.worldPosition = positionWS;
+                // o.worldNormal = isPushRange;
                 o.worldNormal = mul(grassInfo.localToWorld,float4(normalOS,0)).xyz;
                 o.pos = mul(UNITY_MATRIX_VP,positionWS);
 
@@ -178,22 +182,22 @@
                 clip (color.a-_Cutoff);
 
 
-                // float3 worldPos = i.worldPosition;
-                // //计算光照和阴影，光照采用Lembert Diffuse.
-                // fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
-                // float3 lightColor = _LightColor0.rgb;
-                // float3 worldNormal = normalize(i.worldNormal);
-                // // 半兰伯特光照模型
-                // fixed3 halfLambert = dot(worldNormal,lightDir)*0.5+0.5;	
-                // fixed3 diffuse = max(halfLambert,0.3);
+                float3 worldPos = i.worldPosition;
+                //计算光照和阴影，光照采用Lembert Diffuse.
+                fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                float3 lightColor = _LightColor0.rgb;
+                float3 worldNormal = normalize(i.worldNormal);
+                // 半兰伯特光照模型
+                fixed3 halfLambert = dot(worldNormal,lightDir)*0.5+0.5;	
+                fixed3 diffuse = max(halfLambert,0.5);
 
                 // 阴影
                 // UNITY_LIGHT_ATTENUATION(atten, i, worldPos);
 
-                color.rgb *= _Color ;
+                color.rgb *= _Color;
                 return color;
 
-                // return float4(worldNormal,1);
+                // return float4(i.worldNormal,1);
             }
             ENDCG
         }
