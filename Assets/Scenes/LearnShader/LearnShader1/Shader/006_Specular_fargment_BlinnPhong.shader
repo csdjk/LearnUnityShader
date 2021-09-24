@@ -5,6 +5,7 @@ Shader "lcl/learnShader1/006_Specular_fargment_BlinnPhong" {
 		_Diffuse("Diffuse Color",Color) = (1,1,1,1)
 		_Specular("_Specular Color",Color) = (1,1,1,1)
 		_Gloss("Gloss",Range(8,200)) = 10
+        _Factor("Factor",Range(0,5)) = 1
 	}
 	SubShader {
 		Pass{
@@ -16,7 +17,7 @@ Shader "lcl/learnShader1/006_Specular_fargment_BlinnPhong" {
 			fixed4 _Diffuse;
 			half _Gloss;
 			fixed4 _Specular;
-
+            float _Factor;
 
 			struct a2v {
 				float4 vertex : POSITION;
@@ -49,7 +50,7 @@ Shader "lcl/learnShader1/006_Specular_fargment_BlinnPhong" {
 				//fixed3 reflectDir = reflect(-lightDir,normalDir);//反射光
 				fixed3 viewDir = normalize(_WorldSpaceCameraPos.xyz -f.worldVertex );
 				fixed3 halfDir = normalize(lightDir+viewDir);
-				fixed3 specular = _LightColor0.rgb * pow(max(0,dot(normalDir,halfDir)),_Gloss) *_Specular;
+				fixed3 specular = _Factor*_LightColor0.rgb * pow(max(0,dot(normalDir,halfDir)),_Gloss) *_Specular;
 				fixed3 tempColor = diffuse+ambient+specular;
 
 				return fixed4(tempColor,1);

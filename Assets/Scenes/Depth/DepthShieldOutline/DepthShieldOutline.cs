@@ -42,6 +42,8 @@ public class DepthShieldOutline : MonoBehaviour
         objectCamera.cullingMask = (1 << LayerMask.NameToLayer("PostProcessing")) | (1 << LayerMask.NameToLayer("Player"));
         objectCamera.depth -= 1;
         objectCamera.backgroundColor = Color.white;
+        objectCamera.enabled = false;
+        objectCamera.clearFlags = CameraClearFlags.SolidColor;
         // 注意这里 抗锯齿一定要和场景深度图抗锯齿一致
         depthTexture = RenderTexture.GetTemporary(Screen.width, Screen.height, 24, RenderTextureFormat.ARGBHalf, RenderTextureReadWrite.Default, 1);
     }

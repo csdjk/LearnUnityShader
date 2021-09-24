@@ -35,6 +35,8 @@ Shader "lcl/ShaderGUI/ShaderGUI_Built-in"
         [Header(Toggle)]
         [Toggle] _Toggle("Toggle", Float) = 0
         [MaterialToggle] _MaterialToggle("Material Toggle", Float) = 0
+        // shader变体开关
+		[Toggle(_SWITCH_ON)]_SWITCH("Switch",int) = 0
         
         [Header(KeywordEnum)]
         // 每个选项都将被设置 _OVERLAY_NONE, _OVERLAY_ADD, _OVERLAY_MULTIPLY shader keywords.
@@ -83,7 +85,7 @@ Shader "lcl/ShaderGUI/ShaderGUI_Built-in"
             // make fog work
             #pragma multi_compile_fog
             // ...later on in CGPROGRAM code:
-            #pragma multi_compile _OVERLAY_NONE _OVERLAY_ADD _OVERLAY_MULTIPLY
+            #pragma multi_compile _OVERLAY_NONE _OVERLAY_ADD _OVERLAY_MULTIPLY _SWITCH_ON
 
             #include "UnityCG.cginc"
 
