@@ -83,4 +83,36 @@
 ## [草地渲染](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/GPUInstance/GrassSimulation)
 [![4daUAA.gif](https://z3.ax1x.com/2021/09/23/4daUAA.gif)](https://imgtu.com/i/4daUAA)
 
-...
+
+
+# 后处理特效
+## [坏电视效果](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/BadTV)
+
+
+[![40IDJI.gif](https://z3.ax1x.com/2021/09/24/40IDJI.gif)](https://imgtu.com/i/40IDJI)
+[![40IBFA.gif](https://z3.ax1x.com/2021/09/24/40IBFA.gif)](https://imgtu.com/i/40IBFA)
+## [Bloom](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/Bloom)
+
+| ![40I3J1.png](https://z3.ax1x.com/2021/09/24/40I3J1.png) | ![40I8Rx.png](https://z3.ax1x.com/2021/09/24/40I8Rx.png)|
+|:---:|:---:|
+| 原图 | Bloom |
+
+
+## [模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/BoxBlur)
+| ![原图](https://z3.ax1x.com/2021/09/24/40INLD.png) | ![boxBlur](https://z3.ax1x.com/2021/09/24/40oGkj.png) |
+|:---:|:---:|
+| 原图 | [均值模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/BoxBlur)  | 
+|![GaussianBlur](https://z3.ax1x.com/2021/09/24/40o37Q.png)|![RadialBlur](https://z3.ax1x.com/2021/09/24/40ItsO.png)|
+[高斯模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/GaussianBlur)  | [径向模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/RadialBlur) |
+
+## [Mask](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/Mask)
+[![40IYQK.gif](https://z3.ax1x.com/2021/09/24/40IYQK.gif)](https://imgtu.com/i/40IYQK)
+[![40Iaee.gif](https://z3.ax1x.com/2021/09/24/40Iaee.gif)](https://imgtu.com/i/40Iaee)
+## [描边](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/OutLine)
+
+[![40IGz6.gif](https://z3.ax1x.com/2021/09/24/40IGz6.gif)](https://imgtu.com/i/40IGz6)
+
+## [波纹](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/WaterWave)
+[![40IddH.gif](https://z3.ax1x.com/2021/09/24/40IddH.gif)](https://imgtu.com/i/40IddH)
+## [放大镜](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/Zoom)
+[![40Iwod.gif](https://z3.ax1x.com/2021/09/24/40Iwod.gif)](https://imgtu.com/i/40Iwod)

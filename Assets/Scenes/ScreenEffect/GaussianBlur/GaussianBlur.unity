@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.574817, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -199,7 +199,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 257354562}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.06648047, y: -0.01, z: -9.21}
+  m_LocalPosition: {x: 0, y: 0, z: -9.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -219,8 +219,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gaussianBlurShader: {fileID: 4800000, guid: ed197ed7e8d07ad4191ca1123c29de04, type: 3}
   BlurRadius: 1
-  downSample: 2
-  iteration: 2
+  downSample: 1
+  iteration: 4
 --- !u!1 &939496788
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,7 +369,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7f303926044d6cd4c8a63825815a0a1f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b41e5528beb70aa4892e385644c36fba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
