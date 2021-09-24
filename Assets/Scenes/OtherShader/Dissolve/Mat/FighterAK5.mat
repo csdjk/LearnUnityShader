@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 006_Specular_fargment_BlinnPhong
-  m_Shader: {fileID: 4800000, guid: 461001212c28dc747a2729b93aee4fbf, type: 3}
+  m_Name: FighterAK5
+  m_Shader: {fileID: 4800000, guid: 89e07e0fca365ee45b2cb6aaf957b36c, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -40,11 +40,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 23f6f60ee292af940b55e6ae7a3ba9dc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 1804dc6878266d844ba722c77efc495b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -55,13 +59,17 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _rippleTex:
+        m_Texture: {fileID: 2800000, guid: b267cbeeb93b04e788664246bdc46985, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _DistorValue: 0
     - _DstBlend: 0
-    - _Factor: 1
-    - _Gloss: 70
+    - _EdgeLength: 0.0738
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -72,10 +80,14 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Threshold: 0.626
     - _UVSec: 0
     - _ZWrite: 1
+    - _scale: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Diffuse: {r: 0.7176471, g: 0.105882354, b: 0, a: 1}
+    - _EdgeColor: {r: 0.9716981, g: 0.19708972, b: 0.19708972, a: 1}
+    - _EdgeColor1: {r: 0, g: 0, b: 0, a: 1}
+    - _EdgeFirstColor: {r: 0.085258484, g: 1, b: 0, a: 1}
+    - _EdgeSecondColor: {r: 0, g: 0.37633944, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Specular: {r: 1, g: 1, b: 1, a: 1}
