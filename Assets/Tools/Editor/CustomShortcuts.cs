@@ -27,19 +27,37 @@ public class CustomShortcuts
         EditorApplication.isPaused = !EditorApplication.isPaused;
     }
 
-    [MenuItem("MyTools/CustomKeys/快速定位到Lua %l")]
-    static void QuickPositioningLua()
+    // ---------------------【Ctrl + ...】--------------------------
+    [MenuItem("MyTools/CustomKeys/快速定位到Model %m")]
+    static void QuickPositioningModel()
     {
-        var assetObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/ToLua/Lua");
+        var assetObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Models");
         EditorGUIUtility.PingObject(assetObj);
     }
 
-
-    [MenuItem("MyTools/CustomKeys/快速定位到GUI %g")]
-    static void QuickPositioningGUI()
+   [MenuItem("MyTools/CustomKeys/重置Position #r")]
+    static void QuickResetPosition()
     {
-        var assetObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Resources/GUI");
-        EditorGUIUtility.PingObject(assetObj);
+        var trsArr = Selection.transforms;
+        if (trsArr == null) return;
+        foreach (var trs in trsArr)
+        {
+            trs.localPosition = Vector3.zero;
+        }
+    }
+
+    // ---------------------【Shift + ...】--------------------------
+    [MenuItem("MyTools/CustomKeys/隐藏显示Object #a")]
+    static void QuickSetActive()
+    {
+        // var go = Selection.activeGameObject;
+
+        var trsArr = Selection.transforms;
+        if (trsArr == null) return;
+        foreach (var trs in trsArr)
+        {
+            trs.gameObject.SetActive(!trs.gameObject.activeSelf);
+        }
     }
 
     static MethodInfo clearMethod = null;
@@ -54,11 +72,5 @@ public class CustomShortcuts
         clearMethod.Invoke(null, null);
     }
 
-    [MenuItem("MyTools/CustomKeys/隐藏显示Object #a")]
-    static void QuickSetActive()
-    {
-        var go = Selection.activeGameObject;
-        if(go == null) return;
-        go.SetActive(!go.activeSelf); 
-    }
+ 
 }

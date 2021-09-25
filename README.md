@@ -96,11 +96,6 @@
 
 [![4aBXBF.gif](https://z3.ax1x.com/2021/09/23/4aBXBF.gif)](https://imgtu.com/i/4aBXBF)
 
-# 其他着色器
-
-## 玻璃
-
-[![4aBj74.gif](https://z3.ax1x.com/2021/09/23/4aBj74.gif)](https://imgtu.com/i/4aBj74)
 
 # GPU Instance
 
@@ -112,41 +107,88 @@
 
 ## [坏电视效果](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/BadTV)
 
-[![40IDJI.gif](https://z3.ax1x.com/2021/09/24/40IDJI.gif)](https://imgtu.com/i/40IDJI)
-[![40IBFA.gif](https://z3.ax1x.com/2021/09/24/40IBFA.gif)](https://imgtu.com/i/40IBFA)
+![badTV.gif](https://i.loli.net/2021/09/25/tAhlB4FCD6kaGWS.gif)
+![badTV2.gif](https://i.loli.net/2021/09/25/9GqIONPJYjo1KUv.gif)
 
 ## [Bloom](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/Bloom)
 
-| ![40I3J1.png](https://z3.ax1x.com/2021/09/24/40I3J1.png) | ![40I8Rx.png](https://z3.ax1x.com/2021/09/24/40I8Rx.png)|
+|![Bloom.png](https://i.loli.net/2021/09/25/xVeZh7LyajuDBwm.png)| ![Bloom2.png](https://i.loli.net/2021/09/25/d1rZk6AVfUYonRg.png)|
 |:---:|:---:|
 | 原图 | Bloom |
 
 ## [模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/BoxBlur)
 
-| ![原图](https://z3.ax1x.com/2021/09/24/40INLD.png) | ![boxBlur](https://z3.ax1x.com/2021/09/24/40oGkj.png) |
+| ![sed.png](https://i.loli.net/2021/09/25/F1vSltjnTQ4Mu3G.png) | ![boxBlur.png](https://i.loli.net/2021/09/25/2cHnvEaR1F5DZ8M.png)|
 |:---:|:---:|
 | 原图 | [均值模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/BoxBlur)  |
-|![GaussianBlur](https://z3.ax1x.com/2021/09/24/40o37Q.png)|![RadialBlur](https://z3.ax1x.com/2021/09/24/40ItsO.png)|
+|![GaussBlur.png](https://i.loli.net/2021/09/25/MLubJFH5rZpcKOU.png)|![RadialBlur.png](https://i.loli.net/2021/09/25/Jt5PTUuv8sKhRWN.png)|
 [高斯模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/GaussianBlur)  | [径向模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/RadialBlur) |
 
 ## [Mask](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/Mask)
 
-[![40IYQK.gif](https://z3.ax1x.com/2021/09/24/40IYQK.gif)](https://imgtu.com/i/40IYQK)
-[![40Iaee.gif](https://z3.ax1x.com/2021/09/24/40Iaee.gif)](https://imgtu.com/i/40Iaee)
+![mask.gif](https://i.loli.net/2021/09/25/ehRoYlnxKu3UQgr.gif)
+![mask2.gif](https://i.loli.net/2021/09/25/ifPOyvLWwMGneFz.gif)
 
 ## [描边](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/OutLine)
 
-[![40IGz6.gif](https://z3.ax1x.com/2021/09/24/40IGz6.gif)](https://imgtu.com/i/40IGz6)
+![outline.gif](https://i.loli.net/2021/09/25/Sn7bxNTDIj4soUC.gif)
 
 ## [波纹](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/WaterWave)
 
-[![40IddH.gif](https://z3.ax1x.com/2021/09/24/40IddH.gif)](https://imgtu.com/i/40IddH)
+![Wave.gif](https://i.loli.net/2021/09/25/KsaAQL7fuwc2RtM.gif)
 
 ## [放大镜](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/Zoom)
 
-[![40Iwod.gif](https://z3.ax1x.com/2021/09/24/40Iwod.gif)](https://imgtu.com/i/40Iwod)
+![zoom.gif](https://i.loli.net/2021/09/25/ibnV1oy4jvCFUTR.gif)
+
+
+# 其他Shader
+
+## [玻璃](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OtherShader/Glass)
+
+[![4aBj74.gif](https://z3.ax1x.com/2021/09/23/4aBj74.gif)](https://imgtu.com/i/4aBj74)
+
+## [溶解](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OtherShader/Dissolve)
+
+![Dissolve](https://i.loli.net/2021/09/25/pEn7sqwlfXzS5mx.gif)
+![Dissolve2](https://i.loli.net/2021/09/25/uspf8a4QtUF12wi.gif)
+
+## [翻书](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OtherShader/FlipBook)
+
+![FlipBook](https://i.loli.net/2021/09/25/5Yl8DBRQuP3ITtA.gif)
+## [能量球](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OtherShader/EnergyBall)
+
+![energyBall](https://i.loli.net/2021/09/25/ihgdEHMuLa5UvNz.gif)
+
+# 描边
+
+## [基于Fresnel的边缘光](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OutLine/Fresnel)
+
+![](https://i.loli.net/2021/09/25/z7NeQHyoMpVWG1u.gif)
+
+## [基于法线扩张的描边](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OutLine/NormalExpansion)
+
+左边是 **先渲染正面后渲染描边**、右边 **先渲染描边后渲染正面**
+
+![](https://i.loli.net/2021/09/25/v4ax2WU1ZVBobmI.gif)
+
+## [基于法线扩张的遮挡描边](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OutLine/NormalExpansion_Shield)
+
+![](https://i.loli.net/2021/09/25/HsYQZTzvXefai9G.gif)
+
+## [基于后处理的描边](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OutLine/PostProcess)
+
+![](https://i.loli.net/2021/09/25/pwmqVCnBAUdevbK.gif)
+
+## [基于后处理的遮挡描边](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OutLine/PostProcess_DepthShield)
+
+![](https://i.loli.net/2021/09/25/ktj7dUKq4ShgA1v.gif)
+
+## [边缘检测](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OutLine/EdgeDetection)
+
+![](https://i.loli.net/2021/09/25/svAFTCwRzQkS7yL.gif)
 
 
 待续...
 
-Outline、卡通渲染
+卡通渲染、雪地

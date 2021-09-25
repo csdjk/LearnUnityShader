@@ -87,6 +87,7 @@
         fixed2 ouvxy = fixed2( // 噪点图采样，用于主纹理的UV偏移的
             tex2D(_NoiseTex, i.uv + fixed2(_Time.x * _NoiseSpeedX, 0)).r,
             tex2D(_NoiseTex, i.uv + fixed2(0, _Time.x * _NoiseSpeedY)).r);
+            
         ouvxy -= _NoiseBrightOffset; // 0~1 to ==> -_NoiseBrightOffset~ 1 - _NoiseBrightOffset
         ouvxy *= fixed2(_NoiseScaleX, _NoiseScaleY);    // 扰动放大系数
         

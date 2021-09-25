@@ -52,7 +52,6 @@ Shader "lcl/learnShader2/003_reflection" {
 				
 				o.worldViewDir = UnityWorldSpaceViewDir(o.worldPos);
 				
-				// Compute the reflect dir in world space
 				o.worldRefl = reflect(-o.worldViewDir, o.worldNormal);
 				
 				TRANSFER_SHADOW(o);

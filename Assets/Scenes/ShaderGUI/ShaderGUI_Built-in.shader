@@ -86,6 +86,7 @@ Shader "lcl/ShaderGUI/ShaderGUI_Built-in"
             #pragma multi_compile_fog
             // ...later on in CGPROGRAM code:
             #pragma multi_compile _OVERLAY_NONE _OVERLAY_ADD _OVERLAY_MULTIPLY _SWITCH_ON
+            // #pragma shader_feature _OPEN_MIMMAP_ON
 
             #include "UnityCG.cginc"
 
