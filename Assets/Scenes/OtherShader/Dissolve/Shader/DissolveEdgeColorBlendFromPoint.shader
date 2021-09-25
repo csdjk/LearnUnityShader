@@ -12,6 +12,8 @@
 		_StartPoint("Start Point", Vector) = (0, 0, 0, 0)
 		_MaxDistance("Max Distance", Range(0.0, 100)) = 0
 		_DistanceEffect("Distance Effect", Range(0.0, 1.0)) = 0.5
+
+		[Toggle(_SWITCH_ON)]_SWITCH("Switch",int) = 0
 	}
 	SubShader
 	{
@@ -25,6 +27,7 @@
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
+            #pragma shader_feature _SWITCH_ON
 			
 			#include "UnityCG.cginc"
 			#include "Lighting.cginc"
@@ -82,6 +85,9 @@
 			{
 				float dist = length(i.localPos.xyz - _StartPoint.xyz);
 				float normalizedDist = saturate(dist / _MaxDistance);
+				#ifdef _SWITCH_ON
+					return normalizedDist;
+				#endif
 				
 				fixed cutout = tex2D(_NoiseTex, i.uvNoiseTex).r * (1 - _DistanceEffect) + normalizedDist * _DistanceEffect;
 				clip(cutout - _Threshold);

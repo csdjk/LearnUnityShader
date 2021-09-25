@@ -69,7 +69,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DistorValue: 0
     - _DstBlend: 0
-    - _EdgeLength: 0.0738
+    - _EdgeLength: 0.1565
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -80,7 +80,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Threshold: 0.626
+    - _Threshold: 0
     - _UVSec: 0
     - _ZWrite: 1
     - _scale: 1

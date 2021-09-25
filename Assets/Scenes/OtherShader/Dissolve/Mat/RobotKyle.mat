@@ -74,7 +74,7 @@ Material:
     - _DistanceEffect: 0.796
     - _DistorValue: 0
     - _DstBlend: 0
-    - _EdgeLength: 0.1094
+    - _EdgeLength: 0.0477
     - _Gloss: 200
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -84,10 +84,11 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _SWITCH: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Threshold: 0.281
+    - _Threshold: 0.41
     - _UVSec: 0
     - _ZWrite: 1
     - _scale: 1

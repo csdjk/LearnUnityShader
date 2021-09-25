@@ -294,7 +294,7 @@ Shader "lcl/ToonShading/ToonBody"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile _ _USE_SMOOTH_NORMAL_ON 
+            #pragma multi_compile _ _USE_SMOOTH_NORMAL_ON
 
             v2f vert (appdata v)
             {
