@@ -50,8 +50,8 @@
 				//偏移方向
 				float2 dir = i.uv - distorCenter.xy;
 
-				float2 offset = sin(_Time.y*0.5) * normalize(dir) * (1 - length(dir));
-				// float2 offset = _DistorValue * normalize(dir) * (1 - length(dir));
+				// float2 offset = sin(_Time.y*0.5) * normalize(dir) * (1 - length(dir));
+				float2 offset = _DistorValue * normalize(dir) * (1 - length(dir));
 
 				fixed4 col = tex2D(_MainTex, i.uv+offset);
 				

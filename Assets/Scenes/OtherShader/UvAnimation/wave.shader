@@ -6,7 +6,7 @@
         _waveLeng("wavelenth",Range(0,100)) = 10
         _swing("swing",Range(0,1)) = 0.5
         _waveRange("waveRange",Range(0,1)) = 0.2
-
+        _smooth("smooth",Range(0,1)) = 0.2
     }
     SubShader
     {
@@ -36,6 +36,8 @@
             float _waveLeng;
             float _waveRange;
             float _swing;
+            float _smooth;
+            
             static float2 center = float2(0.5,0.5);
 
             v2f vert (appdata v)
@@ -51,11 +53,12 @@
             {
                 float len = distance(center,i.uv);
 
-                if(len > _waveRange){
-                    _swing = 0;
-                }
+                // if(len > _waveRange){
+                //     _swing = 0;
+                // }
+                float swing = smoothstep(len,len+_smooth,_waveRange)*_swing;
 
-                i.uv.y += sin(len*UNITY_PI*_waveLeng)*_swing;
+                i.uv.y += sin(len*UNITY_PI*_waveLeng)*swing;
 
                 fixed4 col = tex2D(_MainTex, i.uv);
                 return col;
