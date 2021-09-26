@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: lcl_Shader3D_005_Water
+  m_Name: Water2
   m_Shader: {fileID: 4800000, guid: 48b128b519ce75447bfc730550e4fcc1, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -20,25 +20,25 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Bump:
-        m_Texture: {fileID: 2800000, guid: 47cdda17bb08a47b0a50675cbb83cfa2, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0df7a0b61c9dfa6408ae01459c10ffec, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Cubemap:
-        m_Texture: {fileID: 8900000, guid: 61df6bd9e9b4844699368830d13b4f83, type: 2}
+        m_Texture: {fileID: 8900000, guid: e71fc492f440446b99875b8e1df890ba, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Ax: 0
-    - _Ay: 1
+    - _Ax: 0.2
+    - _Ay: 0.1
     - _BumpSize: 1
-    - _BumpSpeed: 0.03
-    - _Lx: 1
-    - _Ly: 1
-    - _Q: 0
-    - _RefractionScale: 0
+    - _BumpSpeed: 0.341
+    - _Lx: 2.35
+    - _Ly: 1.26
+    - _Q: 1.45
+    - _RefractionScale: 1.5
     - _Sx: 1
     - _Sy: 1
     m_Colors:
-    - _D: {r: 0, g: 0, b: 0, a: 0}
-    - _LateralColor: {r: 0.2687344, g: 0.848897, b: 0.9339623, a: 1}
-    - _UpColor: {r: 0.990566, g: 0.65498537, b: 0.126157, a: 1}
+    - _D: {r: 1, g: 1, b: 0, a: 0}
+    - _LateralColor: {r: 0, g: 0.9528302, b: 0.48927352, a: 1}
+    - _UpColor: {r: 0.740566, g: 0.8157802, b: 1, a: 1}
