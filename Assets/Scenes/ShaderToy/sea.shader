@@ -1,6 +1,4 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-Shader "lcl/shaderToy/water" {
+Shader "lcl/shaderToy/sea" {
     Properties{
         iMouse("Mouse Pos", Vector) = (100, 100, 0, 0)
         iChannel0("iChannel0", 2D) = "white" {}
