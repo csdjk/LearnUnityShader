@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.38443306, g: 0.47180557, b: 0.617657, a: 1}
+  m_IndirectSpecularColor: {r: 0.38444075, g: 0.47178155, b: 0.61762166, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -482,7 +482,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1555446481}
   - component: {fileID: 1555446483}
-  - component: {fileID: 1555446482}
   m_Layer: 0
   m_Name: Point light (2)
   m_TagString: Untagged
@@ -498,24 +497,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1555446480}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3710489, y: 0.27207524, z: -0.16269875}
+  m_LocalPosition: {x: -1.4, y: 0.27207524, z: -0.16269875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 360656423}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!122 &1555446482
-Halo:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555446480}
-  m_Enabled: 1
-  m_Color:
-    serializedVersion: 2
-    rgba: 4278229503
-  m_Size: 0.1
 --- !u!108 &1555446483
 Light:
   m_ObjectHideFlags: 0
@@ -527,9 +514,9 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0.02352941, g: 0.6066142, b: 0.93333334, a: 1}
+  m_Color: {r: 0.93333334, g: 0.5744746, b: 0.02352941, a: 1}
   m_Intensity: 3
-  m_Range: 1.2234004
+  m_Range: 1.2830715
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10

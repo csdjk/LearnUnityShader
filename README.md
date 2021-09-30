@@ -188,11 +188,37 @@
 
 ![](https://i.loli.net/2021/09/25/svAFTCwRzQkS7yL.gif)
 
+# 曲面细分着色器
+## [雪地交互](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/TessellShader/SnowGround2)
+
+![snowGround.gif](https://i.loli.net/2021/09/29/Rgcj8oLVNPJaHvw.gif)
+
+
+# 次表面散射
+## [通透材质](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/SubsurfaceScattering/FastSSS)
+![sss](https://i.loli.net/2021/09/30/Lhx9WRwPtbkz7f4.png)
+
+![sss2](https://i.loli.net/2021/09/30/oqzGQMcjkNiaYu5.png)
+
+## [屏幕空间次表面散射](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/SubsurfaceScattering/ScreenSpaceSSS)
+
+左边：开启SSS、右边：关闭SSS
+
+![sssss](https://i.loli.net/2021/09/30/fxju3NVpwlOHzy4.png)
+
+
+# 卡通渲染
+
+## [简易的卡通水](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ToonShading/CartoonWater)
+
+![water](https://i.loli.net/2021/09/30/JPqcE2fnxrKsVRT.gif)
+
+
 # [ShaderToy](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ShaderToy)
 
 ![](https://i.loli.net/2021/09/28/rqOC3Yw1jvPkWIy.gif)
 ![](https://i.loli.net/2021/09/28/QUZlLdBPtI2xzVs.gif)
 ![](https://i.loli.net/2021/09/28/sv8udS9hjm2A14T.gif)
-待续...
 
-卡通渲染、雪地
+
+**待续：卡通渲染、PBR、水体渲染**

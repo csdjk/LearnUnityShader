@@ -24,22 +24,28 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GroundTex:
-        m_Texture: {fileID: 2800000, guid: 1b9fa66521bd6cb4687c869d012cb8a5, type: 3}
-        m_Scale: {x: 2, y: 2}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HeightNoiseTex:
+        m_Texture: {fileID: 2800000, guid: 46a6625cdba6a324eb5f70764b7b0fcd, type: 3}
+        m_Scale: {x: 5, y: 5}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SnowTex:
-        m_Texture: {fileID: 2800000, guid: c4bc0ccd46b3e6b48b9eeccba939348c, type: 3}
-        m_Scale: {x: 0.76, y: 1}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Displacement: 0
-    - _SnikPower: 0.45
-    - _TessellationFactors: 50.4
+    - _HeightNormalPower: 10
+    - _HeightPower: 0.6
+    - _SnikPower: 0.44
+    - _TessellationFactors: 61
     m_Colors:
     - _FloorColor: {r: 1, g: 1, b: 1, a: 1}
-    - _GroundColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
-    - _SnowColor: {r: 0.9528302, g: 0.9528302, b: 0.9528302, a: 1}
+    - _GroundColor: {r: 0.0754717, g: 0.0754717, b: 0.0754717, a: 1}
+    - _SnowColor: {r: 1, g: 1, b: 1, a: 1}
