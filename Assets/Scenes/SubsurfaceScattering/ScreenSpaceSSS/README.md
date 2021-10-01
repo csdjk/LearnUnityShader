@@ -1,5 +1,5 @@
 
-# 屏幕空间次表面散射
+# Unity Shader - 屏幕空间次表面散射
 
 # 前言
 在上篇文章中我们简单实现了一个[伪次表面散射模拟](https://zhuanlan.zhihu.com/p/409370107)效果，这次我们就基于**屏幕空间模糊**的方式来模拟皮肤的次表面渲染。
@@ -98,13 +98,33 @@ return srcCol + blurCol * _SSSColor * _ScatteringStrenth * fac;
 
 ## 4.厚度
 
-由于光线照射到物体
+吸收（Absorption）是模拟半透明材质的最重要特性之一。
+光线在物质中传播得越远，它被散射和吸收得就越厉害。
+为了模拟这种效果，我们需要测量光在物质中传播的距离，并相应地对其进行衰减。
 
-**厚度：**
+可以在下图中看到具有相同入射角的三种不同光线,穿过物体的长度却截然不同。
+
+![quicker.png](https://i.loli.net/2021/09/11/Zq1K6BUcwgnYtPh.png)
+
+这里我们就采用外部局部厚度图来模拟该现象，当然，该方法在物理上来说并不准确，但是可以比较简单快速的模拟出这种效果。
+
+烘焙厚度图可以用Substance Painter
+或者用Unity的插件：Mesh Materializer把厚度信息存储在顶点色里面。
+
+
+**这里我是直接把厚度信息存储在顶点色里面，输出厚度信息如下：**
+
+这里取反了一下，越亮的地方，散射越强。
 
 ![thickness](https://i.loli.net/2021/09/30/75L6zFTktHDMnlJ.png)
 
+**最终效果：**
 
+左边：开启SSS、右边：关闭SSS
+
+![sssss](https://i.loli.net/2021/09/30/fxju3NVpwlOHzy4.png)
+
+工程源码：[https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/SubsurfaceScattering/ScreenSpaceSSS](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/SubsurfaceScattering/ScreenSpaceSSS)
 
 # 参考
 
