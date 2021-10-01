@@ -88,12 +88,12 @@ Shader "lcl/SubsurfaceScattering/ScreenSpaceSSS/ScreenSpaceSSS"
             fixed4 blurCol = tex2D(_BlurTex, i.uv);
             // mask遮罩
             fixed4 maskCol = tex2D(_MaskTex, i.uv);
-            blurCol *= maskCol;
+            // blurCol *= maskCol;
             float fac = 1-pow(saturate(max(max(srcCol.r, srcCol.g), srcCol.b) * 1), 0.5);
             // float fac = fixed4(1,0.2,0,0);
 
-            return srcCol + blurCol * _SSSColor * _ScatteringStrenth * fac;
-            // return maskCol;
+            // return srcCol + blurCol * _SSSColor * _ScatteringStrenth * fac;
+            return maskCol;
         }
         ENDCG
         

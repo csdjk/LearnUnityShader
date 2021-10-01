@@ -1,4 +1,5 @@
-﻿// ---------------------------【SSSSS】---------------------------
+﻿using System;
+// ---------------------------【SSSSS】---------------------------
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -64,8 +65,10 @@ public class ScreenSpaceSSS : PostEffectsBase
         for (var i = 0; i < targetObjects.Length; i++)
         {
             Renderer[] renderers = targetObjects[i].GetComponentsInChildren<Renderer>();
-            foreach (Renderer r in renderers)
+            foreach (Renderer r in renderers){
                 commandBuffer.DrawRenderer(r, purecolorMaterial);
+                // commandBuffer.DrawRenderer(r, r.sharedMaterial);
+            }
         }
         // commandBuffer.ResolveAntiAliasedSurface(renderTexture,renderTexture);
 
