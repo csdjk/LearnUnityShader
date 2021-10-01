@@ -1,11 +1,3 @@
-<!--
- * @Descripttion: 
- * @Author: lichanglong
- * @Date: 2021-09-09 13:03:49
- * @FilePath: \LearnUnityShader\Assets\Scenes\SubsurfaceScattering\FastSSS.md
--->
-
-
 # 前言
 
 感觉好久没更新博客了，这段时间决定重新把写博客的习惯捡起来！前段时间学习研究了一下**次表面散射**相关的知识，这次我们就在Unity中简单实现一下该效果。如果哪里有错误的地方，希望大家能够指出，多多讨论。
