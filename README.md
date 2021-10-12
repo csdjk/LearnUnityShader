@@ -209,6 +209,11 @@
 
 # 卡通渲染
 
+## [卡通着色（色阶）](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ToonShading/ColorGradation)
+
+![ColorGradation4](https://i.loli.net/2021/10/10/k9ga2B3NMGYdhqx.png)
+
+
 ## [简易的卡通水](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ToonShading/CartoonWater)
 
 ![water](https://i.loli.net/2021/09/30/JPqcE2fnxrKsVRT.gif)
