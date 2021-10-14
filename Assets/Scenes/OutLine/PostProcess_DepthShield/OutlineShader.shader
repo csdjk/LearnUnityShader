@@ -167,7 +167,20 @@ Shader "lcl/Depth/Depth_OutlineShader"
             
             fixed4 frag(v2f i) : SV_Target
             {
-                //取原始场景纹理进行采样
+                // //取原始场景纹理进行采样
+                // fixed4 mainColor = tex2D(_MainTex, i.uv);
+                // //对blur之前的rt进行采样
+                // fixed4 srcColor = tex2D(_ObjectDepthTex, i.uv);
+                // srcColor = 1-step(1,srcColor);
+                // //对blur后的纹理进行采样
+                // fixed4 blurColor = tex2D(_BlurTex, i.uv);
+                // //相减后得到轮廓图
+                // fixed4 outline = ( blurColor - srcColor) * _OutlineColor * _OutlinePower;
+                // // 叠加原图
+                // fixed4 final = saturate(outline) + mainColor;
+                // return final;
+
+                 //取原始场景纹理进行采样
                 fixed4 mainColor = tex2D(_MainTex, i.uv);
                 //对blur之前的rt进行采样
                 fixed4 srcColor = tex2D(_ObjectDepthTex, i.uv);
@@ -175,7 +188,11 @@ Shader "lcl/Depth/Depth_OutlineShader"
                 //对blur后的纹理进行采样
                 fixed4 blurColor = tex2D(_BlurTex, i.uv);
                 //相减后得到轮廓图
-                fixed4 outline = ( blurColor - srcColor) * _OutlineColor * _OutlinePower;
+                fixed outlineThreshold = blurColor - srcColor;
+                // return mainColor*saturate(1-outlineThreshold);
+                fixed4 outline = outlineThreshold * _OutlineColor * _OutlinePower;
+
+                mainColor = saturate(1-outlineThreshold) * mainColor;
                 // 叠加原图
                 fixed4 final = saturate(outline) + mainColor;
                 return final;

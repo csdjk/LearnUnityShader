@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PBR_Basic
+  m_Name: PBR_Basic_Unity
   m_Shader: {fileID: 4800000, guid: 5e45ca03e079bcc4392f8d7836cc2749, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
