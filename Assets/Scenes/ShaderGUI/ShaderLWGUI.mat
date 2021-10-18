@@ -358,7 +358,7 @@ Material:
     - _roughness: 0.5
     - _shadow: 0
     - _toggle: 0
-    - _toggle_keyword: 1
+    - _toggle_keyword: 0
     m_Colors:
     - _AddColor: {r: 0, g: 0, b: 0, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
