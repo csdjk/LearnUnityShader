@@ -219,6 +219,14 @@
 ![water](https://i.loli.net/2021/09/30/JPqcE2fnxrKsVRT.gif)
 
 
+# PBR
+
+## [自定义PBR](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/PBR/PBR_Custom)
+
+![pbr.png](https://i.loli.net/2021/10/18/GCM9VfcHkgPZqQR.png)
+
+左边：自定义PBR，右边：Unity的PBR
+
 # [ShaderToy](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ShaderToy)
 
 ![](https://i.loli.net/2021/09/28/rqOC3Yw1jvPkWIy.gif)

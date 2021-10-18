@@ -13,10 +13,17 @@ Shader "lcl/ShaderGUI/ShaderLWGUI"
         
         // use Title on LWGUI attribute
         [Title(_, Title)]
+        // 水平显示多个属性
         [Tex(_, _mColor2)] _tex ("tex color", 2D) = "white" { }
         
-        // Create a folding group with key "g1"
+        /// 创建一个折叠组
+        /// group：group key，不提供则使用shader property name
+        /// keyword：_为忽略，不填和__为属性名大写 + _ON
+        /// style：0 默认关闭；1 默认打开；2 默认关闭无toggle；3 默认打开无toggle
+        // Main(string group = "", string keyWord = "", float style = 0)
         [Main(g1)] _group ("group", float) = 1
+
+
         [Sub(g1)]  _float ("float", float) = 2
         
         [KWEnum(g1, name1, key1, name2, key2, name3, key3)]
@@ -32,8 +39,13 @@ Shader "lcl/ShaderGUI/ShaderLWGUI"
         [Sub(g1)][HDR] _hdr ("hdr", Color) = (1, 1, 1, 1)
         [Title(g1, Sample Title)]
         [SubToggle(g1, _)] _toggle ("toggle", float) = 0
+
+        // ---------Toggle 隐藏、显示-------
         [SubToggle(g1, _KEYWORD)] _toggle_keyword ("toggle_keyword", float) = 0
         [Sub(g1_KEYWORD)]  _float_keyword ("float_keyword", float) = 0
+        // ---------End-------
+
+
         [SubPowerSlider(g1, 2)] _powerSlider ("powerSlider", Range(0, 100)) = 0
 
         // Display up to 4 colors in a single line
@@ -57,10 +69,9 @@ Shader "lcl/ShaderGUI/ShaderLWGUI"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
-
             #include "UnityCG.cginc"
+
+            #pragma multi_compile _ _GROUP_ON 
 
             struct appdata
             {

@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: PBR_Custom
   m_Shader: {fileID: 4800000, guid: a7cdc157fb292c04681a6ad51602a303, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _EMISSIONGROUP_ON _KEYWORD
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -19,17 +19,57 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AOTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _IrradianceCubemap:
+        m_Texture: {fileID: 8900000, guid: 891827ac40dc4b74d8de9a792fd1b385, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MetallicTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothnessTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _tex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AoPower: 0.484
     - _Gloss: 16.5
-    - _Metallic: 0.216
+    - _IS_INVERT: 0
+    - _IsInvert: 0
+    - _Metallic: 0.488
+    - _NormalScale: 0
     - _Roughness: 1
-    - _Smoothness: 0.885
+    - _Smoothness: 1
+    - _emissionGroup: 1
+    - _float_keyword: 0
+    - _toggle_keyword: 1
     m_Colors:
     - _Diffuse: {r: 1, g: 1, b: 1, a: 1}
-    - _DiffuseColor: {r: 0.990566, g: 0.95172703, b: 0.11681201, a: 1}
+    - _DiffuseColor: {r: 1, g: 0.18823531, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Specular: {r: 1, g: 1, b: 1, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
