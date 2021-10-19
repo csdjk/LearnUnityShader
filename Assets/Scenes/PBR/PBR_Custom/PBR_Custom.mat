@@ -28,7 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _IrradianceCubemap:
-        m_Texture: {fileID: 8900000, guid: 891827ac40dc4b74d8de9a792fd1b385, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -40,6 +40,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -56,13 +60,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AoPower: 0.484
+    - _AoPower: 1
     - _Gloss: 16.5
     - _IS_INVERT: 0
     - _IsInvert: 0
-    - _Metallic: 0.488
+    - _Metallic: 0.116
     - _NormalScale: 0
-    - _Roughness: 1
+    - _Roughness: 0
     - _Smoothness: 1
     - _emissionGroup: 1
     - _float_keyword: 0
