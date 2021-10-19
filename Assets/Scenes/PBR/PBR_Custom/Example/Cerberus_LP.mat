@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Cerberus_LP
   m_Shader: {fileID: 4800000, guid: a7cdc157fb292c04681a6ad51602a303, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _IS_INVERT_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -35,11 +35,34 @@ Material:
         m_Texture: {fileID: 2800000, guid: 9d334a16b2f90b945b4aeaba068a0363, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MetallicTex:
+        m_Texture: {fileID: 2800000, guid: 0ab7b44b8bda9d348ab5f6e0df657e4f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 2800000, guid: 5b5bd1463c5ee6c4f8abea2754233d61, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessTex:
+        m_Texture: {fileID: 2800000, guid: 7542b7f21e6f7624f89ff27cea0873bc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothnessTex:
+        m_Texture: {fileID: 2800000, guid: 7542b7f21e6f7624f89ff27cea0873bc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AoPower: 1
     - _Gloss: 16.5
-    - _Metallic: 0.571
+    - _IS_INVERT: 1
+    - _Metallic: 0.907
+    - _NormalScale: 1
     - _Roughness: 1
-    - _Smoothness: 0.7
+    - _Smoothness: 1
     - _emissionGroup: 0
     m_Colors:
     - _Diffuse: {r: 1, g: 1, b: 1, a: 1}

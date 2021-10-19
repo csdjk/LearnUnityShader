@@ -2,11 +2,10 @@
 
 学习UnityShader过程中的一些Demo记录。
 
-大致分为3部分：
+大致分为两部分：
 
 - 《Unity Shader入门精要》里的一些Shader实现。
 - 学习Shader过程中的一些效果实现及拓展。
-- ShaderToy上的一些特效。
 
 # 入门精要Shader
 
@@ -223,15 +222,13 @@
 
 ## [自定义PBR](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/PBR/PBR_Custom)
 
-![pbr.png](https://i.loli.net/2021/10/18/GCM9VfcHkgPZqQR.png)
+[![50Eeot.png](https://z3.ax1x.com/2021/10/19/50Eeot.png)](https://imgtu.com/i/50Eeot)
+[![50ElQg.gif](https://z3.ax1x.com/2021/10/19/50ElQg.gif)](https://imgtu.com/i/50ElQg)
 
-左边：自定义PBR，右边：Unity的PBR
+**左边：自定义PBR，右边：Unity的PBR**
 
-# [ShaderToy](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ShaderToy)
-
-![](https://i.loli.net/2021/09/28/rqOC3Yw1jvPkWIy.gif)
-![](https://i.loli.net/2021/09/28/QUZlLdBPtI2xzVs.gif)
-![](https://i.loli.net/2021/09/28/sv8udS9hjm2A14T.gif)
+[![50E0lF.png](https://z3.ax1x.com/2021/10/19/50E0lF.png)](https://imgtu.com/i/50E0lF)
+[![50EBy4.png](https://z3.ax1x.com/2021/10/19/50EBy4.png)](https://imgtu.com/i/50EBy4)
 
 
-**待续：卡通渲染、PBR、水体渲染**
+**待续：卡通渲染、水体渲染**

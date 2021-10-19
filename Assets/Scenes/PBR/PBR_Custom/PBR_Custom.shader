@@ -10,10 +10,8 @@ Shader "lcl/PBR/PBR_Custom" {
         [Tex(_, _Metallic)] _MetallicTex ("Metallic Tex", 2D) = "white" {}
         [HideInInspector]_Metallic("Metallic",Range(0,1)) = 0
 
-        [Tex(_, _Smoothness)] _SmoothnessTex ("Smoothness Tex", 2D) = "white" {}
-        [HideInInspector]_Smoothness("Smoothness",Range(0,1)) = 0.1
-        [Toggle(_IS_INVERT_ON)]_IS_INVERT("Is Roughness",int) = 0
-        // [SubToggle(_)]_IS_INVERT("Is Roughness",int) = 0
+        [Tex(_, _Roughness)] _RoughnessTex ("Roughness Tex", 2D) = "white" {}
+        [HideInInspector]_Roughness("Roughness",Range(0,1)) = 0.1
         
         [Tex(_, _AoPower)]_AOTex ("AO Tex", 2D) = "white" {}
         [HideInInspector]_AoPower("AO Power",Range(0,1)) = 0.1
@@ -44,7 +42,6 @@ Shader "lcl/PBR/PBR_Custom" {
             #pragma target 3.0
 
             #pragma multi_compile _ _EMISSIONGROUP_ON
-            #pragma multi_compile _ _IS_INVERT_ON
 
             // #pragma enable_d3d11_debug_symbols
 
@@ -58,8 +55,8 @@ Shader "lcl/PBR/PBR_Custom" {
             sampler2D _MetallicTex;
             half _Metallic;
             
-            sampler2D _SmoothnessTex;
-            half _Smoothness;
+            sampler2D _RoughnessTex;
+            half _Roughness;
 
             sampler2D _AOTex;
             half _AoPower;
@@ -232,22 +229,16 @@ Shader "lcl/PBR/PBR_Custom" {
                 fixed3 albedo = tex2D(_MainTex, i.uv).rgb*_DiffuseColor;
                 float3 lightColor = _LightColor0.xyz;
                 fixed ao = tex2D(_AOTex, i.uv).r;
-                ao=LerpOneTo(ao,_AoPower);
+                ao = LerpOneTo(ao,_AoPower);
 
                 // return fixed4(ao,ao,ao,1);
                 // 粗糙度
-                float smoothness = tex2D(_SmoothnessTex, i.uv).b*_Smoothness;
-                float perceptualRoughness;
-                #ifdef _IS_INVERT_ON
-                    perceptualRoughness = smoothness;
-                #else
-                    //float perceptualRoughness = 1 - _Smoothness
-                    perceptualRoughness = SmoothnessToPerceptualRoughness (smoothness);
-                #endif
+                float perceptualRoughness = tex2D(_RoughnessTex, i.uv).r * _Roughness;
                 float roughness = max(PerceptualRoughnessToRoughness(perceptualRoughness), 0.002);
                 // float roughness = max(perceptualRoughness, 0.002);
+                // return fixed4(perceptualRoughness,perceptualRoughness,perceptualRoughness,1);
 
-                float metallic = tex2D(_MetallicTex, i.uv)*_Metallic;
+                float metallic = tex2D(_MetallicTex, i.uv).r*_Metallic;
                 // return fixed4(metallic,metallic,metallic,1);
 
                 float3 F0 = lerp(0.04,albedo,metallic);
@@ -267,7 +258,7 @@ Shader "lcl/PBR/PBR_Custom" {
                 // Cook-Torrance BRDF = (D * G * F) / (4 * NdotL * NdotV)
                 float3 DGF = D * G * F;
                 float denominator = 4.0 * NdotL * NdotV + 0.00001; 
-                float3 specularBRDF = DGF/denominator;
+                float3 specularBRDF = DGF/denominator * _SpecularColor;
                 
                 // 反射方程
                 float3 ks = F;
@@ -284,11 +275,12 @@ Shader "lcl/PBR/PBR_Custom" {
 
                 // -----Diffuse-----
                 // 球谐函数
-                // float3 irradianceSH = ShadeSH9(float4(N,1));
-                // float3 diffuseIndirect = kd_indirect * irradianceSH * albedo;
+                float3 irradianceSH = ShadeSH9(float4(N,1));
+                float3 diffuseIndirect = kd_indirect * irradianceSH * albedo;
                 // 环境cubemap
-                float3 irradiance = texCUBE(_IrradianceCubemap,N).rgb;
-                float3 diffuseIndirect = kd_indirect * irradiance * albedo;
+                // float3 irradiance = texCUBE(_IrradianceCubemap,N).rgb;
+                // float3 diffuseIndirect = kd_indirect * irradiance * albedo;
+                
                 // diffuseIndirect /= UNITY_PI;
 
                 // -----Specular------
@@ -328,7 +320,7 @@ Shader "lcl/PBR/PBR_Custom" {
                     resColor += emission;
                 #endif
                 
-                // resColor = diffuseIndirect;
+                // resColor = prefilteredColor;
                 return fixed4(resColor,1);
             };
             
