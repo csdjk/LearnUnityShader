@@ -234,6 +234,7 @@ Shader "lcl/PBR/PBR_Custom" {
                 // return fixed4(ao,ao,ao,1);
                 // 粗糙度
                 float perceptualRoughness = tex2D(_RoughnessTex, i.uv).r * _Roughness;
+                // 将其重新映射到感知线性范围(perceptualRoughness*perceptualRoughness)
                 float roughness = max(PerceptualRoughnessToRoughness(perceptualRoughness), 0.002);
                 // float roughness = max(perceptualRoughness, 0.002);
                 // return fixed4(perceptualRoughness,perceptualRoughness,perceptualRoughness,1);
@@ -245,8 +246,8 @@ Shader "lcl/PBR/PBR_Custom" {
                 
                 // -------------------【直接光 - Direct Light】-------------------------
                 // Diffuse BRDF
-                float3 diffuseBRDF = DisneyDiffuse(NdotV, NdotL, LdotH, perceptualRoughness, albedo);
-                // float3 diffuseBRDF = max(NdotL,0) * albedo;
+                float3 diffuseBRDF = DisneyDiffuse(NdotV, NdotL, LdotH, perceptualRoughness, albedo) * NdotL;
+                // float3 diffuseBRDF = NdotL * albedo;
 
                 // diffuseBRDF /= UNITY_PI;
                 

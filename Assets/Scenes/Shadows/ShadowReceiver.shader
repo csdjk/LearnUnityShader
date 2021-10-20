@@ -23,6 +23,7 @@ Shader "lcl/Shadows/ShadowReceiver"
             #pragma fragment frag
 
             #pragma multi_compile_fwdbase
+            #pragma enable_d3d11_debug_symbols
 
             #include "UnityCG.cginc"
             // 需要引入该库文件
