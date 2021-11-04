@@ -298,7 +298,7 @@ Shader "lcl/PBR/PBR_Custom" {
                 //2.DFG/(4*NdotL*NdotV)：
 
                 // 2.1 用BRDF积分贴图方式：2D 查找纹理(LUT)
-                // 查找纹理的时候，我们以 BRDF 的输入NodtL作为横坐标，以粗糙度(roughness)作为纵坐标。
+                // 查找纹理的时候，我们以 BRDF 的输入NdotV作为横坐标，以粗糙度(roughness)作为纵坐标。
                 // float2 envBRDF = tex2D(_BRDFLUTTex, float2(NdotV, roughness)).rg;
 
                 // 2.2 数值拟合方式计算：

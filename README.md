@@ -222,13 +222,18 @@
 
 ## [自定义PBR](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/PBR/PBR_Custom)
 
+**左边：自定义PBR，右边：Unity的PBR**
 [![50Eeot.png](https://z3.ax1x.com/2021/10/19/50Eeot.png)](https://imgtu.com/i/50Eeot)
 [![50ElQg.gif](https://z3.ax1x.com/2021/10/19/50ElQg.gif)](https://imgtu.com/i/50ElQg)
-
-**左边：自定义PBR，右边：Unity的PBR**
 
 [![50E0lF.png](https://z3.ax1x.com/2021/10/19/50E0lF.png)](https://imgtu.com/i/50E0lF)
 [![50EBy4.png](https://z3.ax1x.com/2021/10/19/50EBy4.png)](https://imgtu.com/i/50EBy4)
 
+# Water
 
-**待续：卡通渲染、水体渲染**
+## [水体交互](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Water/Water_InteractionParticle)
+
+![water_c](https://i.loli.net/2021/11/04/gkbSdo1tvKhL3wz.gif)
+
+
+

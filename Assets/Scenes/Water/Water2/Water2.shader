@@ -1,4 +1,4 @@
-﻿Shader "lcl/Shader3D/005_Water" {
+﻿Shader "lcl/Shader3D/BoxWater" {
     Properties
     {
         _Bump("Bump",2D) = "bump" {}
