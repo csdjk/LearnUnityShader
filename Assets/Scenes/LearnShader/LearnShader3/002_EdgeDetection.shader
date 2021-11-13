@@ -85,7 +85,7 @@ Shader "lcl/learnShader3/002_EdgeDetection" {
  			}
 			
 			ENDCG
-		} 
+		}
 	}
 	FallBack Off
 }
