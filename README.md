@@ -155,9 +155,14 @@
 ## [翻书](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OtherShader/FlipBook)
 
 ![FlipBook](https://i.loli.net/2021/09/25/5Yl8DBRQuP3ITtA.gif)
+
 ## [能量球](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OtherShader/EnergyBall)
 
 ![energyBall](https://i.loli.net/2021/09/25/ihgdEHMuLa5UvNz.gif)
+
+## [液体瓶](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OtherShader/WaterBottle)
+
+[![IylgRs.gif](https://z3.ax1x.com/2021/11/13/IylgRs.gif)](https://imgtu.com/i/IylgRs)
 
 # 描边
 
@@ -233,7 +238,6 @@
 
 ## [水体交互](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Water/Water_InteractionParticle)
 
-![water_c](https://i.loli.net/2021/11/04/gkbSdo1tvKhL3wz.gif)
 
-
+[![IyMzX6.gif](https://z3.ax1x.com/2021/11/13/IyMzX6.gif)](https://imgtu.com/i/IyMzX6)
 

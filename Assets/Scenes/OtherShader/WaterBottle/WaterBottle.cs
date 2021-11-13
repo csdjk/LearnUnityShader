@@ -19,7 +19,7 @@ public class WaterBottle : MonoBehaviour
 
     private void Start()
     {
-        material = GetComponent<MeshRenderer>().material;
+        material = GetComponent<MeshRenderer>().sharedMaterial;
     }
 
     private void Update()
