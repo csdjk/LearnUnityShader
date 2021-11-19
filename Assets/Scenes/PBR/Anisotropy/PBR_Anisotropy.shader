@@ -1,42 +1,48 @@
 ﻿//PBR - 各项异性
-Shader "lcl/PBR/PBR_Anisotropy" {
-    Properties{
-        [Tex(_, _DiffuseColor)]_MainTex ("Albedo Tex", 2D) = "white" {}
-        [HideInInspector]_DiffuseColor("Diffuse Color",Color) = (1,1,1,1)
+Shader "lcl/PBR/PBR_Anisotropy"
+{
+    Properties
+    {
+        [Tex(_, _DiffuseColor)]_MainTex ("Albedo Tex", 2D) = "white" { }
+        [HideInInspector]_DiffuseColor ("Diffuse Color", Color) = (1, 1, 1, 1)
 
-        [Tex(_, _SpecularColor)]_SpecularTex ("Specular Tex", 2D) = "white" {}
-        [HideInInspector]_SpecularColor("Specular Color",Color) = (1,1,1,1)
+        [Tex(_, _SpecularColor)]_SpecularTex ("Specular Tex", 2D) = "white" { }
+        [HideInInspector]_SpecularColor ("Specular Color", Color) = (1, 1, 1, 1)
 
-        [Tex(_, _Metallic)] _MetallicTex ("Metallic Tex", 2D) = "white" {}
-        [HideInInspector]_Metallic("Metallic",Range(0,1)) = 0
+        [Tex(_, _Metallic)] _MetallicTex ("Metallic Tex", 2D) = "white" { }
+        [HideInInspector]_Metallic ("Metallic", Range(0, 1)) = 0
 
-        [Tex(_, _Roughness)] _RoughnessTex ("Roughness Tex", 2D) = "white" {}
-        [HideInInspector]_Roughness("Roughness",Range(0,1)) = 0.1
+        [Tex(_, _Roughness)] _RoughnessTex ("Roughness Tex", 2D) = "white" { }
+        [HideInInspector]_Roughness ("Roughness", Range(0, 1)) = 0.1
         
-        [Tex(_, _AoPower)]_AOTex ("AO Tex", 2D) = "white" {}
-        [HideInInspector]_AoPower("AO Power",Range(0,1)) = 0.1
+        [Tex(_, _AoPower)]_AOTex ("AO Tex", 2D) = "white" { }
+        [HideInInspector]_AoPower ("AO Power", Range(0, 1)) = 0.1
 
-        [Tex(_, _NormalScale)]_NormalTex ("Normal Tex", 2D) = "black" {}
-        [HideInInspector]_NormalScale("Normal Scale",Range(0,10)) = 1
+        [Tex(_, _NormalScale)]_NormalTex ("Normal Tex", 2D) = "bump" { }
+        [HideInInspector]_NormalScale ("Normal Scale", Range(0, 10)) = 1
 
-        _Anisotropy ("_Anisotropy",Range(0,1)) =0
+        _Anisotropy ("_Anisotropy", Range(0, 1)) = 0
 
         // [Header(Indirect)]
         // _IrradianceCubemap ("Irradiance Cubemap", Cube) = "_Skybox" {}
 
         // 自发光
-        [Main(_emissionGroup,__,0)] _emissionGroup ("Emission", float) = 1
-        [Tex(_emissionGroup, _EmissionColor)] _EmissionTex ("Emission Tex", 2D) = "white" {}
-        [HideInInspector][HDR]_EmissionColor("Emission Color",Color) = (0,0,0,0)
+        [Main(_emissionGroup, __, 0)] _emissionGroup ("Emission", float) = 1
+        [Tex(_emissionGroup, _EmissionColor)] _EmissionTex ("Emission Tex", 2D) = "white" { }
+        [HideInInspector][HDR]_EmissionColor ("Emission Color", Color) = (0, 0, 0, 0)
 
 
         // [SubToggle(_emissionGroup, _KEYWORD)] _toggle_keyword ("toggle_keyword", float) = 0
         // [Sub(_emissionGroup_KEYWORD)]  _float_keyword ("float_keyword", float) = 0
+
     }
-    SubShader {
-        Pass{
-            Tags { "LightMode"="ForwardBase" "RenderType"="Opaque"}
+    SubShader
+    {
+        Pass
+        {
+            Tags { "LightMode" = "ForwardBase" "RenderType" = "Opaque" }
             CGPROGRAM
+
             #include "Lighting.cginc"
             
             #pragma vertex vert
@@ -73,44 +79,47 @@ Shader "lcl/PBR/PBR_Anisotropy" {
 
             float _Anisotropy;
 
-            struct a2v {
+            struct a2v
+            {
                 float4 vertex : POSITION;
-                float3 normal: NORMAL;
+                float3 normal : NORMAL;
                 float4 tangent : TANGENT;
                 float4 texcoord : TEXCOORD0;
             };
 
-            struct v2f{
-                float4 position:SV_POSITION;
-                float3 worldNormal: TEXCOORD0;
-                float3 worldPos: TEXCOORD1;
+            struct v2f
+            {
+                float4 position : SV_POSITION;
+                float3 worldNormal : TEXCOORD0;
+                float3 worldPos : TEXCOORD1;
                 float2 uv : TEXCOORD2;
                 float3 tangent : TEXCOORD3;
                 float3 bitangent : TEXCOORD4;
                 float3x3 tbnMtrix : float3x3;
             };
 
-            float3 DisneyDiffuse(half NdotV, half NdotL, half LdotH, half roughness,half3 baseColor)
+            float3 DisneyDiffuse(half NdotV, half NdotL, half LdotH, half roughness, half3 baseColor)
             {
                 half fd90 = 0.5 + 2 * LdotH * LdotH * roughness;
                 // Two schlick fresnel term
-                half lightScatter   = (1 + (fd90 - 1) * Pow5(1 - NdotL));
-                half viewScatter    = (1 + (fd90 - 1) * Pow5(1 - NdotV));
-                return baseColor * ( lightScatter * viewScatter );
+                half lightScatter = (1 + (fd90 - 1) * Pow5(1 - NdotL));
+                half viewScatter = (1 + (fd90 - 1) * Pow5(1 - NdotV));
+                return baseColor * (lightScatter * viewScatter);
             }
             
             // D 法线分布函数（各项同性）
-            float D_GGX_TR (float NdotH, float roughness)
+            float D_GGX_TR(float NdotH, float roughness)
             {
                 float a2 = roughness * roughness;
-                float NdotH2 = NdotH*NdotH;
-                float denom  = (NdotH2 * (a2 - 1.0) + 1.0);
-                denom  = UNITY_PI * denom * denom;
-                denom = max(denom,0.0000001); //防止分母为0
+                float NdotH2 = NdotH * NdotH;
+                float denom = (NdotH2 * (a2 - 1.0) + 1.0);
+                denom = UNITY_PI * denom * denom;
+                denom = max(denom, 0.0000001); //防止分母为0
                 return a2 / denom;
             }
             // D 法线分布函数（各向异性）
-            float D_GGX_Anisotropic(float at, float ab, float ToH, float BoH, float NoH) {
+            float D_GGX_Anisotropic(float at, float ab, float ToH, float BoH, float NoH)
+            {
                 // Burley 2012, "Physically-Based Shading at Disney"
                 float a2 = at * ab;
                 float3 d = float3(ab * ToH, at * BoH, a2 * NoH);
@@ -120,7 +129,7 @@ Shader "lcl/PBR/PBR_Anisotropy" {
             // F 菲涅尔函数
             float3 F_FrenelSchlick(float HdotV, float3 F0)
             {
-                return F0 + (1 - F0) * pow(1 - HdotV , 5.0);
+                return F0 + (1 - F0) * pow(1 - HdotV, 5.0);
             }
 
             // 计算菲涅耳效应时纳入表面粗糙度(roughness)
@@ -128,16 +137,16 @@ Shader "lcl/PBR/PBR_Anisotropy" {
             {
                 float3 oneMinusRoughness = 1.0 - roughness;
                 return F0 + (max(oneMinusRoughness, F0) - F0) * pow(1.0 - NdotV, 5.0);
-            } 
+            }
 
             // G 几何遮蔽函数
             float GeometrySchlickGGX(float NdotV, float roughness)
             {
-                float a = (roughness + 1.0)/2;
-                float k = a*a / 4;
-                float nom   = NdotV;
+                float a = (roughness + 1.0) / 2;
+                float k = a * a / 4;
+                float nom = NdotV;
                 float denom = NdotV * (1.0 - k) + k;
-                denom = max(denom,0.0000001); //防止分母为0
+                denom = max(denom, 0.0000001); //防止分母为0
                 return nom / denom;
             }
             float G_GeometrySmith(float NdotV, float NdotL, float roughness)
@@ -151,7 +160,8 @@ Shader "lcl/PBR/PBR_Anisotropy" {
 
             // G 几何遮蔽函数（各向异性）
             float V_SmithGGXCorrelated_Anisotropic(float at, float ab, float ToV, float BoV,
-            float ToL, float BoL, float NoV, float NoL) {
+            float ToL, float BoL, float NoV, float NoL)
+            {
                 // Heitz 2014, "Understanding the Masking-Shadowing Function in Microfacet-Based BRDFs"
                 // TODO: lambdaV can be pre-computed for all the lights, it should be moved out of this function
                 float lambdaV = NoL * length(float3(at * ToV, ab * BoV, NoL));
@@ -161,58 +171,58 @@ Shader "lcl/PBR/PBR_Anisotropy" {
             }
 
             //UE4 Black Ops II modify version
-            float2 EnvBRDFApprox(float Roughness, float NoV )
+            float2 EnvBRDFApprox(float Roughness, float NoV)
             {
                 // [ Lazarov 2013, "Getting More Physical in Call of Duty: Black Ops II" ]
                 // Adaptation to fit our G term.
-                const float4 c0 = { -1, -0.0275, -0.572, 0.022 };
-                const float4 c1 = { 1, 0.0425, 1.04, -0.04 };
+                const float4 c0 = {
+                    - 1, -0.0275, -0.572, 0.022
+                };
+                const float4 c1 = {
+                    1, 0.0425, 1.04, -0.04
+                };
                 float4 r = Roughness * c0 + c1;
-                float a004 = min( r.x * r.x, exp2( -9.28 * NoV ) ) * r.x + r.y;
-                float2 AB = float2( -1.04, 1.04 ) * a004 + r.zw;
+                float a004 = min(r.x * r.x, exp2(-9.28 * NoV)) * r.x + r.y;
+                float2 AB = float2(-1.04, 1.04) * a004 + r.zw;
                 return AB;
             }
             // Black Ops II
             // float2 EnvBRDFApprox(float Roughness, float NV)
             // {
-                //     float g = 1 -Roughness;
-                //     float4 t = float4(1/0.96, 0.475, (0.0275 - 0.25*0.04)/0.96, 0.25);
-                //     t *= float4(g, g, g, g);
-                //     t += float4(0, 0, (0.015 - 0.75*0.04)/0.96, 0.75);
-                //     float A = t.x * min(t.y, exp2(-9.28 * NV)) + t.z;
-                //     float B = t.w;
-                //     return float2 ( t.w-A,A);
+            //     float g = 1 -Roughness;
+            //     float4 t = float4(1/0.96, 0.475, (0.0275 - 0.25*0.04)/0.96, 0.25);
+            //     t *= float4(g, g, g, g);
+            //     t += float4(0, 0, (0.015 - 0.75*0.04)/0.96, 0.75);
+            //     float A = t.x * min(t.y, exp2(-9.28 * NV)) + t.z;
+            //     float B = t.w;
+            //     return float2 ( t.w-A,A);
             // }
 
-            v2f vert(a2v v){
+            v2f vert(a2v v)
+            {
                 v2f o;
                 o.position = UnityObjectToClipPos(v.vertex);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
 
-                float3 worldNormal = mul(v.normal,(float3x3) unity_WorldToObject);
+                float3 worldNormal = mul(v.normal, (float3x3) unity_WorldToObject);
                 float3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
-                float3 worldBinormal = cross(worldNormal,worldTangent)*v.tangent.w;
-                o.tbnMtrix = float3x3(worldTangent,worldBinormal,worldNormal);
+                float3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w;
+                o.tbnMtrix = float3x3(worldTangent, worldBinormal, worldNormal);
                 o.worldNormal = worldNormal;
                 o.tangent = worldTangent;
                 o.bitangent = worldBinormal;
                 return o;
             };
 
-            fixed4 frag(v2f i):SV_TARGET{
+            fixed4 frag(v2f i) : SV_TARGET
+            {
                 float2 uv = i.uv;
-                float3 N;
                 float4 tangentNormal = tex2D(_NormalTex, i.uv);
-                if(tangentNormal.r == 0 && tangentNormal.g == 0 && tangentNormal.b == 0){
-                    N = normalize(i.worldNormal);
-                }
-                else
-                {
-                    N = UnpackNormal(tangentNormal);
-                    N.xy *= _NormalScale;
-                    N = normalize(half3(mul(N,i.tbnMtrix)));
-                }
+                
+                float3 N = UnpackNormal(tangentNormal);
+                N.xy *= _NormalScale;
+                N = normalize(half3(mul(N, i.tbnMtrix)));
                 
                 float3 T = normalize(i.tangent);
                 float3 B = normalize(i.bitangent);
@@ -220,11 +230,11 @@ Shader "lcl/PBR/PBR_Anisotropy" {
                 float3 V = normalize(UnityWorldSpaceViewDir(i.worldPos));
                 float3 H = normalize(L + V);
 
-                float NdotL = max(dot(N,L),0);
-                float NdotV = max(dot(N,V),0);
-                float NdotH = max(dot(N,H),0);
-                float HdotV = max(dot(H,V),0);
-                float LdotH = max(dot(L,H),0);
+                float NdotL = max(dot(N, L), 0);
+                float NdotV = max(dot(N, V), 0);
+                float NdotH = max(dot(N, H), 0);
+                float HdotV = max(dot(H, V), 0);
+                float LdotH = max(dot(L, H), 0);
 
                 float TdotV = dot(T, V);
                 float BdotV = dot(B, V);
@@ -234,10 +244,10 @@ Shader "lcl/PBR/PBR_Anisotropy" {
                 float BdotH = dot(B, H);
 
                 fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
-                fixed3 albedo = tex2D(_MainTex, i.uv).rgb*_DiffuseColor;
+                fixed3 albedo = tex2D(_MainTex, i.uv).rgb * _DiffuseColor;
                 float3 lightColor = _LightColor0.xyz;
                 fixed ao = tex2D(_AOTex, i.uv).r;
-                ao = LerpOneTo(ao,_AoPower);
+                ao = LerpOneTo(ao, _AoPower);
 
                 // return fixed4(ao,ao,ao,1);
                 // 粗糙度
@@ -247,10 +257,10 @@ Shader "lcl/PBR/PBR_Anisotropy" {
                 // float roughness = max(perceptualRoughness, 0.002);
                 // return fixed4(perceptualRoughness,perceptualRoughness,perceptualRoughness,1);
 
-                float metallic = tex2D(_MetallicTex, i.uv).r*_Metallic;
+                float metallic = tex2D(_MetallicTex, i.uv).r * _Metallic;
                 // return fixed4(metallic,metallic,metallic,1);
 
-                float3 F0 = lerp(0.04,albedo,metallic);
+                float3 F0 = lerp(0.04, albedo, metallic);
                 
                 // -------------------【直接光 - Direct Light】-------------------------
                 // Diffuse BRDF
@@ -266,19 +276,19 @@ Shader "lcl/PBR/PBR_Anisotropy" {
 
                 // float D = D_GGX_TR(NdotH,roughness);
                 float D = D_GGX_Anisotropic(at, ab, TdotH, BdotH, NdotH);
-                float3 F = F_FrenelSchlick(HdotV,F0);
+                float3 F = F_FrenelSchlick(HdotV, F0);
                 // float G = G_GeometrySmith(NdotV,NdotL,roughness);
-                float G = V_SmithGGXCorrelated_Anisotropic(at, ab, TdotV, BdotV,TdotL, BdotL, NdotV, NdotL);
+                float G = V_SmithGGXCorrelated_Anisotropic(at, ab, TdotV, BdotV, TdotL, BdotL, NdotV, NdotL);
 
                 // Cook-Torrance BRDF = (D * G * F) / (4 * NdotL * NdotV)
                 float3 DGF = D * G * F;
-                float denominator = 4.0 * NdotL * NdotV + 0.00001; 
-                float3 specularBRDF = DGF/denominator * _SpecularColor;
+                float denominator = 4.0 * NdotL * NdotV + 0.00001;
+                float3 specularBRDF = DGF / denominator * _SpecularColor;
                 
                 // 反射方程
                 float3 ks = F;
                 float3 kd = 1.0 - ks;
-                kd *= (1-metallic);
+                kd *= (1 - metallic);
                 float3 directLight = (diffuseBRDF * kd + specularBRDF) * NdotL * lightColor;
 
 
@@ -301,7 +311,7 @@ Shader "lcl/PBR/PBR_Anisotropy" {
                 // -----Specular------
                 // 积分拆分成两部分：Li*NdotL 和 DFG/(4*NdotL*NdotV)
 
-                // 1.Li*NdotL 
+                // 1.Li*NdotL
                 // 预过滤环境贴图方式
                 half mip = perceptualRoughnessToMipmapLevel(roughness);
                 float3 R = reflect(-V,N);
@@ -336,10 +346,11 @@ Shader "lcl/PBR/PBR_Anisotropy" {
                 // #endif
                 
                 // resColor = DGF*5;
-                return fixed4(resColor,1);
+                return fixed4(resColor, 1);
             };
             
             ENDCG
+
         }
     }
     FallBack "VertexLit"
