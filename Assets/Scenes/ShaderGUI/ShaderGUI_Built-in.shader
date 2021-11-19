@@ -52,7 +52,7 @@ Shader "lcl/ShaderGUI/ShaderGUI_Built-in"
         // 用来修饰贴图变量，在inspcetor 面板中不再显示该贴图的tilling/offset 属性
         [NoScaleOffset]_MainTex ("No Scale Offset", 2D) = "white" {}
         // 用来修饰贴图变量，该贴图必须是一个法线贴图
-        [Normal]_NormalTex ("NormalTex", 2D) = "white" {}
+        [Normal]_NormalTex ("NormalTex", 2D) = "bump" {}
         // 用来修饰贴图变量，该贴图必须是一个high-dynamic range(HDR)贴图
         [HDR]_HDRTex ("HDRTex", 2D) = "white" {}
 
