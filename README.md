@@ -1,11 +1,14 @@
 # Learn Unity Shader
 
+
 学习UnityShader过程中的一些Demo记录。
 
 大致分为两部分：
 
 - 《Unity Shader入门精要》里的一些Shader实现。
 - 学习Shader过程中的一些效果实现及拓展。
+
+**Unity Version：2019.4.28f1c1**
 
 # 入门精要Shader
 

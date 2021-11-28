@@ -35,7 +35,7 @@ public class CustomShortcuts
         EditorGUIUtility.PingObject(assetObj);
     }
 
-   [MenuItem("MyTools/CustomKeys/重置Position #r")]
+    [MenuItem("MyTools/CustomKeys/重置Position #r")]
     static void QuickResetPosition()
     {
         var trsArr = Selection.transforms;
@@ -72,5 +72,76 @@ public class CustomShortcuts
         clearMethod.Invoke(null, null);
     }
 
- 
+
+
+    // ---------------------【Hierarchy】--------------------------
+
+    // 实例化自定义模型
+    static void CreateCustomModel(string path)
+    {
+        var assetObj = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+        GameObject go = PrefabUtility.InstantiatePrefab(assetObj) as GameObject;
+        PrefabUtility.UnpackPrefabInstance(go, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+
+        var selectGo = Selection.activeGameObject;
+        int index = 0;
+        if (selectGo && go)
+        {
+            go.transform.parent = selectGo.transform;
+            index = selectGo.transform.childCount;
+        }
+        else
+        {
+            var m_Scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+            var list = m_Scene.GetRootGameObjects();
+            index = list.Length;
+        }
+
+        go.transform.SetSiblingIndex(index);
+    }
+
+    [MenuItem("GameObject/CreateCustomModel/Jan", false, 0)]
+    static void CreateJan()
+    {
+        CreateCustomModel("Assets/Models/Jan/Jan_Fight_Idle.fbx");
+    }
+    [MenuItem("GameObject/CreateCustomModel/2B", false, 0)]
+    static void Create2B()
+    {
+        CreateCustomModel("Assets/Models/NieRAutomata/2B_Run/2b_run.fbx");
+    }
+    [MenuItem("GameObject/CreateCustomModel/Omega", false, 0)]
+    static void CreateFortniteOmega()
+    {
+        CreateCustomModel("Assets/Models/FortniteOmega/Omega.prefab");
+    }
+    [MenuItem("GameObject/CreateCustomModel/RobotKyle", false, 0)]
+    static void CreateRobotKyle()
+    {
+        CreateCustomModel("Assets/Models/RobotKyle/RobotKyle.fbx");
+    }
+
+    [MenuItem("GameObject/CreateCustomModel/Classical/BunnyLow", false, 0)]
+    static void CreateBunnyLow()
+    {
+        CreateCustomModel("Assets/Models/Classical/BunnyLow.obj");
+    }
+    [MenuItem("GameObject/CreateCustomModel/Classical/Dragon", false, 0)]
+    static void CreateDragon()
+    {
+        CreateCustomModel("Assets/Models/Classical/Dragon.obj");
+    }
+
+    [MenuItem("GameObject/CreateCustomModel/Classical/Knot", false, 0)]
+    static void CreateKnot()
+    {
+        CreateCustomModel("Assets/Models/Classical/Knot.FBX");
+    }
+    [MenuItem("GameObject/CreateCustomModel/Classical/Teapot", false, 0)]
+    static void CreateTeapot()
+    {
+        CreateCustomModel("Assets/Models/Classical/Teapot.FBX");
+    }
+    // end
+
 }
