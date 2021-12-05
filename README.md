@@ -244,3 +244,22 @@
 
 [![IyMzX6.gif](https://z3.ax1x.com/2021/11/13/IyMzX6.gif)](https://imgtu.com/i/IyMzX6)
 
+
+
+# 阴影（Shadow Mapping）
+
+## [Shadow Map](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Shadows/CustomShadowMap)
+[![oDHete.png](https://s4.ax1x.com/2021/12/05/oDHete.png)](https://imgtu.com/i/oDHete)
+
+
+## [PCF](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Shadows/CustomShadowMap)
+
+[![oDHupd.png](https://s4.ax1x.com/2021/12/05/oDHupd.png)](https://imgtu.com/i/oDHupd)
+
+
+
+## [PCF(PoissonDisk)](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Shadows/CustomShadowMap)
+[![oDHZkD.png](https://s4.ax1x.com/2021/12/05/oDHZkD.png)](https://imgtu.com/i/oDHZkD)
+
+## [PCSS](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Shadows/CustomShadowMap)
+[![oDHmfH.png](https://s4.ax1x.com/2021/12/05/oDHmfH.png)](https://imgtu.com/i/oDHmfH)
