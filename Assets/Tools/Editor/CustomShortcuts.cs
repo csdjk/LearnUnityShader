@@ -14,7 +14,6 @@ using UnityEngine;
 /// </summary>
 public class CustomShortcuts
 {
-
     [MenuItem("MyTools/CustomKeys/播放 _F3")]
     static void EditorPlayCommand()
     {
@@ -103,7 +102,7 @@ public class CustomShortcuts
     [MenuItem("GameObject/CreateCustomModel/Jan", false, 0)]
     static void CreateJan()
     {
-        CreateCustomModel("Assets/Models/Jan/Jan_Fight_Idle.fbx");
+        CreateCustomModel("Assets/Models/Jan/Jan_Fight_Idle.prefab");
     }
     [MenuItem("GameObject/CreateCustomModel/2B", false, 0)]
     static void Create2B()
