@@ -46,12 +46,12 @@ Material:
     m_Floats:
     - _DepthMaxDistance: 1.554
     - _Distortion: 87
-    - _FresnelPower: 0.54
+    - _FresnelPower: 0.92
     - _RingPower: 1.5
     - _RingShift: 1
     - _WaveXSpeed: 0.05
     - _WaveYSpeed: 0.03
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepColor: {r: 0.36130688, g: 0.66538745, b: 1, a: 1}
-    - _ShallowColor: {r: 0.7311321, g: 1, b: 0.9910749, a: 0.725}
+    - _DeepColor: {r: 0.3726415, g: 0.5543488, b: 1, a: 1}
+    - _ShallowColor: {r: 1, g: 1, b: 1, a: 0.725}

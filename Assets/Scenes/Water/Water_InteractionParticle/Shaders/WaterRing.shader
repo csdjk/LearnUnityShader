@@ -1,19 +1,21 @@
-﻿Shader "lcl/Water/WaterRings"
+﻿Shader "lcl/Water/WaterRing"
 {
 	Properties
 	{
-		_BumpPower("BumpPower", Range( 0 , 50)) = 2
-		_TexelRadius("TexelRadius", Range( -10 , 10)) = 1
-		[NoScaleOffset]_HeightTex("Height Texture", 2D) = "white" {}
+		_BumpPower ("BumpPower", Range(0, 50)) = 2
+		_RingWidth ("RingWidth", Range(0, 0.5)) = 0
+		_RingRange ("RingRange", Range(0, 1)) = 0
+		_RingSmoothness ("RingSmoothness", Range(0, 0.05)) = 0
 	}
 	
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" }
+		Tags { "RenderType" = "Opaque" }
 
 		CGINCLUDE
 		#pragma target 3.0
 		ENDCG
+
 		Blend OneMinusDstColor One
 		// Blend SrcAlpha OneMinusSrcAlpha
 		Cull Back
@@ -45,12 +47,12 @@
 				float4 color : COLOR;
 			};
 
-			sampler2D _HeightTex;
-			float4 _HeightTex_TexelSize;
-			float _TexelRadius;
 			float _BumpPower;
-			
-			v2f vert ( appdata v )
+			float _RingWidth;
+			float _RingRange;
+			float _RingSmoothness;
+
+			v2f vert(appdata v)
 			{
 				v2f o;
 				o.uv = v.uv;
@@ -58,30 +60,37 @@
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				return o;
 			}
-			
-			fixed4 frag (v2f i ) : SV_Target
+			fixed doubleSmoothstep(float4 uv)
 			{
-				float2 uv = i.uv.xy;
-				float2 texelSize = _HeightTex_TexelSize.xy * _TexelRadius;
-				float color0 = tex2D( _HeightTex, uv + texelSize.xy * half2(-1, 0)).r;
-				float color1 = tex2D( _HeightTex, uv + texelSize.xy * half2(1, 0)).r;
-				float color2 = tex2D( _HeightTex, uv + texelSize.xy * half2(0, -1)).r;
-				float color3 = tex2D( _HeightTex, uv + texelSize.xy * half2(0, 1)).r;
+				float dis = distance(uv, 0.5);
+				float halfWidth = _RingWidth * 0.5;
+				float range = _RingRange;
+				float smoothness = _RingSmoothness;
+				float threshold1 = range - halfWidth;
+				float threshold2 = range + halfWidth;
 
-				float4 texCol = tex2D( _HeightTex, uv);
-
-				float2 ddxy = float2( color0 - color1, color2 - color3);
-				float3 normal = float3(( ddxy * _BumpPower) , 1.0);
-				normal = normalize(normal);
-				float4 finalColor = float4(( (  normal * 0.5  + 0.5 ) * texCol.r * i.color.a) , ( texCol.r * i.color.a ));
+				float value = smoothstep(threshold1, threshold1 + smoothness, dis);
+				float value2 = smoothstep(threshold2, threshold2 + smoothness, dis);
 				
-				// finalColor = power;
+				return value - value2;
+			}
+			fixed4 frag(v2f i) : SV_Target
+			{
+				float normalCenter = doubleSmoothstep(i.uv);
+				// 波纹法线
+				float color0 = doubleSmoothstep(i.uv + half4(-1, 0, 0, 0) * 0.004);
+				float color1 = doubleSmoothstep(i.uv + half4(1, 0, 0, 0) * 0.004);
+				float color2 = doubleSmoothstep(i.uv + half4(0, -1, 0, 0) * 0.004);
+				float color3 = doubleSmoothstep(i.uv + half4(0, 1, 0, 0) * 0.004);
+
+				float2 ddxy = float2(color0 - color1, color2 - color3);
+				float3 normal = float3((ddxy * _BumpPower), 1.0);
+				normal = normalize(normal);
+				float4 finalColor = float4((normal * 0.5 + 0.5) * normalCenter * i.color.a, normalCenter * i.color.a);
 				return finalColor;
 			}
 			ENDCG
+
 		}
 	}
-	CustomEditor "ASEMaterialInspector"
-	
-	
 }

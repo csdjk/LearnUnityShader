@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WaterRing
-  m_Shader: {fileID: 4800000, guid: 271a6e6530b6e6249ab8f37f908b73b7, type: 3}
+  m_Shader: {fileID: 4800000, guid: 0e5f40317183814459ff88658050fcaa, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -65,7 +65,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpMtl: 39
-    - _BumpPower: 11.7
+    - _BumpPower: 25.2
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DeltaMtl: 10
@@ -79,10 +79,13 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Power: 10
+    - _RingRange: 0.797
+    - _RingSmoothness: 0.0467
+    - _RingWidth: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TexelRadius: 10
+    - _TexelRadius: -0.93
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
