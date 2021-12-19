@@ -14,7 +14,7 @@
 
 原理其实非常简单，就是通过粒子系统不断发射带有波纹法线贴图的面片，然后把这些法线渲染一张RenderTexture传输到Water Shader中，然后和Water Normal 叠加即可形成水波效果。
 
-实现步骤可以简单分为：
+实现步骤可以简单分为：  
 1. 简单的水体渲染
 2. 渲染水波法线RT
 3. 叠加法线
@@ -23,13 +23,13 @@
 
 这里的水体渲染采用简单的法线干扰实现，参考冯乐乐女神的《Unity Shader入门精要》里的水体渲染。
 
-水的效果如下：
-
+水的效果：
+[![Teovg1.gif](https://s4.ax1x.com/2021/12/19/Teovg1.gif)](https://imgtu.com/i/Teovg1)
 
 这里深水和潜水区的过渡是直接用`场景深度值`和`水面深度值`做`差值`， 差值越接近0，就越接近浅滩区。    
 获取场景深度图需要开启 DepthModel:  `GetComponent<Camera>().depthTextureMode = DepthTextureMode.Depth;`
 
-**Shader代码如下：**
+**Shader代码：**
 ```c
 //frag:
 
