@@ -122,7 +122,6 @@
                 float4 ringColor = tex2D(_RingTex, screenPos);
                 float3 ringNormal = UnpackNormal(ringColor).rgb;
                 ringNormal = mul(float3x3(i.TtoW0.xyz,i.TtoW1.xyz,i.TtoW2.xyz),ringNormal);
-                // float3 ringNormal = ringColor.rgb;
                 ringNormal = normalize(ringNormal) * ringColor.a * _RingPower;
                 // float3 normal = BlendNormals(ringNormal,bump);
                 float3 normal = normalize(bump+ringNormal);
