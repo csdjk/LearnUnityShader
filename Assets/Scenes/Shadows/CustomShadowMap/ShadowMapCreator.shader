@@ -18,8 +18,12 @@ Shader "lcl/Shadows/CustomShadowMap/ShadowMapCreator"
 
             #pragma vertex vert
             #pragma fragment frag
-
+            #pragma multi_compile SHADOW_SIMPLE SHADOW_PCF SHADOW_PCF_POISSON_DISK SHADOW_PCSS SHADOW_ESM SHADOW_VSM
+            #pragma enable_d3d11_debug_symbols
+            
             #include "UnityCG.cginc"
+            // ESM 常量
+            float _gExpConst;
 
             struct v2f
             {
@@ -44,9 +48,16 @@ Shader "lcl/Shadows/CustomShadowMap/ShadowMapCreator"
                     depth = 1 - depth;       //(1, 0)-->(0, 1)
                 #endif
                 
-                return EncodeFloatRGBA(depth);
-                // return fixed4(depth,depth,depth,1);
-                // return fixed4(1,0,0,1); 
+                #if defined(SHADOW_ESM)
+                    return EncodeFloatRGBA(exp(depth * _gExpConst));
+                #elif defined(SHADOW_VSM)
+                    return fixed4(depth,depth*depth,0,1);
+                #else
+                    return EncodeFloatRGBA(depth);
+                    // return fixed4(0, 0, 1, 1);
+                #endif
+
+                // return EncodeFloatRGBA(depth);
             }
             ENDCG
 
