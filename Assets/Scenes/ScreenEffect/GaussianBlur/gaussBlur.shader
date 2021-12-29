@@ -89,7 +89,8 @@ Shader "lcl/screenEffect/gaussBlur"
                 color += 0.2442 * tex2D(_MainTex, i.uv01.zw);  
                 color += 0.0545 * tex2D(_MainTex, i.uv23.xy);  
                 color += 0.0545 * tex2D(_MainTex, i.uv23.zw);  
-                return color;  
+                return color;
+                // return fixed4(1,0,0,1);
             }
             
             ENDCG  

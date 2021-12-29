@@ -17,12 +17,21 @@ public enum ShadowType
 {
     [InspectorName("Simple")]
     SHADOW_SIMPLE,
+
     [InspectorName("PCF")]
     SHADOW_PCF,
+
     [InspectorName("PCF(POISSON_DISK)")]
     SHADOW_PCF_POISSON_DISK,
+
     [InspectorName("PCSS")]
     SHADOW_PCSS,
+
+    [InspectorName("ESM")]
+    SHADOW_ESM,
+
+    [InspectorName("VSM")]
+    SHADOW_VSM,
 }
 [ExecuteInEditMode]
 public class ShadowMap : MonoBehaviour
@@ -31,9 +40,8 @@ public class ShadowMap : MonoBehaviour
     public ShadowType shadowType = ShadowType.SHADOW_SIMPLE;
 
     public ShadowResolution resolution = ShadowResolution.Normal;
-    [Range(1, 50)]
+    [Range(0, 10)]
     public float filterStride = 1.0f;
-
     [Range(0, 1)]
     public float shadowStrength = 1.0f;
 
@@ -42,6 +50,27 @@ public class ShadowMap : MonoBehaviour
     [Range(0, 10)]
     public float lightWidth = 1.0f;
 
+    // ------------------ESM Parameters------------
+    [Range(0, 100)]
+    public float expConst = 1.0f;
+    [Range(0.2f, 3.0f)]
+    public float blurRadius = 1.0f;
+    [Range(1, 8)]
+    public int downSample = 2;
+    [Range(0, 4)]
+    public int iteration = 1;
+    // ------------------ESM------------
+
+    // ------------------VSM Parameters------------
+
+    [Range(0, 1f)]
+    public float lightLeakBias = 1;
+    [Range(0, 0.01f)]
+    public float varianceBias = 0.0001f;
+
+    // ------------------VSM------------
+
+
 
     private Shader shadowMapCreatorShader;
     private LayerMask shadowLayersCache;
@@ -49,57 +78,11 @@ public class ShadowMap : MonoBehaviour
     private GameObject shadowLightGo;
     private RenderTexture shadowMapRT;
     private Camera lightCamera;
-
-    // Vector4 fract(Vector4 v)
-    // {
-    //     var zhengx = Mathf.Floor(v.x);
-    //     var zhengy = Mathf.Floor(v.y);
-    //     var zhengz = Mathf.Floor(v.z);
-    //     var zhengw = Mathf.Floor(v.w);
-    //     return new Vector4(v.x % zhengx, v.y % zhengy, v.z % zhengz, v.w % zhengw);
-    // }
-
-    // Vector4 pack(float depth)
-    // {
-    //     // 使用rgba 4字节共32位来存储z值,1个字节精度为1/10
-    //     // Vector4 bitShift = new Vector4(1.0f, 256.0f, 256.0f * 256.0f, 256.0f * 256.0f * 256.0f);
-    //     // Vector4 bitMask = new Vector4(1.0f / 256.0f, 1.0f / 256.0f, 1.0f / 256.0f, 0.0f);
-    //     // // gl_FragCoord:片元的坐标,fract():返回数值的小数部分
-    //     // Vector4 rgbaDepth = fract(depth * bitShift); //计算每个点的z值
-    //     // // rgbaDepth -= rgbaDepth.gbaa * bitMask; // Cut off the value which do not fit in 8 bits
-
-    //     // Vector4 gbaa = new Vector4(rgbaDepth.y * bitMask.x, rgbaDepth.z * bitMask.y, rgbaDepth.w * bitMask.z, rgbaDepth.w * bitMask.w);
-
-    //     // rgbaDepth.x -= gbaa.x;
-    //     // rgbaDepth.y -= gbaa.y;
-    //     // rgbaDepth.z -= gbaa.z;
-    //     // rgbaDepth.w -= gbaa.w;
-
-    //     var tow256 = 256.0f * 256.0f;
-    //     var three256 = 256.0f * 256.0f * 256.0f;
-    //     var foure256 = 256.0f * 256.0f * 256.0f * 256.0f;
-    //     Vector4 rgbaDepth = new Vector4();
-    //     rgbaDepth.x = 1 / depth - 1 / (depth * tow256);//R
-    //     rgbaDepth.y = 1 / (depth * 255) - 1 / (depth * three256);//G
-    //     rgbaDepth.z = 1 / (depth * tow256) - 1 / (depth * foure256);//B
-    //     rgbaDepth.w = 1 / (depth * three256) - 1 / (depth * foure256);//A
-    //     return rgbaDepth;
-    // }
-    // float unpack(Vector4 rgbaDepth)
-    // {
-    //     Vector4 bitShift = new Vector4(1.0f, 1.0f / 256.0f, 1.0f / (256.0f * 256.0f), 1.0f / (256.0f * 256.0f * 256.0f));
-    //     return Vector4.Dot(rgbaDepth, bitShift);
-    // }
-
-
-    // void Start()
-    // {
-    //     Debug.Log(pack(2.1987f));
-    //     Debug.Log(unpack(pack(2.1987f)));
-    // }
+    private Material gaussBlurMat;
 
     void OnEnable()
     {
+
         Clean();
         CreateShadowCamera();
     }
@@ -139,34 +122,23 @@ public class ShadowMap : MonoBehaviour
         Shader.SetGlobalFloat("_gShadow_bias", bias);
         Shader.SetGlobalFloat("_gFilterStride", filterStride);
         Shader.SetGlobalFloat("_gLightWidth", lightWidth);
-        
+        Shader.SetGlobalFloat("_gExpConst", expConst);
+        Shader.SetGlobalFloat("_gLightLeakBias", lightLeakBias);
+        Shader.SetGlobalFloat("_gVarianceBias", varianceBias);
+
+        if (shadowType == ShadowType.SHADOW_ESM || shadowType == ShadowType.SHADOW_VSM)
+            GaussBlur(shadowMapRT);
+        else
+            Shader.SetGlobalTexture("_gShadowMapTexture", shadowMapRT);
 
         // 阴影类型
         string shadowTypeName = Enum.GetName(typeof(ShadowType), shadowType);
-        Shader.EnableKeyword(shadowTypeName);
-        if (shadowType == ShadowType.SHADOW_SIMPLE)
+        foreach (var type in Enum.GetNames(typeof(ShadowType)))
         {
-            Shader.DisableKeyword("SHADOW_PCF");
-            Shader.DisableKeyword("SHADOW_PCF_POISSON_DISK");
-            Shader.DisableKeyword("SHADOW_PCSS");
-        }
-        else if (shadowType == ShadowType.SHADOW_PCF)
-        {
-            Shader.DisableKeyword("SHADOW_SIMPLE");
-            Shader.DisableKeyword("SHADOW_PCF_POISSON_DISK");
-            Shader.DisableKeyword("SHADOW_PCSS");
-        }
-        else if (shadowType == ShadowType.SHADOW_PCF_POISSON_DISK)
-        {
-            Shader.DisableKeyword("SHADOW_SIMPLE");
-            Shader.DisableKeyword("SHADOW_PCF");
-            Shader.DisableKeyword("SHADOW_PCSS");
-        }
-        else if (shadowType == ShadowType.SHADOW_PCSS)
-        {
-            Shader.DisableKeyword("SHADOW_SIMPLE");
-            Shader.DisableKeyword("SHADOW_PCF");
-            Shader.DisableKeyword("SHADOW_PCF_POISSON_DISK");
+            if (type == shadowTypeName)
+                Shader.EnableKeyword(type);
+            else
+                Shader.DisableKeyword(type);
         }
     }
 
@@ -207,11 +179,45 @@ public class ShadowMap : MonoBehaviour
             rtFormat = RenderTextureFormat.Default;
 
         var resolutionValue = (int)resolution;
-        shadowMapRT = RenderTexture.GetTemporary(resolutionValue, resolutionValue, 24, rtFormat);
+        shadowMapRT = RenderTexture.GetTemporary(resolutionValue, resolutionValue, 64, rtFormat);
         shadowMapRT.hideFlags = HideFlags.DontSave;
 
         Shader.SetGlobalTexture("_gShadowMapTexture", shadowMapRT);
         return shadowMapRT;
+    }
+
+    void GaussBlur(RenderTexture targetTexure)
+    {
+        if (targetTexure == null)
+            return;
+
+        if (gaussBlurMat == null)
+        {
+            gaussBlurMat = CreateGaussBlurMaterial();
+        }
+        RenderTexture rt1 = RenderTexture.GetTemporary(targetTexure.width >> downSample, targetTexure.height >> downSample, 0, targetTexure.format);
+        RenderTexture rt2 = RenderTexture.GetTemporary(targetTexure.width >> downSample, targetTexure.height >> downSample, 0, targetTexure.format);
+
+        Graphics.Blit(targetTexure, rt1);
+
+        for (int i = 0; i < iteration; i++)
+        {
+            gaussBlurMat.SetVector("_offsets", new Vector4(0, blurRadius, 0, 0));
+            Graphics.Blit(rt1, rt2, gaussBlurMat);
+            gaussBlurMat.SetVector("_offsets", new Vector4(blurRadius, 0, 0, 0));
+            Graphics.Blit(rt2, rt1, gaussBlurMat);
+        }
+        Shader.SetGlobalTexture("_gShadowMapTexture", rt1);
+
+        RenderTexture.ReleaseTemporary(rt1);
+        RenderTexture.ReleaseTemporary(rt2);
+    }
+
+    Material CreateGaussBlurMaterial()
+    {
+        var material = new Material(Shader.Find("lcl/screenEffect/gaussBlur"));
+        material.hideFlags = HideFlags.DontSave;
+        return material;
     }
 
     private void OnGUI()
