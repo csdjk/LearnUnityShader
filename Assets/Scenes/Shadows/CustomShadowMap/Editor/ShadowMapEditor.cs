@@ -16,6 +16,13 @@ public class ShadowMapEditor : Editor
     private SerializedProperty filterStride;
     private SerializedProperty shadowStrength;
     private SerializedProperty lightWidth;
+    private SerializedProperty expConst;
+    private SerializedProperty blurRadius;
+    private SerializedProperty downSample;
+    private SerializedProperty iteration;
+    private SerializedProperty lightLeakBias;
+    private SerializedProperty varianceBias;
+
 
     void OnEnable()
     {
@@ -27,6 +34,12 @@ public class ShadowMapEditor : Editor
         shadowStrength = shadowMapScript.FindProperty("shadowStrength");
         bias = shadowMapScript.FindProperty("bias");
         lightWidth = shadowMapScript.FindProperty("lightWidth");
+        expConst = shadowMapScript.FindProperty("expConst");
+        blurRadius = shadowMapScript.FindProperty("blurRadius");
+        downSample = shadowMapScript.FindProperty("downSample");
+        iteration = shadowMapScript.FindProperty("iteration");
+        lightLeakBias = shadowMapScript.FindProperty("lightLeakBias");
+        varianceBias = shadowMapScript.FindProperty("varianceBias");
     }
     public override void OnInspectorGUI()
     {
@@ -35,18 +48,38 @@ public class ShadowMapEditor : Editor
         EditorGUILayout.PropertyField(shadowType);
         EditorGUILayout.PropertyField(resolution);
         EditorGUILayout.PropertyField(shadowStrength);
-        EditorGUILayout.PropertyField(bias);
-        // PCF or PCSS
-        if (shadowType.enumValueIndex != 0)
-        {
-            EditorGUILayout.PropertyField(filterStride);
-            // PCSS
-            if (shadowType.enumValueIndex == 3)
-            {
-                EditorGUILayout.PropertyField(lightWidth);
-            }
-        }
 
+        var typeIndex = shadowType.enumValueIndex;
+        if (typeIndex == (int)ShadowType.SHADOW_SIMPLE)
+        {
+            EditorGUILayout.PropertyField(bias);
+        }
+        else if (typeIndex == (int)ShadowType.SHADOW_PCF || typeIndex == (int)ShadowType.SHADOW_PCF_POISSON_DISK)
+        {
+            EditorGUILayout.PropertyField(bias);
+            EditorGUILayout.PropertyField(filterStride);
+        }
+        else if (typeIndex == (int)ShadowType.SHADOW_PCSS)
+        {
+            EditorGUILayout.PropertyField(bias);
+            EditorGUILayout.PropertyField(filterStride);
+            EditorGUILayout.PropertyField(lightWidth);
+        }
+        else if (typeIndex == (int)ShadowType.SHADOW_ESM)
+        {
+            EditorGUILayout.PropertyField(expConst);
+            EditorGUILayout.PropertyField(blurRadius);
+            EditorGUILayout.PropertyField(downSample);
+            EditorGUILayout.PropertyField(iteration);
+        }
+        else if (typeIndex == (int)ShadowType.SHADOW_VSM)
+        {
+            EditorGUILayout.PropertyField(lightLeakBias);
+            EditorGUILayout.PropertyField(varianceBias);
+            EditorGUILayout.PropertyField(blurRadius);
+            EditorGUILayout.PropertyField(downSample);
+            EditorGUILayout.PropertyField(iteration);
+        }
         // EditorGUILayout.PropertyField(shadowMapCreatorShader);
         shadowMapScript.ApplyModifiedProperties();
     }

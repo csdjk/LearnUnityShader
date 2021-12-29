@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.4418341, g: 0.4835695, b: 0.5319075, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -220,7 +220,7 @@ MonoBehaviour:
   RayTracingShader: {fileID: 7200000, guid: 628145f3e449eff4f94e7500a07b6c50, type: 3}
   SkyboxTexture: {fileID: 2800000, guid: 35d9b71488a16924b977379397fb4621, type: 3}
   DirectionalLight: {fileID: 1810417772}
-  SphereSeed: 123564654
+  SphereSeed: 10
   SphereRadius: {x: 3, y: 20}
   SpheresMax: 1000
   SpherePlacementRadius: 150
@@ -521,6 +521,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4216859302048453862, guid: fa4dde96ce6ff8145bb6dc2011278b51,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: fa4dde96ce6ff8145bb6dc2011278b51,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
       objectReference: {fileID: 0}
@@ -536,6 +541,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: fa4dde96ce6ff8145bb6dc2011278b51,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: fa4dde96ce6ff8145bb6dc2011278b51,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -548,16 +558,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: fa4dde96ce6ff8145bb6dc2011278b51,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: fa4dde96ce6ff8145bb6dc2011278b51,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: fa4dde96ce6ff8145bb6dc2011278b51,
         type: 3}
