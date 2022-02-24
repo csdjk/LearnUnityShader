@@ -120,26 +120,36 @@ public class CustomShortcuts
         CreateCustomModel("Assets/Models/RobotKyle/RobotKyle.fbx");
     }
 
-    [MenuItem("GameObject/CreateCustomModel/Classical/BunnyLow", false, 0)]
+    [MenuItem("GameObject/CreateCustomModel/Other/BunnyLow", false, 0)]
     static void CreateBunnyLow()
     {
-        CreateCustomModel("Assets/Models/Classical/BunnyLow.obj");
+        CreateCustomModel("Assets/Models/Other/BunnyLow.obj");
     }
-    [MenuItem("GameObject/CreateCustomModel/Classical/Dragon", false, 0)]
+    [MenuItem("GameObject/CreateCustomModel/Other/Dragon", false, 0)]
     static void CreateDragon()
     {
-        CreateCustomModel("Assets/Models/Classical/Dragon.obj");
+        CreateCustomModel("Assets/Models/Other/Dragon.obj");
     }
 
-    [MenuItem("GameObject/CreateCustomModel/Classical/Knot", false, 0)]
+    [MenuItem("GameObject/CreateCustomModel/Other/Knot", false, 0)]
     static void CreateKnot()
     {
-        CreateCustomModel("Assets/Models/Classical/Knot.FBX");
+        CreateCustomModel("Assets/Models/Other/Knot.FBX");
     }
-    [MenuItem("GameObject/CreateCustomModel/Classical/Teapot", false, 0)]
+    [MenuItem("GameObject/CreateCustomModel/Other/Teapot", false, 0)]
     static void CreateTeapot()
     {
-        CreateCustomModel("Assets/Models/Classical/Teapot.FBX");
+        CreateCustomModel("Assets/Models/Other/Teapot.FBX");
+    }
+    [MenuItem("GameObject/CreateCustomModel/Other/Sphere1", false, 0)]
+    static void CreateSphere1()
+    {
+        CreateCustomModel("Assets/Models/Other/sphere1.obj");
+    }
+    [MenuItem("GameObject/CreateCustomModel/Other/Sphere2", false, 0)]
+    static void CreateSphere2()
+    {
+        CreateCustomModel("Assets/Models/Other/sphere2.FBX");
     }
     // end
 

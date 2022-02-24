@@ -204,7 +204,7 @@ Shader "lcl/PBR/PBR_Custom"
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
 
-                float3 worldNormal = mul(v.normal, (float3x3) unity_WorldToObject);
+                float3 worldNormal = normalize(mul(v.normal, (float3x3) unity_WorldToObject));
                 float3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
                 float3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w;
                 o.tbnMtrix = float3x3(worldTangent, worldBinormal, worldNormal);
