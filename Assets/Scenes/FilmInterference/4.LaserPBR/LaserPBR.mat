@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LaserPBR
+  m_Shader: {fileID: 4800000, guid: 78a6f75efd6ad1946875c0a0e01c5de8, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AOTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ColorRamp:
+        m_Texture: {fileID: 2800000, guid: c9d91d38831df914ab1650db34b75a05, type: 3}
+        m_Scale: {x: 1.5, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _IrradianceCubemap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 2800000, guid: 7e2b423975c511a4c87eeb4f8220dc6f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Ramp:
+        m_Texture: {fileID: 2800000, guid: 71f72bcb81c96ac4fa68916941416871, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Thickness:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 2.03, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AoPower: 1
+    - _Blend: 1
+    - _Brightness: 0.5
+    - _Contrast: 0.5
+    - _Distortion: 2.63
+    - _FilmDepth: 237
+    - _Fresnel: 0
+    - _FresnelAlpha: 0
+    - _FresnelPower: 0
+    - _Glossiness: 0.418
+    - _Hue: 0.422
+    - _IridescenceAmount: 0.81
+    - _LaserBlend: 1
+    - _Metallic: 0.023
+    - _NFilm: 10.98
+    - _NMedium: 5.36
+    - _Ninternal: 6.47
+    - _NormalScale: 0
+    - _Power: -0.21
+    - _RampExp: 1
+    - _Roughness: 0.211
+    - _Saturation: 0.509
+    - _Smoothness: 1
+    - _SpecExpon: 3.1
+    - _ThicknessMax: 400
+    - _ThicknessMin: 250
+    - _Tile: 4.3
+    - _emissionGroup: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ContrastMask1: {r: 0.36561045, g: 0, b: 0.8301887, a: 1}
+    - _DiffuseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _IOR: {r: 0.9, g: 1, b: 1.1, a: 1}
+    - _MainColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 0}
+    - _MaskRgb: {r: 1, g: 1, b: 1, a: 0}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SurfColor: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}

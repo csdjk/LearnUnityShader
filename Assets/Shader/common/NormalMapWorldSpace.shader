@@ -80,11 +80,11 @@ Shader "lcl/Common/Normal Map In World Space" {
 				// float3 worldPos = float3(i.TtoW0.w, i.TtoW1.w, i.TtoW2.w);
 				float3 worldPos = i.worldPos;
 				// 计算 世界空间下的光线方向和视野方向 - Compute the light and view dir in world space
-				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
-				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
+				float3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
+				float3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
 				
 				// 得到切线空间中的法向量 - Get the normal in tangent space
-				fixed3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));
+				float3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));
 				bump.xy *= _BumpScale;
 				bump.z = sqrt(1.0 - saturate(dot(bump.xy, bump.xy)));
 				// 
