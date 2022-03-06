@@ -126,6 +126,7 @@ Shader "lcl/PBR/PBR_Custom"
                 return baseColor * (lightScatter * viewScatter);
             }
             
+
             // D 法线分布函数
             float D_GGX_TR(float NdotH, float roughness)
             {
@@ -136,6 +137,26 @@ Shader "lcl/PBR/PBR_Custom"
                 denom = max(denom, 0.0000001); //防止分母为0
                 return a2 / denom;
             }
+
+            // https://zhuanlan.zhihu.com/p/69380665
+            float D_GTR1(float NdotH, float roughness)
+            {
+                float a2 = roughness * roughness;
+                float cos2th = NdotH * NdotH;
+                float den = (1.0 + (a2 - 1.0) * cos2th);
+
+                return(a2 - 1.0) / (UNITY_PI * log(a2) * den);
+            }
+
+            float D_GTR2(float NdotH, float roughness)
+            {
+                float a2 = roughness * roughness;
+                float cos2th = NdotH * NdotH;
+                float den = (1.0 + (a2 - 1.0) * cos2th);
+
+                return a2 / (UNITY_PI * den * den);
+            }
+
             // F 菲涅尔函数
             float3 F_FrenelSchlick(float HdotV, float3 F0)
             {
