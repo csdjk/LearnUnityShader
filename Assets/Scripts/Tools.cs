@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 public static class Tools
@@ -51,5 +53,48 @@ public static class Tools
         var vx = p2 - p1;
         var vy = p3 - p1;
         return Vector3.Cross(vx, vy);
+    }
+
+
+    // 保存RenderTexture
+    public static void SaveRenderTextureToTexture(RenderTexture rt, string path)
+    {
+        RenderTexture.active = rt;
+        Texture2D tex = new Texture2D(rt.width, rt.height, TextureFormat.RGB24, false);
+        tex.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
+        RenderTexture.active = null;
+
+        byte[] bytes;
+        bytes = tex.EncodeToPNG();
+
+        // string path = AssetDatabase.GetAssetPath(rt) + ".png";
+        System.IO.File.WriteAllBytes(path, bytes);
+        AssetDatabase.ImportAsset(path);
+        Debug.Log("Saved to " + path);
+    }
+
+    // 加载纹理，工程路径
+    // path : "Assets/Texture/Mask.png"
+    public static Texture2D LoadTexture(string path)
+    {
+        return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+    }
+
+    // 加载纹理，全路径
+    // path : "E:/UnityProject/Assets/Texture/Mask.png"
+    public static Texture2D LoadTextureAllPath(string path)
+    {
+        Texture2D tex = null;
+        byte[] fileData;
+        string filePath = path;
+        if (File.Exists(filePath))
+        {
+            fileData = File.ReadAllBytes(filePath);
+            tex = new Texture2D(1024, 1024);
+            tex.LoadImage(fileData);
+            return tex;
+        }
+
+        return null;
     }
 }
