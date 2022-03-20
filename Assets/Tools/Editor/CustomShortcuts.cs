@@ -14,27 +14,27 @@ using UnityEngine;
 /// </summary>
 public class CustomShortcuts
 {
-    [MenuItem("MyTools/CustomKeys/播放 _F3")]
+    [MenuItem("LCLTools/CustomKeys/播放 _F3")]
     static void EditorPlayCommand()
     {
         EditorApplication.isPlaying = !EditorApplication.isPlaying;
     }
 
-    [MenuItem("MyTools/CustomKeys/暂停 _F4")]
+    [MenuItem("LCLTools/CustomKeys/暂停 _F4")]
     static void EditorPauseCommand()
     {
         EditorApplication.isPaused = !EditorApplication.isPaused;
     }
 
     // ---------------------【Ctrl + ...】--------------------------
-    [MenuItem("MyTools/CustomKeys/快速定位到Model %m")]
+    [MenuItem("LCLTools/CustomKeys/快速定位到Model %m")]
     static void QuickPositioningModel()
     {
         var assetObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Models");
         EditorGUIUtility.PingObject(assetObj);
     }
 
-    [MenuItem("MyTools/CustomKeys/重置Position #r")]
+    [MenuItem("LCLTools/CustomKeys/重置Position #r")]
     static void QuickResetPosition()
     {
         var trsArr = Selection.transforms;
@@ -46,7 +46,7 @@ public class CustomShortcuts
     }
 
     // ---------------------【Shift + ...】--------------------------
-    [MenuItem("MyTools/CustomKeys/隐藏显示Object #a")]
+    [MenuItem("LCLTools/CustomKeys/隐藏显示Object #a")]
     static void QuickSetActive()
     {
         // var go = Selection.activeGameObject;
@@ -60,7 +60,7 @@ public class CustomShortcuts
     }
 
     static MethodInfo clearMethod = null;
-    [MenuItem("MyTools/CustomKeys/清空日志 #c")]
+    [MenuItem("LCLTools/CustomKeys/清空日志 #c")]
     public static void ClearConsole()
     {
         if (clearMethod == null)
