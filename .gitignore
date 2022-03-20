@@ -29,6 +29,7 @@ sysinfo.txt
 *.apk
 *.unitypackage
 .vscode/
+.vs/
 
 # 忽略文件目录
 Assets/VacuumShaders
