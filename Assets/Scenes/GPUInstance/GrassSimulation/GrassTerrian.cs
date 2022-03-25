@@ -81,9 +81,9 @@ public class GrassTerrian : MonoBehaviour
             var vertex2 = vertices[triIndex[i + 1]];
             var vertex3 = vertices[triIndex[i + 2]];
             // 计算三角形面积
-            var arena = Tools.CalculateTriangleArea(vertex1, vertex2, vertex3);
+            var arena = LcLTools.CalculateTriangleArea(vertex1, vertex2, vertex3);
             // 法向量
-            Vector3 normal = Tools.CalculateTriangleNormal(vertex1, vertex2, vertex3).normalized;
+            Vector3 normal = LcLTools.CalculateTriangleNormal(vertex1, vertex2, vertex3).normalized;
 
             // 一个三角形面生成 grassCount 个
             for (var j = 0; j < grassCount; j++)
@@ -93,7 +93,7 @@ public class GrassTerrian : MonoBehaviour
                 Vector2 texOffset = Vector2.zero;
                 Vector4 texParams = new Vector4(texScale.x, texScale.y, texOffset.x, texOffset.y);
                 // 三角形内随机采样
-                Vector3 randPos = Tools.RandomTriangle(vertex1, vertex2, vertex3);
+                Vector3 randPos = LcLTools.RandomTriangle(vertex1, vertex2, vertex3);
                 // 向法线方向偏移
                 randPos += normal.normalized * 0.5f * grassQuadSize.y;
 

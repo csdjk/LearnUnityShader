@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-public static class Tools
+public static class LcLTools
 {
     /// <summary>
     /// 三角形内随机采样
@@ -96,5 +96,25 @@ public static class Tools
         }
 
         return null;
+    }
+
+    // 全路径转Unity工程相对路径
+     public static string AssetsRelativePath(string absolutePath)
+    {
+
+        if (absolutePath.StartsWith(Application.dataPath))
+        {
+            return "Assets" + absolutePath.Substring(Application.dataPath.Length);
+        }
+        else
+        {
+            absolutePath = absolutePath.Replace('\\', '/');
+            if (absolutePath.StartsWith(Application.dataPath))
+            {
+                return "Assets" + absolutePath.Substring(Application.dataPath.Length);
+            }
+            Debug.LogWarning("Full path does not contain the current project's Assets folder");
+            return null;
+        }
     }
 }
