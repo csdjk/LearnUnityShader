@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 
 public class FileSystem
@@ -64,8 +65,8 @@ public class FileSystem
         }
     }
 
-    
-      public static void GetAllFileByPath(string path, Action<FileInfo> func, string searchPattern)
+
+    public static void GetAllFileByPath(string path, Action<FileInfo> func, string searchPattern)
     {
         DirectoryInfo dir = new DirectoryInfo(path);
         // 文件
@@ -94,6 +95,16 @@ public class FileSystem
             File.Delete(path);
         // 写入
         using (StreamWriter file = new StreamWriter(path, true))
+        {
+            func(file);
+        }
+    }
+    // 读取文件
+    public static void ReadeFile(string path, Action<StreamReader> func)
+    {
+        if (!File.Exists(path))
+            return;
+        using (StreamReader file = new StreamReader(path, Encoding.Default))
         {
             func(file);
         }
