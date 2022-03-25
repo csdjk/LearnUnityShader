@@ -295,17 +295,31 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 465466672}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f89a80c3d45394044926d8eb26ba39bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brushColor: {r: 1, g: 0, b: 0, a: 1}
-  brushSize: 0.1
+  brushColor: {r: 1, g: 0.020420859, b: 0, a: 1}
+  brushSize: 0.031000031
   brushStrength: 1
   brushHardness: 0.02
-  mousePos: {x: 0.021389667, y: 0.33931574, z: 0}
+  mousePos: {x: 0.24144429, y: 0.054115724, z: 0}
   render: {fileID: 465466673}
+--- !u!64 &465466675
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 465466672}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: f8be63edd520032488cf5b981351615d, type: 3}
 --- !u!1 &1573887326
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,7 +423,6 @@ GameObject:
   - component: {fileID: 2124301984}
   - component: {fileID: 2124301983}
   - component: {fileID: 2124301982}
-  - component: {fileID: 2124301981}
   - component: {fileID: 2124301980}
   m_Layer: 0
   m_Name: Plane
@@ -418,25 +431,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2124301980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2124301979}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f89a80c3d45394044926d8eb26ba39bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brushColor: {r: 1, g: 0, b: 0, a: 1}
-  brushSize: 0.046000026
-  brushStrength: 1
-  brushHardness: 0.02
-  mousePos: {x: 0.060607553, y: 0.19153541, z: 0}
-  render: {fileID: 2124301982}
---- !u!64 &2124301981
+--- !u!64 &2124301980
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
