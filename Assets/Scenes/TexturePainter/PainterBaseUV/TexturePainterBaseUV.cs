@@ -14,6 +14,7 @@ public enum PainterDrawModel
 }
 
 [ExecuteInEditMode]
+[RequireComponent(typeof(MeshCollider))]
 public class TexturePainterBaseUV : MonoBehaviour
 {
     private PainterDrawModel _drawModel = PainterDrawModel.Add;
@@ -58,6 +59,7 @@ public class TexturePainterBaseUV : MonoBehaviour
         Selection.selectionChanged -= SelectionChangedCallback;
         ClearResource();
         material.mainTexture = texture;
+        ShowUnityTools();
     }
 
     public void Init()
@@ -112,7 +114,7 @@ public class TexturePainterBaseUV : MonoBehaviour
         return compositeTexture;
     }
 
-     public Texture GetSourceTexture()
+    public Texture GetSourceTexture()
     {
         return texture;
     }
