@@ -209,6 +209,11 @@
 ## [笔刷 - 基于世界坐标](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/TexturePainter/PainterBaseWorldPos)
 [![qBa6FU.gif](https://s1.ax1x.com/2022/03/27/qBa6FU.gif)](https://imgtu.com/i/qBa6FU)
 
+## [薄膜干涉（镭射布料）](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/FilmInterference)
+[![qBBW4K.png](https://s1.ax1x.com/2022/03/27/qBBW4K.png)](https://imgtu.com/i/qBBW4K)
+[![qBBh9O.png](https://s1.ax1x.com/2022/03/27/qBBh9O.png)](https://imgtu.com/i/qBBh9O)
+
+
 # 曲面细分着色器
 ## [雪地交互](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/TessellShader/SnowGround2)
 
