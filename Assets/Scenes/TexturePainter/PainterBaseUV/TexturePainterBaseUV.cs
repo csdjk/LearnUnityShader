@@ -36,18 +36,89 @@ public class TexturePainterBaseUV : MonoBehaviour
     public float brushStrength = 1.0f;
     public float brushHardness = 0.5f;
 
-    private Material drawMaterial;
+    private Material _drawMaterial;
+    private Material drawMaterial
+    {
+        get
+        {
+            if (_drawMaterial == null)
+                _drawMaterial = new Material(Shader.Find("lcl/Painter/DrawShaderUV"));
+            return _drawMaterial;
+        }
+        set
+        {
+            _drawMaterial = value;
+        }
+    }
 
-    private RenderTexture currentTexture;
-    private RenderTexture tempTexture;
-    private RenderTexture compositeTexture;
 
+    private RenderTexture _currentTexture;
+    public RenderTexture currentTexture
+    {
+        get
+        {
+            if (!_currentTexture)
+                _currentTexture = CreateRT();
+            return _currentTexture;
+        }
+        set
+        {
+            _currentTexture = value;
+        }
+    }
+
+    private RenderTexture _tempTexture;
+    private RenderTexture tempTexture
+    {
+        get
+        {
+            if (!_tempTexture)
+                _tempTexture = CreateRT();
+            return _tempTexture;
+        }
+        set
+        {
+            _currentTexture = value;
+        }
+    }
+
+    private RenderTexture _compositeTexture;
+    private RenderTexture compositeTexture
+    {
+        get
+        {
+            if (!_compositeTexture)
+                _compositeTexture = CreateRT();
+            return _compositeTexture;
+        }
+        set
+        {
+            _currentTexture = value;
+        }
+    }
+
+    private Texture _texture;
+    public Texture texture
+    {
+        get
+        {
+            if (_texture == null)
+            {
+                _texture = CreateRT();
+            }
+            return _texture;
+        }
+        set
+        {
+            _texture = value;
+        }
+    }
     private int TextureSize = 1024;
     private bool isDraw;
     public Vector3 mousePos;
     public MeshRenderer render;
     private Material material;
-    private Texture texture;
+
 
     void OnEnable()
     {
@@ -67,7 +138,7 @@ public class TexturePainterBaseUV : MonoBehaviour
         render = GetComponent<MeshRenderer>();
         material = render.sharedMaterial;
         texture = material.mainTexture;
-        CreateDrawMaterial();
+        SetDrawTexture();
     }
 
     private void SelectionChangedCallback()
@@ -79,45 +150,12 @@ public class TexturePainterBaseUV : MonoBehaviour
     }
 
 
-    void CreateDrawMaterial()
+    void SetDrawTexture()
     {
-        drawMaterial = GetDrawMaterial();
-        var compRT = GetCompositeTexture();
-        Graphics.Blit(texture, compRT);
-        material.mainTexture = compRT;
+        Graphics.Blit(texture, compositeTexture);
+        material.mainTexture = compositeTexture;
     }
 
-    public Material GetDrawMaterial()
-    {
-        if (drawMaterial == null)
-            drawMaterial = new Material(Shader.Find("lcl/Painter/DrawShaderUV"));
-        return drawMaterial;
-    }
-    private RenderTexture GetTempTexture()
-    {
-        if (!tempTexture)
-            tempTexture = CreateRT();
-        return tempTexture;
-    }
-
-    public RenderTexture GetCurrentTexture()
-    {
-        if (!currentTexture)
-            currentTexture = CreateRT();
-        return currentTexture;
-    }
-
-    private RenderTexture GetCompositeTexture()
-    {
-        if (!compositeTexture)
-            compositeTexture = CreateRT();
-        return compositeTexture;
-    }
-
-    public Texture GetSourceTexture()
-    {
-        return texture;
-    }
 
     public void HideUnityTools()
     {
@@ -141,8 +179,6 @@ public class TexturePainterBaseUV : MonoBehaviour
             Debug.LogError("drawMat is null");
             return;
         }
-        var currentRT = GetCurrentTexture();
-        var tempRT = GetTempTexture();
         drawMaterial.SetColor("_BrushColor", brushColor);
         drawMaterial.SetFloat("_BrushSize", brushSize);
         drawMaterial.SetFloat("_BrushStrength", brushStrength);
@@ -152,27 +188,25 @@ public class TexturePainterBaseUV : MonoBehaviour
         if (draw)
         {
             int pass = drawModel == PainterDrawModel.Add ? 0 : 1;
-            Graphics.Blit(tempRT, currentRT, drawMaterial, pass);
-            Graphics.Blit(currentRT, tempRT);
+            Graphics.Blit(tempTexture, currentTexture, drawMaterial, pass);
+            Graphics.Blit(currentTexture, tempTexture);
 
             // 原图和Mask混合
-            drawMaterial.SetTexture("_MainTex", tempRT);
+            drawMaterial.SetTexture("_MainTex", tempTexture);
             drawMaterial.SetTexture("_SourceTex", texture);
-            Graphics.Blit(tempRT, GetCompositeTexture(), drawMaterial, 3);
+            Graphics.Blit(tempTexture, compositeTexture, drawMaterial, 3);
         }
         else
         {
-            drawMaterial.SetTexture("_MainTex", tempRT);
+            drawMaterial.SetTexture("_MainTex", tempTexture);
             drawMaterial.SetTexture("_SourceTex", texture);
-            Graphics.Blit(tempRT, GetCompositeTexture(), drawMaterial, 2);
+            Graphics.Blit(tempTexture, compositeTexture, drawMaterial, 2);
         }
     }
 
     public void DrawEmpty()
     {
-        var currentRT = GetCurrentTexture();
-        var tempRT = GetTempTexture();
-        Graphics.Blit(tempRT, currentRT);
+        Graphics.Blit(tempTexture, compositeTexture);
     }
 
     public void SetMousePos(Vector3 pos)
@@ -200,7 +234,7 @@ public class TexturePainterBaseUV : MonoBehaviour
     {
         ReleaseTexture();
         material.mainTexture = texture;
-        CreateDrawMaterial();
+        SetDrawTexture();
     }
 
     public void ReleaseTexture()
@@ -220,7 +254,7 @@ public class TexturePainterBaseUV : MonoBehaviour
 
     public void SaveRenderTextureToPng(string path)
     {
-        LcLTools.SaveRenderTextureToTexture(GetCompositeTexture(), path);
+        LcLTools.SaveRenderTextureToTexture(compositeTexture, path);
         var assetsPath = LcLTools.AssetsRelativePath(path);
         if (assetsPath != null)
         {

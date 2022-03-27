@@ -27,6 +27,7 @@
         {
             float2 uv : TEXCOORD0;
             float4 vertex : SV_POSITION;
+            float3 worldPos : TEXCOORD1;
         };
 
         
@@ -39,6 +40,7 @@
         }
         ENDCG
 
+        // pass 0
         Pass
         {
             Name "Add_Mask"
@@ -70,6 +72,7 @@
 
         }
 
+        // pass 1
         Pass
         {
             Name "Sub_Mask"
@@ -98,6 +101,8 @@
 
         }
 
+
+        // pass 2
         Pass
         {
             Name "Mark"
@@ -107,7 +112,7 @@
             #pragma vertex vert
             #pragma fragment frag
             #include "UnityCG.cginc"
-          
+            
             float4 frag(v2f i) : SV_Target
             {
                 float2 uv = i.uv;
@@ -131,6 +136,8 @@
 
         }
 
+
+        // pass 3
         Pass
         {
             Name "BlendColor"
@@ -140,7 +147,7 @@
             #pragma vertex vert
             #pragma fragment frag
             #include "UnityCG.cginc"
-         
+            
             float4 frag(v2f i) : SV_Target
             {
                 float2 uv = i.uv;

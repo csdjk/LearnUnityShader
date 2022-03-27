@@ -30,7 +30,7 @@ public class TexturePaintBaseUVEditor : Editor
     public override void OnPreviewGUI(Rect r, GUIStyle background)
     {
         painter = target as TexturePainterBaseUV;
-        var tex = painter.GetCurrentTexture();
+        var tex = painter.currentTexture;
         GUI.DrawTexture(r, tex, ScaleMode.ScaleToFit, false);
     }
 
@@ -58,11 +58,6 @@ public class TexturePaintBaseUVEditor : Editor
 
             GUILayout.Window(2, labelRect, (id) =>
             {
-                PainterDrawModel drawModel = (PainterDrawModel)EditorGUILayout.EnumPopup("Draw Model", painter.drawModel);
-                if (painter.drawModel != drawModel)
-                {
-                    painter.drawModel = drawModel;
-                }
                 DrawBrushInfoGUI();
                 DrawButtonGUI();
             }, "Painter Window");
@@ -139,9 +134,18 @@ public class TexturePaintBaseUVEditor : Editor
             }
             if (GUILayout.Button("Save"))
             {
-                string path = AssetDatabase.GetAssetPath(painter.GetSourceTexture());
-                path = Path.GetDirectoryName(path);
-                path = EditorUtility.SaveFilePanel("Save Texture", path, painter.GetSourceTexture().name,"png");
+                var tex = painter.texture;
+                string path = AssetDatabase.GetAssetPath(tex);
+                if (path.Equals(String.Empty))
+                {
+                    path = Application.dataPath;
+                }
+                else
+                {
+                    path = Path.GetDirectoryName(path);
+                }
+
+                path = EditorUtility.SaveFilePanel("Save Texture", path, tex ? tex.name : "", "png");
                 if (!path.Equals(String.Empty))
                 {
                     painter.SaveRenderTextureToPng(path);
@@ -152,13 +156,18 @@ public class TexturePaintBaseUVEditor : Editor
     }
     public void DrawBrushInfoGUI()
     {
+        PainterDrawModel drawModel = (PainterDrawModel)EditorGUILayout.EnumPopup("Draw Model", painter.drawModel);
+        if (painter.drawModel != drawModel)
+        {
+            painter.drawModel = drawModel;
+        }
         brushColor = EditorGUILayout.ColorField("Brush Mark Color", brushColor);
         brushSize = EditorGUILayout.Slider("Brush Size", brushSize, 0, 1);
         brushStrength = EditorGUILayout.Slider("Brush Strength", brushStrength, 0, 50);
         brushHardness = EditorGUILayout.Slider("Brush Hardness", brushHardness, 0, 1);
     }
 
-    [MenuItem("GameObject/Add Terrain Painter", false, 0)]
+    [MenuItem("GameObject/Add Texture Painter Base UV", false, 0)]
     static void AddTerrainPainter()
     {
         var selectGo = Selection.activeGameObject;
