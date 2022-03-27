@@ -4,42 +4,53 @@ using UnityEngine.Rendering;
 [ExecuteInEditMode]
 public class CommandBufferBakeTexture : MonoBehaviour
 {
-    private RenderTexture runTimeTexture;
-    private RenderTexture paintedTexture;
+    public Mesh mesh;
+    public Material material;
+    public Material fixedMaterial;
+    [Range(0, 500)]
+    public float pixelNum = 100;
+    public Color color = Color.red;
     private CommandBuffer commandBuffer;
     private int width = 1024;
     private int height = 1024;
-    public Mesh mesh;
-    public Shader shader;
+    public RenderTexture runTimeTexture;
+    public RenderTexture fixedEdgeTexture;
 
     void OnEnable()
     {
-        Material material = new Material(shader);
         runTimeTexture = RenderTexture.GetTemporary(width, height);
-        paintedTexture = RenderTexture.GetTemporary(width, height);
+        fixedEdgeTexture = RenderTexture.GetTemporary(width, height);
 
         commandBuffer = new CommandBuffer();
-        commandBuffer.name = "TexturePainting";
+        commandBuffer.name = "BakeTexture";
         commandBuffer.SetRenderTarget(runTimeTexture);
         commandBuffer.DrawMesh(mesh, Matrix4x4.identity, material);
-        commandBuffer.Blit(runTimeTexture, paintedTexture);
-        Camera.main.AddCommandBuffer(CameraEvent.AfterDepthTexture, commandBuffer);
 
-        // Graphics.SetRenderTarget(runTimeTexture);
-        // Graphics.DrawMesh(mesh, Vector3.zero, Quaternion.identity, material, 0);
-        // Graphics.Blit(runTimeTexture, paintedTexture);
+        fixedMaterial.SetTexture("_MainTex", runTimeTexture);
+        commandBuffer.Blit(runTimeTexture, fixedEdgeTexture, fixedMaterial);
+
+        Camera.main.AddCommandBuffer(CameraEvent.AfterDepthTexture, commandBuffer);
     }
 
+    void Update()
+    {
+        if (material)
+        {
+            material.SetFloat("_PixelNumber", pixelNum);
+            material.SetColor("_Color", color);
+        }
+
+    }
 
     private void OnDisable()
     {
         runTimeTexture.Release();
-        paintedTexture.Release();
+        fixedEdgeTexture.Release();
         Camera.main.RemoveCommandBuffer(CameraEvent.AfterDepthTexture, commandBuffer);
         commandBuffer.Release();
     }
-    private void OnGUI()
-    {
-        GUI.DrawTexture(new Rect(0, 0, 256, 256), paintedTexture, ScaleMode.ScaleToFit, false, 1);
-    }
+    // private void OnGUI()
+    // {
+    //     GUI.DrawTexture(new Rect(0, 0, 256, 256), runTimeTexture, ScaleMode.ScaleToFit, false, 1);
+    // }
 }
