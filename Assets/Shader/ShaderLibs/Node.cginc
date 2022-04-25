@@ -27,3 +27,46 @@ half4 FlowMapNode(sampler2D mainTex, sampler2D flowMap, float2 mainUV, float til
 
     return finalCol;
 }
+
+
+half4 SquenceImage(sampler2D tex, float2 uv, float2 amount, float speed)
+{
+    float time = floor(_Time.y * speed);
+    float row = floor(time / amount.x);
+    float column = time - row * amount.x;
+
+    half2 new_uv = float2(uv.x / amount.x, uv.y / amount.y);
+    new_uv.x = new_uv.x + column / amount.x;
+    new_uv.y = new_uv.y - row / amount.y;
+    return tex2D(tex, new_uv);
+}
+
+// 以半径扩散溶解
+// dissolveData => x : threshold , y : maxDistance, z : noiseStrength
+// edgeData => x : length , y : blur
+half4 DissolveByRadius(
+    half4 color, sampler2D NoiseTex, float2 uv, float3 positionOS, float3 center,
+    float3 dissolveData, float2 edgeData,
+    half4 edgeFirstColor, half4 edgeSecondColor)
+{
+    float dist = length(positionOS.xyz - center.xyz);
+    float normalizedDist = saturate(dist / dissolveData.y);
+    half noise = tex2D(NoiseTex, uv).r;
+    
+    fixed cutout = lerp(noise, normalizedDist, dissolveData.z);
+    half cutoutThreshold = dissolveData.x - cutout;
+    clip(cutoutThreshold);
+
+    cutoutThreshold = cutoutThreshold / edgeData.x;
+    //边缘颜色过渡
+    float degree = saturate(cutoutThreshold - edgeData.y);
+    half4 edgeColor = lerp(edgeFirstColor, edgeSecondColor, degree);
+    half4 finalColor = lerp(edgeColor, color, degree);
+
+
+    // 软边缘透明过渡
+    half a = saturate(color.a);
+    finalColor.a = lerp(saturate(cutoutThreshold / edgeData.y) * a, a, degree);
+
+    return finalColor;
+}

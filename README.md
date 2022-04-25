@@ -151,6 +151,15 @@
 
 ![zoom.gif](https://i.loli.net/2021/09/25/ibnV1oy4jvCFUTR.gif)
 
+# UI Shader
+
+## [老照片风格](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Shader2D/UI-OldPhoto)
+
+[![LI5hZD.png](https://s1.ax1x.com/2022/04/25/LI5hZD.png)](https://imgtu.com/i/LI5hZD)
+
+## [径向溶解](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Shader2D/UI-Disolve)
+
+[![LI54de.gif](https://s1.ax1x.com/2022/04/25/LI54de.gif)](https://imgtu.com/i/LI54de)
 
 # 其他Shader
 
