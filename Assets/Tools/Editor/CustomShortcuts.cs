@@ -1,4 +1,5 @@
-﻿/*
+﻿using System.IO;
+/*
  * @Descripttion: 自定义快捷键
  * @Author: lichanglong
  * @Date: 2020-12-18 11:33:56
@@ -34,6 +35,34 @@ public class CustomShortcuts
         EditorGUIUtility.PingObject(assetObj);
     }
 
+    [MenuItem("LCLTools/CustomKeys/创建Material %#c")]
+    static void CreateMaterial()
+    {
+        var objects = Selection.objects;
+        if (objects == null) return;
+        foreach (var obj in objects)
+        {
+            var shader = obj as Shader;
+
+            var path = AssetDatabase.GetAssetPath(obj);
+            if (shader)
+            {
+                Material material = new Material(shader);
+                path = path.Replace(".shader", ".mat");
+                AssetDatabase.CreateAsset(material, path);
+            }
+            else
+            {
+                Material material = new Material(Shader.Find("Standard"));
+                path = Path.GetDirectoryName(path) + "/newMaterial.mat";
+                AssetDatabase.CreateAsset(material, path);
+            }
+        }
+    }
+
+
+    // ---------------------【Shift + ...】--------------------------
+
     [MenuItem("LCLTools/CustomKeys/重置Position #r")]
     static void QuickResetPosition()
     {
@@ -41,11 +70,11 @@ public class CustomShortcuts
         if (trsArr == null) return;
         foreach (var trs in trsArr)
         {
+            Undo.RecordObject(trs, "Reset Position");
             trs.localPosition = Vector3.zero;
         }
     }
 
-    // ---------------------【Shift + ...】--------------------------
     [MenuItem("LCLTools/CustomKeys/隐藏显示Object #a")]
     static void QuickSetActive()
     {
@@ -55,6 +84,7 @@ public class CustomShortcuts
         if (trsArr == null) return;
         foreach (var trs in trsArr)
         {
+            Undo.RecordObject(trs, "Show Objects");
             trs.gameObject.SetActive(!trs.gameObject.activeSelf);
         }
     }
@@ -97,6 +127,7 @@ public class CustomShortcuts
         }
 
         go.transform.SetSiblingIndex(index);
+        Undo.RegisterCreatedObjectUndo(go, "CreateCustomModel");
     }
 
     [MenuItem("GameObject/CreateCustomModel/Jan", false, 0)]
@@ -152,5 +183,15 @@ public class CustomShortcuts
         CreateCustomModel("Assets/Models/Other/sphere2.FBX");
     }
     // end
+
+
+
+
+
+
+
+
+
+
 
 }

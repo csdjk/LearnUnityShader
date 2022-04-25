@@ -2,32 +2,33 @@
 {
 	Properties
 	{
-		_MainTex ("Texture", 2D) = "white" {}
-		_Specular("_Specular Color",Color) = (1,1,1,1)
-		_Gloss("Gloss",Range(8,200)) = 10
-		_NoiseTex("Noise", 2D) = "white" {}
-		_Threshold("Threshold", Range(0.0, 1.0)) = 0.5
-		_EdgeLength("Edge Length", Range(0.0, 0.2)) = 0.1
-		_RampTex("Ramp", 2D) = "white" {}
-		_StartPoint("Start Point", Vector) = (0, 0, 0, 0)
-		_MaxDistance("Max Distance", Range(0.0, 100)) = 0
-		_DistanceEffect("Distance Effect", Range(0.0, 1.0)) = 0.5
+		_MainTex ("Texture", 2D) = "white" { }
+		_Specular ("_Specular Color", Color) = (1, 1, 1, 1)
+		_Gloss ("Gloss", Range(8, 200)) = 10
+		_NoiseTex ("Noise", 2D) = "white" { }
+		_Threshold ("Threshold", Range(0.0, 1.0)) = 0.5
+		_EdgeLength ("Edge Length", Range(0.0, 0.2)) = 0.1
+		_RampTex ("Ramp", 2D) = "white" { }
+		_StartPoint ("Start Point", Vector) = (0, 0, 0, 0)
+		_MaxDistance ("Max Distance", Range(0.0, 100)) = 0
+		_DistanceEffect ("Distance Effect", Range(0.0, 1.0)) = 0.5
 
-		[Toggle(_SWITCH_ON)]_SWITCH("Switch",int) = 0
+		[Toggle(_SWITCH_ON)]_SWITCH ("Switch", int) = 0
 	}
 	SubShader
 	{
-		Tags { "Queue"="Geometry" "RenderType"="Opaque" }
+		Tags { "Queue" = "Geometry" "RenderType" = "Opaque" }
 
 		Pass
 		{
-			Tags {"LightMode" = "ForwardBase"}
-			Cull Off 
+			Tags { "LightMode" = "ForwardBase" }
+			Cull Off
 
 			CGPROGRAM
+
 			#pragma vertex vert
 			#pragma fragment frag
-            #pragma shader_feature _SWITCH_ON
+			#pragma shader_feature _SWITCH_ON
 			
 			#include "UnityCG.cginc"
 			#include "Lighting.cginc"
@@ -65,7 +66,7 @@
 			float4 _StartPoint;
 			float _DistanceEffect;
 			
-			v2f vert (appdata v)
+			v2f vert(appdata v)
 			{
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
@@ -81,7 +82,7 @@
 				return o;
 			}
 			
-			fixed4 frag (v2f i) : SV_Target
+			fixed4 frag(v2f i) : SV_Target
 			{
 				float dist = length(i.localPos.xyz - _StartPoint.xyz);
 				float normalizedDist = saturate(dist / _MaxDistance);
@@ -99,17 +100,18 @@
 				fixed4 albedo = tex2D(_MainTex, i.uvMainTex);
 				float3 worldNormal = normalize(i.worldNormal);
 				float3 lightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
-				fixed3 diffuse = _LightColor0.rgb * albedo.rgb * saturate(dot(worldNormal, lightDir)*0.5+0.5);
+				fixed3 diffuse = _LightColor0.rgb * albedo.rgb * saturate(dot(worldNormal, lightDir) * 0.5 + 0.5);
 				//BlinnPhong
 				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
 				fixed3 halfDir = normalize(lightDir + viewDir);
 				fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0, dot(worldNormal, halfDir)), _Gloss);
-				fixed3 resCol = specular+diffuse;
+				fixed3 resCol = specular + diffuse;
 
 				fixed4 finalColor = lerp(edgeColor, fixed4(resCol, 1), degree);
 				return fixed4(finalColor.rgb, 1);
 			}
 			ENDCG
+
 		}
 	}
 }

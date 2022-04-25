@@ -23,7 +23,8 @@ Shader "lcl/learnShader2/007_imageSquenceAnimation" {
 			#pragma fragment frag
 			
 			#include "UnityCG.cginc"
-			
+			#include "Assets\Shader\ShaderLibs\Node.cginc"
+
 			fixed4 _Color;
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
@@ -49,18 +50,8 @@ Shader "lcl/learnShader2/007_imageSquenceAnimation" {
 			}  
 			
 			fixed4 frag (v2f i) : SV_Target {
-				float time = floor(_Time.y * _Speed);  
-				float row = floor(time / _HorizontalAmount);
-				float column = time - row * _HorizontalAmount;
-
-				half2 uv = float2(i.uv.x /_HorizontalAmount, i.uv.y / _VerticalAmount);
-                uv.x = uv.x + column/_HorizontalAmount;
-                uv.y = uv.y - row/_VerticalAmount;
-
-				
-				fixed4 c = tex2D(_MainTex, uv);
+				fixed4 c = SquenceImage(_MainTex, i.uv, float2(_HorizontalAmount,_VerticalAmount), _Speed);
 				c.rgb *= _Color;
-				
 				return c;
 			}
 			
