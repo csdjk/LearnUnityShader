@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Water2
+  m_Shader: {fileID: 4800000, guid: 48b128b519ce75447bfc730550e4fcc1, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Bump:
+        m_Texture: {fileID: 2800000, guid: 0df7a0b61c9dfa6408ae01459c10ffec, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cubemap:
+        m_Texture: {fileID: 8900000, guid: e71fc492f440446b99875b8e1df890ba, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Ax: 0.2
+    - _Ay: 0.1
+    - _BumpSize: 1
+    - _BumpSpeed: 0.341
+    - _Lx: 2.35
+    - _Ly: 1.26
+    - _Q: 1.45
+    - _RefractionScale: 1.5
+    - _Sx: 1
+    - _Sy: 1
+    m_Colors:
+    - _D: {r: 1, g: 1, b: 0, a: 0}
+    - _LateralColor: {r: 0, g: 0.9528302, b: 0.48927352, a: 1}
+    - _UpColor: {r: 0.740566, g: 0.8157802, b: 1, a: 1}
