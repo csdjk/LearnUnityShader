@@ -1,33 +1,51 @@
-﻿Shader "lcl/Glass/Glass"{
-   Properties {
-      _Cube("Skybox", Cube) = "" {}
-      _EtaRatio("EtaRatio", Range(0, 1)) = 0
-      _FresnelBias("Bias", Range(0, 1)) = .5
-      _FresnelScale("Scale", Range(0, 10)) = .5
-      _FresnelPower("Power", Range(0, 10)) = .5 
+﻿Shader "lcl/Glass/Glass"
+{
+   Properties
+   {
+      _Color ("Color", Color) = (1, 1, 1, 1)
+      _Cube ("Skybox", Cube) = "" { }
+      _EtaRatio ("EtaRatio", Range(0, 1)) = 0
+      _FresnelBias ("Bias", Range(0, 1)) = .5
+      _FresnelScale ("Scale", Range(0, 10)) = .5
+      _FresnelPower ("Power", Range(0, 10)) = .5
    }
-   SubShader {
-      Pass {   
+   SubShader
+   {
+      // Pass
+      // {
+      //    ColorMask 0
+      //    ZWrite On
+      // }
+
+      Pass
+      {
+         Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
+         Blend SrcAlpha OneMinusSrcAlpha
+         Cull Off
+         // ZWrite Off
 
          CGPROGRAM
-         
-         #pragma vertex vert  
+
+         #pragma vertex vert
          #pragma fragment frag
 
          #include "UnityCG.cginc"
 
          samplerCUBE _Cube;
+         float4 _Color;
          float _EtaRatio;
          float _FresnelBias;
          float _FresnelScale;
          float _FresnelPower;
 
-         struct appdata {
+         struct appdata
+         {
             float4 vertex : POSITION;
             float3 normal : NORMAL;
          };
 
-         struct v2f {
+         struct v2f
+         {
             float4 pos : SV_POSITION;
             float3 normalDir : TEXCOORD0;
             float3 viewDir : TEXCOORD1;
@@ -36,7 +54,7 @@
          //计算反射方向
          float3 caculateReflectDir(float3 I, float3 N)
          {
-            float3 R = I - 2.f * N * dot(I, N); 
+            float3 R = I - 2.f * N * dot(I, N);
             return R;
          }
 
@@ -44,7 +62,7 @@
          float3 caculateRefractDir(float3 I, float3 N, float etaRatio)
          {
             float cosTheta = dot(-I, N);
-            float cosTheta2 = sqrt(1.f - pow(etaRatio,2) * (1 - pow(cosTheta,2)));
+            float cosTheta2 = sqrt(1.f - pow(etaRatio, 2) * (1 - pow(cosTheta, 2)));
             float3 T = etaRatio * (I + N * cosTheta) - N * cosTheta2;
             return T;
          }
@@ -57,15 +75,15 @@
          }
 
          
-         v2f vert(appdata v) 
+         v2f vert(appdata v)
          {
             v2f o;
             
-            float4x4 modelMatrixInverse = unity_WorldToObject; 
+            float4x4 modelMatrixInverse = unity_WorldToObject;
             
             o.viewDir = mul(unity_ObjectToWorld, v.vertex).xyz - _WorldSpaceCameraPos;
 
-            o.normalDir = normalize (mul ((float3x3)unity_ObjectToWorld, v.normal));
+            o.normalDir = normalize(mul((float3x3)unity_ObjectToWorld, v.normal));
 
             o.pos = UnityObjectToClipPos(v.vertex);
 
@@ -84,10 +102,13 @@
             float fresnel = CaculateFresnelApproximation(input.viewDir, input.normalDir);
 
             fixed4 col = lerp(refractCol, reflectCol, fresnel);
+            col.rgb *= _Color.rgb;
+            col.a = _Color.a;
             return col;
          }
          
          ENDCG
+
       }
    }
 }
