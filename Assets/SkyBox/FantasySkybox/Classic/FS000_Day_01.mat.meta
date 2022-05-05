@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Models/SciFi_Fighter_AK5/Models/Materials/SciFi_Fighter_AK5-diffuse.mat.meta
+guid: cb94a76a729ceaa49a858777623169a3
+=======
 guid: 12ccb828343c3405fb94289774b51aad
+>>>>>>> 380e30e007e54b5c90f4d4992d630bae4eab65d7:Assets/SkyBox/FantasySkybox/Classic/FS000_Day_01.mat.meta
 NativeFormatImporter:
   userData: 
   assetBundleName: 
