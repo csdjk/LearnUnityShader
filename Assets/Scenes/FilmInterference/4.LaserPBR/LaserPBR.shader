@@ -122,7 +122,7 @@ Shader "lcl/FilmInterference/LaserPBR"
 
                 laserColor = lerp(1, laserColor, _LaserBlend) * fresnel;
 
-                s.Albedo *= laserColor;
+                s.Albedo = laserColor;
                 fixed4 finalColor = LCL_BRDF_Unity_PBS(s, giInput, gi);
 
 
