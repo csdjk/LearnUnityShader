@@ -59,7 +59,7 @@ static public class PrefabExtension
         }
 
         // PrefabMode中的GameObject既不是Instance也不是Asset
-        var prefabStage = UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject);
+        var prefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject);
         if (prefabStage != null)
         {
             // 预制体资源：prefabAsset = prefabStage.prefabContentsRoot
