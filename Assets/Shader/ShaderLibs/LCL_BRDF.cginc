@@ -1,3 +1,6 @@
+#ifndef APP_BRDF_INCLUDED
+#define APP_BRDF_INCLUDED
+
 #include "Lighting.cginc"
 #include "AutoLight.cginc"
 
@@ -112,6 +115,10 @@ float D_GGX_TR(float NdotH, float roughness)
 float3 F_FrenelSchlick(float HdotV, float3 F0)
 {
     return F0 + (1 - F0) * pow(1 - HdotV, 5.0);
+}
+inline float3 F_Fresnel_UE4(float HdotV, float3 F0)
+{
+    return F0 + (1 - F0) * pow(2, (-5.55473 * HdotV - 6.98316) * HdotV);
 }
 
 // 计算菲涅耳效应时纳入表面粗糙度(roughness)
@@ -335,7 +342,8 @@ half4 LCL_BRDF_Unity_PBS(LclSurfaceOutput s, LclUnityGIInput giInput, UnityGI gi
     
     // Specular BRDF
     float D = D_GGX_TR(NdotH, roughness);
-    float3 F = F_FrenelSchlick(HdotV, F0);
+    // float3 F = F_FrenelSchlick(HdotV, F0);
+    float3 F = F_Fresnel_UE4(HdotV, F0);
     float G = G_GeometrySmith(NdotV, NdotL, roughness);
     
     // Cook-Torrance BRDF = (D * G * F) / (4 * NdotL * NdotV)
@@ -346,7 +354,7 @@ half4 LCL_BRDF_Unity_PBS(LclSurfaceOutput s, LclUnityGIInput giInput, UnityGI gi
     // 反射方程
     float3 ks = F;
     float3 kd = 1.0 - ks;
-    kd *= (1 - metallic);
+    kd *= (1 - metallic) * albedo;
     float3 directLight = (diffuseBRDF * kd + specularBRDF) * NdotL * gi.light.color * atten;
 
 
