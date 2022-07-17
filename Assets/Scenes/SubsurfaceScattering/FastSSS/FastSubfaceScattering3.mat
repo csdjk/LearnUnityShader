@@ -27,7 +27,7 @@ Material:
     - _Distortion: 0.583
     - _DistortionBack: 0.406
     - _DistortionFont: 0
-    - _FrontSssIntensity: 0.135
+    - _FrontSssIntensity: 0.073
     - _Gloss: 80.1
     - _InteriorColorPower: 3.7
     - _Power: 2.17

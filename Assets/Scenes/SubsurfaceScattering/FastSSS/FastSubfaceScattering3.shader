@@ -143,6 +143,7 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering3" {
 				fixed3 diffuse = _LightColor0.rgb * max(dot(normalDir,lightDir),0);
 				fixed4 unlitCol = col * _InteriorColor * 0.5;
 				diffuse = lerp(unlitCol, col, diffuse); 
+				
 
 				// -------------Specular-BlinnPhong-------------
 				fixed3 halfDir = normalize(lightDir+viewDir);
@@ -156,6 +157,7 @@ Shader "lcl/SubsurfaceScattering/FastSubfaceScattering3" {
 				float sssValue = saturate(sssValueFont * _FrontSssIntensity + sssValueBack);
 				fixed3 sssCol = lerp(_InteriorColor, _LightColor0, saturate(pow(sssValue, _InteriorColorPower))).rgb * sssValue;
 
+				// return float4(sssCol,1);
 
 				// ---------------Rim---------------
 				// float rim = 1.0 - max(0, dot(normalDir, viewDir));

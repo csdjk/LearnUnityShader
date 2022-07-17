@@ -3,6 +3,10 @@
 // 2022.4.5
 // 封装的一些功能节点
 
+#ifndef NODE_INCLUDED
+#define NODE_INCLUDED
+
+
 // Flow Map
 half4 FlowMapNode(sampler2D mainTex, sampler2D flowMap, float2 mainUV, float tilling, float flowSpeed, float strength)
 {
@@ -28,7 +32,7 @@ half4 FlowMapNode(sampler2D mainTex, sampler2D flowMap, float2 mainUV, float til
     return finalCol;
 }
 
-
+// 序列帧
 half4 SquenceImage(sampler2D tex, float2 uv, float2 amount, float speed)
 {
     float time = floor(_Time.y * speed);
@@ -40,6 +44,50 @@ half4 SquenceImage(sampler2D tex, float2 uv, float2 amount, float speed)
     new_uv.y = new_uv.y - row / amount.y;
     return tex2D(tex, new_uv);
 }
+
+// 平滑值
+inline half SmoothValue(half NdotL, half threshold, half smoothness)
+{
+    half minValue = saturate(threshold - smoothness * 0.5);
+    half maxValue = saturate(threshold + smoothness * 0.5);
+    return smoothstep(minValue, maxValue, NdotL);
+}
+
+// SSS
+inline float SubsurfaceScattering(float3 V, float3 L, float3 N, float distortion, float power, float scale)
+{
+    float3 H = (L + N * distortion);
+    float I = pow(saturate(dot(V, -H)), power) * scale;
+    return I;
+}
+
+// 对应Blender color ramp 节点
+half3 ColorRamp(float fac, half2 mulbias, half3 color1, half3 color2)
+{
+    fac = clamp(fac * mulbias.x + mulbias.y, 0.0, 1.0);
+    half3 outcol = lerp(color1, color2, fac);
+    return outcol;
+}
+
+// 分层Diffuse
+half3 ColorLayer(float3 NdotL, half smoothness, half threshold1, half threshold2, half3 color1, half3 color2, half3 color3)
+{
+    float NdotL2 = NdotL + 1;
+    NdotL2 = SmoothValue(NdotL2, threshold1, smoothness);
+    float3 middleC = lerp(color1, color2, NdotL2);
+
+    NdotL = SmoothValue(NdotL, threshold2, smoothness);
+    float3 heightC = lerp(color2, color3, NdotL);
+
+    return lerp(middleC, heightC, 1 - step(NdotL, 0));
+}
+
+// 重映射
+float Remap(float In, float2 InMinMax, float2 OutMinMax)
+{
+    return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
+}
+
 
 // 以半径扩散溶解
 // dissolveData => x : threshold , y : maxDistance, z : noiseStrength
@@ -70,3 +118,6 @@ half4 DissolveByRadius(
 
     return finalColor;
 }
+
+
+#endif
