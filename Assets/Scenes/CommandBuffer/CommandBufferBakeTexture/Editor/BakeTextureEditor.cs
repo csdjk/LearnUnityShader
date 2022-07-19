@@ -15,6 +15,8 @@ public class BakeTextureEditor : Editor
     public override void OnPreviewGUI(Rect r, GUIStyle background)
     {
         var baker = target as CommandBufferBakeTexture;
+        if (baker.commandBuffer == null)
+            return;
         // GUI.DrawTexture(r, baker.runTimeTexture, ScaleMode.ScaleToFit, false);
 
         float halfWidth = r.width / 2;

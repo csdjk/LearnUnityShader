@@ -22,8 +22,9 @@ Shader "lcl/Shadows/ShadowReceiver"
             #pragma vertex vert
             #pragma fragment frag
 
+            // multi_compile_fwdbase 关键字也必须定义
             #pragma multi_compile_fwdbase
-            #pragma enable_d3d11_debug_symbols
+            // #pragma enable_d3d11_debug_symbols
 
             #include "UnityCG.cginc"
             // 需要引入该库文件

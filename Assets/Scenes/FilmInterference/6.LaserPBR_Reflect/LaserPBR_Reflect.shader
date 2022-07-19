@@ -92,7 +92,7 @@
 
                 // 色相偏移
                 half4 hsbc = half4(_Hue, _Saturation, _Brightness, _Contrast);
-                laserColor = applyHSBCEffect(float4(laserColor, 1), hsbc);
+                laserColor = ApplyHSBCEffect(float4(laserColor, 1), hsbc);
                 laserColor = laserColor * (NdotL * 0.5 + 0.5) + laserColor * pow(NdotH, 25);
 
 

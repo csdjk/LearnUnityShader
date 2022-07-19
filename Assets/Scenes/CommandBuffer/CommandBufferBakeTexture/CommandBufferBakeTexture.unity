@@ -404,7 +404,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cb94a76a729ceaa49a858777623169a3, type: 2}
+  - {fileID: 2100000, guid: 0aa851515cd3747d6b3b3e461199a2ed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -458,6 +458,7 @@ GameObject:
   - component: {fileID: 2162253206924036229}
   - component: {fileID: 2162253206923266213}
   - component: {fileID: 2162253206922267237}
+  - component: {fileID: 2162253206924530854}
   m_Layer: 0
   m_Name: SciFi_Fighter_AK5
   m_TagString: Untagged
@@ -465,3 +466,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2162253206924530854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2162253206924530853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be3c4c4b139b33e4482d6f84b442d496, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mesh: {fileID: 4300000, guid: f8be63edd520032488cf5b981351615d, type: 3}
+  material: {fileID: 2100000, guid: 810f99b168400854dab54501a872ae24, type: 2}
+  fixedMaterial: {fileID: 2100000, guid: 7f9b8daaa2f9da0428ba1c6e8d869d5d, type: 2}
+  pixelNum: 260
+  color: {r: 1, g: 1, b: 1, a: 1}
+  runTimeTexture: {fileID: 0}
+  fixedEdgeTexture: {fileID: 0}

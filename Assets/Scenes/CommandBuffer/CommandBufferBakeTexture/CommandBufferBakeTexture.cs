@@ -10,14 +10,16 @@ public class CommandBufferBakeTexture : MonoBehaviour
     [Range(0, 500)]
     public float pixelNum = 100;
     public Color color = Color.red;
-    private CommandBuffer commandBuffer;
+    public CommandBuffer commandBuffer;
     private int width = 1024;
     private int height = 1024;
     public RenderTexture runTimeTexture;
     public RenderTexture fixedEdgeTexture;
 
-    void OnEnable()
+    void CreateBakeCommandBuffer()
     {
+        if (mesh == null || material == null || fixedMaterial == null)
+            return;
         runTimeTexture = RenderTexture.GetTemporary(width, height);
         fixedEdgeTexture = RenderTexture.GetTemporary(width, height);
 
@@ -34,6 +36,10 @@ public class CommandBufferBakeTexture : MonoBehaviour
 
     void Update()
     {
+        if (commandBuffer == null)
+        {
+            CreateBakeCommandBuffer();
+        }
         if (material)
         {
             material.SetFloat("_PixelNumber", pixelNum);
@@ -46,8 +52,11 @@ public class CommandBufferBakeTexture : MonoBehaviour
     {
         runTimeTexture.Release();
         fixedEdgeTexture.Release();
-        Camera.main.RemoveCommandBuffer(CameraEvent.AfterDepthTexture, commandBuffer);
-        commandBuffer.Release();
+        if (commandBuffer != null)
+        {
+            Camera.main.RemoveCommandBuffer(CameraEvent.AfterDepthTexture, commandBuffer);
+            commandBuffer.Release();
+        }
     }
     // private void OnGUI()
     // {
