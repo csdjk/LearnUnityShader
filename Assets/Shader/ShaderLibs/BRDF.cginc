@@ -1,3 +1,6 @@
+#ifndef LCL_BRDF_INCLUDED
+#define LCL_BRDF_INCLUDED
+
 struct BxDFContext
 {
     float NdotV;
@@ -71,7 +74,7 @@ float4 Square(float4 x)
     return x * x;
 }
 
-// 各向异性BRDF
+// ================================== 各向异性BRDF ==================================
 void GetAnisotropicRoughness(float Roughness, float Anisotropy, out float ax, out float ay)
 {
     // Anisotropic parameters: ax and ay are the roughness along the tangent and bitangent
@@ -272,3 +275,61 @@ float2 EnvBRDFApprox(float Roughness, float NoV)
     float2 AB = float2(-1.04, 1.04) * a004 + r.zw;
     return AB;
 }
+
+
+
+// ================================== Spherical Gaussian SSS (球面高斯 次表面散射) ==================================
+struct FSphericalGaussian
+{
+    // float3 Axis;
+    float Sharpness;
+    float Amplitude;
+};
+
+FSphericalGaussian MakeNormalizedSG(half spharpness)
+{
+    FSphericalGaussian SG;
+    // SG.Axis = L;
+    SG.Sharpness = spharpness;
+    SG.Amplitude = SG.Sharpness / ((2 * UNITY_PI) * (1 - exp(-2 * SG.Sharpness)));
+    return SG;
+}
+
+float DotCosineLobe(FSphericalGaussian G, float NdotL)
+{
+    // const float muDotN = dot(G.Axis, N);
+    const float muDotN = NdotL;
+    const float c0 = 0.36;
+    const float c1 = 0.25 / c0;
+    float eml = exp(-G.Sharpness);
+    float em2l = eml * eml;
+    float rl = rcp(G.Sharpness);
+    float scale = 1.0f + 2.0f * em2l - rl;
+    float bias = (eml - em2l) * rl - em2l;
+
+    float x = sqrt(1.0 - scale);
+    float x0 = c0 * muDotN;
+    float x1 = c1 * x;
+    float n = x0 + x1;
+    // float y = (abs(x0) <= x1)? n * n / x : saturate(muDotN);
+    float y1 = n * n / x;
+    float y2 = saturate(muDotN);
+    float y = lerp(y2,y1,  step(abs(x0), x1));
+    return scale * y + bias;
+}
+
+half3 SGDiffuseLighting(float NdotL, half3 scatterAmt,float scatterPower)
+{
+    FSphericalGaussian redKernel = MakeNormalizedSG(1 / max(scatterAmt.x, 0.00001f));
+    FSphericalGaussian greenKernel = MakeNormalizedSG(1 / max(scatterAmt.y, 0.00001f));
+    FSphericalGaussian blueKernel = MakeNormalizedSG(1 / max(scatterAmt.z, 0.00001f));
+    half3 diffuse = half3(DotCosineLobe(redKernel, NdotL), DotCosineLobe(greenKernel, NdotL), DotCosineLobe(blueKernel, NdotL));
+
+    diffuse *= scatterPower;
+    // tone mapping
+    half3 x = max(0, (diffuse - 0.004f));
+    diffuse = (x * (6.2 * x + 0.5)) / (x * (6.2 * x + 1.7) + 0.06);
+    return diffuse;
+}
+
+#endif

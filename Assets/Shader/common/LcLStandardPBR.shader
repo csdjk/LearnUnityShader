@@ -1,6 +1,6 @@
 Shader "lcl/LcLStandardPBR"
 {
-   Properties
+    Properties
     {
         _MainTex ("Albedo Tex", 2D) = "white" { }
         _DiffuseColor ("Diffuse Color", Color) = (1, 1, 1, 1)
@@ -18,13 +18,17 @@ Shader "lcl/LcLStandardPBR"
         [Toggle(ANISO_ON)]_ANISO ("Anisotropy", float) = 0
         _Anisotropy ("Anisotropy", Range(0, 1)) = 0
         
+        [Toggle(SSS_ON)]_SSS ("SSS", float) = 0
+        _ScatterAmt ("Scatter Amt", Color) = (1, 0.3, 0.3, 1)
+        _ScatterPower ("Scatter Power", Range(0, 10)) = 1
+        
         // _EmissionTex ("Emission Tex", 2D) = "white" { }
         [Toggle(EMISSION_ON)]_EMISSION ("Emission", float) = 0
         [HDR]_EmissionColor ("Emission Color", Color) = (0, 0, 0, 0)
-     
+        
         [Header(Rim)]
         [Toggle(RIM_ON)]_RIM_ON ("RimLight", float) = 0
-	    _RimColor("Rim Color", Color) = (0,0,0,0)
+        _RimColor ("Rim Color", Color) = (0, 0, 0, 0)
         _RimWidth ("Rim Width", Range(0, 1)) = 0.25
         _RimIntensity ("Rim Intensity", Range(0, 2)) = 0.5
         _RimSmoothness ("Rim Smoothness", Range(0, 1)) = 0.15
@@ -48,6 +52,7 @@ Shader "lcl/LcLStandardPBR"
             #pragma shader_feature RIM_ON
             #pragma shader_feature EMISSION_ON
             #pragma shader_feature ANISO_ON
+            #pragma shader_feature SSS_ON
 
             #define _NORMALMAP
             // #define _EMISSIONGROUP_ON
@@ -60,6 +65,5 @@ Shader "lcl/LcLStandardPBR"
             #pragma fragment LitPassFragment
             ENDCG
         }
-
     }
 }

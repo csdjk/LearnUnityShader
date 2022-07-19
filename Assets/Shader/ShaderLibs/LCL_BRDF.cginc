@@ -1,5 +1,6 @@
-#ifndef APP_BRDF_INCLUDED
-#define APP_BRDF_INCLUDED
+// 旧版本
+#ifndef LCL_BRDF_INCLUDED
+#define LCL_BRDF_INCLUDED
 
 #include "Lighting.cginc"
 #include "AutoLight.cginc"
@@ -384,3 +385,5 @@ fixed4 LitPassFragment(VertexOutput IN) : SV_TARGET
 
     return finalColor;
 };
+
+#endif

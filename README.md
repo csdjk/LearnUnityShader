@@ -245,6 +245,11 @@
 ![sssss](https://i.loli.net/2021/09/30/fxju3NVpwlOHzy4.png)
 
 
+## [球面高斯-次表面散射(SG-SSS)](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/PBR/PBR_SSS)
+
+[![jHmtot.png](https://s1.ax1x.com/2022/07/20/jHmtot.png)](https://imgtu.com/i/jHmtot)
+
+
 # 卡通渲染
 
 ## [卡通着色（色阶）](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ToonShading/ColorGradation)
@@ -267,6 +272,14 @@
 
 [![50E0lF.png](https://z3.ax1x.com/2021/10/19/50E0lF.png)](https://imgtu.com/i/50E0lF)
 [![50EBy4.png](https://z3.ax1x.com/2021/10/19/50EBy4.png)](https://imgtu.com/i/50EBy4)
+
+
+## [PBR-各向异性](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/PBR/PBR_Anisotropy)
+[![jHm8Ld.png](https://s1.ax1x.com/2022/07/20/jHm8Ld.png)](https://imgtu.com/i/jHm8Ld)
+
+
+## [PBR-皮肤(SG-SSS)](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/PBR/PBR_SSS)
+[![jHm1Qe.png](https://s1.ax1x.com/2022/07/20/jHm1Qe.png)](https://imgtu.com/i/jHm1Qe)
 
 # Water
 

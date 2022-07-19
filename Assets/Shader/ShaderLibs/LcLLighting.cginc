@@ -34,6 +34,13 @@ float _RimSmoothness;
 //Anisotropy
 float _Anisotropy;
 
+// SSS
+#if defined(SSS_ON)
+    half3 _ScatterAmt;
+    float _ScatterPower;
+#endif
+
+
 struct VertexInput
 {
     float4 vertex : POSITION;
@@ -192,7 +199,7 @@ inline LcLInputData InitInputData(Varyings i, LcLSurfaceData s)
 }
 
 
-// -----------------------------
+// ----------------------------- 全局光照 ---------------------------------------------
 inline UnityGI LcLFragmentGI(LcLSurfaceData s, LcLInputData giInput)
 {
     UnityGI gi;
@@ -276,7 +283,17 @@ half4 LcLFragmentPBR(LcLSurfaceData s, LcLInputData giInput, UnityGI gi)
 
     // ================================ Diffuse BRDF ================================
     // float diffuseTerm = DisneyDiffuse(NdotV, NdotL, LdotH, perceptualRoughness) * NdotL;
-    float3 diffuseBRDF = Diffuse_Burley(albedo, perceptualRoughness, Context.NdotV, Context.NdotL, Context.VdotH) * NdotL * atten;
+
+    float3 diffuseBRDF;
+    #if defined(SSS_ON)
+        // 次表面散射
+        diffuseBRDF = SGDiffuseLighting(Context.NdotL, _ScatterAmt, _ScatterPower) * atten * albedo;
+        diffuseBRDF *= UNITY_INV_PI;
+    #else
+        diffuseBRDF = Diffuse_Burley(albedo, perceptualRoughness, Context.NdotV, Context.NdotL, Context.VdotH) * NdotL * atten;
+    #endif
+
+    // return half4(diffuseBRDF, 1);
 
     // ================================ Specular BRDF ================================
     float3 specularBRDF;
