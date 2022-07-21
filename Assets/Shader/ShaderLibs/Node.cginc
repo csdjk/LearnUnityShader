@@ -12,7 +12,7 @@ float2 Flipbook(float2 UV, float Width, float Height, float Tile, float2 Invert)
     float2 tileCount = float2(1.0, 1.0) / float2(Width, Height);
     float tileY = abs(Invert.y * Height - (floor(Tile * tileCount.x) + Invert.y * 1));
     float tileX = abs(Invert.x * Width - ((Tile - Width * floor(Tile * tileCount.x)) + Invert.x * 1));
-    return(UV + float2(tileX, tileY)) * tileCount;
+    return (UV + float2(tileX, tileY)) * tileCount;
 }
 
 // Flow Map
@@ -49,7 +49,7 @@ float3 BlendTexture(float4 texture1, float u1, float4 texture2, float u2)
     float ma = max(texture1.a + u1, texture2.a + u2) - depth;
     float b1 = max(texture1.a + u1 - ma, 0);
     float b2 = max(texture2.a + u2 - ma, 0);
-    return(texture1.rgb * b1 + texture2.rgb * b2) / (b1 + b2);
+    return (texture1.rgb * b1 + texture2.rgb * b2) / (b1 + b2);
 }
 
 // 序列帧
