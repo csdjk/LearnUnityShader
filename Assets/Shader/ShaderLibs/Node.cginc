@@ -73,7 +73,7 @@ inline half SmoothValue(half NdotL, half threshold, half smoothness)
     return smoothstep(minValue, maxValue, NdotL);
 }
 
-// SSS
+// SSS  近似模拟次表面散射
 inline float SubsurfaceScattering(float3 V, float3 L, float3 N, float distortion, float power, float scale)
 {
     float3 H = (L + N * distortion);
@@ -193,12 +193,6 @@ float FresnelEffect(float3 Normal, float3 ViewDir, float Power, float Scale)
     return Scale + (1 - Scale) * FresnelEffect(Normal, ViewDir, Power);
 }
 
-// 近似模拟次表面散射
-float SubsurfaceScattering(float3 viewDirWS, float3 lightDir, float3 normalWS, float distortion, float power, float scale)
-{
-    float3 H = (lightDir + normalWS * distortion);
-    float I = pow(saturate(dot(viewDirWS, -H)), power) * scale;
-    return I;
-}
+
 
 #endif

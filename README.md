@@ -165,7 +165,8 @@
 
 ## [玻璃](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OtherShader/Glass)
 
-[![4aBj74.gif](https://z3.ax1x.com/2021/09/23/4aBj74.gif)](https://imgtu.com/i/4aBj74)
+<!-- [![4aBj74.gif](https://z3.ax1x.com/2021/09/23/4aBj74.gif)](https://imgtu.com/i/4aBj74) -->
+[![jX8DVx.png](https://s1.ax1x.com/2022/07/23/jX8DVx.png)](https://imgtu.com/i/jX8DVx)
 
 ## [溶解](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OtherShader/Dissolve)
 

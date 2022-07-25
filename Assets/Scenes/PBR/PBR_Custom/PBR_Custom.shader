@@ -29,6 +29,9 @@ Shader "lcl/PBR/PBR_Custom"
         [Tex(_emissionGroup, _EmissionColor)] _EmissionTex ("Emission Tex", 2D) = "white" { }
         [HideInInspector][HDR]_EmissionColor ("Emission Color", Color) = (0, 0, 0, 0)
 
+        // 自定义反射球
+        [Toggle(_CUSTOM_REFL_CUBE_ON)]_CUSTOM_REFL_CUBE ("Custom Reflect Cube", int) = 0
+        _CustomReflectTex ("Custom Reflect Tex", Cube) = "_Skybox" { }
 
         // [SubToggle(_emissionGroup, _KEYWORD)] _toggle_keyword ("toggle_keyword", float) = 0
         // [Sub(_emissionGroup_KEYWORD)]  _float_keyword ("float_keyword", float) = 0
@@ -48,6 +51,7 @@ Shader "lcl/PBR/PBR_Custom"
             #pragma target 3.0
 
             #pragma multi_compile _ _EMISSIONGROUP_ON
+            #pragma shader_feature _CUSTOM_REFL_CUBE_ON
 
             // #pragma enable_d3d11_debug_symbols
 
@@ -71,6 +75,8 @@ Shader "lcl/PBR/PBR_Custom"
             fixed3 _EmissionColor;
 
             samplerCUBE _IrradianceCubemap;
+            samplerCUBE _CustomReflectTex;
+            half4 _CustomReflectTex_HDR;
 
             sampler2D _NormalTex;
             fixed _NormalScale;
@@ -145,7 +151,7 @@ Shader "lcl/PBR/PBR_Custom"
                 float cos2th = NdotH * NdotH;
                 float den = (1.0 + (a2 - 1.0) * cos2th);
 
-                return(a2 - 1.0) / (UNITY_PI * log(a2) * den);
+                return (a2 - 1.0) / (UNITY_PI * log(a2) * den);
             }
 
             float D_GTR2(float NdotH, float roughness)
@@ -317,11 +323,24 @@ Shader "lcl/PBR/PBR_Custom"
 
                 // 1.Li*NdotL
                 // 预过滤环境贴图方式
-                half mip = perceptualRoughnessToMipmapLevel(roughness);
                 float3 R = reflect(-V, N);
-                half4 rgbm = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, R, mip);
-                //unity_SpecCube0_HDR储存的是 最近的ReflectionProbe
-                float3 prefilteredColor = DecodeHDR(rgbm, unity_SpecCube0_HDR);
+                
+                // half mip = perceptualRoughnessToMipmapLevel(roughness);
+
+                // 根据粗糙度计算mip level
+                half mip = (1.7 - roughness * 0.7) * roughness * 6;
+
+                float3 prefilteredColor = 0;
+                // 自定义反射球
+                #if defined(_CUSTOM_REFL_CUBE_ON)
+                    // 自定义反射求需要把Cube Map贴图的 Mapping Convolution Type选项选为Specular(Glossy Reflection)
+                    half4 rgbm = texCUBElod(_CustomReflectTex, float4(R, mip));
+                    prefilteredColor = DecodeHDR(rgbm, _CustomReflectTex_HDR);
+                #else
+                    half4 rgbm = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, R, mip);
+                    //unity_SpecCube0_HDR储存的是 最近的ReflectionProbe
+                    prefilteredColor = DecodeHDR(rgbm, unity_SpecCube0_HDR);
+                #endif
 
                 //2.DFG/(4*NdotL*NdotV)：
 
@@ -354,7 +373,6 @@ Shader "lcl/PBR/PBR_Custom"
             };
             
             ENDCG
-
         }
     }
     FallBack "VertexLit"

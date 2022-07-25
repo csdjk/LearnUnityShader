@@ -1,114 +1,123 @@
 ﻿Shader "lcl/Glass/Glass"
 {
-   Properties
-   {
-      _Color ("Color", Color) = (1, 1, 1, 1)
-      _Cube ("Skybox", Cube) = "" { }
-      _EtaRatio ("EtaRatio", Range(0, 1)) = 0
-      _FresnelBias ("Bias", Range(0, 1)) = .5
-      _FresnelScale ("Scale", Range(0, 10)) = .5
-      _FresnelPower ("Power", Range(0, 10)) = .5
-   }
-   SubShader
-   {
-      // Pass
-      // {
-      //    ColorMask 0
-      //    ZWrite On
-      // }
+    Properties
+    {
+        [Enum(UnityEngine.Rendering.CullMode)]_CullMode ("CullMode", float) = 2
+        [Enum(Off, 0, On, 1)]_ZWriteMode ("ZWriteMode", float) = 0
 
-      Pass
-      {
-         Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
-         Blend SrcAlpha OneMinusSrcAlpha
-         Cull Off
-         // ZWrite Off
+        _ReflectionTex ("Reflection Texture", 2D) = "white" { }
+        _RefractionTex ("Reflection Texture", 2D) = "white" { }
 
-         CGPROGRAM
+        _RefractColor ("Refract Color", Color) = (1, 1, 1, 1)
+        _RefractIntensity ("Refract Intensity", Range(0, 1)) = 0.5
 
-         #pragma vertex vert
-         #pragma fragment frag
+        _RefractThreshold ("Refract Threshold", Range(0, 1)) = 0.5
+        _RefractSmooth ("Refract Smooth", Range(0, 1)) = 0.5
+    }
+    SubShader
+    {
+        Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
+        Blend SrcAlpha OneMinusSrcAlpha
+        Cull [_CullMode]
+        ZWrite [_ZWriteMode]
 
-         #include "UnityCG.cginc"
-
-         samplerCUBE _Cube;
-         float4 _Color;
-         float _EtaRatio;
-         float _FresnelBias;
-         float _FresnelScale;
-         float _FresnelPower;
-
-         struct appdata
-         {
-            float4 vertex : POSITION;
-            float3 normal : NORMAL;
-         };
-
-         struct v2f
-         {
-            float4 pos : SV_POSITION;
-            float3 normalDir : TEXCOORD0;
-            float3 viewDir : TEXCOORD1;
-         };
-
-         //计算反射方向
-         float3 caculateReflectDir(float3 I, float3 N)
-         {
-            float3 R = I - 2.f * N * dot(I, N);
-            return R;
-         }
-
-         //计算折射方向
-         float3 caculateRefractDir(float3 I, float3 N, float etaRatio)
-         {
-            float cosTheta = dot(-I, N);
-            float cosTheta2 = sqrt(1.f - pow(etaRatio, 2) * (1 - pow(cosTheta, 2)));
-            float3 T = etaRatio * (I + N * cosTheta) - N * cosTheta2;
-            return T;
-         }
-
-         //菲涅耳效果
-         float CaculateFresnelApproximation(float3 I, float3 N)
-         {
-            float fresnel = max(0, min(1, _FresnelBias + _FresnelScale * pow(min(0.0, 1.0 - dot(I, N)), _FresnelPower)));
-            return fresnel;
-         }
-
-         
-         v2f vert(appdata v)
-         {
-            v2f o;
+        Pass
+        {
+            Tags { "LightMode" = "ForwardBase" }
+            // Cull Off
             
-            float4x4 modelMatrixInverse = unity_WorldToObject;
-            
-            o.viewDir = mul(unity_ObjectToWorld, v.vertex).xyz - _WorldSpaceCameraPos;
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "Lighting.cginc"
+            #include "Assets\Shader\ShaderLibs\Node.cginc"
+            #include "Assets\Shader\ShaderLibs\PSBlendModes.cginc"
 
-            o.normalDir = normalize(mul((float3x3)unity_ObjectToWorld, v.normal));
 
-            o.pos = UnityObjectToClipPos(v.vertex);
+            sampler2D _ReflectionTex;
+            sampler2D _RefractionTex;
 
-            return o;
-         }
-         
-         fixed4 frag(v2f input) : SV_Target
-         {
-            float3 reflectedDir = caculateReflectDir(input.viewDir, input.normalDir);
-            fixed4 reflectCol = texCUBE(_Cube, reflectedDir);
+            half4 _RefractColor;
+            half _RefractIntensity;
 
-            float3 refractedDir = caculateRefractDir(normalize(input.viewDir), input.normalDir, _EtaRatio);
-            fixed4 refractCol = texCUBE(_Cube, refractedDir);
+            half _RefractThreshold;
+            half _RefractSmooth;
 
-            //菲涅耳
-            float fresnel = CaculateFresnelApproximation(input.viewDir, input.normalDir);
+            struct a2v
+            {
+                float4 vertex : POSITION;
+                float3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
+            };
+            struct v2f
+            {
+                float4 pos : SV_POSITION;
+                float2 uv : TEXCOORD0;
+                float3 normalWS : NORMAL;
+                float3 viewWS : TEXCOORD1;
+                //  float3 positionWS : TEXCOORD1;
 
-            fixed4 col = lerp(refractCol, reflectCol, fresnel);
-            col.rgb *= _Color.rgb;
-            col.a = _Color.a;
-            return col;
-         }
-         
-         ENDCG
+            };
+            v2f vert(a2v v)
+            {
+                v2f o;
+                o.pos = UnityObjectToClipPos(v.vertex);
 
-      }
-   }
+                o.normalWS = UnityObjectToWorldNormal(v.normal);
+                o.viewWS = WorldSpaceViewDir(v.vertex);
+                //  o.positionWS = mul(unity_ObjectToWorld, v.vertex).xyz;
+                
+                // matcap uv
+                float3 viewnormal = mul(UNITY_MATRIX_IT_MV, v.normal);
+                float3 viewPos = UnityObjectToViewPos(v.vertex);
+                viewPos = normalize(viewPos);
+                float3 vcn = cross(viewPos, viewnormal);
+                float2 uv = float2(-vcn.y, vcn.x);
+                o.uv = uv * 0.5 + 0.5;
+
+                return o;
+            }
+            half4 frag(v2f i) : SV_Target
+            {
+                float3 N = normalize(i.normalWS);
+                float3 V = normalize(i.viewWS);
+                float NdotV = dot(N, V);
+                
+                // 反射
+                float3 reflectColor = tex2D(_ReflectionTex, i.uv);
+
+                
+                // 折射
+                //   float fresnel = 1 - smoothstep(0, 1, NdotV);
+                float fresnel = 1 - SmoothValue(NdotV, _RefractThreshold, _RefractSmooth);
+                
+                float refractIntensity = fresnel * _RefractIntensity;
+                float2 refractUV = i.uv + refractIntensity;
+
+                float3 refractColor = tex2D(_RefractionTex, refractUV) * _RefractColor;
+                float3 refractColor2 = _RefractColor * 0.5f;
+
+                refractColor = lerp(refractColor2, refractColor, saturate(refractIntensity));
+                // 最终颜色
+                half3 resColor = reflectColor + refractColor;
+                //  half3 resColor = refractColor;
+
+                // Alpha
+                half alpha = saturate(max(reflectColor.r, fresnel));
+
+
+                //   return refractIntensity*refractColor2;
+
+
+                //   float3 debug = fresnel;
+                //   return half4(debug, 1);
+
+
+                return half4(resColor, alpha);
+            }
+            ENDCG
+        }
+    }
+    FallBack "Reflective/VertexLit"
 }
+

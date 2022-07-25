@@ -401,6 +401,5 @@ half4 LitPassFragment(VertexOutput IN) : SV_TARGET
     finalColor.rgb = nprColor.rgb;
     finalColor.a = nprColor.a;
     return finalColor;
-};
-
+}
 #endif

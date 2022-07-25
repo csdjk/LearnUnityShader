@@ -60,6 +60,7 @@ Shader "lcl/learnShader1/007_rampTexture" {
 				
 				// Use the texture to sample the diffuse color
 				fixed halfLambert  = 0.5 * dot(worldNormal, worldLightDir) + 0.5;
+				// fixed halfLambert  = dot(worldNormal, worldLightDir);
 				fixed3 diffuseColor = tex2D(_RampTex, fixed2(halfLambert, halfLambert)).rgb * _Color.rgb;
 				
 				fixed3 diffuse = _LightColor0.rgb * diffuseColor;
