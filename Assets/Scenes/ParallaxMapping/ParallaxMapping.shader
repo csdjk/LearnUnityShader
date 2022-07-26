@@ -5,7 +5,7 @@
         _Color ("Color Tint", Color) = (1, 1, 1, 1)
         _MainTex ("Main Tex", 2D) = "white" { }
         _BumpMap ("Normal Map", 2D) = "bump" { }
-        _BumpScale ("Bump Scale", Float) = 1.0
+        _BumpScale ("Bump Scale", Range(0, 5)) = 1.0
         _ParallaxMap ("Parallax Map", 2D) = "black" { }
         _ParallaxStrength ("Parallax Strength", Range(0, 1)) = 1.0
 
@@ -102,6 +102,12 @@
                 half2 uvOffset = CalculateParallaxUV(i.uv, viewDir);
                 i.uv = i.uv + uvOffset;
 
+                uvOffset = CalculateParallaxUV(i.uv, viewDir);
+                i.uv = i.uv + uvOffset;
+                
+                uvOffset = CalculateParallaxUV(i.uv, viewDir);
+                i.uv = i.uv + uvOffset;
+
 
                 float3 normal = UnpackNormal(tex2D(_BumpMap, i.uv));
                 normal.xy *= _BumpScale;
@@ -118,7 +124,7 @@
                 // half3 halfDir = normalize(lightDir + viewDir);
                 // half3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0, dot(normal, halfDir)), _Gloss);
                 
-                return half4(ambient + diffuse , 1.0);
+                return half4(ambient + diffuse, 1.0);
             }
             
             ENDCG
