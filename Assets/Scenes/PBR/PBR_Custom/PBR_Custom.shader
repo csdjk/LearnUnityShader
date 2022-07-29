@@ -99,7 +99,15 @@ Shader "lcl/PBR/PBR_Custom"
             };
 
             
-
+            inline half PerceptualRoughnessToMipmapLevel(half perceptualRoughness, int maxMipLevel)
+            {
+                perceptualRoughness = perceptualRoughness * (1.7 - 0.7 * perceptualRoughness);
+                return perceptualRoughness * maxMipLevel;
+            }
+            inline half PerceptualRoughnessToMipmapLevel(half perceptualRoughness)
+            {
+                return PerceptualRoughnessToMipmapLevel(perceptualRoughness, UNITY_SPECCUBE_LOD_STEPS);
+            }
 
             // float PerceptualRoughnessToRoughness(float perceptualRoughness)
             // {
@@ -247,7 +255,6 @@ Shader "lcl/PBR/PBR_Custom"
                 N.xy *= _NormalScale;
                 N = normalize(half3(mul(N, i.tbnMtrix)));
                 
-                // return fixed4(N,1);
 
                 float3 L = normalize(UnityWorldSpaceLightDir(i.worldPos));
                 float3 V = normalize(UnityWorldSpaceViewDir(i.worldPos));
@@ -325,11 +332,9 @@ Shader "lcl/PBR/PBR_Custom"
                 // 预过滤环境贴图方式
                 float3 R = reflect(-V, N);
                 
-                // half mip = perceptualRoughnessToMipmapLevel(roughness);
 
                 // 根据粗糙度计算mip level
-                half mip = (1.7 - roughness * 0.7) * roughness * 6;
-
+                half mip = PerceptualRoughnessToMipmapLevel(perceptualRoughness);
                 float3 prefilteredColor = 0;
                 // 自定义反射球
                 #if defined(_CUSTOM_REFL_CUBE_ON)
