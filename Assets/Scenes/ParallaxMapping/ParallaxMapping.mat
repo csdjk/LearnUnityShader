@@ -20,21 +20,21 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 68148b94ef73f0a41a47ac09dd43ac30, type: 3}
-        m_Scale: {x: 5, y: 5}
+        m_Texture: {fileID: 2800000, guid: f1bcb6ca7f1a0714a914b2c858e96905, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 25a53f10655398341988cca5b136e249, type: 3}
-        m_Scale: {x: 5, y: 5}
+        m_Texture: {fileID: 2800000, guid: 7146eb7c32b3e4140aef7fa5622d8866, type: 3}
+        m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 2800000, guid: 47cbcac4d01c277488d9a916e742a1e9, type: 3}
+        m_Texture: {fileID: 2800000, guid: c26415d341de4bf4e84342efcc2bba55, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
     - _Gloss: 256
-    - _ParallaxStrength: 0
+    - _ParallaxStrength: 0.067
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Specular: {r: 1, g: 1, b: 1, a: 1}
