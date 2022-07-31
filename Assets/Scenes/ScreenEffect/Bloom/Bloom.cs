@@ -27,7 +27,7 @@ public class Bloom : PostEffectsBase
     private int downSample = 1;
 
     // 亮度阙值
-    [Range(-1.0f, 1.0f)]
+    [Range(0.0f, 10.0f)]
     public float luminanceThreshold = 0.6f;
     // bloom 颜色值
     public Color bloomColor = new Color(1, 1, 1, 1);

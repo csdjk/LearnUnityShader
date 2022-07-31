@@ -5,6 +5,8 @@ using System.Collections;
 public class DepthShieldOutline : MonoBehaviour
 {
     public Camera objectCamera = null;
+    public LayerMask outlineLayer;
+
     public Color outlineColor = Color.green;
     [Header("描边强度")]
     [Range(0.2f, 10.0f)]
@@ -34,7 +36,13 @@ public class DepthShieldOutline : MonoBehaviour
         outlineMaterial = new Material(Shader.Find("lcl/Depth/Depth_OutlineShader"));
         SetObjectCamera();
     }
-
+    void Update()
+    {
+        if (objectCamera.cullingMask != outlineLayer)
+        {
+            objectCamera.cullingMask = outlineLayer;
+        }
+    }
     private void SetObjectCamera()
     {
         if (objectCamera == null)
@@ -49,7 +57,7 @@ public class DepthShieldOutline : MonoBehaviour
         }
         objectCamera.CopyFrom(mainCamera);
         // objectCamera.cullingMask = 1 << LayerMask.NameToLayer("Player");
-        objectCamera.cullingMask = (1 << LayerMask.NameToLayer("PostProcessing")) | (1 << LayerMask.NameToLayer("Player"));
+        // objectCamera.cullingMask = (1 << LayerMask.NameToLayer("PostProcessing")) | (1 << LayerMask.NameToLayer("Player"));
         objectCamera.depth -= 1;
         objectCamera.backgroundColor = Color.white;
         objectCamera.enabled = false;

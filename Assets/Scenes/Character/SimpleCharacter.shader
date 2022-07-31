@@ -3,10 +3,9 @@ Shader "lcl/Character/SimpleCharacter"
     Properties
     {
         _MainTex ("Main Tex", 2D) = "white" { }
-
         _NormalMap ("Normal Map", 2D) = "bump" { }
-        _NormalScale ("Bump Scale", Float) = 1.0
-        _MaskTex ("Mask Map", 2D) = "black" { }
+        _NormalScale ("Normal Scale", Float) = 1.0
+        _MaskTex ("Mask Map(Roughness - Metallic - Skin - Emissive)", 2D) = "white" { }
 
         _Roughness ("Roughness", Range(0, 1)) = 1.0
         _Metallic ("Metallic", Range(0, 1)) = 0.0
@@ -14,10 +13,14 @@ Shader "lcl/Character/SimpleCharacter"
         [Header(Specular)]
         _SpecShininess ("Spec Shininess", Range(0, 100)) = 10
 
+        [Header(Emissive)]
+        [HDR]_Emissive ("Emissive Color", Color) = (1, 1, 1, 1)
+
         [Header(SSS)]
         _SkinLut ("Skin LUT", 2D) = "white" { }
         _SSSCurve ("SSS Curve", Range(0, 1)) = 1
         _SSSOffset ("SSS Offset", Range(-1, 1)) = 0
+
         [Header(IBL)]
         _Expose ("Expose", Float) = 1.0
     }
@@ -44,14 +47,17 @@ Shader "lcl/Character/SimpleCharacter"
             sampler2D _NormalMap;
             sampler2D _MaskTex;
             sampler2D _SkinLut;
-            float _NormalScale;
 
+            float4 _Emissive;
+            
+            float _NormalScale;
             float _Roughness;
             float _Metallic;
             float _SpecShininess;
             float _SSSOffset;
             float _SSSCurve;
             float _Expose;
+
             struct a2v
             {
                 float4 vertex : POSITION;
@@ -97,9 +103,7 @@ Shader "lcl/Character/SimpleCharacter"
                 float3 L = normalize(UnityWorldSpaceLightDir(worldPos));
                 float3 V = normalize(UnityWorldSpaceViewDir(worldPos));
                 
-                float3 N = UnpackNormal(tex2D(_NormalMap, i.uv));
-                N.xy *= _NormalScale;
-                N.z = sqrt(1.0 - saturate(dot(N.xy, N.xy)));
+                float3 N = UnpackNormalWithScale(tex2D(_NormalMap, i.uv), _NormalScale);
                 N = normalize(half3(mul(i.tbnMtrix, N)));
 
 
@@ -108,7 +112,8 @@ Shader "lcl/Character/SimpleCharacter"
                 half4 mask = tex2D(_MaskTex, i.uv);
                 half roughness = saturate(mask.r * _Roughness);
                 half metallic = saturate(mask.g * _Metallic);
-                half skin = 1 - mask.b;
+                half skin = mask.b;
+                half emissive = mask.a;
 
                 half3 base_color = albedo_color.rgb * (1 - metallic);
                 half3 spec_color = lerp(0.04, albedo_color.rgb, metallic);
@@ -127,7 +132,10 @@ Shader "lcl/Character/SimpleCharacter"
 
                 lut_color = pow(lut_color, 2.2);
                 half3 sss_diffuse = lut_color * base_color * half_limbert * _LightColor0.rgb;
-                return half4(lut_color, 1.0);
+
+                // return diffuse_term;
+                // return half4(N, 1.0);
+
 
                 half3 direct_diffuse = lerp(common_diffuse, sss_diffuse, skin);
 
@@ -142,6 +150,8 @@ Shader "lcl/Character/SimpleCharacter"
 
                 // ================================ Indirect Diffuse ================================
                 float3 indirect_diffuse = ShadeSH9(float4(N, 1)) * base_color * half_limbert;
+                indirect_diffuse = lerp(indirect_diffuse * 0.5, indirect_diffuse, skin);
+
 
                 // ================================ Indirect Specular ================================
                 half3 R = reflect(-V, N);
@@ -151,11 +161,13 @@ Shader "lcl/Character/SimpleCharacter"
                 half3 env_color = DecodeHDR(rgbm, unity_SpecCube0_HDR);
                 half3 indirect_specular = env_color * _Expose * spec_color * half_limbert;
 
-
                 // ================================ Final Color ================================
-                half3 final_color = direct_diffuse + direct_specular + indirect_diffuse * 0.5 + indirect_specular;
+                half3 final_color = direct_diffuse + direct_specular + indirect_diffuse + indirect_specular;
 
                 final_color = ACESToneMapping(final_color, 1);
+
+                final_color += _Emissive * emissive * albedo_color.rgb;
+
                 final_color = pow(final_color, 0.45);
                 return half4(final_color, 1.0);
             }

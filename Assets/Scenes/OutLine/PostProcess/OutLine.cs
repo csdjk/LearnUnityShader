@@ -14,6 +14,8 @@ public class OutLine : PostEffectsBase
 
     /// 辅助摄像机  
     public Camera outlineCamera;
+    public LayerMask outlineLayer;
+
     // 纯色shader
     public Shader purecolorShader;
     //描边处理的shader
@@ -46,10 +48,16 @@ public class OutLine : PostEffectsBase
         createPurecolorRenderTexture();
     }
 
+    void Update()
+    {
+        if (outlineCamera.cullingMask != outlineLayer)
+        {
+            outlineCamera.cullingMask = outlineLayer;
+        }
+    }
     // ---------------------------【创建一个RenderTexture】---------------------------
     private void createPurecolorRenderTexture()
     {
-        outlineCamera.cullingMask = 1 << LayerMask.NameToLayer("Player");
         int width = outlineCamera.pixelWidth >> downSample;
         int height = outlineCamera.pixelHeight >> downSample;
         renderTexture = RenderTexture.GetTemporary(width, height, 0);

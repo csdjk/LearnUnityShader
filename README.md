@@ -163,6 +163,9 @@
 
 # 其他Shader
 
+## [各向异性](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Anisotropy)
+[![vi5J2Q.png](https://s1.ax1x.com/2022/07/30/vi5J2Q.png)](https://imgtu.com/i/vi5J2Q)
+
 ## [玻璃](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OtherShader/Glass)
 
 <!-- [![4aBj74.gif](https://z3.ax1x.com/2021/09/23/4aBj74.gif)](https://imgtu.com/i/4aBj74) -->
@@ -187,6 +190,10 @@
 ## [液体瓶](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OtherShader/WaterBottle)
 
 [![IylgRs.gif](https://z3.ax1x.com/2021/11/13/IylgRs.gif)](https://imgtu.com/i/IylgRs)
+
+## [三维映射](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/TriplanarMapping)
+![triplanarMapX.png](https://s2.loli.net/2022/07/31/SMOVfuk6X1TswaE.png)
+![triplanarMapXZ.png](https://s2.loli.net/2022/07/31/7diyOYB6lhn84Lu.png)
 
 # 描边
 
@@ -262,6 +269,13 @@
 
 ![water](https://i.loli.net/2021/09/30/JPqcE2fnxrKsVRT.gif)
 
+
+# 角色渲染
+
+## [简易的角色渲染](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Character/Character)
+
+![simpleCharacter.png](https://s2.loli.net/2022/07/31/OkyMFHv4Ylc9LtG.png)
+![simpleCharacter.gif](https://s2.loli.net/2022/07/31/C9Ln2RmTVNGheZg.gif)
 
 # PBR
 

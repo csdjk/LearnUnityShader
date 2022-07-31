@@ -120,7 +120,7 @@ Material:
     - _RimIntensity: 0.5
     - _RimSmoothness: 0.2
     - _RimWidth: 0.2
-    - _Roughness: 0.236
+    - _Roughness: 0.188
     - _SSS: 0
     - _SSSBackLighting: 1
     - _SSSDistortion: 0.1

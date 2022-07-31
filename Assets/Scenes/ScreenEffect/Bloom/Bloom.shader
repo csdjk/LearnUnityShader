@@ -50,6 +50,7 @@ Shader "lcl/screenEffect/Bloom"
             fixed4 color = tex2D(_MainTex, i.uv);
             // clamp 约束到 0 - 1 区间
             fixed val = clamp(luminance(color) - _LuminanceThreshold, 0.0, 1.0);
+            // fixed val = luminance(color) - _LuminanceThreshold;
             
             return color * val;
         }

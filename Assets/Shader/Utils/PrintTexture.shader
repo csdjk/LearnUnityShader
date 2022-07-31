@@ -20,7 +20,7 @@ Shader "lcl/Common/PrintTexture"
             #pragma fragment frag
 
             #include "UnityCG.cginc"
-            #pragma multi_compile _SHOWVALUE_Texture _SHOWVALUE_Texture_R _SHOWVALUE_Texture_G _SHOWVALUE_Texture_B _SHOWVALUE_Texture_A _SHOWVALUE_VERTEXCOLOR _SHOWVALUE_VERTEXCOLOR_R _SHOWVALUE_VERTEXCOLOR_G _SHOWVALUE_VERTEXCOLOR_B _SHOWVALUE_VERTEXCOLOR_A _SHOWVALUE_NORMAL _SHOWVALUE_WORLDPOS _SHOWVALUE_UV0 _SHOWVALUE_UV1 _SHOWVALUE_UV2
+            #pragma multi_compile _SHOWVALUE_TEXTURE _SHOWVALUE_TEXTURE_R _SHOWVALUE_TEXTURE_G _SHOWVALUE_TEXTURE_B _SHOWVALUE_TEXTURE_A _SHOWVALUE_VERTEXCOLOR _SHOWVALUE_VERTEXCOLOR_R _SHOWVALUE_VERTEXCOLOR_G _SHOWVALUE_VERTEXCOLOR_B _SHOWVALUE_VERTEXCOLOR_A _SHOWVALUE_NORMAL _SHOWVALUE_WORLDPOS _SHOWVALUE_UV0 _SHOWVALUE_UV1 _SHOWVALUE_UV2
             #pragma multi_compile __ _INVERT_ON
 
             struct appdata
@@ -66,15 +66,15 @@ Shader "lcl/Common/PrintTexture"
 
 
                 float3 res = 1;
-                #ifdef _SHOWVALUE_Texture
+                #ifdef _SHOWVALUE_TEXTURE
                     res = col;
-                #elif _SHOWVALUE_Texture_R
+                #elif _SHOWVALUE_TEXTURE_R
                     res = col.r;
-                #elif _SHOWVALUE_Texture_G
+                #elif _SHOWVALUE_TEXTURE_G
                     res = col.g;
-                #elif _SHOWVALUE_Texture_B
+                #elif _SHOWVALUE_TEXTURE_B
                     res = col.b;
-                #elif _SHOWVALUE_Texture_A
+                #elif _SHOWVALUE_TEXTURE_A
                     res = col.a;
                 #elif _SHOWVALUE_VERTEXCOLOR
                     res = i.color.rgb;
@@ -106,7 +106,6 @@ Shader "lcl/Common/PrintTexture"
                 return float4(res, 1);
             }
             ENDCG
-
         }
     }
 }
