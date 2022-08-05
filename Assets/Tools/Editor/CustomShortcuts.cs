@@ -15,27 +15,59 @@ using UnityEngine;
 /// </summary>
 public class CustomShortcuts
 {
-    [MenuItem("LCLTools/CustomKeys/播放 _F3")]
+    [MenuItem("LcLTools/CustomKeys/播放 _F3")]
     static void EditorPlayCommand()
     {
         EditorApplication.isPlaying = !EditorApplication.isPlaying;
     }
 
-    [MenuItem("LCLTools/CustomKeys/暂停 _F4")]
+    [MenuItem("LcLTools/CustomKeys/暂停 _F4")]
     static void EditorPauseCommand()
     {
         EditorApplication.isPaused = !EditorApplication.isPaused;
     }
 
+
+    // ================================ 【Alt + ...】 ================================
+     /// <summary>
+    /// 定位 material、shader
+    /// </summary>
+    static double clickTime;
+    static double doubleClickTime = 0.3;
+    [MenuItem("LcLTools/CustomKeys/定位到Shader &s")]
+    static void QuickPositioningShader()
+    {
+        var selectObject = Selection.objects[0];
+        if (selectObject == null) return;
+        var go = selectObject as GameObject;
+        if (go)
+        {
+            var mat = go.GetComponent<MeshRenderer>().sharedMaterial;
+            // 双击选中shader
+            if ((EditorApplication.timeSinceStartup - clickTime) < doubleClickTime)
+            {
+                EditorGUIUtility.PingObject(mat.shader);
+                return;
+            }
+            EditorGUIUtility.PingObject(mat);
+            clickTime = EditorApplication.timeSinceStartup;
+        }
+        else
+        {
+            var mat = selectObject as Material;
+            EditorGUIUtility.PingObject(mat?.shader);
+        }
+    }
+
     // ---------------------【Ctrl + ...】--------------------------
-    [MenuItem("LCLTools/CustomKeys/快速定位到Model %m")]
+    [MenuItem("LcLTools/CustomKeys/快速定位到Model %m")]
     static void QuickPositioningModel()
     {
         var assetObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Models");
         EditorGUIUtility.PingObject(assetObj);
     }
 
-    [MenuItem("LCLTools/CustomKeys/创建Material %#c")]
+    [MenuItem("LcLTools/CustomKeys/创建Material %#c")]
     static void CreateMaterial()
     {
         var objects = Selection.objects;
@@ -63,7 +95,7 @@ public class CustomShortcuts
 
     // ---------------------【Shift + ...】--------------------------
 
-    [MenuItem("LCLTools/CustomKeys/重置Position #r")]
+    [MenuItem("LcLTools/CustomKeys/重置Position #r")]
     static void QuickResetPosition()
     {
         var trsArr = Selection.transforms;
@@ -75,7 +107,7 @@ public class CustomShortcuts
         }
     }
 
-    [MenuItem("LCLTools/CustomKeys/隐藏显示Object #a")]
+    [MenuItem("LcLTools/CustomKeys/隐藏显示Object #a")]
     static void QuickSetActive()
     {
         // var go = Selection.activeGameObject;
@@ -90,7 +122,7 @@ public class CustomShortcuts
     }
 
     static MethodInfo clearMethod = null;
-    [MenuItem("LCLTools/CustomKeys/清空日志 #c")]
+    [MenuItem("LcLTools/CustomKeys/清空日志 #c")]
     public static void ClearConsole()
     {
         if (clearMethod == null)

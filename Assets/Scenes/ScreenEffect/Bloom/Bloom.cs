@@ -2,7 +2,7 @@
 using UnityEngine;
 // ---------------------------【Bloom 全屏泛光后期】---------------------------
 //编辑状态下也运行  
-[ExecuteInEditMode]
+[ExecuteInEditMode, ImageEffectAllowedInSceneView]
 public class Bloom : PostEffectsBase
 {
     public Shader bloomShader;

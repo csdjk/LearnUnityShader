@@ -27,7 +27,7 @@ static public class PrefabExtension
     }
 
     // 快捷键 保存预设 crtl + alt + s
-    [MenuItem("LCLTools/CustomKeys/SavePrefab %&s")]
+    [MenuItem("LcLTools/CustomKeys/SavePrefab %&s")]
     static public void QuickSavePrefab()
     {
         if(!EditorApplication.isPlaying){

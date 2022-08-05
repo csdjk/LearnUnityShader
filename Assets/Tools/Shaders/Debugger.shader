@@ -1,5 +1,4 @@
-//打印纹理
-Shader "lcl/Common/PrintTexture"
+Shader "lcl/Debugger"
 {
     Properties
     {
@@ -63,8 +62,6 @@ Shader "lcl/Common/PrintTexture"
             float4 frag(v2f i) : SV_Target
             {
                 float4 col = tex2D(_MainTex, i.uv);
-
-
                 float3 res = 1;
                 #ifdef _SHOWVALUE_TEXTURE
                     res = col;
@@ -97,7 +94,6 @@ Shader "lcl/Common/PrintTexture"
                 #elif _SHOWVALUE_UV2
                     res = i.uv2.xyz;
                 #endif
-
 
                 #ifdef _INVERT_ON
                     res = 1 - res;

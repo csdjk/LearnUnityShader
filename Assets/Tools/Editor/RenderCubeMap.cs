@@ -8,7 +8,7 @@ public class RenderCubeMap : ScriptableWizard
     public Transform renderTrans;
     public Cubemap cubemap;
 
-    [MenuItem("LCLTools/CreateCubemap")]
+    [MenuItem("LcLTools/CreateCubemap")]
     static void CreateCubemap()
     {
         //"Create Cubemap"是打开的窗口名，"Create"是按钮名，点击时调用OnWizardCreate()方法

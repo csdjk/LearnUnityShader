@@ -215,7 +215,11 @@ float3 ACESToneMapping(float3 color, float adapted_lum)
     return saturate((color * (A * color + B)) / (color * (C * color + D) + E));
 }
 
-
+// ================================ 转换亮度值 ================================
+float Luminance(float3 rgb)
+{
+    return dot(rgb, float3(0.2126729, 0.7151522, 0.0721750));
+}
 // ================================= 三维映射 =================================
 half4 TriplanarMapping(sampler2D textures, float3 positionWS, half3 N, float tiling, float blendSmoothness)
 {

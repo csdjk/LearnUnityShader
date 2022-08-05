@@ -1,6 +1,4 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-// ---------------------------【泛光 Bloom】---------------------------
+﻿// ---------------------------【泛光 Bloom】---------------------------
 Shader "lcl/screenEffect/Bloom"  
 {
     // ---------------------------【属性】---------------------------

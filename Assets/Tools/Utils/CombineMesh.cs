@@ -21,7 +21,7 @@ public class CombineMesh : MonoBehaviour
     }
  
 #if UNITY_EDITOR
-    [MenuItem("LCLTools/CombineMesh")]
+    [MenuItem("LcLTools/CombineMesh")]
     static void StartCombineMesh()
     {
         if (Selection.activeTransform)
