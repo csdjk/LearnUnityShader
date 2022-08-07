@@ -45,11 +45,16 @@ Shader "lcl/PBR/PBR_Custom"
             CGPROGRAM
 
             #include "Lighting.cginc"
+            #include "AutoLight.cginc"
             
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.0
-
+            
+            #pragma multi_compile_fwdbase
+            #pragma multi_compile _ LIGHTMAP_ON
+            #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
+            
             #pragma multi_compile _ _EMISSIONGROUP_ON
             #pragma shader_feature _CUSTOM_REFL_CUBE_ON
 
@@ -87,14 +92,16 @@ Shader "lcl/PBR/PBR_Custom"
                 float3 normal : NORMAL;
                 float4 tangent : TANGENT;
                 float4 texcoord : TEXCOORD0;
+                float2 texcoord1 : TEXCOORD1;
             };
 
             struct v2f
             {
-                float4 position : SV_POSITION;
+                float4 pos : SV_POSITION;
                 float3 worldNormal : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
-                float2 uv : TEXCOORD2;
+                float4 uv : TEXCOORD2;
+                SHADOW_COORDS(3)
                 float3x3 tbnMtrix : float3x3;
             };
 
@@ -235,22 +242,27 @@ Shader "lcl/PBR/PBR_Custom"
             v2f vert(a2v v)
             {
                 v2f o;
-                o.position = UnityObjectToClipPos(v.vertex);
+                o.pos = UnityObjectToClipPos(v.vertex);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-                o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+                o.uv.xy = TRANSFORM_TEX(v.texcoord, _MainTex);
+                o.uv.zw = v.texcoord1 * unity_LightmapST.xy + unity_LightmapST.zw;
 
                 float3 worldNormal = normalize(mul(v.normal, (float3x3) unity_WorldToObject));
                 float3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
                 float3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w;
                 o.tbnMtrix = float3x3(worldTangent, worldBinormal, worldNormal);
                 o.worldNormal = worldNormal;
+
+                TRANSFER_SHADOW(o);
                 return o;
             };
 
             fixed4 frag(v2f i) : SV_TARGET
             {
-                float2 uv = i.uv;
-                float4 tangentNormal = tex2D(_NormalTex, i.uv);
+                float2 uv = i.uv.xy;
+                float2 uv_lightmap = i.uv.zw;
+                
+                float4 tangentNormal = tex2D(_NormalTex, uv);
                 float3 N = UnpackNormal(tangentNormal);
                 N.xy *= _NormalScale;
                 N = normalize(half3(mul(N, i.tbnMtrix)));
@@ -265,22 +277,30 @@ Shader "lcl/PBR/PBR_Custom"
                 float NdotH = max(dot(N, H), 0);
                 float HdotV = max(dot(H, V), 0);
                 float LdotH = max(dot(L, H), 0);
+                // ================================= 阴影 =================================
+                // UNITY_LIGHT_ATTENUATION(shadowAttenuation, i, i.worldPos);
+                fixed shadowAttenuation = SHADOW_ATTENUATION(i);
 
-                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
-                fixed3 albedo = tex2D(_MainTex, i.uv).rgb * _DiffuseColor;
-                float3 lightColor = _LightColor0.xyz;
-                fixed ao = tex2D(_AOTex, i.uv).r;
+                half distanceAttenuation = 1;
+                #if defined(LIGHTMAP_ON) && defined(LIGHTMAP_SHADOW_MIXING)
+                    //Subtractive Mixing模式
+                    distanceAttenuation = 0;
+                #endif
+                float3 lightColor = _LightColor0.xyz * shadowAttenuation * distanceAttenuation;
+                fixed3 albedo = tex2D(_MainTex, uv).rgb * _DiffuseColor;
+
+                fixed ao = tex2D(_AOTex, uv).r;
                 ao = LerpOneTo(ao, _AoPower);
 
                 // return fixed4(ao,ao,ao,1);
                 // 粗糙度
-                float perceptualRoughness = tex2D(_RoughnessTex, i.uv).r * _Roughness;
+                float perceptualRoughness = tex2D(_RoughnessTex, uv).r * _Roughness;
                 // 将其重新映射到感知线性范围(perceptualRoughness*perceptualRoughness)
                 float roughness = max(PerceptualRoughnessToRoughness(perceptualRoughness), 0.002);
                 // float roughness = max(perceptualRoughness, 0.002);
                 // return fixed4(perceptualRoughness,perceptualRoughness,perceptualRoughness,1);
 
-                float metallic = tex2D(_MetallicTex, i.uv).r * _Metallic;
+                float metallic = tex2D(_MetallicTex, uv).r * _Metallic;
                 // return fixed4(metallic,metallic,metallic,1);
 
                 float3 F0 = lerp(0.04, albedo, metallic);
@@ -308,7 +328,6 @@ Shader "lcl/PBR/PBR_Custom"
                 kd *= (1 - metallic);
                 float3 directLight = (diffuseBRDF * kd + specularBRDF) * NdotL * lightColor;
 
-
                 // -------------------【间接光 - Indirect Light】-------------------------
 
                 float3 ks_indirect = FresnelSchlickRoughness(NdotV, F0, roughness);
@@ -317,8 +336,20 @@ Shader "lcl/PBR/PBR_Custom"
 
                 // -----Diffuse-----
                 // 球谐函数
-                float3 irradianceSH = ShadeSH9(float4(N, 1));
-                float3 diffuseIndirect = kd_indirect * irradianceSH * albedo;
+                float3 diffuseIndirect = 0;
+                // LightMap: Subtractive Mixing模式
+                #if defined(LIGHTMAP_ON) && defined(LIGHTMAP_SHADOW_MIXING)
+                    half4 bakedColorTex = UNITY_SAMPLE_TEX2D(unity_Lightmap, uv_lightmap);
+                    diffuseIndirect = DecodeLightmap(bakedColorTex) * albedo;
+                    // diffuseIndirect = kd_indirect * SubtractMainLightWithRealtimeAttenuationFromLightmap(diffuseIndirect, shadowAttenuation, bakedColorTex, N);
+                    // return half4(diffuseIndirect, 1);
+
+                #else
+                    float3 irradianceSH = ShadeSH9(float4(N, 1));
+                    diffuseIndirect = kd_indirect * irradianceSH * albedo;
+                #endif
+                
+
                 // 环境cubemap
                 // float3 irradiance = texCUBE(_IrradianceCubemap,N).rgb;
                 // float3 diffuseIndirect = kd_indirect * irradiance * albedo;
@@ -369,7 +400,7 @@ Shader "lcl/PBR/PBR_Custom"
 
                 // 自发光
                 #ifdef _EMISSIONGROUP_ON
-                    fixed3 emission = tex2D(_EmissionTex, i.uv) * _EmissionColor;
+                    fixed3 emission = tex2D(_EmissionTex, uv) * _EmissionColor;
                     resColor += emission;
                 #endif
                 

@@ -202,6 +202,15 @@ float FresnelEffect(float3 Normal, float3 ViewDir, float Power, float Scale)
     return Scale + (1 - Scale) * FresnelEffect(Normal, ViewDir, Power);
 }
 
+// ================================= 风格化菲涅尔 =================================
+inline half3 StylizedFresnel(half NdotV, half rimWidth, float rimIntensity, half smoothness, half3 rimColor)
+{
+    half revertNdotV = 1 - NdotV;
+    float threshold = 1 - rimWidth;
+    float3 rim = smoothstep(threshold - smoothness, threshold + smoothness, revertNdotV) * rimIntensity;
+    return rim * rimColor;
+}
+
 // ================================= 色调映射 =================================
 float3 ACESToneMapping(float3 color, float adapted_lum)
 {
@@ -320,4 +329,14 @@ half4 specColor1, half3 specData1, half4 specColor2, half3 specData2)
 // }
 
 
+// ================================= 粗糙度转换Mipmap Level =================================
+inline half PerceptualRoughnessToMipmapLevel(half perceptualRoughness, int maxMipLevel)
+{
+    perceptualRoughness = perceptualRoughness * (1.7 - 0.7 * perceptualRoughness);
+    return perceptualRoughness * maxMipLevel;
+}
+inline half PerceptualRoughnessToMipmapLevel(half perceptualRoughness)
+{
+    return PerceptualRoughnessToMipmapLevel(perceptualRoughness, 6);
+}
 #endif

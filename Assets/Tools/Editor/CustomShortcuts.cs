@@ -67,7 +67,7 @@ public class CustomShortcuts
         EditorGUIUtility.PingObject(assetObj);
     }
 
-    [MenuItem("LcLTools/CustomKeys/创建Material %#c")]
+    [MenuItem("LcLTools/CustomKeys/创建Material %c")]
     static void CreateMaterial()
     {
         var objects = Selection.objects;

@@ -124,14 +124,14 @@ Shader "lcl/Character/SimpleCharacter"
 
                 // ================================ Diffuse Specular ================================
                 half diffuse_term = max(0, dot(N, L));
-                half half_limbert = diffuse_term * 0.5 + 0.5;
+                half halfLambert = diffuse_term * 0.5 + 0.5;
                 half3 common_diffuse = diffuse_term * base_color * atten * _LightColor0.rgb;
 
                 half2 uv_lut = half2(diffuse_term * atten + _SSSOffset, _SSSCurve);
                 half3 lut_color = tex2D(_SkinLut, uv_lut);
 
                 lut_color = pow(lut_color, 2.2);
-                half3 sss_diffuse = lut_color * base_color * half_limbert * _LightColor0.rgb;
+                half3 sss_diffuse = lut_color * base_color * halfLambert * _LightColor0.rgb;
 
                 // return diffuse_term;
                 // return half4(N, 1.0);
@@ -149,7 +149,7 @@ Shader "lcl/Character/SimpleCharacter"
 
 
                 // ================================ Indirect Diffuse ================================
-                float3 indirect_diffuse = ShadeSH9(float4(N, 1)) * base_color * half_limbert;
+                float3 indirect_diffuse = ShadeSH9(float4(N, 1)) * base_color * halfLambert;
                 indirect_diffuse = lerp(indirect_diffuse * 0.5, indirect_diffuse, skin);
 
 
@@ -159,7 +159,7 @@ Shader "lcl/Character/SimpleCharacter"
                 float mip_level = perceptualRoughnessToMipmapLevel(roughness);
                 half4 rgbm = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, R, mip_level);
                 half3 env_color = DecodeHDR(rgbm, unity_SpecCube0_HDR);
-                half3 indirect_specular = env_color * _Expose * spec_color * half_limbert;
+                half3 indirect_specular = env_color * _Expose * spec_color * halfLambert;
 
                 // ================================ Final Color ================================
                 half3 final_color = direct_diffuse + direct_specular + indirect_diffuse + indirect_specular;

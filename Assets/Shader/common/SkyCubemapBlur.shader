@@ -1,5 +1,5 @@
 // ================================= LOD Blur 天空盒 =================================
-Shader "lcl/Common/CubemapBlur"
+Shader "lcl/Common/SkyCubemapBlur"
 {
     Properties
     {
