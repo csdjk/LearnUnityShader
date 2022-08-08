@@ -12,12 +12,14 @@
 
         [Header(Diffuse)]
         _DiffuseRamp ("Ramp", 2D) = "white" { }
-        _DiffuseLayer1 ("_DiffuseLayer1 Color", Color) = (1, 1, 1, 1)
-        _DiffuseLayerOffset1 ("_DiffuseLayer1 Offset", Range(-1, 1)) = 0
-        _DiffuseLayer2 ("_DiffuseLayer2 Color", Color) = (1, 1, 1, 1)
-        _DiffuseLayerOffset2 ("_DiffuseLayer2 Offset", Range(-1, 1)) = 0
-        _DiffuseLayer3 ("_DiffuseLayer3 Color", Color) = (1, 1, 1, 1)
-        _DiffuseLayerOffset3 ("_DiffuseLayer3 Offset", Range(-1, 1)) = 0
+        _TintHighColor ("Tint High Color", Color) = (1, 1, 1, 1)
+        _TintHighOffset ("Tint High Offset", Range(-1, 1)) = 0
+        _TintMedColor ("Tint Med Color", Color) = (1, 1, 1, 1)
+        _TintMedOffset ("Tint Med Offset", Range(-1, 1)) = 0
+        _TintMedCurve ("int Med Curve", Range(0, 1)) = 0
+        _TintLowColor ("Tint Low Color", Color) = (1, 1, 1, 1)
+        _TintLowOffset ("Tint Low Offset", Range(-1, 1)) = 0
+        _TintLowCurve ("Tint Low Curve", Range(0, 1)) = 0
 
         [Header(Specular)]
         _SpecTex ("Spec Mask", 2D) = "white" { }
@@ -69,12 +71,14 @@
             sampler2D _DiffuseRamp;
             sampler2D _SpecTex;
 
-            float4 _DiffuseLayer1;
-            float _DiffuseLayerOffset1;
-            float4 _DiffuseLayer2;
-            float _DiffuseLayerOffset2;
-            float4 _DiffuseLayer3;
-            float _DiffuseLayerOffset3;
+            float4 _TintHighColor;
+            float _TintHighOffset;
+            float4 _TintMedColor;
+            float _TintMedOffset;
+            float _TintMedCurve;
+            float4 _TintLowColor;
+            float _TintLowOffset;
+            float _TintLowCurve;
 
             float4 _SpecColor;
             float _SpecIntensity;
@@ -146,19 +150,19 @@
 
                 half3 directDiffuse = 0;
                 //layer 1
-                half2 rampUV1 = half2(diffuseTerm + _DiffuseLayerOffset1, 0.5);
+                half2 rampUV1 = half2(diffuseTerm + _TintHighOffset, 0);
                 half rampDiffuse1 = tex2D(_DiffuseRamp, rampUV1).r;
-                half3 color1 = lerp(1, _DiffuseLayer1.rgb, rampDiffuse1 * _DiffuseLayer1.a);
+                half3 color1 = lerp(1, _TintHighColor.rgb, rampDiffuse1 * _TintHighColor.a);
                 directDiffuse = baseColor * color1;
                 //layer 2
-                half2 rampUV2 = half2(diffuseTerm + _DiffuseLayerOffset2, 0.5);
-                half rampDiffuse2 = tex2D(_DiffuseRamp, rampUV2).r;
-                half3 color2 = lerp(1, _DiffuseLayer2.rgb, rampDiffuse2 * _DiffuseLayer2.a);
+                half2 rampUV2 = half2(diffuseTerm + _TintMedOffset, _TintMedCurve);
+                half rampDiffuse2 = tex2D(_DiffuseRamp, rampUV2).g;
+                half3 color2 = lerp(1, _TintMedColor.rgb, rampDiffuse2 * _TintMedColor.a);
                 directDiffuse = directDiffuse * color2;
                 //layer 3
-                half2 rampUV3 = half2(diffuseTerm + _DiffuseLayerOffset3, 0.5);
-                half rampDiffuse3 = tex2D(_DiffuseRamp, rampUV3).r;
-                half3 color3 = lerp(1, _DiffuseLayer3.rgb, rampDiffuse3 * _DiffuseLayer3.a);
+                half2 rampUV3 = half2(diffuseTerm + _TintLowOffset, _TintLowCurve);
+                half rampDiffuse3 = tex2D(_DiffuseRamp, rampUV3).b;
+                half3 color3 = lerp(1, _TintLowColor.rgb, rampDiffuse3 * _TintLowColor.a);
                 directDiffuse = directDiffuse * color3;
 
 

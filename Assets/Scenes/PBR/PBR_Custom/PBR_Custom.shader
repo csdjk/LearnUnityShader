@@ -341,9 +341,8 @@ Shader "lcl/PBR/PBR_Custom"
                 #if defined(LIGHTMAP_ON) && defined(LIGHTMAP_SHADOW_MIXING)
                     half4 bakedColorTex = UNITY_SAMPLE_TEX2D(unity_Lightmap, uv_lightmap);
                     diffuseIndirect = DecodeLightmap(bakedColorTex) * albedo;
-                    // diffuseIndirect = kd_indirect * SubtractMainLightWithRealtimeAttenuationFromLightmap(diffuseIndirect, shadowAttenuation, bakedColorTex, N);
+                    diffuseIndirect = kd_indirect * SubtractMainLightWithRealtimeAttenuationFromLightmap(diffuseIndirect, shadowAttenuation, bakedColorTex, N);
                     // return half4(diffuseIndirect, 1);
-
                 #else
                     float3 irradianceSH = ShadeSH9(float4(N, 1));
                     diffuseIndirect = kd_indirect * irradianceSH * albedo;

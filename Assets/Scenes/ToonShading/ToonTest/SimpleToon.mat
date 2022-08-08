@@ -24,7 +24,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DiffuseRamp:
-        m_Texture: {fileID: 2800000, guid: ee3d7b9b11eb1cf43b1de16e5b5e5696, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9d15b0598e1be3f44bed518a57c18e80, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -40,9 +40,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _DiffuseLayerOffset1: -0.012
+    - _DiffuseLayerCurve1: 0.884
+    - _DiffuseLayerCurve2: 0.6
+    - _DiffuseLayerCurve3: 0.254
+    - _DiffuseLayerOffset1: 0
     - _DiffuseLayerOffset2: 0
-    - _DiffuseLayerOffset3: 0
+    - _DiffuseLayerOffset3: 0.108
     - _EnvIntensity: 1
     - _Metallic: 0
     - _NormalScale: 1
@@ -52,8 +55,16 @@ Material:
     - _Roughness: 0.86
     - _SpecIntensity: 1
     - _SpecPower: 100
+    - _TintHighOffset: 0
+    - _TintLowCurve: 0.285
+    - _TintLowOffset: 0
+    - _TintMedCurve: 0.242
+    - _TintMedOffset: 0
     m_Colors:
-    - _DiffuseLayer1: {r: 1, g: 1, b: 1, a: 1}
-    - _DiffuseLayer2: {r: 1, g: 1, b: 1, a: 1}
-    - _DiffuseLayer3: {r: 1, g: 1, b: 1, a: 1}
+    - _DiffuseLayer1: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}
+    - _DiffuseLayer2: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
+    - _DiffuseLayer3: {r: 0.23584908, g: 0.23584908, b: 0.23584908, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TintHighColor: {r: 0.8867924, g: 0.8867924, b: 0.8867924, a: 1}
+    - _TintLowColor: {r: 0.4056604, g: 0.4056604, b: 0.4056604, a: 1}
+    - _TintMedColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
