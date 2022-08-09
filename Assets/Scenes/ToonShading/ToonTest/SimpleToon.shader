@@ -16,7 +16,7 @@
         _TintHighOffset ("Tint High Offset", Range(-1, 1)) = 0
         _TintMedColor ("Tint Med Color", Color) = (1, 1, 1, 1)
         _TintMedOffset ("Tint Med Offset", Range(-1, 1)) = 0
-        _TintMedCurve ("int Med Curve", Range(0, 1)) = 0
+        _TintMedCurve ("Tint Med Curve", Range(0, 1)) = 0
         _TintLowColor ("Tint Low Color", Color) = (1, 1, 1, 1)
         _TintLowOffset ("Tint Low Offset", Range(-1, 1)) = 0
         _TintLowCurve ("Tint Low Curve", Range(0, 1)) = 0

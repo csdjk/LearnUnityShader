@@ -13,7 +13,7 @@ using UnityEngine;
 /// <summary>
 /// 自定义快捷键
 /// </summary>
-public class CustomShortcuts
+public class CustomHotkey
 {
     [MenuItem("LcLTools/CustomKeys/播放 _F3")]
     static void EditorPlayCommand()
@@ -29,7 +29,7 @@ public class CustomShortcuts
 
 
     // ================================ 【Alt + ...】 ================================
-     /// <summary>
+    /// <summary>
     /// 定位 material、shader
     /// </summary>
     static double clickTime;
@@ -59,15 +59,7 @@ public class CustomShortcuts
         }
     }
 
-    // ---------------------【Ctrl + ...】--------------------------
-    [MenuItem("LcLTools/CustomKeys/快速定位到Model %m")]
-    static void QuickPositioningModel()
-    {
-        var assetObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Models");
-        EditorGUIUtility.PingObject(assetObj);
-    }
-
-    [MenuItem("LcLTools/CustomKeys/创建Material %c")]
+    [MenuItem("LcLTools/CustomKeys/创建Material &c")]
     static void CreateMaterial()
     {
         var objects = Selection.objects;
@@ -91,6 +83,15 @@ public class CustomShortcuts
             }
         }
     }
+    // ---------------------【Ctrl + ...】--------------------------
+    [MenuItem("LcLTools/CustomKeys/快速定位到Model %m")]
+    static void QuickPositioningModel()
+    {
+        var assetObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Models");
+        EditorGUIUtility.PingObject(assetObj);
+    }
+
+
 
 
     // ---------------------【Shift + ...】--------------------------
