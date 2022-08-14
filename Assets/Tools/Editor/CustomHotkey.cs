@@ -42,7 +42,22 @@ public class CustomHotkey
         var go = selectObject as GameObject;
         if (go)
         {
-            var mat = go.GetComponent<MeshRenderer>().sharedMaterial;
+            var mesh = go.GetComponentInChildren<MeshRenderer>();
+            Material mat;
+            if (mesh == null)
+            {
+                var skinmesh = go.GetComponentInChildren<SkinnedMeshRenderer>();
+                if (skinmesh)
+                    mat = skinmesh.sharedMaterial;
+                else
+                {
+                    Debug.Log("没有MeshRender组件");
+                    return;
+                }
+            }
+            else
+                mat = mesh.sharedMaterial;
+
             // 双击选中shader
             if ((EditorApplication.timeSinceStartup - clickTime) < doubleClickTime)
             {

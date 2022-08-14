@@ -22,6 +22,7 @@ Shader "lcl/Debugger"
             #pragma multi_compile _SHOWVALUE_TEXTURE _SHOWVALUE_TEXTURE_R _SHOWVALUE_TEXTURE_G _SHOWVALUE_TEXTURE_B _SHOWVALUE_TEXTURE_A _SHOWVALUE_VERTEXCOLOR _SHOWVALUE_VERTEXCOLOR_R _SHOWVALUE_VERTEXCOLOR_G _SHOWVALUE_VERTEXCOLOR_B _SHOWVALUE_VERTEXCOLOR_A _SHOWVALUE_NORMAL _SHOWVALUE_WORLDPOS _SHOWVALUE_UV0 _SHOWVALUE_UV1 _SHOWVALUE_UV2
             #pragma multi_compile __ _INVERT_ON
 
+            #include "Assets\Shader\ShaderLibs\Node.cginc"
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -98,6 +99,9 @@ Shader "lcl/Debugger"
                 #ifdef _INVERT_ON
                     res = 1 - res;
                 #endif
+
+
+                // res.rgb = ToneMaping(res.rgb);
 
                 return float4(res, 1);
             }

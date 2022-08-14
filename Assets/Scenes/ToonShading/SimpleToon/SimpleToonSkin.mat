@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Debug
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Name: SimpleToonSkin
+  m_Shader: {fileID: 4800000, guid: 1174cf2b6e73ce84ea2ea5dc1892a855, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -20,19 +20,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AOTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 9ba92c511b65e6f4799055209da33189, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DiffuseRamp:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: ee3d7b9b11eb1cf43b1de16e5b5e5696, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: cb3c3dd3490985044850c48fbf753ad7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 47e27f8c86ecfdc4a8e22638efffb53f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 30c363fd47e43dc4cb212a7145bc3b89, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecTex:
@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _DiffuseLayerOffset1: 0
+    - _DiffuseLayerOffset1: -0.012
     - _DiffuseLayerOffset2: 0
     - _DiffuseLayerOffset3: 0
     - _EnvIntensity: 1
@@ -49,11 +49,19 @@ Material:
     - _RimIntensity: 1
     - _RimSmoothness: 1
     - _RimWidth: 0.5
-    - _Roughness: 1
+    - _Roughness: 0.86
     - _SpecIntensity: 1
     - _SpecPower: 100
+    - _TintHighOffset: 0
+    - _TintLowCurve: 0.72
+    - _TintLowOffset: 0.066
+    - _TintMedCurve: 0.32
+    - _TintMedOffset: 0
     m_Colors:
     - _DiffuseLayer1: {r: 1, g: 1, b: 1, a: 1}
     - _DiffuseLayer2: {r: 1, g: 1, b: 1, a: 1}
     - _DiffuseLayer3: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TintHighColor: {r: 1, g: 0.709, b: 0.709, a: 1}
+    - _TintLowColor: {r: 0.36900002, g: 0, b: 0, a: 0.6784314}
+    - _TintMedColor: {r: 0.6981132, g: 0.38527945, b: 0.38527945, a: 1}

@@ -223,6 +223,33 @@ float3 ACESToneMapping(float3 color, float adapted_lum)
     color *= adapted_lum;
     return saturate((color * (A * color + B)) / (color * (C * color + D) + E));
 }
+// ================================= 压暗对比色 =================================
+// todo 测试...
+float ToneMaping(float3 color)
+{
+    return sqrt(max(exp2(log2(max(color, 0)) * 2.2), 0));
+}
+
+// ================================= 2D Box 遮罩 =================================
+half UniversalMask2D(float2 uv, float2 center, float intensity, float roundness, float smoothness)
+{
+    float2 d = abs(uv - center) * intensity;
+    d = pow(saturate(d), roundness);
+    float dist = length(d);
+    float vfactor = pow(saturate(1 - dist * dist), smoothness);
+    return vfactor;
+}
+// ================================= 3D Box 遮罩 =================================
+half BoxMask(float3 positionWS, float3 center, float3 size, float falloff)
+{
+    return distance(max(abs(positionWS - center) - (size * 0.5), 0), 0) / falloff;
+}
+// ================================= 3D Sphere 遮罩=================================
+half SphereMask(float3 positionWS, float3 center, float3 radius, float hardness)
+{
+    float3 halfv = (positionWS - center) / radius * 2;
+    return pow(saturate(dot(halfv, halfv)), hardness);
+}
 
 // ================================ 转换亮度值 ================================
 float Luminance(float3 rgb)
