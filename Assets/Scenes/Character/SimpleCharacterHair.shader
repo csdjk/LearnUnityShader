@@ -103,15 +103,7 @@ Shader "lcl/Character/SimpleCharacterHair"
             }
 
 
-            inline half PerceptualRoughnessToMipmapLevel(half perceptualRoughness, int maxMipLevel)
-            {
-                perceptualRoughness = perceptualRoughness * (1.7 - 0.7 * perceptualRoughness);
-                return perceptualRoughness * maxMipLevel;
-            }
-            inline half PerceptualRoughnessToMipmapLevel(half perceptualRoughness)
-            {
-                return PerceptualRoughnessToMipmapLevel(perceptualRoughness, UNITY_SPECCUBE_LOD_STEPS);
-            }
+         
             
             half4 frag(v2f i) : SV_Target
             {

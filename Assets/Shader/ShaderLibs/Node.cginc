@@ -6,6 +6,7 @@
 #ifndef NODE_INCLUDED
 #define NODE_INCLUDED
 
+
 float2 Flipbook(float2 UV, float Width, float Height, float Tile, float2 Invert)
 {
     Tile = fmod(Tile, Width * Height);
@@ -113,6 +114,23 @@ float Remap(float In, float2 InMinMax, float2 OutMinMax)
     return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
 }
 
+// ================================= 旋转向量(角度) =================================
+// From Shader Graph RotateAboutAxis Node
+float3 RotateAboutAxis_Degrees(float3 In, float3 Axis, float Rotation)
+{
+    Rotation = radians(Rotation);
+    float s = sin(Rotation);
+    float c = cos(Rotation);
+    float one_minus_c = 1.0 - c;
+
+    Axis = normalize(Axis);
+    float3x3 rot_mat = {
+        one_minus_c * Axis.x * Axis.x + c, one_minus_c * Axis.x * Axis.y - Axis.z * s, one_minus_c * Axis.z * Axis.x + Axis.y * s,
+        one_minus_c * Axis.x * Axis.y + Axis.z * s, one_minus_c * Axis.y * Axis.y + c, one_minus_c * Axis.y * Axis.z - Axis.x * s,
+        one_minus_c * Axis.z * Axis.x - Axis.y * s, one_minus_c * Axis.y * Axis.z + Axis.x * s, one_minus_c * Axis.z * Axis.z + c
+    };
+    return mul(rot_mat, In);
+}
 
 // ================================= 以半径扩散溶解 =================================
 // dissolveData => x : threshold , y : maxDistance, z : noiseStrength
@@ -158,7 +176,7 @@ half DrawRing(float2 uv, float2 center, float width, float size, float smoothnes
     return value - value2;
 }
 
-// ================================= 随机值(根据物体坐标) =================================
+// ================================= 随机值(根据坐标) =================================
 float ObjectPosRand01()
 {
     return frac(UNITY_MATRIX_M[0][3] + UNITY_MATRIX_M[1][3] + UNITY_MATRIX_M[2][3]);
@@ -274,6 +292,77 @@ half4 TriplanarMapping(sampler2D textures, float3 positionWS, half3 N, float til
     return col;
 }
 
+// ================================= InteriorMapping CubeMap =================================
+// From UE InteriorCubemap Node
+float3 InteriorCubemap(float2 uv, float2 tilling, float3 viewTS)
+{
+    uv = uv * float2(1, -1);
+    uv *= tilling;
+    uv = frac(uv) * float2(2, -2) - float2(1, -1);
+    float3 uvw = float3(uv, -1);
+
+    float3 view = viewTS * float3(-1, -1, 1);
+    float3 viewInverse = 1 / view;
+    
+    float3 fractor = viewInverse * uvw;
+
+    fractor = abs(viewInverse) - fractor;
+    float3 minview = min(min(fractor.x, fractor.y), fractor.z) * view;
+    minview = minview + uvw;
+
+    return minview.zxy;
+}
+// ================================= InteriorMapping 2D =================================
+//bgolus's original source code: https://forum.unity.com/threads/interior-mapping.424676/#post-2751518
+float2 ConvertOriginalRawUVToInteriorUV(float2 originalRawUV, float3 viewDirTangentSpace, float roomMaxDepth01Define)
+{
+    //remap [0,1] to [+inf,0]
+    //->if input roomMaxDepth01Define = 0    -> depthScale = +inf   (0 volume room)
+    //->if input roomMaxDepth01Define = 0.5  -> depthScale = 1
+    //->if input roomMaxDepth01Define = 1    -> depthScale = 0              (inf depth room)
+    float depthScale = rcp(roomMaxDepth01Define) - 1.0;
+
+    //normalized box space is a space where room's min max corner = (-1,-1,-1) & (+1,+1,+1)
+    //apply simple scale & translate to tangent space = transform tangent space to normalized box space
+
+    //now prepare ray box intersection test's input data in normalized box space
+    float3 viewRayStartPosBoxSpace = float3(originalRawUV * 2 - 1, -1); //normalized box space's ray start pos is on trinagle surface, where z = -1
+    float3 viewRayDirBoxSpace = viewDirTangentSpace * float3(1, 1, -depthScale);//transform input ray dir from tangent space to normalized box space
+
+    //do ray & axis aligned box intersection test in normalized box space (all input transformed to normalized box space)
+    //intersection test function used = https://www.iquilezles.org/www/articles/intersectors/intersectors.htm
+    //============================================================================
+    float3 viewRayDirBoxSpaceRcp = rcp(viewRayDirBoxSpace);
+
+    //hitRayLengthForSeperatedAxis means normalized box space depth hit per x/y/z plane seperated
+    //(we dont care about near hit result here, we only want far hit result)
+    float3 hitRayLengthForSeperatedAxis = abs(viewRayDirBoxSpaceRcp) - viewRayStartPosBoxSpace * viewRayDirBoxSpaceRcp;
+    //shortestHitRayLength = normalized box space real hit ray length
+    float shortestHitRayLength = min(min(hitRayLengthForSeperatedAxis.x, hitRayLengthForSeperatedAxis.y), hitRayLengthForSeperatedAxis.z);
+    //normalized box Space real hit pos = rayOrigin + t * rayDir.
+    float3 hitPosBoxSpace = viewRayStartPosBoxSpace + shortestHitRayLength * viewRayDirBoxSpace;
+    //============================================================================
+
+    // remap from [-1,1] to [0,1] room depth
+    float interp = hitPosBoxSpace.z * 0.5 + 0.5;
+
+    // account for perspective in "room" textures
+    // assumes camera with an fov of 53.13 degrees (atan(0.5))
+    //hard to explain, visual result = transform nonlinear depth back to linear
+    float realZ = saturate(interp) / depthScale + 1;
+    interp = 1.0 - (1.0 / realZ);
+    interp *= depthScale + 1.0;
+
+    //linear iterpolate from wall back to near
+    float2 interiorUV = hitPosBoxSpace.xy * lerp(1.0, 1 - roomMaxDepth01Define, interp);
+
+    //convert back to valid 0~1 uv, ready for user's tex2D() call
+    interiorUV = interiorUV * 0.5 + 0.5;
+    return interiorUV;
+}
+
+
+
 // ================================= 各向异性 Kajiya-Kay =================================
 half3 ShiftTangent(half3 T, half3 N, half shift)
 {
@@ -365,5 +454,26 @@ inline half PerceptualRoughnessToMipmapLevel(half perceptualRoughness, int maxMi
 inline half PerceptualRoughnessToMipmapLevel(half perceptualRoughness)
 {
     return PerceptualRoughnessToMipmapLevel(perceptualRoughness, 6);
+}
+
+
+
+
+
+
+
+
+// ================================= 【Transform Coordinates 】 =================================
+
+// ================================= 局部转切线(向量) =================================
+float3 ObjectToTangentDir(float3 inputDirOS, float3 normalOS, float4 tangentOS)
+{
+    float tangentSign = tangentOS.w * unity_WorldTransformParams.w;
+    float3 bitangentOS = cross(normalOS, tangentOS.xyz) * tangentSign;
+    return float3(
+        dot(inputDirOS, tangentOS.xyz),
+        dot(inputDirOS, bitangentOS),
+        dot(inputDirOS, normalOS)
+    );
 }
 #endif

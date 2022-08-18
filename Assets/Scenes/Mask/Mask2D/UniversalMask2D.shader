@@ -43,7 +43,7 @@
             half4 frag(v2f i) : SV_Target
             {
                 
-                float mask = BoxMask2D(i.uv, _MaskCenter, _Intensity, _Roundness, _Smoothness);
+                float mask = UniversalMask2D(i.uv, _MaskCenter, _Intensity, _Roundness, _Smoothness);
                 return mask;
             }
             ENDCG
