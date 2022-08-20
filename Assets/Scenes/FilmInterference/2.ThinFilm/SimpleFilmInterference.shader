@@ -42,7 +42,8 @@
             #pragma fragment frag
             
             #include "Lighting.cginc"
-            
+            #include "Assets\Shader\ShaderLibs\Node.cginc"
+
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
@@ -90,32 +91,6 @@
                 return o;
             }
             
-            
-            inline float3 ApplyHue(float3 aColor, float aHue)
-            {
-                float angle = radians(aHue);
-                float3 k = float3(0.57735, 0.57735, 0.57735);
-                float cosAngle = cos(angle);
-                return aColor * cosAngle + cross(k, aColor) * sin(angle) + k * dot(k, aColor) * (1 - cosAngle);
-            }
-            // hsbc = half4(_Hue, _Saturation, _Brightness, _Contrast);
-            inline float4 ApplyHSBCEffect(float4 startColor, half4 hsbc)
-            {
-                float hue = 360 * hsbc.r;
-                float saturation = hsbc.g * 2;
-                float brightness = hsbc.b * 2 - 1;
-                float contrast = hsbc.a * 2;
-                
-                float4 outputColor = startColor;
-                outputColor.rgb = ApplyHue(outputColor.rgb, hue);
-                outputColor.rgb = (outputColor.rgb - 0.5f) * contrast + 0.5f;
-                outputColor.rgb = outputColor.rgb + brightness;
-                float3 intensity = dot(outputColor.rgb, float3(0.39, 0.59, 0.11));
-                outputColor.rgb = lerp(intensity, outputColor.rgb, saturation);
-                return outputColor;
-            }
-
-
             inline half3 thinFilmReflectance(fixed cosI, float lambda, float thickness, float IOR)
             {
                 float PI = 3.1415926;

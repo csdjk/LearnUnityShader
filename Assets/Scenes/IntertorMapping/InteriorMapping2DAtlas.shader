@@ -1,4 +1,4 @@
-﻿Shader "lcl/InteriorMapping/InteriorMapping2DAtls"
+﻿Shader "lcl/InteriorMapping/InteriorMapping2DAtlas"
 {
     Properties
     {

@@ -42,17 +42,13 @@
         {
             Tags { "LightMode" = "ForwardBase" "Queue" = "Geometry" }
             Cull off
-            
             CGPROGRAM
-
             #pragma target 3.0
 
-            #include "Assets\Shader\ShaderLibs\LCL_BRDF.cginc"
-            #include "Assets\Shader\ShaderLibs\Color.cginc"
+            #include "Assets\Shader\ShaderLibs\LcLLighting.cginc"
+            #include "Assets\Shader\ShaderLibs\Node.cginc"
 
             #pragma multi_compile _ _EMISSIONGROUP_ON
-            // #pragma enable_d3d11_debug_symbols
-
 
             #pragma vertex LitPassVertex
             #pragma fragment LaserFragment
@@ -66,7 +62,7 @@
             half4 _MaskRgb;
             half4 _ContrastMask1;
 
-            inline half3 thinFilm(float3 V,float3 N,float2 uv)
+            inline half3 thinFilm(float3 V, float3 N, float2 uv)
             {
                 half3 CameraPos = V * _Tile;
                 half3 DotPostion = dot(CameraPos, N);
@@ -80,23 +76,19 @@
                 return laserColor;
             }
             
-            fixed4 LaserFragment(VertexOutput i) : SV_Target
+            fixed4 LaserFragment(Varyings i) : SV_Target
             {
-                LclSurfaceOutput s = LclSurf(i);
-                LclUnityGIInput giInput = LclGetGIInput(i, s);
-                UnityGI gi = LclFragmentGI(s, giInput);
+                LcLSurfaceData surfaceData = InitSurfaceData(i);
+                LcLInputData inputData = InitInputData(i, surfaceData);
+                UnityGI gi = LcLFragmentGI(surfaceData, inputData);
 
-                half3 laserColor = thinFilm(i.worldView,s.Normal,i.uv_MainTex);
-
-                s.Albedo *= laserColor;
-                fixed4 finalColor = LCL_BRDF_Unity_PBS(s, giInput, gi);
-
-
+                half3 laserColor = thinFilm(i.worldView, surfaceData.Normal, i.uv_MainTex);
+                surfaceData.Albedo *= laserColor;
+                half4 finalColor = LcLFragmentPBR(surfaceData, inputData, gi);
                 return finalColor;
             }
 
             ENDCG
-
         }
     }
     FallBack "VertexLit"

@@ -44,7 +44,6 @@ Shader "lcl/FilmInterference/LaserPBR"
         _FresnelPower ("FresnelPower", Range(0, 10)) = 0.5
         _LaserBlend ("Laser Blend", Range(0, 1)) = 1
         _FresnelAlpha ("Alpha", Range(0, 1)) = 0.5
-
     }
     SubShader
     {
@@ -55,15 +54,12 @@ Shader "lcl/FilmInterference/LaserPBR"
             Cull off
             Blend SrcAlpha OneMinusSrcAlpha
             CGPROGRAM
-
             #pragma target 3.0
 
-            #include "Assets\Shader\ShaderLibs\LCL_BRDF.cginc"
-            #include "Assets\Shader\ShaderLibs\Color.cginc"
+            #include "Assets\Shader\ShaderLibs\LcLLighting.cginc"
+            #include "Assets\Shader\ShaderLibs\Node.cginc"
 
             #pragma multi_compile _ _EMISSIONGROUP_ON
-            // #pragma enable_d3d11_debug_symbols
-
 
             #pragma vertex LitPassVertex
             #pragma fragment LaserFragment
@@ -75,30 +71,15 @@ Shader "lcl/FilmInterference/LaserPBR"
             float _Distortion, _LaserBlend, _FresnelPower, _FresnelAlpha;
             half _Hue, _Saturation, _Brightness, _Contrast;
 
-            inline half3 thinFilmReflectance(fixed cosI, float lambda, float thickness, float IOR)
+            fixed4 LaserFragment(Varyings i) : SV_Target
             {
-                float PI = 3.1415926;
-                fixed sin2R = saturate((1 - pow(cosI, 2)) / pow(IOR, 2));
-                fixed cosR = sqrt(1 - sin2R);
-                float phi = 2.0 * IOR * thickness * cosR / lambda + 0.5; //�����̲�
-                fixed reflectionRatio = 1 - pow(cos(phi * PI * 2.0) * 0.5 + 0.5, 1.0);  //����ϵ��
+                LcLSurfaceData surfaceData = InitSurfaceData(i);
+                LcLInputData inputData = InitInputData(i, surfaceData);
+                UnityGI gi = LcLFragmentGI(surfaceData, inputData);
 
-                fixed refRatio_min = pow((1 - IOR) / (1 + IOR), 2.0);
-
-                reflectionRatio = refRatio_min + (1.0 - refRatio_min) * reflectionRatio;
-
-                return reflectionRatio;
-            }
-            
-            fixed4 LaserFragment(VertexOutput i) : SV_Target
-            {
-                LclSurfaceOutput s = LclSurf(i);
-                LclUnityGIInput giInput = LclGetGIInput(i, s);
-                UnityGI gi = LclFragmentGI(s, giInput);
-
-                float3 N = s.Normal;
-                float3 V = giInput.worldView;
-                float3 L = giInput.light.dir;
+                float3 N = surfaceData.Normal;
+                float3 V = inputData.worldView;
+                float3 L = inputData.light.dir;
 
                 float NdotV = saturate(dot(N, V));
                 float NdotL = saturate(dot(N, L));
@@ -122,9 +103,9 @@ Shader "lcl/FilmInterference/LaserPBR"
 
                 laserColor = lerp(1, laserColor, _LaserBlend) * fresnel;
 
-                s.Albedo = laserColor;
-                fixed4 finalColor = LCL_BRDF_Unity_PBS(s, giInput, gi);
+                surfaceData.Albedo = laserColor;
 
+                half4 finalColor = LcLFragmentPBR(surfaceData, inputData, gi);
 
                 // finalColor.rgb = laserColor;
                 finalColor.a = lerp(fresnel, 1, _FresnelAlpha);
@@ -133,7 +114,6 @@ Shader "lcl/FilmInterference/LaserPBR"
             }
 
             ENDCG
-
         }
     }
     FallBack "VertexLit"

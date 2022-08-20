@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: InteriorMapping
-  m_Shader: {fileID: 4800000, guid: 4b6368cc374fd5a4dadd1bdd17dc0ada, type: 3}
+  m_Name: MobileACES
+  m_Shader: {fileID: 4800000, guid: 27509f6486a585343a9324bab362ede8, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,13 +19,9 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Cube:
-        m_Texture: {fileID: 8900000, guid: ada4a1f1c47089a4a9abca92c08eb87b, type: 3}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: b41e5528beb70aa4892e385644c36fba, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _Angle: -90
-    - _Tilling: 2
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _RotateAxis: {r: 1, g: 0, b: 0, a: 1}
+    m_Floats: []
+    m_Colors: []

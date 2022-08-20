@@ -293,8 +293,6 @@ half4 LcLFragmentPBR(LcLSurfaceData s, LcLInputData giInput, UnityGI gi)
         diffuseBRDF = Diffuse_Burley(albedo, perceptualRoughness, Context.NdotV, Context.NdotL, Context.VdotH) * NdotL * atten;
     #endif
 
-    // return half4(diffuseBRDF, 1);
-
     // ================================ Specular BRDF ================================
     float3 specularBRDF;
     #if defined(ANISO_ON)

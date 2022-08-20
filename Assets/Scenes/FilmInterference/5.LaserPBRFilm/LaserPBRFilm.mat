@@ -100,12 +100,12 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 1
     - _GlossyReflections: 1
-    - _Metallic: 0.091
+    - _Metallic: 0
     - _Mode: 0
     - _NormalScale: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Roughness: 0
+    - _Roughness: 0.674
     - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -116,10 +116,10 @@ Material:
     - _emissionGroup: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ContrastMask1: {r: 1, g: 0.57398295, b: 0, a: 0}
-    - _DiffuseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ContrastMask1: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 0}
+    - _DiffuseColor: {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MainColor: {r: 0, g: 0.40635848, b: 1, a: 0}
+    - _MainColor: {r: 0, g: 0.4078431, b: 1, a: 0}
     - _MaskRgb: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}

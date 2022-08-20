@@ -49,11 +49,10 @@
 
             #pragma target 3.0
 
-            #include "Assets\Shader\ShaderLibs\LCL_BRDF.cginc"
-            #include "Assets\Shader\ShaderLibs\Color.cginc"
+            #include "Assets\Shader\ShaderLibs\LcLLighting.cginc"
+            #include "Assets\Shader\ShaderLibs\Node.cginc"
 
             #pragma multi_compile _ _EMISSIONGROUP_ON
-
 
             #pragma vertex LitPassVertex
             #pragma fragment LaserFragment
@@ -63,23 +62,18 @@
             float4 _ColorRamp_ST;
             sampler2D _ColorRamp2;
 
-            float _Distortion,_LaserPower;
+            float _Distortion, _LaserPower;
             half _Hue, _Saturation, _Brightness, _Contrast;
 
-            float4 Unity_Remap(float4 In, float2 InMinMax, float2 OutMinMax)
+            fixed4 LaserFragment(Varyings i) : SV_Target
             {
-                return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
-            }
+                LcLSurfaceData surfaceData = InitSurfaceData(i);
+                LcLInputData inputData = InitInputData(i, surfaceData);
+                UnityGI gi = LcLFragmentGI(surfaceData, inputData);
 
-            fixed4 LaserFragment(VertexOutput i) : SV_Target
-            {
-                LclSurfaceOutput s = LclSurf(i);
-                LclUnityGIInput giInput = LclGetGIInput(i, s);
-                UnityGI gi = LclFragmentGI(s, giInput);
-
-                float3 N = s.Normal;
-                float3 V = giInput.worldView;
-                float3 L = giInput.light.dir;
+                float3 N = surfaceData.Normal;
+                float3 V = inputData.worldView;
+                float3 L = inputData.light.dir;
 
                 float NdotV = saturate(dot(N, V));
                 float NdotL = saturate(dot(N, L));
@@ -98,7 +92,7 @@
 
                 float R = normalize(reflect(-V, N));
                 float RdotV = (dot(R, -V));
-                RdotV = Unity_Remap(RdotV, float2(-1,1), float2(0,1));
+                RdotV = Remap(RdotV, float2(-1, 1), float2(0, 1));
 
                 float3 rcolor = tex2D(_ColorRamp2, float2(RdotV, RdotV) * _Distortion);
                 rcolor = pow(rcolor, 10);
@@ -107,19 +101,17 @@
                 RdotV = pow(RdotV, _LaserPower);
                 laserColor = laserColor * RdotV;
 
-                s.Albedo = laserColor;
-                fixed4 finalColor = LCL_BRDF_Unity_PBS(s, giInput, gi);
+                surfaceData.Albedo = laserColor;
 
 
-                // finalColor.rgb = RdotV;
-                // finalColor.a = lerp(fresnel, 1, _FresnelAlpha);
+                half4 finalColor = LcLFragmentPBR(surfaceData, inputData, gi);
+
                 finalColor.a = 1;
 
                 return finalColor;
             }
 
             ENDCG
-
         }
     }
     FallBack "VertexLit"

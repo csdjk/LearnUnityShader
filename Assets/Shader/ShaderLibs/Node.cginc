@@ -94,6 +94,33 @@ half3 ColorRamp(float fac, half2 mulbias, half3 color1, half3 color2)
     return outcol;
 }
 
+// ================================= 调色处理 =================================
+inline float3 ApplyHue(float3 aColor, float aHue)
+{
+    float angle = radians(aHue);
+    float3 k = float3(0.57735, 0.57735, 0.57735);
+    float sinAngle, cosAngle;
+    sincos(angle, sinAngle, cosAngle);
+
+    return aColor * cosAngle + cross(k, aColor) * sinAngle + k * dot(k, aColor) * (1 - cosAngle);
+}
+// hsbc = half4(_Hue, _Saturation, _Brightness, _Contrast);
+inline float4 ApplyHSBCEffect(float4 startColor, half4 hsbc)
+{
+    float hue = 360 * hsbc.r;
+    float saturation = hsbc.g * 2;
+    float brightness = hsbc.b * 2 - 1;
+    float contrast = hsbc.a * 2;
+    
+    float4 outputColor = startColor;
+    outputColor.rgb = ApplyHue(outputColor.rgb, hue);
+    outputColor.rgb = (outputColor.rgb - 0.5f) * contrast + 0.5f;
+    outputColor.rgb = outputColor.rgb + brightness;
+    float3 intensity = dot(outputColor.rgb, float3(0.39, 0.59, 0.11));
+    outputColor.rgb = lerp(intensity, outputColor.rgb, saturation);
+    return outputColor;
+}
+
 // ================================= 分层Diffuse =================================
 half3 ColorLayer(float3 NdotL, half smoothness, half threshold1, half threshold2, half3 color1, half3 color2, half3 color3)
 {
@@ -230,7 +257,7 @@ inline half3 StylizedFresnel(half NdotV, half rimWidth, float rimIntensity, half
 }
 
 // ================================= 色调映射 =================================
-float3 ACESToneMapping(float3 color, float adapted_lum)
+half3 ACESToneMapping(half3 color, float adapted_lum)
 {
     const float A = 2.51f;
     const float B = 0.03f;
@@ -240,6 +267,11 @@ float3 ACESToneMapping(float3 color, float adapted_lum)
 
     color *= adapted_lum;
     return saturate((color * (A * color + B)) / (color * (C * color + D) + E));
+}
+// 移动端版本的色调映射(曲线非常接近ACES)
+half3 MobileACESToneMapping(half3 color)
+{
+    return color / (color + 0.155) * 1.019;
 }
 // ================================= 压暗对比色 =================================
 // todo 测试...

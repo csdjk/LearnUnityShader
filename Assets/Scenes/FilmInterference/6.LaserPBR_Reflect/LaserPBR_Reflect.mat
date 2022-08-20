@@ -72,7 +72,7 @@ Material:
     - _LaserPower: 0.96
     - _Metallic: 0
     - _NormalScale: 1
-    - _Roughness: 0.1
+    - _Roughness: 0.605
     - _Saturation: 0.5
     - _emissionGroup: 1
     m_Colors:

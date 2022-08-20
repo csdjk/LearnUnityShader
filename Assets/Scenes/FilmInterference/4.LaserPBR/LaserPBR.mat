@@ -89,14 +89,14 @@ Material:
     - _Hue: 0.422
     - _IridescenceAmount: 0.81
     - _LaserBlend: 1
-    - _Metallic: 0.023
+    - _Metallic: 0
     - _NFilm: 10.98
     - _NMedium: 5.36
     - _Ninternal: 6.47
     - _NormalScale: 0
     - _Power: -0.21
     - _RampExp: 1
-    - _Roughness: 0.211
+    - _Roughness: 0.673
     - _Saturation: 0.509
     - _Smoothness: 1
     - _SpecExpon: 3.1

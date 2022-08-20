@@ -167,7 +167,7 @@ float3 Diffuse_Burley(float3 DiffuseColor, float Roughness, float NoV, float NoL
     float FD90 = 0.5 + 2 * VoH * VoH * Roughness;
     float FdV = 1 + (FD90 - 1) * Pow5(1 - NoV);
     float FdL = 1 + (FD90 - 1) * Pow5(1 - NoL);
-    return DiffuseColor * FdV * FdL * UNITY_INV_PI;
+    return DiffuseColor * FdV * FdL;
 }
 
 // GGX / Trowbridge-Reitz

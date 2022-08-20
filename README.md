@@ -195,6 +195,28 @@
 ![triplanarMapX.png](https://s2.loli.net/2022/07/31/SMOVfuk6X1TswaE.png)
 ![triplanarMapXZ.png](https://s2.loli.net/2022/07/31/7diyOYB6lhn84Lu.png)
 
+
+## [InteriorMapping](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/InteriorMapping)
+
+### [InteriorMapping - CubeMap](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/InteriorMapping)
+![interiorMappingCubemap.gif](https://s2.loli.net/2022/08/20/TsapkJdGrm346Iy.gif)
+
+### [InteriorMapping - 2D Atlas](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/InteriorMapping)
+![interiorMapping2D.gif](https://s2.loli.net/2022/08/20/KHgirLY9QdjETnI.gif)
+[![vsYR9f.png](https://s1.ax1x.com/2022/08/20/vsYR9f.png)](https://imgse.com/i/vsYR9f)
+[![vsYW38.png](https://s1.ax1x.com/2022/08/20/vsYW38.png)](https://imgse.com/i/vsYW38)
+
+## [Mask](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Mask)
+
+### [Box Mask](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Mask/BoxMask)
+[![vstKUI.png](https://s1.ax1x.com/2022/08/20/vstKUI.png)](https://imgse.com/i/vstKUI)
+
+### [Sphere Mask](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Mask/SphereMask)
+[![vstuVA.png](https://s1.ax1x.com/2022/08/20/vstuVA.png)](https://imgse.com/i/vstuVA)
+
+### [2D Mask](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Mask/BoxMask)
+[![vstM5t.png](https://s1.ax1x.com/2022/08/20/vstM5t.png)](https://imgse.com/i/vstM5t)
+
 # 描边
 
 ## [基于Fresnel的边缘光](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/OutLine/Fresnel)
