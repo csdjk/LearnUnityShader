@@ -22,6 +22,7 @@ Shader "lcl/ShaderOptimization"
             #pragma vertex vert
             #pragma fragment frag
             #include "Lighting.cginc"
+            #include "Assets\Shader\ShaderLibs\Node.cginc"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
@@ -53,8 +54,11 @@ Shader "lcl/ShaderOptimization"
                 o.positionWS = mul(unity_ObjectToWorld, v.vertex).xyz;
                 return o;
             }
-
-            
+            // ================================= 分析方法 =================================
+            // 1. 下载安装Arm Mobile Studio  (百度网盘:工具->GraphicTools)(https://developer.arm.com/Tools%20and%20Software/Mali%20Offline%20Compiler)
+            // 复制Compile Shader顶点或者片元代码到一个单独的文件(.vert 或者 .frag)
+            // cmd进入文件目录
+            // cmd 执行命令: malioc FragShader.frag
             half4 frag(v2f i) : SV_Target
             {
                 // float3 L = normalize(UnityWorldSpaceLightDir(i.positionWS));
@@ -63,6 +67,8 @@ Shader "lcl/ShaderOptimization"
                 float3 value = _Color;
                 float4 v = _Vector0;
                 float4 t = _Vector1;
+                float2 uv = i.uv;
+                float3 positionWS = i.positionWS;
 
                 // ================================= 倒数优化 =================================
                 // Bad!!
@@ -123,9 +129,25 @@ Shader "lcl/ShaderOptimization"
                 // Bad!!
                 // value.xyz = t.xyz * t.x * t.y * t.wzx * t.z * t.w; // 8 cycles
                 // Good!!
-                // value.xyz = (t.x * t.y * t.z * t.w) * (t.xyz * t.wzx); // 6 cycles
+                value.xyz = (t.x * t.y * t.z * t.w) * (t.xyz * t.wzx); // 6 cycles
 
 
+                // ================================= if or step or 三元运算 =================================
+                // value.xyz = uv.x >= 0.5 ? value.yyy : value.zzz;
+                // value.xyz = lerp(value.zzz, value.yyy, step(0.5, uv.x));
+                // if (uv.x >= 0.5)
+                // {
+                //     value.xyz = value.yyy;
+                // }
+                // else
+                // {
+                //     value.xyz = value.zzz;
+                // }
+
+
+
+                // value = value.xyz * (uv.x >= 0.5).xxx;
+                // value = value.xyz * step(0.5, uv.x);
 
 
                 half3 resCol = value;

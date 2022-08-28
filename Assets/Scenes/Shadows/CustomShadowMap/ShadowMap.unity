@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.38444075, g: 0.47178155, b: 0.61762166, a: 1}
+  m_IndirectSpecularColor: {r: 0.38408837, g: 0.47162884, b: 0.6177768, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -211,7 +211,7 @@ Transform:
   m_LocalPosition: {x: 5.735795, y: 6.273451, z: -5.86918}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1227048821}
+  - {fileID: 1030996420}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
@@ -230,10 +230,10 @@ MonoBehaviour:
   shadowLayers:
     serializedVersion: 2
     m_Bits: 1
-  shadowType: 0
+  shadowType: 1
   resolution: 2048
-  filterStride: 1.63
-  shadowStrength: 1
+  filterStride: 2.07
+  shadowStrength: 0.618
   bias: 0
   lightWidth: 10
   expConst: 0
@@ -336,7 +336,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1227048820
+--- !u!1 &1030996419
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -344,8 +344,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1227048821}
-  - component: {fileID: 1227048822}
+  - component: {fileID: 1030996420}
+  - component: {fileID: 1030996421}
   m_Layer: 0
   m_Name: Shadow Camera
   m_TagString: Untagged
@@ -353,13 +353,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1227048821
+--- !u!4 &1030996420
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1227048820}
+  m_GameObject: {fileID: 1030996419}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
@@ -367,13 +367,13 @@ Transform:
   m_Father: {fileID: 114062308}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &1227048822
+--- !u!20 &1030996421
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1227048820}
+  m_GameObject: {fileID: 1030996419}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2

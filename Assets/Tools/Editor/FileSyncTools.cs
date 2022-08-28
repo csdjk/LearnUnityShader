@@ -10,45 +10,36 @@ using System.Threading;
 
 public class FileSyncTools : Editor
 {
-    public static string modelProjectPath = "F:\\UnityProjects\\Work\\APPModelProject";
-    public static string clientProjectPath = "F:\\UnityProjects\\Work\\APPGameUnity";
-    public static string lclProjectPath = "F:\\UnityProjects\\Work\\APPGameUnity";
+    public static string URPProjectPath = "E:\\UnityProject\\LiChangLong\\LearnURP";
+    public static string PipeProjectPath = "E:\\UnityProject\\LiChangLong\\LcL-RenderPipeline";
 
 
-    [MenuItem("Assets/Sync Files/Sync Files To All Project")]
+    [MenuItem("Assets/Sync Files/To All Project")]
     private static void SyncFilesAll()
     {
         ForeachSelectObjs((obj) =>
       {
-          SyncFiles(obj, modelProjectPath);
-          SyncFiles(obj, clientProjectPath);
+          SyncFiles(obj, URPProjectPath);
+          SyncFiles(obj, PipeProjectPath);
       });
     }
 
-    [MenuItem("Assets/Sync Files/Sync Files To Model Project")]
-    private static void SyncFilesToEffect()
+    [MenuItem("Assets/Sync Files/To URP Project")]
+    private static void SyncFilesToURP()
     {
         ForeachSelectObjs((obj) =>
        {
-           SyncFiles(obj, modelProjectPath);
+           SyncFiles(obj, URPProjectPath);
        });
     }
 
-    [MenuItem("Assets/Sync Files/Sync Files To Client Project")]
-    private static void SyncClientFiles()
-    {
-        ForeachSelectObjs((obj) =>
-        {
-            SyncFiles(obj, clientProjectPath);
-        });
-    }
 
-    [MenuItem("Assets/Sync Files/Sync LcLTools Files")]
-    private static void SyncLcLToolsFiles()
+    [MenuItem("Assets/Sync Files/To LcLRenderPipeline Files")]
+    private static void SyncFilesToPipe()
     {
         ForeachSelectObjs((obj) =>
         {
-            SyncFilesAndDeleteOldFile(obj, modelProjectPath);
+            SyncFiles(obj, PipeProjectPath);
         });
     }
 
@@ -66,34 +57,6 @@ public class FileSyncTools : Editor
     }
 
     private static void SyncFiles(UnityEngine.Object go, string targetPath)
-    {
-        if (go == null) { return; }
-        string assetPath = AssetDatabase.GetAssetPath(go);
-        string currentPath = Application.dataPath.Replace("Assets", "");
-        string filePath = Path.Combine(currentPath, assetPath);
-        string destFile = Path.Combine(targetPath, assetPath);
-        if (File.Exists(filePath))
-        {
-            Debug.Log("-----------------文件同步成功-----------------");
-            Debug.Log("<color='#59D700'>" + filePath + " </color> \n => <color='#CAD600'>" + destFile + "</color>");
-            File.Copy(filePath, destFile, true);
-        }
-        else if (Directory.Exists(filePath))
-        {
-            string[] files = Directory.GetFiles(filePath);
-            foreach (string s in files)
-            {
-                var fileName = Path.GetFileName(s);
-                var source = Path.Combine(filePath, fileName);
-                var target = Path.Combine(destFile, fileName);
-                Debug.Log("-----------------文件同步成功-----------------");
-                Debug.Log("<color='#59D700'>" + source + " </color> \n => <color='#CAD600'>" + target + "</color>");
-                File.Copy(source, target, true);
-            }
-        }
-    }
-
-    private static void SyncFilesAndDeleteOldFile(UnityEngine.Object go, string targetPath)
     {
         if (go == null) { return; }
         string assetPath = AssetDatabase.GetAssetPath(go);

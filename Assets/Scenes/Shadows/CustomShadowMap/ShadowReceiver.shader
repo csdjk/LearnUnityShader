@@ -19,7 +19,8 @@
             #pragma fragment frag
             #pragma multi_compile SHADOW_SIMPLE SHADOW_PCF SHADOW_PCF_POISSON_DISK SHADOW_PCSS SHADOW_ESM SHADOW_VSM
             // #pragma fragmentoption ARB_precision_hint_fastest
-            #pragma enable_d3d11_debug_symbols
+            #include "Assets\Shader\ShaderLibs\Noise.cginc"
+            // #pragma enable_d3d11_debug_symbols
 
             struct v2f
             {
@@ -47,7 +48,7 @@
             
             // ESM 常量
             float _gExpConst;
-            // VSM 
+            // VSM
             // 最小方差
             float _gVarianceBias;
             // 漏光
@@ -165,6 +166,17 @@
                 return shadow;
             }
 
+            float useShadowMap(sampler2D shadowMap, float4 coords,float3 pos)
+            {
+                // 获取深度图中的深度值（最近的深度）
+                float closestDepth = DecodeFloatRGBA(tex2D(shadowMap, coords.xy));
+                // 获取当前片段在光源视角下的深度
+                float currentDepth = coords.z;
+                // 比较
+                float shadow = currentDepth - _gShadow_bias > closestDepth ? 0.0 : 1.0 ;
+                return shadow;
+            }
+            
             float PCF(sampler2D shadowMap, float4 coords)
             {
                 float currentDepth = coords.z;
@@ -176,6 +188,25 @@
                     UNITY_UNROLL for (int y = -1; y <= 1; ++y)
                     {
                         float2 sampleCoord = float2(x, y) * filterRange + coords.xy;
+                        float pcfDepth = DecodeFloatRGBA(tex2D(shadowMap, sampleCoord));
+                        shadow += currentDepth - _gShadow_bias > pcfDepth ? 0.0 : 1.0;
+                    }
+                }
+                shadow /= 9.0;
+                return shadow;
+            }
+            // PCF 旋转平铺抖动随机值
+            float PCF_InterleavedGradient(sampler2D shadowMap, float4 coords, float3 pos)
+            {
+                float currentDepth = coords.z;
+                float shadow = 0.0;
+                float2 filterRange = _gShadowMapTexture_TexelSize.xy * _gFilterStride;
+
+                UNITY_UNROLL for (int x = -1; x <= 1; ++x)
+                {
+                    UNITY_UNROLL for (int y = -1; y <= 1; ++y)
+                    {
+                        float2 sampleCoord = float2(x, y) * filterRange * InterleavedGradientNoise(pos.xy, 0) + coords.xy;
                         float pcfDepth = DecodeFloatRGBA(tex2D(shadowMap, sampleCoord));
                         shadow += currentDepth - _gShadow_bias > pcfDepth ? 0.0 : 1.0;
                     }
@@ -203,6 +234,7 @@
                 shadow /= float(NUM_SAMPLES);
                 return shadow;
             }
+            
             
             float PCSS(sampler2D shadowMap, float4 coords)
             {
@@ -301,7 +333,8 @@
                 #ifdef SHADOW_SIMPLE
                     visibility = useShadowMap(_gShadowMapTexture, float4(coord, 1.0));
                 #elif SHADOW_PCF
-                    visibility = PCF(_gShadowMapTexture, float4(coord, 1.0));
+                    // visibility = PCF(_gShadowMapTexture, float4(coord, 1.0));
+                    visibility = PCF_InterleavedGradient(_gShadowMapTexture, float4(coord, 1.0), i.pos);
                 #elif SHADOW_PCF_POISSON_DISK
                     visibility = PCF_PoissonDisk(_gShadowMapTexture, float4(coord, 1.0));
                 #elif SHADOW_PCSS
@@ -320,7 +353,6 @@
 
             
             ENDCG
-
         }
     }
 }
