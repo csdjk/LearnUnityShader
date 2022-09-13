@@ -1,0 +1,25 @@
+﻿#pragma kernel UpdateParticle
+
+struct ParticleData
+{
+    float3 pos;
+    float4 color;
+};
+RWStructuredBuffer<ParticleData> ParticleBuffer;
+float Time;
+
+[numthreads(10, 10, 10)]
+void UpdateParticle(uint3 id : SV_DispatchThreadID, uint3 groupID : SV_GroupID, uint index : SV_GroupIndex)
+{
+    int pindex = groupID.x * 1000 + index;
+    
+    // ParticleBuffer[pindex].pos = groupID.x;
+
+    float x = sin(index);
+    float y = sin(index * 1.2f);
+    float3 forward = float3(x, y, -sqrt(1 - x * x - y * y));
+    ParticleBuffer[pindex].color = float4(forward.x, forward.y, cos(index) * 0.5f + 0.5, 1);
+    if (Time > groupID.x)
+        ParticleBuffer[pindex].pos += forward * 0.005f;
+
+}

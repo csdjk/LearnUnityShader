@@ -1,0 +1,26 @@
+﻿//文档: https://docs.microsoft.com/zh-cn/windows/win32/direct3dhlsl/sm5-attributes-numthreads
+
+// Each #kernel tells which function to compile; you can have many kernels
+// 每个#kernel表示要编译哪个函数;可以有很多核
+#pragma kernel CSMain
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+// 一个可以被compute shader读写的二维纹理。
+RWTexture2D<float4> Result;
+
+// Buffer
+RWStructuredBuffer<ParticleData> ParticleBuffer;
+
+float Time;
+
+// 8*8*1 : 64线程
+[numthreads(8, 8, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+
+    // Result[id.xy] = float4(id.x & id.y, (id.x & 15) / 15.0, (id.y & 15) / 15.0, 0.0);
+
+    Result[id.xy] = float4(id.x & id.y, 0, 0, 0.0);
+}

@@ -1,0 +1,47 @@
+﻿//文档: https://docs.microsoft.com/zh-cn/windows/win32/direct3dhlsl/sm5-attributes-numthreads
+
+// Each #kernel tells which function to compile; you can have many kernels
+// 每个#kernel表示要编译哪个函数;可以有很多核
+#pragma kernel CSMain
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+// 一个可以被compute shader读写的二维纹理。
+RWTexture2D<float4> Result;
+
+// Buffer
+struct TestData
+{
+    float4 v1;
+    float4 v2;
+};
+RWStructuredBuffer<TestData> TestBuffer;
+
+
+// 8*8*1 : 64线程
+// SV_GroupID: 线程组ID，相当于每个组的坐标
+// SV_GroupThreadID: 每个线程组里的ID，相当于每个组里的局部坐标
+// SV_GroupIndex: 每个线程组的索引，相当于坍缩成一维坐标,类似一维数组索引
+// numthreads: 每个线程组中执行的线程数, 例如: numthreads(8, 8, 1) => 8*8*1 : 64线程
+
+// SV_GroupIndex = SV_GroupThreadID.z*dimx*dimy + SV_GroupThreadID.y*dimx + SV_GroupThreadID.x
+
+// 注意：
+// 在NVIDIA中，一个SM可调度多个wrap，而每个wrap里会有32个线程。
+// 我们可以简单的理解为一个指令最少也会调度32个并行的线程。而在AMD的显卡中这个数量为64，称之为wavefront。
+// 也就是说如果是NVIDIA的显卡，如果我们使用numthreads(1,1,1)，那么线程组依旧会有32个线程，但是多出来的31个线程完全就处于没有使用的状态，造成浪费。
+// 因此我们在使用numthreads时，最好将线程组的数量定义为64的倍数，这样两种显卡都可以顾及到。
+// https://www.cvg.ethz.ch/teaching/2011spring/gpgpu/GPU-Optimization.pdf
+[numthreads(8, 8, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID, uint3 groupID : SV_GroupID, uint3 groupThreadID : SV_GroupThreadID, uint index : SV_GroupIndex)
+{
+    // Result[id.xy] = float4(id.x & id.y, (id.x & 15) / 15.0, (id.y & 15) / 15.0, 0.0);
+    // Result[id.xy] = float4(id.x & id.y, 0, 0, 0.0);
+
+
+    // 计算buffer索引: 
+    int pindex = groupID.x * 64 + index;
+
+    TestBuffer[pindex].v1 = float4(groupID, index);
+    TestBuffer[pindex].v2 = float4(groupThreadID, pindex);
+}

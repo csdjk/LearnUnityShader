@@ -1,9 +1,10 @@
-Shader "lcl/Debugger"
+Shader "lcl/Common/Debugger"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" { }
         [KeywordEnum(Texture, Texture_R, Texture_G, Texture_B, Texture_A, VertexColor, VertexColor_R, VertexColor_G, VertexColor_B, VertexColor_A, normal, worldPos, uv0, uv1, uv2)] _ShowValue ("Pass Value", Int) = 0
+        [KeywordEnum(None, GammaToLinear, LinearToGamma)] _ColorSpace ("Color Space", Int) = 0
         [Toggle(_INVERT_ON)]_Invert ("Invert", int) = 0
     }
     SubShader
@@ -21,8 +22,8 @@ Shader "lcl/Debugger"
             #include "UnityCG.cginc"
             #pragma multi_compile _SHOWVALUE_TEXTURE _SHOWVALUE_TEXTURE_R _SHOWVALUE_TEXTURE_G _SHOWVALUE_TEXTURE_B _SHOWVALUE_TEXTURE_A _SHOWVALUE_VERTEXCOLOR _SHOWVALUE_VERTEXCOLOR_R _SHOWVALUE_VERTEXCOLOR_G _SHOWVALUE_VERTEXCOLOR_B _SHOWVALUE_VERTEXCOLOR_A _SHOWVALUE_NORMAL _SHOWVALUE_WORLDPOS _SHOWVALUE_UV0 _SHOWVALUE_UV1 _SHOWVALUE_UV2
             #pragma multi_compile __ _INVERT_ON
+            #pragma multi_compile _COLORSPACE_NONE _COLORSPACE_GAMMATOLINEAR _COLORSPACE_LINEARTOGAMMA
 
-            #include "Assets\Shader\ShaderLibs\Node.cginc"
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -63,6 +64,8 @@ Shader "lcl/Debugger"
             float4 frag(v2f i) : SV_Target
             {
                 float4 col = tex2D(_MainTex, i.uv);
+
+
                 float3 res = 1;
                 #ifdef _SHOWVALUE_TEXTURE
                     res = col;
@@ -96,13 +99,17 @@ Shader "lcl/Debugger"
                     res = i.uv2.xyz;
                 #endif
 
+
+                // 颜色空间转换
+                #ifdef _COLORSPACE_GAMMATOLINEAR
+                    res = pow(res, 2.2);
+                #elif _COLORSPACE_LINEARTOGAMMA
+                    res = pow(res, 0.45);
+                #endif
+
                 #ifdef _INVERT_ON
                     res = 1 - res;
                 #endif
-
-
-                // res.rgb = ToneMaping(res.rgb);
-
                 return float4(res, 1);
             }
             ENDCG

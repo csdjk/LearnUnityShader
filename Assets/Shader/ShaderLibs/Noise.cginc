@@ -1,3 +1,4 @@
+// ================================= Noise 集合 =================================
 float random(float2 p)
 {
     p = frac(p * 0.3183099 + .1);
@@ -54,7 +55,7 @@ float snoise(float2 v)
 
 
 
-// ==================Voronoi==================
+// ================================= Voronoi Noise =================================
 inline float2 unity_voronoi_noise_randomVector(float2 UV, float offset)
 {
     float2x2 m = float2x2(15.27, 47.63, 99.41, 89.98);
@@ -90,8 +91,7 @@ float VoronoiNoise(float2 UV, float AngleOffset, float CellDensity, out float Ce
 // ==================end==================
 
 
-// ==================GradientNoise==================
-
+// ================================= Gradient Noise =================================
 float2 unity_gradientNoise_dir(float2 p)
 {
     p = p % 289;
@@ -128,10 +128,8 @@ inline float unity_noise_randomValue(float2 uv)
 
 inline float unity_noise_interpolate(float a, float b, float t)
 {
-    return(1.0 - t) * a + (t * b);
+    return (1.0 - t) * a + (t * b);
 }
-
-
 
 inline float unity_valueNoise(float2 uv)
 {
@@ -185,3 +183,20 @@ float InterleavedGradientNoise(float2 pixCoord, int frameCount)
     return frac(magic.z * frac(dot(pixCoord, magic.xy)));
 }
 // ==================end==============
+
+
+
+// ================================= 可无缝平铺任意Noise =================================
+float SeamlessNoise(float x, float y, float dx, float dy, float xyOffset)
+{
+    float s = x;
+    float t = y;
+
+    float nx = xyOffset +cos(s * 2.0f * UNITY_PI) * dx / (2.0f * UNITY_PI);
+    float ny = xyOffset +cos(t * 2.0f * UNITY_PI) * dy / (2.0f * UNITY_PI);
+    float nz = xyOffset +sin(s * 2.0f * UNITY_PI) * dx / (2.0f * UNITY_PI);
+    float nw = xyOffset +sin(t * 2.0f * UNITY_PI) * dy / (2.0f * UNITY_PI);
+
+    //  return Noise(nx, ny, nz, nw);
+    return random2(float2(nx, ny));
+}
