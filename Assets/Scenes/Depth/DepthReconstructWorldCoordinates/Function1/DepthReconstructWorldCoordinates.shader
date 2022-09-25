@@ -1,12 +1,10 @@
 // 根据深度重建时间坐标
 Shader "lcl/Depth/DepthReconstructWorldCoordinates"
 {
-    Properties
-    {
-    }
+    Properties { }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType" = "Opaque" }
 
         Pass
         {
@@ -15,7 +13,7 @@ Shader "lcl/Depth/DepthReconstructWorldCoordinates"
             #pragma fragment frag
 
             #include "UnityCG.cginc"
-
+            #pragma enable_d3d11_debug_symbols
             struct v2f
             {
                 float4 vertex : SV_POSITION;
@@ -27,7 +25,6 @@ Shader "lcl/Depth/DepthReconstructWorldCoordinates"
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-
                 // Compute texture coordinate
                 o.screenPos = ComputeScreenPos(o.vertex);
 
@@ -37,7 +34,7 @@ Shader "lcl/Depth/DepthReconstructWorldCoordinates"
                 // Camera parameter
                 float far = _ProjectionParams.z;
 
-                // View space vector pointing to the far plane
+                // 指向远平面的空间向量
                 float3 clipVec = float3(ndcPos.x, ndcPos.y, 1.0) * far;
                 o.viewVec = mul(unity_CameraInvProjection, clipVec.xyzz).xyz;
 

@@ -2,11 +2,11 @@
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
-        _waveLeng("wavelenth",Range(0,100)) = 10
-        _swing("swing",Range(0,1)) = 0.5
-        _waveRange("waveRange",Range(0,1)) = 0.2
-        _smooth("smooth",Range(0,1)) = 0.2
+        _MainTex ("Texture", 2D) = "white" { }
+        _waveLeng ("wavelenth", Range(0, 100)) = 10
+        _swing ("swing", Range(0, 1)) = 0.5
+        _waveRange ("waveRange", Range(0, 1)) = 0.2
+        _smooth ("smooth", Range(0, 1)) = 0.2
     }
     SubShader
     {
@@ -38,9 +38,9 @@
             float _swing;
             float _smooth;
             
-            static float2 center = float2(0.5,0.5);
+            static float2 center = float2(0.5, 0.5);
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -49,16 +49,16 @@
             }
 
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
-                float len = distance(center,i.uv);
+                float len = distance(center, i.uv);
 
                 // if(len > _waveRange){
                 //     _swing = 0;
                 // }
-                float swing = smoothstep(len,len+_smooth,_waveRange)*_swing;
+                float swing = smoothstep(len, len + _smooth, _waveRange) * _swing;
 
-                i.uv.y += sin(len*UNITY_PI*_waveLeng)*swing;
+                i.uv.y += sin(len * UNITY_PI * _waveLeng) * swing;
 
                 fixed4 col = tex2D(_MainTex, i.uv);
                 return col;

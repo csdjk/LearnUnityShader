@@ -53,7 +53,30 @@ float snoise(float2 v)
 }
 // ==================end==================
 
+// =================================  Noise =================================
 
+float2 rand(float2 st, int seed)
+{
+    float2 s = float2(dot(st, float2(127.1, 311.7)) + seed, dot(st, float2(269.5, 183.3)) + seed);
+    return -1 + 2 * frac(sin(s) * 43758.5453123);
+}
+float noise(float2 st, int seed)
+{
+    st.y += _Time[1];
+
+    float2 p = floor(st);
+    float2 f = frac(st);
+    
+    float w00 = dot(rand(p, seed), f);
+    float w10 = dot(rand(p + float2(1, 0), seed), f - float2(1, 0));
+    float w01 = dot(rand(p + float2(0, 1), seed), f - float2(0, 1));
+    float w11 = dot(rand(p + float2(1, 1), seed), f - float2(1, 1));
+    
+    float2 u = f * f * (3 - 2 * f);
+    
+    return lerp(lerp(w00, w10, u.x), lerp(w01, w11, u.x), u.y);
+}
+// =================================  Noise =================================
 
 // ================================= Voronoi Noise =================================
 inline float2 unity_voronoi_noise_randomVector(float2 UV, float offset)
@@ -88,7 +111,7 @@ float VoronoiNoise(float2 UV, float AngleOffset, float CellDensity, out float Ce
     }
     return Out;
 }
-// ==================end==================
+// ================================= Voronoi Noise =================================
 
 
 // ================================= Gradient Noise =================================

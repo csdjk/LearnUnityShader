@@ -26,7 +26,7 @@ Shader "lcl/shader3D/Ghost" {
 
 			#pragma vertex vert
 			#pragma fragment frag
-            #pragma enable_d3d11_debug_symbols
+            // #pragma enable_d3d11_debug_symbols
 
 			//顶点着色器输入结构体
 			struct a2v {
@@ -47,12 +47,6 @@ Shader "lcl/shader3D/Ghost" {
 			float3 _Direction;
 			half _Power;
 			
-			//随机数 - 2D Random
-			float random (in float2 st) {
-				return frac(sin(dot(st.xy,
-				float2(12.9898,78.233)))
-				* 43758.5453123);
-			}
 			
 			// ------------------------【顶点着色器】---------------------------
 			v2f vert(a2v v){

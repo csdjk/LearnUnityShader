@@ -29,7 +29,10 @@ Shader "lcl/Depth/ReconstructPositionInvMatrix"
             ZTest Off
             Cull Off
             ZWrite Off
-            Fog{ Mode Off }
+            Fog
+            {
+                Mode Off
+            }
             
             CGPROGRAM
             #pragma vertex vert_img

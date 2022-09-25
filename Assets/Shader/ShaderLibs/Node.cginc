@@ -222,8 +222,16 @@ float3 CalculateNormal(float3 positionWS)
     float3 dpy = ddy(positionWS) * _ProjectionParams.x;
     return normalize(cross(dpx, dpy));
 }
-
-
+// ================================= 根据深度重建世界坐标 =================================
+float3 CalculateWorldPosition(float2 screen_uv, float eyeDepth)
+{
+    // NDC
+    float4 ndcPos = float4(float3(screen_uv, eyeDepth) * 2 - 1, 1);
+    // 裁剪空间
+    float4 clipPos = mul(unity_CameraInvProjection, ndcPos);
+    clipPos = float4(((clipPos.xyz / clipPos.w) * float3(1, 1, -1)), 1.0);
+    return mul(unity_CameraToWorld, clipPos);
+}
 // float3 NormalFromTexture(TEXTURE2D_PARAM(bumpMap, sampler_bumpMap), float2 UV, float offset, float Strength)
 // {
 //     offset = pow(offset, 3) * 0.1;
@@ -269,6 +277,7 @@ half3 ACESToneMapping(half3 color, float adapted_lum)
     return saturate((color * (A * color + B)) / (color * (C * color + D) + E));
 }
 // 移动端版本的色调映射(曲线非常接近ACES)
+// todo:垃圾
 half3 MobileACESToneMapping(half3 color)
 {
     return color / (color + 0.155) * 1.019;
