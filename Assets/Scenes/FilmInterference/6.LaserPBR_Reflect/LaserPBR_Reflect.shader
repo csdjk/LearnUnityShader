@@ -101,7 +101,7 @@
                 RdotV = pow(RdotV, _LaserPower);
                 laserColor = laserColor * RdotV;
 
-                surfaceData.Albedo = laserColor;
+                surfaceData.Albedo = saturate(laserColor);
 
 
                 half4 finalColor = LcLFragmentPBR(surfaceData, inputData, gi);

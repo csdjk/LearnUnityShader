@@ -40,15 +40,6 @@ Shader "lcl/Matcap/SimpleWindow"
                 return o;
             }
 
-
-            float InteriorCubemap(float2 uv, float2 tilling)
-            {
-                uv = uv * float2(1, -1);
-                uv *= tilling;
-
-                return o;
-            }
-
             half4 frag(v2f i) : SV_Target
             {
                 float3 dir = i.positionVS - _Center;

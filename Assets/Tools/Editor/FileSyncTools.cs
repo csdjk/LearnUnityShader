@@ -10,19 +10,12 @@ using System.Threading;
 
 public class FileSyncTools : Editor
 {
-    public static string URPProjectPath = "E:\\UnityProject\\LiChangLong\\LearnURP";
-    public static string PipeProjectPath = "E:\\UnityProject\\LiChangLong\\LcL-RenderPipeline";
+    public static string URPProjectPath = "F:\\UnityProject\\LiChangLong\\LearnURP";
+    public static string PipeProjectPath = "F:\\UnityProject\\LiChangLong\\LcL-RenderPipeline";
 
-
-    [MenuItem("Assets/Sync Files/To All Project")]
-    private static void SyncFilesAll()
-    {
-        ForeachSelectObjs((obj) =>
-      {
-          SyncFiles(obj, URPProjectPath);
-          SyncFiles(obj, PipeProjectPath);
-      });
-    }
+    public static string modelProjectPath = "F:\\UnityProjects\\Work\\APPModelProject";
+    public static string clientProjectPath = "F:\\UnityProjects\\Work\\APPGameUnity";
+    public static string lclProjectPath = "F:\\UnityProjects\\Work\\APPGameUnity";
 
     [MenuItem("Assets/Sync Files/To URP Project")]
     private static void SyncFilesToURP()
@@ -33,7 +26,6 @@ public class FileSyncTools : Editor
        });
     }
 
-
     [MenuItem("Assets/Sync Files/To LcLRenderPipeline Files")]
     private static void SyncFilesToPipe()
     {
@@ -42,6 +34,45 @@ public class FileSyncTools : Editor
             SyncFiles(obj, PipeProjectPath);
         });
     }
+
+    [MenuItem("Assets/Sync Files/To LcLTools")]
+    private static void SyncLcLToolsFiles()
+    {
+        ForeachSelectObjs((obj) =>
+        {
+            SyncFiles(obj, modelProjectPath);
+        });
+    }
+
+
+    [MenuItem("Assets/Sync Files/To Model Project")]
+    private static void SyncFilesToEffect()
+    {
+        ForeachSelectObjs((obj) =>
+       {
+           SyncFiles(obj, modelProjectPath);
+       });
+    }
+
+    [MenuItem("Assets/Sync Files/To Client Project")]
+    private static void SyncClientFiles()
+    {
+        ForeachSelectObjs((obj) =>
+        {
+            SyncFiles(obj, clientProjectPath);
+        });
+    }
+
+    [MenuItem("Assets/Sync Files/To All Project")]
+    private static void SyncFilesAll()
+    {
+        ForeachSelectObjs((obj) =>
+      {
+          SyncFiles(obj, modelProjectPath);
+          SyncFiles(obj, clientProjectPath);
+      });
+    }
+
 
     private static void ForeachSelectObjs(Action<UnityEngine.Object> func)
     {

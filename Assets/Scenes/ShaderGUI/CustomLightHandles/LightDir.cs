@@ -1,6 +1,8 @@
 ﻿using UnityEditor;
 using UnityEngine;
-
+/// <summary>
+/// 自定义灯光调节工具
+/// </summary>
 internal class LightDir : MaterialPropertyDrawer
 {
     float height = 16;

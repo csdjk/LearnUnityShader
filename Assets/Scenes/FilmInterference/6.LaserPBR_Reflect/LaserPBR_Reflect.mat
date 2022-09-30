@@ -69,13 +69,13 @@ Material:
     - _FresnelPower: 1.26
     - _Hue: 0
     - _LaserBlend: 1
-    - _LaserPower: 0.96
+    - _LaserPower: 0
     - _Metallic: 0
     - _NormalScale: 1
-    - _Roughness: 0.605
+    - _Roughness: 0.822
     - _Saturation: 0.5
     - _emissionGroup: 1
     m_Colors:
-    - _DiffuseColor: {r: 0, g: 0, b: 0, a: 1}
+    - _DiffuseColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}

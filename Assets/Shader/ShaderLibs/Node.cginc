@@ -6,6 +6,10 @@
 #ifndef NODE_INCLUDED
 #define NODE_INCLUDED
 
+float sum(float3 v)
+{
+    return v.x + v.y + v.z;
+}
 
 float2 Flipbook(float2 UV, float Width, float Height, float Tile, float2 Invert)
 {
@@ -53,7 +57,21 @@ float3 BlendTexture(float4 texture1, float u1, float4 texture2, float u2)
     float b2 = max(texture2.a + u2 - ma, 0);
     return (texture1.rgb * b1 + texture2.rgb * b2) / (b1 + b2);
 }
-
+//
+float3 BlendNormalsLiner(float3 N1, float3 N2)
+{
+    return normalize(N1 + N2);
+}
+// 来自ShaderGraph的 BlendNormal节点
+float3 BlendNormalsWhiteout(float3 N1, float3 N2)
+{
+    return normalize(float3(N1.rg + N2.rg, N1.b * N2.b));
+}
+// UE
+float3 BlendNormalsRNM(float3 N1, float3 N2)
+{
+    return normalize(float3(N1.rg + N2.rg, N1.b * N2.b));
+}
 // ================================= 序列帧 =================================
 half4 SquenceImage(sampler2D tex, float2 uv, float2 amount, float speed)
 {
@@ -332,6 +350,33 @@ half4 TriplanarMapping(sampler2D textures, float3 positionWS, half3 N, float til
     fixed4 col = fixed4(xDiff * blendWeights.x + yDiff * blendWeights.y + zDiff * blendWeights.z, 1.0);
     return col;
 }
+// ================================ 没有重复感的四方连续纹理 ================================
+// https://iquilezles.org/articles/texturerepetition/
+float4 TexNoTileTech(sampler2D baseTex, sampler2D noiseTex, float2 uv)
+{
+    // sample variation pattern
+    float k = tex2D(noiseTex, 0.005 * uv).x;
+    // compute index
+    float index = k * 8.0;
+    float i = floor(index);
+    float f = frac(index);
+
+    // offsets for the different virtual patterns
+    float2 offa = sin(float2(3.0, 7.0) * (i + 0.0)); // can replace with any other hash
+    float2 offb = sin(float2(3.0, 7.0) * (i + 1.0)); // can replace with any other hash
+
+    // compute derivatives for mip-mapping
+    float2 dx = ddx(uv);
+    float2 dy = ddy(uv);
+
+    // sample the two closest virtual patterns
+    float4 cola = tex2Dgrad(baseTex, uv + offa, dx, dy);
+    float4 colb = tex2Dgrad(baseTex, uv + offb, dx, dy);
+
+    // interpolate between the two virtual patterns
+    return lerp(cola, colb, smoothstep(0.2, 0.8, f - 0.1 * sum(cola - colb)));
+}
+
 
 // ================================= InteriorMapping CubeMap =================================
 // From UE InteriorCubemap Node

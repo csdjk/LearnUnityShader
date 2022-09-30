@@ -23,5 +23,5 @@ Material:
     - _Gloss: 128
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _LightDir: {r: 0.15981117, g: -0.27220905, b: -0.9488748, a: 0}
+    - _LightDir: {r: 0.626699, g: -0.66940737, b: -0.39892602, a: 0}
     - _SpecularCol: {r: 1, g: 1, b: 1, a: 1}
