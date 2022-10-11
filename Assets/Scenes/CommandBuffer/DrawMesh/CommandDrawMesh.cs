@@ -13,7 +13,7 @@ public class CommandDrawMesh : MonoBehaviour
     private void OnEnable()
     {
         buf = new CommandBuffer();
-        Camera.main.AddCommandBuffer(CameraEvent.AfterSkybox, buf);
+        Camera.main.AddCommandBuffer(CameraEvent.AfterForwardOpaque, buf);
     }
 
     private void Update()
@@ -26,7 +26,7 @@ public class CommandDrawMesh : MonoBehaviour
 
     private void OnDisable()
     {
-        Camera.main.RemoveCommandBuffer(CameraEvent.AfterSkybox, buf);
+        Camera.main.RemoveCommandBuffer(CameraEvent.AfterForwardOpaque, buf);
     }
 
 }

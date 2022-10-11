@@ -1,40 +1,48 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Linq;
-
+#if UNITY_EDITOR
 
 [ExecuteInEditMode]
-public class EditorCameraSyncScript : MonoBehaviour {
+public class EditorCameraSyncScript : MonoBehaviour
+{
 
-	[HideInInspector] [SerializeField]
-	Camera syncedGameCamera;            //camera synced with scene view
+    [HideInInspector]
+    [SerializeField]
+    Camera syncedGameCamera;            //camera synced with scene view
 
-	[HideInInspector] [SerializeField]  //transform backups (private, hidden)
-	Vector3 startPosition;			  
-	[HideInInspector] [SerializeField]
-	Quaternion startRotation;
+    [HideInInspector]
+    [SerializeField]  //transform backups (private, hidden)
+    Vector3 startPosition;
+    [HideInInspector]
+    [SerializeField]
+    Quaternion startRotation;
 
-	[HideInInspector] [SerializeField]  //camera backups (private, hidden)
+    [HideInInspector]
+    [SerializeField]  //camera backups (private, hidden)
     float defaultDepth;
-    [HideInInspector] [SerializeField]  
+    [HideInInspector]
+    [SerializeField]
     bool orthographic;
-    [HideInInspector] [SerializeField]
+    [HideInInspector]
+    [SerializeField]
     float defaultOrthographicSize;
-    [HideInInspector] [SerializeField]
+    [HideInInspector]
+    [SerializeField]
     float defaultFieldOfView;
 
     [SerializeField]                    //settings
-    bool disableOnPlay;          
+    bool disableOnPlay;
     [SerializeField]
     public bool lockOnPlay;
     [SerializeField]
     public bool revertOnDestroy = true;
 
 
-	void Awake()
-	{
-        if(syncedGameCamera == null)    //setting up
-        {            
+    void Awake()
+    {
+        if (syncedGameCamera == null)    //setting up
+        {
             foreach (EditorCameraSyncScript script in FindObjectsOfType<EditorCameraSyncScript>()) //destroy previous instances
             {
                 if (script != this)
@@ -44,20 +52,20 @@ public class EditorCameraSyncScript : MonoBehaviour {
                     //this.revertOnDestroy = script.revertOnDestroy;
 
                     DestroyImmediate(script);
-                }                   
+                }
             }
-           
+
             this.startPosition = this.transform.position;           //backup start position & orientation
             this.startRotation = this.transform.rotation;
 
             SetUpCamera();
         }
 
-		if (Application.isPlaying)
-			this.gameObject.SetActive(!disableOnPlay);              //disable objecet in play mode if checked
-		else
-			this.gameObject.SetActive(true);                        //reenable after moving back from play mode
-	}
+        if (Application.isPlaying)
+            this.gameObject.SetActive(!disableOnPlay);              //disable objecet in play mode if checked
+        else
+            this.gameObject.SetActive(true);                        //reenable after moving back from play mode
+    }
 
 
     void SetUpCamera()
@@ -66,14 +74,14 @@ public class EditorCameraSyncScript : MonoBehaviour {
         //float minimalDepth = FindObjectsOfType<Camera>().Min(cam => (float?)cam.depth) ?? 0f;
 
         var camsDepth = (from cam in FindObjectsOfType<Camera>()
-                             orderby cam.depth
-                             select cam.depth).DefaultIfEmpty(0f);  //Get all cams depth or get default depth = 0
+                         orderby cam.depth
+                         select cam.depth).DefaultIfEmpty(0f);  //Get all cams depth or get default depth = 0
 
         Camera attachedCamera = this.GetComponent<Camera>();        //Set up attached camera or create a new one	
 
         if (attachedCamera != null)
         {
-            
+
             this.defaultDepth = attachedCamera.depth;               //backup original setup
             this.orthographic = attachedCamera.orthographic;
             // this.defaultFieldOfView = attachedCamera.fieldOfView;
@@ -125,12 +133,12 @@ public class EditorCameraSyncScript : MonoBehaviour {
     }
 
 
-	[MenuItem("GameObject/Scene View Synced Cam/Add Scene View Synced Camera")]
-	public static void AddNewCam() 
-	{
-		GameObject gameCameraGO = new GameObject ("Scene View Synced Camera");
-		EditorCameraSyncScript script = gameCameraGO.AddComponent <EditorCameraSyncScript>();
-	}
+    [MenuItem("GameObject/Scene View Synced Cam/Add Scene View Synced Camera")]
+    public static void AddNewCam()
+    {
+        GameObject gameCameraGO = new GameObject("Scene View Synced Camera");
+        EditorCameraSyncScript script = gameCameraGO.AddComponent<EditorCameraSyncScript>();
+    }
 
 
     [MenuItem("GameObject/Scene View Synced Cam/Clone Selected Camera")]
@@ -168,7 +176,7 @@ public class EditorCameraSyncScript : MonoBehaviour {
             // syncedGameCamera.fieldOfView = this.defaultFieldOfView;
             syncedGameCamera.orthographicSize = this.defaultOrthographicSize;
         }
-            
+
     }
 
     void OnDestroy()
@@ -177,3 +185,4 @@ public class EditorCameraSyncScript : MonoBehaviour {
             RevertChanges();
     }
 }
+#endif

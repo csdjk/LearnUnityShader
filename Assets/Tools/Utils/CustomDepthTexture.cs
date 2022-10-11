@@ -59,11 +59,6 @@ public class CustomDepthTexture : MonoBehaviour
             _camera.SetTargetBuffers(colorRT.colorBuffer, depthRT.depthBuffer);
         }
     }
-
-    // void OnRenderImage(RenderTexture src, RenderTexture dest)
-    // {
-    //     Graphics.Blit(colorRT, dest);
-    // }
     // private void OnGUI()
     // {
     //     GUI.DrawTexture(new Rect(0, 0, 256, 256), colorRT, ScaleMode.ScaleToFit, false, 1);

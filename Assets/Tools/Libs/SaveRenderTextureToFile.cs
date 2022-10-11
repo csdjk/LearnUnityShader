@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEditor;
+#if UNITY_EDITOR
+
 public class SaveRenderTextureToFile
 {
     [MenuItem("Assets/Save RenderTexture to file")]
@@ -21,3 +23,4 @@ public class SaveRenderTextureToFile
         Debug.Log("Saved to " + path);
     }
 }
+#endif
