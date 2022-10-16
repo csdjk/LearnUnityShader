@@ -8,7 +8,7 @@
 - 《Unity Shader入门精要》里的一些Shader实现。
 - 学习Shader过程中的一些效果实现及拓展。
 
-**Unity Version：2019.4.40f1**
+**Unity Version：2021.3.11f1**
 
 # 入门精要Shader
 
