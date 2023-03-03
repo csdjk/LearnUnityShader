@@ -1,0 +1,86 @@
+Label {
+    color: white;
+    -unity-text-align: upper-center;
+}
+/* VisualElement {
+    margin-bottom:20px;
+} */
+.title{
+    font-size:16px;
+    color: white;
+    align-self: center;
+}
+
+.container-box{
+    margin-bottom:20px;
+    padding:10px;
+}
+.box1 {
+    /* flex: 1; */
+    border-width: 2px ;
+    padding: 10px;
+    border-color: #555;
+    flex-direction: column;
+    margin-bottom:10px;
+}
+
+.tips{
+    font-size:20px;
+    color:red;
+    align-self: center;
+    flex-grow: 1;
+}
+.button{
+    padding: 10px;
+    margin-bottom:10px;
+}
+.min-max-slider-input{
+   width:0;
+   min-width:0;
+   flex-grow: 0.15;
+}
+
+
+.drop-area {
+    position:relative;
+    background-color: #272727;
+    height:120px;
+    flex-direction:row;
+}
+
+.drop-area.drag-over {
+    border-width: 2px;
+    border-color: green;
+    opacity:0.5;
+}
+/* 预制体Box样式 */
+.prefab-item{
+    width:100px;
+    background-color: #464646;
+    padding:5px;
+    border-width:5px;
+    border-color:black;
+}
+.prefab-item.select-item {
+    background-color: #044400;
+    border-width:0px;
+}
+.prefab-image {
+    align-self:center;
+}
+.prefab-name {
+    font-size:10px;
+    color:white;
+    align-self:center;
+}
+
+
+/* 参数 */
+/* .edit-bottom{
+    background-color:#585858;
+
+} */
+
+.edit-bottom{
+    background-color:#016D00;
+}

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using UnityEngine.Rendering;
-
+using LcLTools;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(MeshCollider))]
@@ -387,8 +387,8 @@ public class TexturePainterBaseWorldPos : MonoBehaviour
 
     public void SaveRenderTextureToPng(string path)
     {
-        LcLTools.SaveRenderTextureToTexture(compositeTexture, path);
-        var assetsPath = LcLTools.AssetsRelativePath(path);
+        LcLUtility.SaveRenderTextureToTexture(compositeTexture, path);
+        var assetsPath = LcLUtility.AssetsRelativePath(path);
         if (assetsPath != null)
         {
             AssetDatabase.ImportAsset(assetsPath);

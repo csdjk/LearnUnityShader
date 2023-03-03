@@ -29,7 +29,7 @@
             };
 
             #define EPS 1e-3
-            #define NUM_SAMPLES 50
+            #define NUM_SAMPLES 15
             #define NUM_RINGS 10
             // #define W_LIGHT 2.
 
@@ -319,7 +319,7 @@
                 //[-1, 1]-->[0, 1]
                 coord.xy = i.shadowCoord.xy * 0.5 + 0.5;
 
-                #if defined(SHADER_TARGET_GLSL)
+                #if defined(SHADER_API_GLES) || defined(SHADER_API_GLES3)
                     coord.z = i.shadowCoord.z * 0.5 + 0.5; //[-1, 1]-->[0, 1]
                 #elif defined(UNITY_REVERSED_Z)
                     coord.z = 1 - i.shadowCoord.z;       //[1, 0]-->[0, 1]

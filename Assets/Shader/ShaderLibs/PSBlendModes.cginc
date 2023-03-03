@@ -53,6 +53,7 @@ float overlay(float s, float d)
     float v2 = 1.0 - 2.0 * (1.0 - s) * (1.0 - d);
     return lerp(v1, v2, step(0.5, d));
     // return (d < 0.5) ? 2.0 * s * d : 1.0 - 2.0 * (1.0 - s) * (1.0 - d);
+
 }
 
 //    rgb<-->hsv functions by Sam Hocevar

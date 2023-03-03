@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectionMatrix : SimplePostEffectsBase
+public class ProjectionMatrix : PostEffectsBase
 {
     public Camera mCamera;
     public Renderer render;

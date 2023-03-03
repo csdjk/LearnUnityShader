@@ -19,7 +19,7 @@ Shader "lcl/Shadows/CustomShadowMap/ShadowMapCreator"
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile SHADOW_SIMPLE SHADOW_PCF SHADOW_PCF_POISSON_DISK SHADOW_PCSS SHADOW_ESM SHADOW_VSM
-            #pragma enable_d3d11_debug_symbols
+            // #pragma enable_d3d11_debug_symbols
             
             #include "UnityCG.cginc"
             // ESM 常量
@@ -42,7 +42,7 @@ Shader "lcl/Shadows/CustomShadowMap/ShadowMapCreator"
             fixed4 frag(v2f i) : COLOR
             {
                 float depth = i.depth.x / i.depth.y;
-                #if defined(SHADER_TARGET_GLSL)
+                #if defined(SHADER_API_GLES) || defined(SHADER_API_GLES3)
                     depth = depth * 0.5 + 0.5; //(-1, 1)-->(0, 1)
                 #elif defined(UNITY_REVERSED_Z)
                     depth = 1 - depth;       //(1, 0)-->(0, 1)

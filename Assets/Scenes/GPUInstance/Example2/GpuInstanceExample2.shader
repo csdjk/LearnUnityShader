@@ -1,4 +1,5 @@
-﻿Shader "lcl/GPUInstance/Example2/InstancedShader2" {
+﻿Shader "lcl/GPUInstance/Example2/InstancedShader2"
+{
     Properties
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
@@ -6,7 +7,7 @@
 
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType" = "Opaque" }
         LOD 100
 
         Pass
@@ -17,6 +18,7 @@
             #pragma multi_compile_instancing
             #include "UnityCG.cginc"
 
+            // Blend DstColor Zero
 
             struct appdata
             {
@@ -28,6 +30,7 @@
             {
                 float4 vertex : SV_POSITION;
                 UNITY_VERTEX_INPUT_INSTANCE_ID // 只有当你想访问片段着色器中的实例属性时才有必要。
+
             };
 
             // 常规定义属性
@@ -53,6 +56,7 @@
                 UNITY_SETUP_INSTANCE_ID(i); // 只有当你想要访问片段着色器中的实例属性时才需要。
                 return UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 // return _Color;
+
             }
             ENDCG
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class DepthScan : SimplePostEffectsBase
+public class DepthScan : PostEffectsBase
 {
     [Range(0.0f, 1.0f)]
     public float scanValue = 0.05f;
@@ -14,7 +14,7 @@ public class DepthScan : SimplePostEffectsBase
     public Color scanLineColor = Color.white;
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        if (_Material == null)
+        if (material == null)
         {
             Graphics.Blit(source, destination);
         }
@@ -26,11 +26,11 @@ public class DepthScan : SimplePostEffectsBase
                 lerpValue = 1;
 
             //此处可以一个vec4传进去优化
-            _Material.SetFloat("_ScanValue", lerpValue);
-            _Material.SetFloat("_ScanLineWidth", scanLineWidth);
-            _Material.SetFloat("_ScanLightStrength", scanLightStrength);
-            _Material.SetColor("_ScanLineColor", scanLineColor);
-            Graphics.Blit(source, destination, _Material);
+            material.SetFloat("_ScanValue", lerpValue);
+            material.SetFloat("_ScanLineWidth", scanLineWidth);
+            material.SetFloat("_ScanLightStrength", scanLightStrength);
+            material.SetColor("_ScanLineColor", scanLineColor);
+            Graphics.Blit(source, destination, material);
         }
     }
 }

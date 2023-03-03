@@ -5,7 +5,7 @@ Shader "lcl/Lighting/FastVolumeLight-ObjectSpace"
         [Enum(UnityEngine.Rendering.CullMode)]_CullMode ("CullMode", float) = 2
 
         _Color ("Color Tint", Color) = (1, 1, 1, 1)
-        _Radius ("_Radius", Float) = 10
+        _Radius ("_Radius", Float) = 0.5
         _Soft ("Soft", Range(0, 10)) = 0.5
         _Smooth ("Smooth", Range(0, 1)) = 0.5
     }

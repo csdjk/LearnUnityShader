@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [ExecuteInEditMode]
-public class DepthTexture : SimplePostEffectsBase
+public class DepthTexture : PostEffectsBase
 {
 
     void Start()
@@ -14,6 +14,6 @@ public class DepthTexture : SimplePostEffectsBase
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        Graphics.Blit(source, destination, _Material);
+        Graphics.Blit(source, destination, material);
     }
 }

@@ -8,9 +8,6 @@ public class ScreenSpaceSSS : PostEffectsBase
 {
     private RenderTexture maskTexture = null;
     private CommandBuffer commandBuffer = null;
-
-    private Shader shader = null;
-    private Material _material = null;
     private Material purecolorMaterial;
 
     [Header("散射颜色")]
@@ -34,15 +31,6 @@ public class ScreenSpaceSSS : PostEffectsBase
 
     // 目标对象
     public GameObject[] targetObjects = null;
-
-    public Material material
-    {
-        get
-        {
-            _material = CheckShaderAndCreateMaterial(shader, _material);
-            return _material;
-        }
-    }
 
 
     //-----------------------------------------【Start()函数】---------------------------------------------    

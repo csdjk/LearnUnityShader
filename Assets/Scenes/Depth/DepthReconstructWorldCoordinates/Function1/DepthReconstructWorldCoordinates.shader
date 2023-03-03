@@ -1,4 +1,5 @@
-// 根据深度重建时间坐标
+// ================================ 根据深度重建世界坐标 ================================
+// 不推荐该方法，效率比较低
 Shader "lcl/Depth/DepthReconstructWorldCoordinates"
 {
     Properties { }

@@ -12,16 +12,12 @@ public class OutLine_c : PostEffectsBase
     private Camera mainCamera = null;
     //渲染纹理
     private RenderTexture renderTexture = null;
-    private Material _material = null;
-
     /// 辅助摄像机  
     public Camera outlineCamera;
     public LayerMask outlineLayer;
 
     // 纯色shader
     public Shader purecolorShader;
-    //描边处理的shader
-    public Shader shader;
     //迭代次数
     [Range(0, 4)]
     public int iterations = 3;
@@ -32,14 +28,7 @@ public class OutLine_c : PostEffectsBase
     private int downSample = 1;
     public Color outlineColor = new Color(1, 1, 1, 1);
 
-    public Material outlineMaterial
-    {
-        get
-        {
-            _material = CheckShaderAndCreateMaterial(shader, _material);
-            return _material;
-        }
-    }
+   
 
     void Awake()
     {
@@ -76,17 +65,17 @@ public class OutLine_c : PostEffectsBase
         for (int i = 0; i < iterations; i++)
         {
             //垂直高斯模糊
-            outlineMaterial.SetVector("_offsets", new Vector4(0, 1.0f + i * blurSpread, 0, 0));
-            Graphics.Blit(temp1, temp2, outlineMaterial, 0);
+            material.SetVector("_offsets", new Vector4(0, 1.0f + i * blurSpread, 0, 0));
+            Graphics.Blit(temp1, temp2, material, 0);
             //水平高斯模糊
-            outlineMaterial.SetVector("_offsets", new Vector4(1.0f + i * blurSpread, 1, 0, 0));
-            Graphics.Blit(temp2, temp1, outlineMaterial, 0);
+            material.SetVector("_offsets", new Vector4(1.0f + i * blurSpread, 1, 0, 0));
+            Graphics.Blit(temp2, temp1, material, 0);
         }
         //用模糊图和原始图计算出轮廓图
-        outlineMaterial.SetColor("_OutlineColor", outlineColor);
-        outlineMaterial.SetTexture("_BlurTex", temp1);
-        outlineMaterial.SetTexture("_SrcTex", renderTexture);
-        Graphics.Blit(source, destination, outlineMaterial, 1);
+        material.SetColor("_OutlineColor", outlineColor);
+        material.SetTexture("_BlurTex", temp1);
+        material.SetTexture("_SrcTex", renderTexture);
+        Graphics.Blit(source, destination, material, 1);
 
         RenderTexture.ReleaseTemporary(temp1);
         RenderTexture.ReleaseTemporary(temp2);

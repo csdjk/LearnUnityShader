@@ -1,0 +1,24 @@
+Label {
+    color: white;
+}
+/* -----------------TableButton-----------------*/
+.table-container{
+    flex-direction:row;
+    font-size:15px;
+    align-self:center;
+    width:100%;
+}
+.table-button{
+    height:25px;
+    font-size: 13px;
+}
+
+.table-button:checked{
+    background-color:#0087E0;
+    font-size:15px;
+}
+
+.table-button-child{
+    justify-content: center;
+}
+/* -----------------End-----------------*/

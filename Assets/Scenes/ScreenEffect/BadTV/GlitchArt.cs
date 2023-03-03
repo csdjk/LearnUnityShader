@@ -8,23 +8,10 @@
 
 using UnityEngine;
 
+[ExecuteAlways]
 public class GlitchArt : PostEffectsBase
 {
-    public Shader myShader;
-    //材质 
-    private Material mat = null;
-    public Material material
-    {
-        get
-        {
-            // 检查着色器并创建材质
-            mat = CheckShaderAndCreateMaterial(myShader, mat);
-            mat.hideFlags = HideFlags.DontSave;
-            return mat;
-        }
-    }
-
-
+    private readonly string shaderName = "lcl/screenEffect/GlitchArt";
     // 扫描线抖动
     [Range(0, 1)]
     public float scanLineJitter = 0;
@@ -41,18 +28,17 @@ public class GlitchArt : PostEffectsBase
     [Range(0, 1)]
     public float colorDrift = 0;
 
-
     float _verticalJumpTime;
 
-    void Start()
+    void OnEnable()
     {
-        //找到对应的Shader文件  
-        myShader = Shader.Find("lcl/screenEffect/GlitchArt");
+        shader = Shader.Find(shaderName);
     }
 
+   
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-
+        if (material == null) return;
         _verticalJumpTime += Time.deltaTime * verticalJump * 11.3f;
 
         var sl_thresh = Mathf.Clamp01(1.0f - scanLineJitter * 1.2f);

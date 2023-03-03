@@ -57,6 +57,20 @@ float3 BlendTexture(float4 texture1, float u1, float4 texture2, float u2)
     float b2 = max(texture2.a + u2 - ma, 0);
     return (texture1.rgb * b1 + texture2.rgb * b2) / (b1 + b2);
 }
+
+// https://habr.com/en/post/180743/
+inline half4 LayerBlend(half high1, half high2, half high3, half high4, half4 control, half weight)
+{
+    half4 blend;
+    blend.r = high1 * control.r;
+    blend.g = high2 * control.g;
+    blend.b = high3 * control.b;
+    blend.a = high4 * control.a;
+    half ma = max(blend.r, max(blend.g, max(blend.b, blend.a))) - max(0.001, weight);
+    blend = max(blend - ma, 0) * control;
+    return blend / (blend.r + blend.g + blend.b + blend.a);
+}
+
 //
 float3 BlendNormalsLiner(float3 N1, float3 N2)
 {
@@ -89,8 +103,8 @@ half4 SquenceImage(sampler2D tex, float2 uv, float2 amount, float speed)
 // 平滑值(可以用于色阶分层)
 inline half SmoothValue(half NdotL, half threshold, half smoothness)
 {
-    half minValue = saturate(threshold - smoothness * 0.5);
-    half maxValue = saturate(threshold + smoothness * 0.5);
+    half minValue = saturate(threshold - smoothness);
+    half maxValue = saturate(threshold + smoothness);
     return smoothstep(minValue, maxValue, NdotL);
 }
 
@@ -206,6 +220,38 @@ half4 DissolveByRadius(
 
     return finalColor;
 }
+// ================================ 横向或纵向溶解 ================================
+half4 DissolveLinear(
+    half4 color, sampler2D NoiseTex, float2 uv,
+    half threshold, half noiseIntensity, half edgeLength, half edgeBlur,
+    half4 edgeFirstColor, half4 edgeSecondColor)
+{
+    #if defined(_HORIZONTAL)
+        float dist = uv.x;
+    #else
+        float dist = uv.y;
+    #endif
+
+    #if defined(_INVERT)
+        dist = 1 - dist;
+    #endif
+    half noise = tex2D(NoiseTex, uv).r;
+    fixed cutout = lerp(dist, noise, noiseIntensity);
+    half cutoutThreshold = threshold - cutout;
+    clip(cutoutThreshold);
+
+    cutoutThreshold = cutoutThreshold / edgeLength;
+    //边缘颜色过渡
+    float degree = saturate(cutoutThreshold - edgeBlur);
+    half4 edgeColor = lerp(edgeFirstColor, edgeSecondColor, degree) * color;
+    half4 finalColor = lerp(edgeColor, color, degree);
+
+    // 软边缘透明过渡
+    half a = saturate(color.a);
+    finalColor.a = lerp(saturate(cutoutThreshold / edgeBlur) * a, a, degree);
+
+    return finalColor;
+}
 
 // ================================= 绘制圆环 =================================
 half DrawRing(float2 uv, float2 center, float width, float size, float smoothness)
@@ -226,12 +272,24 @@ float ObjectPosRand01()
 {
     return frac(UNITY_MATRIX_M[0][3] + UNITY_MATRIX_M[1][3] + UNITY_MATRIX_M[2][3]);
 }
-
-float3 GetPivotPos()
+// ================================ 获取轴心点，也就是模型中心坐标================================
+float3 GetModelPivotPos()
 {
     return float3(UNITY_MATRIX_M[0][3], UNITY_MATRIX_M[1][3] + 0.25, UNITY_MATRIX_M[2][3]);
 }
-
+float3 GetModelScale()
+{
+    return float3(UNITY_MATRIX_M[0][0], UNITY_MATRIX_M[1][1] + 0.25, UNITY_MATRIX_M[2][2]);
+}
+// ================================ 获取Camera Forward 方向 ================================
+float3 GetCameraForwardDir()
+{
+    return normalize(UNITY_MATRIX_V[2].xyz);
+}
+// float3 GetModelCenterWorldPos()
+// {
+//     return float3(UNITY_MATRIX_M[0].w, UNITY_MATRIX_M[1].w, UNITY_MATRIX_M[2].w);
+// }
 // ================================= 根据世界坐标计算法线 =================================
 // ddx ddy计算法线
 float3 CalculateNormal(float3 positionWS)
@@ -315,6 +373,16 @@ half UniversalMask2D(float2 uv, float2 center, float intensity, float roundness,
     float dist = length(d);
     float vfactor = pow(saturate(1 - dist * dist), smoothness);
     return vfactor;
+}
+half MaskTriangle(half2 uv, half smoothness)
+{
+    // half t1 = uv.x * - 0.5 + 1;
+    half t1 = uv.x * - 0.3 + 0.8;
+    half value = smoothstep(t1 + smoothness, t1, uv.y);
+    // half t2 = uv.x * 0.5;
+    half t2 = uv.x * 0.3 + 0.2;
+    half value2 = smoothstep(t2, t2 - smoothness, uv.y);
+    return value - value2;
 }
 // ================================= 3D Box 遮罩 =================================
 half BoxMask(float3 positionWS, float3 center, float3 size, float falloff)

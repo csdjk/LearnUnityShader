@@ -4,18 +4,7 @@
 
 using UnityEngine;
 public class Zoom : PostEffectsBase {
-    // shader
-    public Shader myShader;
-    //材质 
-    private Material mat = null;
-    public Material material {
-        get {
-            // 检查着色器并创建材质
-            mat = CheckShaderAndCreateMaterial (myShader, mat);
-            return mat;
-        }
-    }
-
+    static readonly string shaderName = "lcl/screenEffect/Zoom";
     // 放大强度
     [Range (-2.0f, 2.0f), Tooltip ("放大强度")]
     public float zoomFactor = 0.4f;
@@ -31,9 +20,8 @@ public class Zoom : PostEffectsBase {
     // 遮罩中心位置
     private Vector2 pos = new Vector4 (0.5f, 0.5f);
 
-    void Start () {
-        //找到对应的Shader文件  
-        myShader = Shader.Find ("lcl/screenEffect/Zoom");
+    void OnEnable () {
+        shader = Shader.Find(shaderName);
     }
 
     // 渲染屏幕

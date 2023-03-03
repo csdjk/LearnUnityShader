@@ -19,9 +19,7 @@ public class CommandBufferOutline : PostEffectsBase
     // 纯色shader
     [Header("纯色Shader")]
     public Shader purecolorShader;
-    //描边处理的shader
-    [Header("描边Shader")]
-    public Shader shader;
+   
     //迭代次数
     [Range(0, 4)]
     public int iterations = 3;
@@ -30,20 +28,6 @@ public class CommandBufferOutline : PostEffectsBase
     public float blurSpread = 0.6f;
     private int downSample = 1;
     public Color outlineColor = new Color(1, 1, 1, 1);
-
-    public Material outlineMaterial
-    {
-        get
-        {
-            _material = CheckShaderAndCreateMaterial(shader, _material);
-            return _material;
-        }
-        set
-        {
-            _material = value;
-        }
-    }
-
 
     // 目标对象
     public GameObject[] targetObjects = null;
@@ -97,7 +81,7 @@ public class CommandBufferOutline : PostEffectsBase
     //--------------------------------------------------------------------------------------------------------  
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        if (!outlineMaterial || !renderTexture || commandBuffer == null)
+        if (!material || !renderTexture || commandBuffer == null)
         {
             Graphics.Blit(source, destination);
             return;
@@ -113,17 +97,17 @@ public class CommandBufferOutline : PostEffectsBase
         Graphics.Blit(renderTexture, temp1);
         for (int i = 0; i < iterations; i++)
         {
-            outlineMaterial.SetFloat("_BlurSize", 1.0f + i * blurSpread);
+            material.SetFloat("_BlurSize", 1.0f + i * blurSpread);
             //垂直高斯模糊
-            Graphics.Blit(temp1, temp2, outlineMaterial, 0);
+            Graphics.Blit(temp1, temp2, material, 0);
             //水平高斯模糊
-            Graphics.Blit(temp2, temp1, outlineMaterial, 1);
+            Graphics.Blit(temp2, temp1, material, 1);
         }
         //用模糊图和原始图计算出轮廓图
-        outlineMaterial.SetColor("_OutlineColor", outlineColor);
-        outlineMaterial.SetTexture("_BlurTex", temp1);
-        outlineMaterial.SetTexture("_SrcTex", renderTexture);
-        Graphics.Blit(source, destination, outlineMaterial, 2);
+        material.SetColor("_OutlineColor", outlineColor);
+        material.SetTexture("_BlurTex", temp1);
+        material.SetTexture("_SrcTex", renderTexture);
+        Graphics.Blit(source, destination, material, 2);
 
         RenderTexture.ReleaseTemporary(temp1);
         RenderTexture.ReleaseTemporary(temp2);

@@ -6,6 +6,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using System;
 using System.IO;
+using LcLTools;
 
 public enum PainterDrawModel
 {
@@ -254,8 +255,8 @@ public class TexturePainterBaseUV : MonoBehaviour
 
     public void SaveRenderTextureToPng(string path)
     {
-        LcLTools.SaveRenderTextureToTexture(compositeTexture, path);
-        var assetsPath = LcLTools.AssetsRelativePath(path);
+        LcLUtility.SaveRenderTextureToTexture(compositeTexture, path);
+        var assetsPath = LcLUtility.AssetsRelativePath(path);
         if (assetsPath != null)
         {
             AssetDatabase.ImportAsset(assetsPath);

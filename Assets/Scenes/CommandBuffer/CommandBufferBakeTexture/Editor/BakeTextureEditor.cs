@@ -2,6 +2,7 @@ using System.IO;
 using UnityEngine;
 using UnityEditor;
 using System;
+using LcLTools;
 
 [CustomEditor(typeof(CommandBufferBakeTexture))]
 public class BakeTextureEditor : Editor
@@ -48,8 +49,8 @@ public class BakeTextureEditor : Editor
             path = EditorUtility.SaveFilePanel("Save Texture", path, tex ? tex.name : "", "png");
             if (!path.Equals(String.Empty))
             {
-                LcLTools.SaveRenderTextureToTexture(tex, path);
-                var assetsPath = LcLTools.AssetsRelativePath(path);
+                LcLEditorUtilities.SaveRenderTextureToTexture(tex, path);
+                var assetsPath = LcLUtility.AssetsRelativePath(path);
                 if (assetsPath != null)
                 {
                     AssetDatabase.ImportAsset(assetsPath);

@@ -8,15 +8,6 @@ using UnityEngine;
 public class BloomMobile : PostEffectsBase
 {
     public Shader bloomShader;
-    private Material mMaterial;
-    public Material material
-    {
-        get
-        {
-            mMaterial = CheckShaderAndCreateMaterial(bloomShader, mMaterial);
-            return mMaterial;
-        }
-    }
     //迭代次数
     [Range(0, 10)]
     public int iterations = 5;
@@ -90,7 +81,7 @@ public class BloomMobile : PostEffectsBase
                 RenderTexture.ReleaseTemporary(currentSource);
                 currentSource = currentDestination;
             }
-            Graphics.Blit(currentSource, destination);
+            // Graphics.Blit(currentSource, destination);
 
             // 合成Bloom
             material.SetColor("_BloomColor", bloomColor);

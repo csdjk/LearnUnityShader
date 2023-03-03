@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
  
-public class WaterWaveEffect : SimplePostEffectsBase {
+public class WaterWaveEffect : PostEffectsBase {
  
     
     //距离系数
@@ -31,13 +31,13 @@ public class WaterWaveEffect : SimplePostEffectsBase {
         //计算波纹移动的距离，根据enable到目前的时间*速度求解
         float curWaveDistance = (Time.time - waveStartTime) * waveSpeed;
         //设置一系列参数
-        _Material.SetFloat("_distanceFactor", distanceFactor);
-        _Material.SetFloat("_timeFactor", timeFactor);
-        _Material.SetFloat("_totalFactor", totalFactor);
-        _Material.SetFloat("_waveWidth", waveWidth);
-        _Material.SetFloat("_curWaveDis", curWaveDistance);
-        _Material.SetVector("_startPos", startPos);
-		Graphics.Blit (source, destination, _Material);
+        material.SetFloat("_distanceFactor", distanceFactor);
+        material.SetFloat("_timeFactor", timeFactor);
+        material.SetFloat("_totalFactor", totalFactor);
+        material.SetFloat("_waveWidth", waveWidth);
+        material.SetFloat("_curWaveDis", curWaveDistance);
+        material.SetVector("_startPos", startPos);
+		Graphics.Blit (source, destination, material);
 	}
  
     void Update()

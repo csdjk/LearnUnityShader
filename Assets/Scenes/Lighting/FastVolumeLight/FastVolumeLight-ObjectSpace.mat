@@ -25,7 +25,7 @@ Material:
     - _CullMode: 2
     - _Radius: 0.5
     - _Smooth: 1
-    - _Soft: 1.07
+    - _Soft: 0.68
     m_Colors:
-    - _Color: {r: 0.08611512, g: 1, b: 0, a: 1}
+    - _Color: {r: 0.1098485, g: 1, b: 0, a: 1}
   m_BuildTextureStacks: []

@@ -5,17 +5,7 @@ using UnityEngine;
 [ExecuteInEditMode, ImageEffectAllowedInSceneView]
 public class Bloom : PostEffectsBase
 {
-    public Shader bloomShader;
-    private Material mMaterial;
-    //bloom处理的shader
-    public Material material
-    {
-        get
-        {
-            mMaterial = CheckShaderAndCreateMaterial(bloomShader, mMaterial);
-            return mMaterial;
-        }
-    }
+    static readonly string shaderName = "lcl/screenEffect/Bloom";
     //迭代次数
     [Range(0, 4)]
     public int iterations = 3;
@@ -32,9 +22,10 @@ public class Bloom : PostEffectsBase
     // bloom 颜色值
     public Color bloomColor = new Color(1, 1, 1, 1);
 
-    void Awake()
+
+    void OnEnable()
     {
-        bloomShader = Shader.Find("lcl/screenEffect/Bloom");
+        shader = Shader.Find(shaderName);
     }
 
     //-------------------------------------【OnRenderImage函数】------------------------------------    
