@@ -1,9 +1,11 @@
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
+/[Ll]ogs/
 /[Ll]og/
 /[Bb]uild/
 /[Bb]uilds/
+/[Uu]serSettings/
 /[Pp]rojectSettings/ProjectVersion.txt
 /Assets/AssetStoreTools*
 

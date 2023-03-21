@@ -2,14 +2,15 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LaserPBRFilm
   m_Shader: {fileID: 4800000, guid: ad24907fb4ecfae418cfc66062926331, type: 3}
-  m_ShaderKeywords: 
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -91,6 +92,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _AoPower: 0.1
     - _BumpScale: 1
@@ -110,7 +112,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Tile: 19.58
+    - _Tile: 20
     - _UVSec: 0
     - _ZWrite: 1
     - _emissionGroup: 0
@@ -119,7 +121,8 @@ Material:
     - _ContrastMask1: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 0}
     - _DiffuseColor: {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MainColor: {r: 0, g: 0.4078431, b: 1, a: 0}
+    - _MainColor: {r: 1, g: 0, b: 0.18531227, a: 0}
     - _MaskRgb: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

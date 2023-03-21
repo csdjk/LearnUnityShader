@@ -194,7 +194,6 @@
                 return half4(resCol, 1.0);
             }
             ENDCG
-
         }
     }
     FallBack "Reflective/VertexLit"

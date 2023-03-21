@@ -38,17 +38,17 @@
 
                 // matcap uv
                 // https://blog.csdn.net/puppet_master/article/details/83582477
-                // float3 viewnormal = normalize(mul(UNITY_MATRIX_IT_MV, v.normal));
-                // o.uv = viewnormal.xy * 0.5 + 0.5;
+                float3 viewnormal = normalize(mul(UNITY_MATRIX_IT_MV, v.normal));
+                o.uv = viewnormal.xy * 0.5 + 0.5;
 
 
                 // matcap uv2 (推荐使用这种方式,性价比高\效果好)
-                float3 viewnormal = mul(UNITY_MATRIX_IT_MV, v.normal);
-                float3 viewPos = UnityObjectToViewPos(v.vertex);
-                viewPos = normalize(viewPos);
-                float3 vcn = cross(viewPos, viewnormal);
-                float2 uv = float2(-vcn.y, vcn.x);
-                o.uv = uv * 0.5 + 0.5;
+                // float3 viewnormal = mul(UNITY_MATRIX_IT_MV, v.normal);
+                // float3 viewPos = UnityObjectToViewPos(v.vertex);
+                // viewPos = normalize(viewPos);
+                // float3 vcn = cross(viewPos, viewnormal);
+                // float2 uv = float2(-vcn.y, vcn.x);
+                // o.uv = uv * 0.5 + 0.5;
 
                 // matcap uv3
                 // float3 viewnormal = mul(UNITY_MATRIX_IT_MV, v.normal);
