@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[ExecuteAlways]
 public class BezierMesh : MonoBehaviour
 {
     // ---------------------------
@@ -54,6 +55,11 @@ public class BezierMesh : MonoBehaviour
 
 
     public GameObject point;
+    public Material mat;
+    [Range(2, 100)]
+    public int smoothness;
+
+
     public Transform[] control1 = new Transform[4];
     public Transform[] control2 = new Transform[4];
     public Transform[] control3 = new Transform[4];
@@ -63,22 +69,20 @@ public class BezierMesh : MonoBehaviour
     private List<int> _triangles = new List<int>();
     private Mesh myMesh;
 
-    void Awake()
+
+    void OnEnable()
     {
-        // myMesh = new Mesh();
-        // gameObject.AddComponent<MeshFilter>().mesh = myMesh;
-        // gameObject.AddComponent<MeshRenderer>().material = Resources.Load<Material>("Standard");
     }
 
     private List<List<Vector3>> pointList = new List<List<Vector3>>();
     void Update()
     {
         pointList.Clear();
-        var bezier1 = BezierMesh.CalculateBezier(control1.Select(t => t.position).ToArray(), 30);
-        var bezier2 = BezierMesh.CalculateBezier(control2.Select(t => t.position).ToArray(), 30);
-        var bezier3 = BezierMesh.CalculateBezier(control3.Select(t => t.position).ToArray(), 30);
-        var bezier4 = BezierMesh.CalculateBezier(control4.Select(t => t.position).ToArray(), 30);
-        for (int i = 0; i < 30; i++)
+        var bezier1 = BezierMesh.CalculateBezier(control1.Select(t => t.position).ToArray(), smoothness);
+        var bezier2 = BezierMesh.CalculateBezier(control2.Select(t => t.position).ToArray(), smoothness);
+        var bezier3 = BezierMesh.CalculateBezier(control3.Select(t => t.position).ToArray(), smoothness);
+        var bezier4 = BezierMesh.CalculateBezier(control4.Select(t => t.position).ToArray(), smoothness);
+        for (int i = 0; i <= smoothness; i++)
         {
             var verticalBezier = BezierMesh.CalculateBezier(
                 new Vector3[4]{
@@ -86,7 +90,7 @@ public class BezierMesh : MonoBehaviour
                     bezier2[i],
                     bezier3[i],
                     bezier4[i],
-                }, 30);
+                }, smoothness);
             pointList.Add(verticalBezier);
             // CreateLine(verticalBezier, i);
         }
@@ -119,7 +123,10 @@ public class BezierMesh : MonoBehaviour
         {
             myMesh = new Mesh();
             gameObject.AddComponent<MeshFilter>().mesh = myMesh;
-            var mat = new Material(Shader.Find("Standard"));
+            if (mat == null)
+            {
+                mat = new Material(Shader.Find("Standard"));
+            }
             gameObject.AddComponent<MeshRenderer>().material = mat;
 
         }

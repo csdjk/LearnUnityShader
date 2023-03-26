@@ -2,7 +2,7 @@ Shader "lcl/Debugger"
 {
     Properties
     {
-        _Color("Color", Color) =  (1, 1, 1, 1)
+        _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" { }
         [KeywordEnum(Texture, Texture_R, Texture_G, Texture_B, Texture_A, VertexColor, VertexColor_R, VertexColor_G, VertexColor_B, VertexColor_A, normal, tangent, worldPos, uv0, uv1, uv2)] _ShowValue ("Pass Value", Int) = 0
         [Toggle(_INVERT_ON)]_Invert ("Invert", int) = 0
@@ -83,7 +83,7 @@ Shader "lcl/Debugger"
 
 
 
-                float4 col = tex2D(_MainTex, i.uv);
+                float4 col = tex2D(_MainTex, i.uv) * _Color;
                 float3 res = 1;
                 #ifdef _SHOWVALUE_TEXTURE
                     res = col;
@@ -127,7 +127,6 @@ Shader "lcl/Debugger"
 
                 // return 0.35;
 
-                
             }
             ENDCG
         }

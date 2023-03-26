@@ -5,37 +5,98 @@ using UnityEngine;
 /// <summary>
 /// 在三角形内随机生成点
 /// </summary>
+[ExecuteAlways]
 public class RandomTriangle : MonoBehaviour
 {
-    private Mesh myMesh;
-    private Vector3[] myTriangle;
+    public Material mat;
+    [Range(0, 10000)]
+    public int randSeed = 0;
+    private int _randSeed = 0;
 
+    [Range(0, 1000)]
+    public int randCount = 100;
+    private int _randCount = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        // 三角形
-        myTriangle = new Vector3[3]{
+    public Vector3[] triangle = new Vector3[3]{
             new Vector3(-30,0,0),
             new Vector3(-30,100,10),
             new Vector3(100,0,-10)
         };
-        CreateTriangle(myTriangle);
+    private Mesh myMesh;
 
 
-        for (var i = 0; i < 100; i++)
+    void OnEnable()
+    {
+        Init();
+    }
+
+    void Init()
+    {
+        Clear();
+        // 三角形
+        CreateTriangle(triangle);
+        for (var i = 0; i < randCount; i++)
         {
-            Vector3 randomPos = RandomTri(myTriangle);
-            var point = CreatePoint(randomPos,Random.ColorHSV());
+            Vector3 randomPos = RandomTri(triangle);
+            CreatePoint(randomPos, Random.ColorHSV(), i);
+        }
+    }
+    void Update()
+    {
+        // 
+        if (_randSeed != randSeed)
+        {
+            _randSeed = randSeed;
+            Random.InitState(_randSeed);
+            Init();
+        }
+        if (_randCount != randCount)
+        {
+            _randCount = randCount;
+            Init();
         }
     }
 
+    // clean
+    void OnDisable()
+    {
+        Clear();
+    }
+
+    // clear
+    void Clear()
+    {
+        // remove all children
+        for (int i = transform.childCount; i > 0; i--)
+        {
+#if UNITY_EDITOR
+            DestroyImmediate(transform.GetChild(0).gameObject);
+#else
+                Destroy(transform.GetChild(0).gameObject);
+#endif
+
+        }
+
+    }
     public void CreateTriangle(Vector3[] triangle)
     {
-        myMesh = new Mesh();
-        gameObject.AddComponent<MeshFilter>().mesh = myMesh;
-        var mat = new Material(Shader.Find("Standard"));
-        gameObject.AddComponent<MeshRenderer>().material = mat;
+        if (myMesh == null)
+        {
+            myMesh = new Mesh();
+            if (gameObject.TryGetComponent<MeshFilter>(out var meshFilter))
+                meshFilter.mesh = myMesh;
+            else
+                gameObject.AddComponent<MeshFilter>().mesh = myMesh;
+            // MeshRenderer
+            if (mat == null)
+            {
+                mat = new Material(Shader.Find("Standard"));
+            }
+            if (gameObject.TryGetComponent<MeshRenderer>(out var meshRenderer))
+                meshRenderer.material = mat;
+            else
+                gameObject.AddComponent<MeshRenderer>().material = mat;
+        }
 
         int[] triangles = new int[3] { 0, 1, 2 };
         myMesh.vertices = triangle;
@@ -43,13 +104,20 @@ public class RandomTriangle : MonoBehaviour
         myMesh.RecalculateNormals();
     }
 
-    public GameObject CreatePoint(Vector3 pos, Color color)
+    // create material list
+    public List<Material> materials = new List<Material>();
+    public GameObject CreatePoint(Vector3 pos, Color color, int index)
     {
         GameObject point = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        point.name = "point_" + index;
         point.transform.parent = this.transform;
         point.transform.localPosition = pos;
         var render = point.GetComponent<Renderer>();
-        render.material.color = color;
+
+        var mat = new Material(Shader.Find("Standard"));
+        mat.color = color;
+        render.material = mat;
+
         return point;
     }
     /// <summary>

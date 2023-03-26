@@ -347,7 +347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: c0e4799647bee2e488326115bac8634e, type: 3}
-  scanValue: 0.915
+  scanValue: 0.976
   scanLineWidth: 0.0029
   scanLightStrength: 2.39
   scanLineColor: {r: 0.2552659, g: 1, b: 0.24056602, a: 1}

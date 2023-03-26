@@ -7,9 +7,69 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityToolbarExtender;
+using UnityEngine.UIElements;
 
 namespace LcLTools
 {
+
+    public class SceneListWindow : EditorWindow
+    {
+        static List<GUIContent> sceneList = new List<GUIContent>();
+        // instance
+        public static EditorWindow instance;
+        public static void ShowWindow()
+        {
+            if (instance != null)
+            {
+                instance.Close();
+                instance = null;
+            }
+            instance = EditorWindow.GetWindow(typeof(SceneListWindow));
+        }
+
+        void OnGUI()
+        {
+            // DrawSceneList();
+        }
+
+        public void OnEnable()
+        {
+
+            var root = this.rootVisualElement;
+
+            var list = new List<string>() { "Item 1", "Item 2", "Item 3" };
+            var listView = new ListView(list, 20, () => new Label(), (element, index) =>
+            {
+                (element as Label).text = list[index];
+            });
+            root.Add(listView);
+        }
+        // public void OnLostFocus()
+        // {
+        //     if (instance != null)
+        //     {
+        //         instance.Close();
+        //         instance = null;
+        //     }
+        // }
+
+        //draw sceneList item
+        // static void DrawSceneList()
+        // {
+        //     for (int i = 0; i < sceneList.Count; ++i)
+        //     {
+        //         if (GUILayout.Button(sceneList[i], GUILayout.Width(width)))
+        //         {
+        //             if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+        //             {
+        //                 EditorSceneManager.OpenScene(scenesPath[i]);
+        //             }
+        //         }
+        //     }
+        // }
+    }
+
+
     [InitializeOnLoad]
     public class OpenSceneTools
     {
@@ -18,8 +78,8 @@ namespace LcLTools
         static string[] scenesPath;
         static string[] scenesBuildPath;
         static int selectedSceneIndex;
-        static float width = 150f;
-
+        static float width = 350f;
+        static Vector3 scrollPosition = Vector3.zero;
         static OpenSceneTools()
         {
             ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);
@@ -29,7 +89,14 @@ namespace LcLTools
         {
             RefreshScenesList();
             GUILayout.FlexibleSpace();
+
             selectedSceneIndex = EditorGUILayout.Popup(selectedSceneIndex, sceneList.ToArray(), GUILayout.Width(width));
+      
+            // if (GUILayout.Button("SceneList", GUILayout.Width(100)))
+            // {
+            //     SceneListWindow.ShowWindow();
+            // }
+           
 
             if (GUI.changed && 0 <= selectedSceneIndex && selectedSceneIndex < sceneList.Count)
             {
@@ -39,6 +106,7 @@ namespace LcLTools
                 }
             }
         }
+
 
 
 
@@ -58,6 +126,7 @@ namespace LcLTools
             for (int i = 0; i < scenesPath.Length; ++i)
             {
                 string name = GetSceneName(scenesPath[i]);
+                // string name = (scenesPath[i]);
 
                 if (activeScene.name == name)
                 {
@@ -73,8 +142,10 @@ namespace LcLTools
 
         static string GetSceneName(string path)
         {
-            path = path.Replace(".unity", "");
-            return Path.GetFileName(path);
+            // path = path.Replace(".unity", "");
+            // return Path.GetFileName(path);
+            path = path.Replace("Assets/Scenes/", "");
+            return path;
         }
     }
 }

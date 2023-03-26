@@ -1,18 +1,21 @@
-﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-Shader "lcl/Common/Bumped Diffuse" {
-	Properties {
+﻿Shader "lcl/Common/Bumped Diffuse"
+{
+	Properties
+	{
+		[Enum(UnityEngine.Rendering.CullMode)]_CullMode ("CullMode", float) = 2
 		_Color ("Color Tint", Color) = (1, 1, 1, 1)
-		_MainTex ("Main Tex", 2D) = "white" {}
-		_BumpMap ("Normal Map", 2D) = "bump" {}
+		_MainTex ("Main Tex", 2D) = "white" { }
+		_BumpMap ("Normal Map", 2D) = "bump" { }
 	}
-	SubShader {
-		Tags { "RenderType"="Opaque" "Queue"="Geometry"}
+	SubShader
+	{
+		Tags { "RenderType" = "Opaque" "Queue" = "Geometry" }
 
-		Pass { 
-			Tags { "LightMode"="ForwardBase" }
-		
+		Pass
+		{
+			Tags { "LightMode" = "ForwardBase" }
+			Cull [_CullMode]
+			
 			CGPROGRAM
 			
 			#pragma multi_compile_fwdbase
@@ -29,44 +32,48 @@ Shader "lcl/Common/Bumped Diffuse" {
 			sampler2D _BumpMap;
 			float4 _BumpMap_ST;
 			
-			struct a2v {
+			struct a2v
+			{
 				float4 vertex : POSITION;
 				float3 normal : NORMAL;
 				float4 tangent : TANGENT;
 				float4 texcoord : TEXCOORD0;
 			};
 			
-			struct v2f {
+			struct v2f
+			{
 				float4 pos : SV_POSITION;
 				float4 uv : TEXCOORD0;
-				float4 TtoW0 : TEXCOORD1;  
-				float4 TtoW1 : TEXCOORD2;  
+				float4 TtoW0 : TEXCOORD1;
+				float4 TtoW1 : TEXCOORD2;
 				float4 TtoW2 : TEXCOORD3;
 				SHADOW_COORDS(4)
 			};
 			
-			v2f vert(a2v v) {
+			v2f vert(a2v v)
+			{
 				v2f o;
 				o.pos = UnityObjectToClipPos(v.vertex);
 				
 				o.uv.xy = v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
 				o.uv.zw = v.texcoord.xy * _BumpMap_ST.xy + _BumpMap_ST.zw;
 				
-				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;  
-				fixed3 worldNormal = UnityObjectToWorldNormal(v.normal);  
-				fixed3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);  
-				fixed3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w; 
+				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+				fixed3 worldNormal = UnityObjectToWorldNormal(v.normal);
+				fixed3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
+				fixed3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w;
 				
 				o.TtoW0 = float4(worldTangent.x, worldBinormal.x, worldNormal.x, worldPos.x);
 				o.TtoW1 = float4(worldTangent.y, worldBinormal.y, worldNormal.y, worldPos.y);
-				o.TtoW2 = float4(worldTangent.z, worldBinormal.z, worldNormal.z, worldPos.z);  
+				o.TtoW2 = float4(worldTangent.z, worldBinormal.z, worldNormal.z, worldPos.z);
 				
 				TRANSFER_SHADOW(o);
 				
 				return o;
 			}
 			
-			fixed4 frag(v2f i) : SV_Target {
+			fixed4 frag(v2f i) : SV_Target
+			{
 				float3 worldPos = float3(i.TtoW0.w, i.TtoW1.w, i.TtoW2.w);
 				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
 				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
@@ -77,8 +84,8 @@ Shader "lcl/Common/Bumped Diffuse" {
 				fixed3 albedo = tex2D(_MainTex, i.uv.xy).rgb * _Color.rgb;
 				
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
-			
-			 	fixed3 diffuse = _LightColor0.rgb * albedo * max(0, dot(bump, lightDir));
+				
+				fixed3 diffuse = _LightColor0.rgb * albedo * max(0, dot(bump, lightDir));
 				
 				UNITY_LIGHT_ATTENUATION(atten, i, worldPos);
 				
@@ -88,16 +95,17 @@ Shader "lcl/Common/Bumped Diffuse" {
 			ENDCG
 		}
 		
-		Pass { 
-			Tags { "LightMode"="ForwardAdd" }
+		Pass
+		{
+			Tags { "LightMode" = "ForwardAdd" }
 			
 			Blend One One
-		
+			
 			CGPROGRAM
 			
 			#pragma multi_compile_fwdadd
 			// Use the line below to add shadows for point and spot lights
-//			#pragma multi_compile_fwdadd_fullshadows
+			//			#pragma multi_compile_fwdadd_fullshadows
 			
 			#pragma vertex vert
 			#pragma fragment frag
@@ -111,44 +119,48 @@ Shader "lcl/Common/Bumped Diffuse" {
 			sampler2D _BumpMap;
 			float4 _BumpMap_ST;
 			
-			struct a2v {
+			struct a2v
+			{
 				float4 vertex : POSITION;
 				float3 normal : NORMAL;
 				float4 tangent : TANGENT;
 				float4 texcoord : TEXCOORD0;
 			};
 			
-			struct v2f {
+			struct v2f
+			{
 				float4 pos : SV_POSITION;
 				float4 uv : TEXCOORD0;
-				float4 TtoW0 : TEXCOORD1;  
-				float4 TtoW1 : TEXCOORD2;  
+				float4 TtoW0 : TEXCOORD1;
+				float4 TtoW1 : TEXCOORD2;
 				float4 TtoW2 : TEXCOORD3;
 				SHADOW_COORDS(4)
 			};
 			
-			v2f vert(a2v v) {
+			v2f vert(a2v v)
+			{
 				v2f o;
 				o.pos = UnityObjectToClipPos(v.vertex);
 				
 				o.uv.xy = v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
 				o.uv.zw = v.texcoord.xy * _BumpMap_ST.xy + _BumpMap_ST.zw;
 				
-				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;  
-				fixed3 worldNormal = UnityObjectToWorldNormal(v.normal);  
-				fixed3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);  
-				fixed3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w; 
+				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+				fixed3 worldNormal = UnityObjectToWorldNormal(v.normal);
+				fixed3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
+				fixed3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w;
 				
 				o.TtoW0 = float4(worldTangent.x, worldBinormal.x, worldNormal.x, worldPos.x);
 				o.TtoW1 = float4(worldTangent.y, worldBinormal.y, worldNormal.y, worldPos.y);
-				o.TtoW2 = float4(worldTangent.z, worldBinormal.z, worldNormal.z, worldPos.z);  
+				o.TtoW2 = float4(worldTangent.z, worldBinormal.z, worldNormal.z, worldPos.z);
 				
 				TRANSFER_SHADOW(o);
 				
 				return o;
 			}
 			
-			fixed4 frag(v2f i) : SV_Target {
+			fixed4 frag(v2f i) : SV_Target
+			{
 				float3 worldPos = float3(i.TtoW0.w, i.TtoW1.w, i.TtoW2.w);
 				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
 				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
@@ -158,7 +170,7 @@ Shader "lcl/Common/Bumped Diffuse" {
 				
 				fixed3 albedo = tex2D(_MainTex, i.uv.xy).rgb * _Color.rgb;
 				
-			 	fixed3 diffuse = _LightColor0.rgb * albedo * max(0, dot(bump, lightDir));
+				fixed3 diffuse = _LightColor0.rgb * albedo * max(0, dot(bump, lightDir));
 				
 				UNITY_LIGHT_ATTENUATION(atten, i, worldPos);
 				
@@ -167,6 +179,6 @@ Shader "lcl/Common/Bumped Diffuse" {
 			
 			ENDCG
 		}
-	} 
+	}
 	FallBack "Diffuse"
 }

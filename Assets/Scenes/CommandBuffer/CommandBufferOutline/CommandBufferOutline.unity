@@ -38,12 +38,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0895974, g: 0.11504503, b: 0.15030721, a: 1}
+  m_IndirectSpecularColor: {r: 0.0894335, g: 0.11485713, b: 0.15020296, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 11
+  serializedVersion: 12
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -118,6 +118,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -199,8 +201,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 842026026}
   m_LocalRotation: {x: -0.0019283353, y: -0.99210066, z: 0.12447408, w: -0.015456192}
-  m_LocalPosition: {x: 0.054443955, y: 1.6231669, z: 2.0017798}
+  m_LocalPosition: {x: 0.001, y: 1.3, z: 1.342}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -217,10 +220,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94c17b7a8d7c4804f8581df8ab7d136b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  purecolorShader: {fileID: 4800000, guid: a835737945756904c938334369c39ef0, type: 3}
   shader: {fileID: 4800000, guid: d5f73505b3b0f6447a8a8af8c2e67015, type: 3}
+  purecolorShader: {fileID: 4800000, guid: a835737945756904c938334369c39ef0, type: 3}
   iterations: 2
-  blurSpread: 0.907
+  blurSpread: 1.432
   outlineColor: {r: 1, g: 0.03529412, b: 0, a: 1}
   targetObjects:
   - {fileID: 4302230687711471363}
@@ -300,6 +303,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!4 &1613711969
@@ -312,6 +316,7 @@ Transform:
   m_LocalRotation: {x: 0.5217351, y: -0.71334034, z: -0.027379187, w: 0.4671066}
   m_LocalPosition: {x: 0.444, y: 3.389, z: 0.483}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -326,6 +331,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0.6944678, z: -0, w: 0.71952385}
   m_LocalPosition: {x: 0.043354332, y: 0.932, z: 0.010587355}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6951700129954074413}
   m_Father: {fileID: 0}
@@ -383,6 +389,7 @@ Transform:
   m_LocalRotation: {x: -0, y: 0.095323145, z: -0, w: 0.99544644}
   m_LocalPosition: {x: -0.004972917, y: 0, z: 0.0035767907}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1004234395873531152}
   m_RootOrder: 0
@@ -398,10 +405,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -426,3 +435,4 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
