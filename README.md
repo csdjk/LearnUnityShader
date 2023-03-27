@@ -69,7 +69,7 @@
 
 ## [Bezier Mesh](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Graphics/BezierMesh)
 
-[![jrBRLPw.gif](https://imgur.com/jrBRLPw)](https://imgur.com/jrBRLPw)
+![BezierMesh.gif](https://s2.loli.net/2023/03/27/kmGIL1z6lHZyASu.gif)
 
 # CommandBuffer
 
