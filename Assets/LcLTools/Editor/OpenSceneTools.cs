@@ -21,8 +21,8 @@ namespace LcLTools
         static string[] scenesPath;
         static string[] scenesBuildPath;
         public static EditorWindow instance;
-
-        public static void ShowWindow(Rect buttonRect)
+        static int row = 30;
+        public static void ShowWindow()
         {
             if (instance != null)
             {
@@ -31,15 +31,18 @@ namespace LcLTools
             }
             instance = EditorWindow.GetWindow(typeof(SceneListWindow));
             instance.titleContent = new GUIContent("Scene List");
-            // instance.Show();
-            // instance.ShowAsDropDown(buttonRect, new Vector2(500, 500));  
-        }
-        private PreviewRenderUtility previewUtility;
-        private Camera previewCamera;
-        void OnGUI()
-        {
 
+            int numRows = Mathf.CeilToInt((float)sceneList.Count / row);
+            int totalWidth = 60 + 250 * numRows;
+            int totalHeight = 25 * row;
+            Vector2 temp = GUIUtility.GUIToScreenPoint(new Vector2(Event.current.mousePosition.x, Event.current.mousePosition.y));
+
+            instance.position = new Rect(temp.x - totalWidth / 2, temp.y+20, totalWidth, totalHeight);
+            instance.Show();
         }
+
+        // execute row is 20 
+
         void Update()
         {
             if (SceneListWindow.focusedWindow != GetWindow(typeof(SceneListWindow)))
@@ -92,7 +95,7 @@ namespace LcLTools
 
             box.style.width = 200;
             box.style.unityTextAlign = TextAnchor.MiddleLeft;
-
+            box.tooltip = path;
 
             Image icon = new Image();
             icon.style.flexShrink = 0;
@@ -138,8 +141,6 @@ namespace LcLTools
         {
             path = path.Replace(".unity", "");
             return Path.GetFileName(path);
-            // path = path.Replace("Assets/Scenes/", "");
-            // return path;
         }
     }
 
@@ -159,13 +160,14 @@ namespace LcLTools
             GUILayout.FlexibleSpace();
             var currentScene = EditorSceneManager.GetActiveScene().name;
             float width = 30 + currentScene.Length * 8;
+            width = Mathf.Clamp(width, 100, 1000);
             var style = new GUIStyle(EditorStyles.toolbarButton);
             style.alignment = TextAnchor.MiddleCenter;
             var sceneIcon = EditorGUIUtility.IconContent("SceneAsset Icon").image;
 
             if (GUILayout.Button(new GUIContent(currentScene, sceneIcon), style, GUILayout.Width(width)))
             {
-                SceneListWindow.ShowWindow(new Rect(Event.current.mousePosition, Vector2.zero));
+                SceneListWindow.ShowWindow();
             }
         }
     }
