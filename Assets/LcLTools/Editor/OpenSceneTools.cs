@@ -8,16 +8,21 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityToolbarExtender;
 using UnityEngine.UIElements;
+using System.Reflection;
 
 namespace LcLTools
 {
-
     public class SceneListWindow : EditorWindow
     {
-        static List<GUIContent> sceneList = new List<GUIContent>();
-        // instance
+        static Texture sceneIcon;
+
+        static List<string> sceneList = new List<string>();
+        static List<string> scenePathList = new List<string>();
+        static string[] scenesPath;
+        static string[] scenesBuildPath;
         public static EditorWindow instance;
-        public static void ShowWindow()
+
+        public static void ShowWindow(Rect buttonRect)
         {
             if (instance != null)
             {
@@ -25,89 +30,87 @@ namespace LcLTools
                 instance = null;
             }
             instance = EditorWindow.GetWindow(typeof(SceneListWindow));
+            instance.titleContent = new GUIContent("Scene List");
+            // instance.Show();
+            // instance.ShowAsDropDown(buttonRect, new Vector2(500, 500));  
         }
-
+        private PreviewRenderUtility previewUtility;
+        private Camera previewCamera;
         void OnGUI()
         {
-            // DrawSceneList();
-        }
 
+        }
+        void Update()
+        {
+            if (SceneListWindow.focusedWindow != GetWindow(typeof(SceneListWindow)))
+            {
+                this.Close();
+            }
+        }
         public void OnEnable()
         {
+            sceneIcon = EditorGUIUtility.IconContent("SceneAsset Icon").image;
+            RefreshScenesList();
 
             var root = this.rootVisualElement;
-
-            var list = new List<string>() { "Item 1", "Item 2", "Item 3" };
-            var listView = new ListView(list, 20, () => new Label(), (element, index) =>
+            ScrollView scrollView = new ScrollView();
+            GroupBox groupBox = new GroupBox();
+            groupBox.style.flexDirection = FlexDirection.Row;
+            groupBox.style.alignItems = Align.Center;
+            groupBox.style.flexWrap = Wrap.Wrap;
+            for (int i = 0; i < sceneList.Count; i++)
             {
-                (element as Label).text = list[index];
-            });
-            root.Add(listView);
-        }
-        // public void OnLostFocus()
-        // {
-        //     if (instance != null)
-        //     {
-        //         instance.Close();
-        //         instance = null;
-        //     }
-        // }
-
-        //draw sceneList item
-        // static void DrawSceneList()
-        // {
-        //     for (int i = 0; i < sceneList.Count; ++i)
-        //     {
-        //         if (GUILayout.Button(sceneList[i], GUILayout.Width(width)))
-        //         {
-        //             if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
-        //             {
-        //                 EditorSceneManager.OpenScene(scenesPath[i]);
-        //             }
-        //         }
-        //     }
-        // }
-    }
-
-
-    [InitializeOnLoad]
-    public class OpenSceneTools
-    {
-        static List<GUIContent> sceneList = new List<GUIContent>();
-        static List<string> scenePathList = new List<string>();
-        static string[] scenesPath;
-        static string[] scenesBuildPath;
-        static int selectedSceneIndex;
-        static float width = 350f;
-        static Vector3 scrollPosition = Vector3.zero;
-        static OpenSceneTools()
-        {
-            ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);
+                var box = BindItem(sceneList[i], scenesPath[i]);
+                groupBox.Add(box);
+            }
+            scrollView.Add(groupBox);
+            root.Add(scrollView);
         }
 
-        static void OnToolbarGUI()
+
+        static float marginSize = 2;
+        static VisualElement BindItem(string name, string path)
         {
-            RefreshScenesList();
-            GUILayout.FlexibleSpace();
-
-            selectedSceneIndex = EditorGUILayout.Popup(selectedSceneIndex, sceneList.ToArray(), GUILayout.Width(width));
-      
-            // if (GUILayout.Button("SceneList", GUILayout.Width(100)))
-            // {
-            //     SceneListWindow.ShowWindow();
-            // }
-           
-
-            if (GUI.changed && 0 <= selectedSceneIndex && selectedSceneIndex < sceneList.Count)
+            var box = new Button(() =>
             {
                 if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
                 {
-                    EditorSceneManager.OpenScene(scenesPath[selectedSceneIndex]);
+                    EditorSceneManager.OpenScene(path);
                 }
-            }
+            });
+            box.style.flexDirection = FlexDirection.Row;
+            box.style.alignItems = Align.Center;
+            box.style.paddingLeft = 10;
+            box.style.paddingRight = 10;
+            box.style.paddingTop = 5;
+            box.style.paddingBottom = 5;
+            // set margin
+            box.style.marginLeft = marginSize;
+            box.style.marginRight = marginSize;
+            box.style.marginTop = marginSize;
+            box.style.marginBottom = marginSize;
+
+            box.style.width = 200;
+            box.style.unityTextAlign = TextAnchor.MiddleLeft;
+
+
+            Image icon = new Image();
+            icon.style.flexShrink = 0;
+            icon.style.width = 16;
+            icon.style.height = 16;
+            icon.style.marginRight = 5;
+            icon.image = sceneIcon;
+            box.Add(icon);
+
+            Label label = new Label();
+            label.style.flexGrow = 1.0f;
+            label.style.alignItems = Align.Center;
+            label.text = name;
+            // label.style.width = Length.Percent(100);
+            box.Add(label);
+
+            return box;
         }
-
-
 
 
         static void RefreshScenesList()
@@ -126,26 +129,44 @@ namespace LcLTools
             for (int i = 0; i < scenesPath.Length; ++i)
             {
                 string name = GetSceneName(scenesPath[i]);
-                // string name = (scenesPath[i]);
-
-                if (activeScene.name == name)
-                {
-                    selectedSceneIndex = i;
-                }
-
-
-                GUIContent content = new GUIContent(name, EditorGUIUtility.FindTexture("BuildSettings.Editor.Small"), "Select Scene");
-                sceneList.Add(content);
+                sceneList.Add(name);
                 scenePathList.Add(scenesPath[i]);
             }
         }
 
         static string GetSceneName(string path)
         {
-            // path = path.Replace(".unity", "");
-            // return Path.GetFileName(path);
-            path = path.Replace("Assets/Scenes/", "");
-            return path;
+            path = path.Replace(".unity", "");
+            return Path.GetFileName(path);
+            // path = path.Replace("Assets/Scenes/", "");
+            // return path;
+        }
+    }
+
+
+    [InitializeOnLoad]
+    public class OpenSceneTools
+    {
+
+        static OpenSceneTools()
+        {
+            ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);
+
+        }
+
+        static void OnToolbarGUI()
+        {
+            GUILayout.FlexibleSpace();
+            var currentScene = EditorSceneManager.GetActiveScene().name;
+            float width = 30 + currentScene.Length * 8;
+            var style = new GUIStyle(EditorStyles.toolbarButton);
+            style.alignment = TextAnchor.MiddleCenter;
+            var sceneIcon = EditorGUIUtility.IconContent("SceneAsset Icon").image;
+
+            if (GUILayout.Button(new GUIContent(currentScene, sceneIcon), style, GUILayout.Width(width)))
+            {
+                SceneListWindow.ShowWindow(new Rect(Event.current.mousePosition, Vector2.zero));
+            }
         }
     }
 }
