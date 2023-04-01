@@ -22,6 +22,7 @@ namespace LcLTools
         static string[] scenesBuildPath;
         public static EditorWindow instance;
         static int row = 30;
+        static Vector2 itemSize = new Vector2(200, 30);
         public static void ShowWindow()
         {
             if (instance != null)
@@ -32,24 +33,23 @@ namespace LcLTools
             instance = EditorWindow.GetWindow(typeof(SceneListWindow));
             instance.titleContent = new GUIContent("Scene List");
 
-            int numRows = Mathf.CeilToInt((float)sceneList.Count / row);
-            int totalWidth = 60 + 250 * numRows;
-            int totalHeight = 25 * row;
+            // int numRows = Mathf.CeilToInt((float)sceneList.Count / row);
+            // int totalWidth = 60 + 250 * numRows;
+            // int totalHeight = 25 * row;
+
+            float itemTotalSizeX = itemSize.x + margin * 2 + padding * 2 + 2;
+            float itemTotalSizeY = itemSize.y + 2;
+
+            int col = Mathf.CeilToInt((float)sceneList.Count / row);
+            float totalWidth = itemTotalSizeX * col;
+            float totalHeight = itemTotalSizeY * row;
             Vector2 temp = GUIUtility.GUIToScreenPoint(new Vector2(Event.current.mousePosition.x, Event.current.mousePosition.y));
 
-            instance.position = new Rect(temp.x - totalWidth / 2, temp.y+20, totalWidth, totalHeight);
+            instance.position = new Rect(temp.x - totalWidth / 2, temp.y + 20, totalWidth, totalHeight);
             instance.Show();
         }
 
-        // execute row is 20 
 
-        void Update()
-        {
-            if (SceneListWindow.focusedWindow != GetWindow(typeof(SceneListWindow)))
-            {
-                this.Close();
-            }
-        }
         public void OnEnable()
         {
             sceneIcon = EditorGUIUtility.IconContent("SceneAsset Icon").image;
@@ -61,6 +61,7 @@ namespace LcLTools
             groupBox.style.flexDirection = FlexDirection.Row;
             groupBox.style.alignItems = Align.Center;
             groupBox.style.flexWrap = Wrap.Wrap;
+            groupBox.style.justifyContent = Justify.Center;
             for (int i = 0; i < sceneList.Count; i++)
             {
                 var box = BindItem(sceneList[i], scenesPath[i]);
@@ -71,7 +72,8 @@ namespace LcLTools
         }
 
 
-        static float marginSize = 2;
+        static float margin = 2;
+        static float padding = 5;
         static VisualElement BindItem(string name, string path)
         {
             var box = new Button(() =>
@@ -83,17 +85,18 @@ namespace LcLTools
             });
             box.style.flexDirection = FlexDirection.Row;
             box.style.alignItems = Align.Center;
-            box.style.paddingLeft = 10;
-            box.style.paddingRight = 10;
-            box.style.paddingTop = 5;
-            box.style.paddingBottom = 5;
+            box.style.paddingLeft = padding;
+            box.style.paddingRight = padding;
+            box.style.paddingTop = padding;
+            box.style.paddingBottom = padding;
             // set margin
-            box.style.marginLeft = marginSize;
-            box.style.marginRight = marginSize;
-            box.style.marginTop = marginSize;
-            box.style.marginBottom = marginSize;
+            box.style.marginLeft = margin;
+            box.style.marginRight = margin;
+            box.style.marginTop = margin;
+            box.style.marginBottom = margin;
 
-            box.style.width = 200;
+            box.style.width = itemSize.x;
+            box.style.height = itemSize.y;
             box.style.unityTextAlign = TextAnchor.MiddleLeft;
             box.tooltip = path;
 
@@ -141,6 +144,14 @@ namespace LcLTools
         {
             path = path.Replace(".unity", "");
             return Path.GetFileName(path);
+        }
+
+        void Update()
+        {
+            if (SceneListWindow.focusedWindow != GetWindow(typeof(SceneListWindow)))
+            {
+                this.Close();
+            }
         }
     }
 

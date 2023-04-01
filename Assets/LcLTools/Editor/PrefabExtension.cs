@@ -30,7 +30,7 @@ namespace LcLTools
         }
 
         // 快捷键 保存预设 crtl + alt + s
-        [MenuItem("LcLTools/CustomKeys/SavePrefab %&s")]
+        [MenuItem("LcLTools/HotKeys/SavePrefab %&s")]
         static public void QuickSavePrefab()
         {
             if (!EditorApplication.isPlaying)

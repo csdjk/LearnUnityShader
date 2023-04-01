@@ -17,13 +17,13 @@ namespace LcLTools
     /// </summary>
     public class CustomHotkey
     {
-        [MenuItem("LcLTools/CustomKeys/播放 _F3")]
+        [MenuItem("LcLTools/HotKeys/播放 _F3")]
         static void EditorPlayCommand()
         {
             EditorApplication.isPlaying = !EditorApplication.isPlaying;
         }
 
-        [MenuItem("LcLTools/CustomKeys/暂停 _F4")]
+        [MenuItem("LcLTools/HotKeys/暂停 _F4")]
         static void EditorPauseCommand()
         {
             EditorApplication.isPaused = !EditorApplication.isPaused;
@@ -36,7 +36,7 @@ namespace LcLTools
         /// </summary>
         static double clickTime;
         static double doubleClickTime = 0.3;
-        [MenuItem("LcLTools/CustomKeys/定位到Shader &s")]
+        [MenuItem("LcLTools/HotKeys/定位到Shader &s")]
         static void QuickPositioningShader()
         {
             var selectObject = Selection.objects[0];
@@ -74,7 +74,7 @@ namespace LcLTools
             }
         }
 
-        [MenuItem("LcLTools/CustomKeys/创建Material &c")]
+        [MenuItem("LcLTools/HotKeys/创建Material &c")]
         static void CreateMaterial()
         {
             var objects = Selection.objects;
@@ -99,7 +99,7 @@ namespace LcLTools
             }
         }
         // ---------------------【Ctrl + ...】--------------------------
-        [MenuItem("LcLTools/CustomKeys/快速定位到Model %m")]
+        [MenuItem("LcLTools/HotKeys/快速定位到Model %m")]
         static void QuickPositioningModel()
         {
             var assetObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Models");
@@ -111,7 +111,7 @@ namespace LcLTools
 
         // ---------------------【Shift + ...】--------------------------
 
-        [MenuItem("LcLTools/CustomKeys/重置Position #r")]
+        [MenuItem("LcLTools/HotKeys/重置Position #r")]
         static void QuickResetPosition()
         {
             var trsArr = Selection.transforms;
@@ -123,7 +123,7 @@ namespace LcLTools
             }
         }
 
-        [MenuItem("LcLTools/CustomKeys/隐藏显示Object #a")]
+        [MenuItem("LcLTools/HotKeys/隐藏显示Object #a")]
         static void QuickSetActive()
         {
             // var go = Selection.activeGameObject;
@@ -138,7 +138,7 @@ namespace LcLTools
         }
 
         static MethodInfo clearMethod = null;
-        [MenuItem("LcLTools/CustomKeys/清空日志 #c")]
+        [MenuItem("LcLTools/HotKeys/清空日志 #c")]
         public static void ClearConsole()
         {
             if (clearMethod == null)

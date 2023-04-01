@@ -14,14 +14,15 @@ namespace LcLTools
 {
     public class SkyListWindow : EditorWindow
     {
+        static string path = "Assets/SkyBox";
         static Texture sceneIcon;
+        static EditorWindow instance;
+        static int row = 6;
+        static float itemSize = 120;
+        static float margin = 2;
+        static float padding = 5;
 
-        static List<string> sceneList = new List<string>();
-        static List<string> scenePathList = new List<string>();
-        static string[] scenesPath;
-        static string[] scenesBuildPath;
-        public static EditorWindow instance;
-        static int row = 30;
+        static int count;
         public static void ShowWindow()
         {
             if (instance != null)
@@ -32,13 +33,89 @@ namespace LcLTools
             instance = EditorWindow.GetWindow(typeof(SkyListWindow));
             instance.titleContent = new GUIContent("Scene List");
 
-            int numRows = Mathf.CeilToInt((float)sceneList.Count / row);
-            int totalWidth = 60 + 250 * numRows;
-            int totalHeight = 25 * row;
+            float itemTotalSize = itemSize + margin * 2 + padding * 2 + 2;
+            int col = Mathf.CeilToInt((float)count / row);
+            float totalWidth = itemTotalSize * col;
+            float totalHeight = itemTotalSize * row;
             Vector2 temp = GUIUtility.GUIToScreenPoint(new Vector2(Event.current.mousePosition.x, Event.current.mousePosition.y));
 
             instance.position = new Rect(temp.x - totalWidth / 2, temp.y + 20, totalWidth, totalHeight);
             instance.Show();
+        }
+
+
+
+        public void OnEnable()
+        {
+            sceneIcon = EditorGUIUtility.IconContent("SceneAsset Icon").image;
+            // RefreshScenesList();
+
+            var root = this.rootVisualElement;
+            ScrollView scrollView = new ScrollView();
+            GroupBox groupBox = new GroupBox();
+            groupBox.style.flexDirection = FlexDirection.Row;
+            groupBox.style.alignItems = Align.Center;
+            groupBox.style.flexWrap = Wrap.Wrap;
+            groupBox.style.justifyContent = Justify.Center;
+            string[] materialGuids = AssetDatabase.FindAssets("t:Material", new[] { path });
+
+            foreach (string guid in materialGuids)
+            {
+                string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+                Material material = AssetDatabase.LoadAssetAtPath<Material>(assetPath);
+                var shaderName = material.shader?.name.ToLower();
+                if (shaderName.Contains("sky") || shaderName.Contains("cubemap"))
+                {
+                    var box = BindItem(material.name, assetPath, material);
+                    groupBox.Add(box);
+
+                }
+            }
+            count = groupBox.childCount;
+            scrollView.Add(groupBox);
+            root.Add(scrollView);
+        }
+
+
+        static VisualElement BindItem(string name, string path, Material material)
+        {
+            var box = new Button(() =>
+            {
+                Debug.Log("click" + name);
+                EditorGUIUtility.PingObject(material);
+                // set skybox
+                RenderSettings.skybox = material;
+
+            });
+            box.style.flexDirection = FlexDirection.Column;
+            box.style.alignItems = Align.Center;
+            box.style.paddingLeft = padding;
+            box.style.paddingRight = padding;
+            box.style.paddingTop = padding;
+            box.style.paddingBottom = padding;
+            // set margin
+            box.style.marginLeft = margin;
+            box.style.marginRight = margin;
+            box.style.marginTop = margin;
+            box.style.marginBottom = margin;
+
+            box.style.width = itemSize;
+            box.style.unityTextAlign = TextAnchor.MiddleLeft;
+            box.tooltip = path;
+
+            Image image = new Image();
+            image.style.flexShrink = 0;
+            image.style.width = 100;
+            image.style.height = 100;
+            image.image = AssetPreview.GetAssetPreview(material);
+            box.Add(image);
+
+            Label label = new Label(name);
+            label.style.flexGrow = 1.0f;
+            label.style.alignItems = Align.Center;
+            label.style.marginTop = 5;
+            box.Add(label);
+            return box;
         }
 
 
@@ -48,98 +125,6 @@ namespace LcLTools
             {
                 this.Close();
             }
-        }
-        public void OnEnable()
-        {
-            // sceneIcon = EditorGUIUtility.IconContent("SceneAsset Icon").image;
-            // RefreshScenesList();
-
-            // var root = this.rootVisualElement;
-            // ScrollView scrollView = new ScrollView();
-            // GroupBox groupBox = new GroupBox();
-            // groupBox.style.flexDirection = FlexDirection.Row;
-            // groupBox.style.alignItems = Align.Center;
-            // groupBox.style.flexWrap = Wrap.Wrap;
-            // for (int i = 0; i < sceneList.Count; i++)
-            // {
-            //     var box = BindItem(sceneList[i], scenesPath[i]);
-            //     groupBox.Add(box);
-            // }
-            // scrollView.Add(groupBox);
-            // root.Add(scrollView);
-        }
-
-
-        static float marginSize = 2;
-        static VisualElement BindItem(string name, string path)
-        {
-            var box = new Button(() =>
-            {
-                if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
-                {
-                    EditorSceneManager.OpenScene(path);
-                }
-            });
-            box.style.flexDirection = FlexDirection.Row;
-            box.style.alignItems = Align.Center;
-            box.style.paddingLeft = 10;
-            box.style.paddingRight = 10;
-            box.style.paddingTop = 5;
-            box.style.paddingBottom = 5;
-            // set margin
-            box.style.marginLeft = marginSize;
-            box.style.marginRight = marginSize;
-            box.style.marginTop = marginSize;
-            box.style.marginBottom = marginSize;
-
-            box.style.width = 200;
-            box.style.unityTextAlign = TextAnchor.MiddleLeft;
-            box.tooltip = path;
-
-            Image icon = new Image();
-            icon.style.flexShrink = 0;
-            icon.style.width = 16;
-            icon.style.height = 16;
-            icon.style.marginRight = 5;
-            icon.image = sceneIcon;
-            box.Add(icon);
-
-            Label label = new Label();
-            label.style.flexGrow = 1.0f;
-            label.style.alignItems = Align.Center;
-            label.text = name;
-            // label.style.width = Length.Percent(100);
-            box.Add(label);
-
-            return box;
-        }
-
-
-        static void RefreshScenesList()
-        {
-            sceneList.Clear();
-            scenePathList.Clear();
-            string[] sceneGuids = AssetDatabase.FindAssets("t:scene", new string[] { "Assets" });
-            scenesPath = new string[sceneGuids.Length];
-            for (int i = 0; i < scenesPath.Length; ++i)
-            {
-                scenesPath[i] = AssetDatabase.GUIDToAssetPath(sceneGuids[i]);
-            }
-
-            Scene activeScene = SceneManager.GetActiveScene();
-
-            for (int i = 0; i < scenesPath.Length; ++i)
-            {
-                string name = GetSceneName(scenesPath[i]);
-                sceneList.Add(name);
-                scenePathList.Add(scenesPath[i]);
-            }
-        }
-
-        static string GetSceneName(string path)
-        {
-            path = path.Replace(".unity", "");
-            return Path.GetFileName(path);
         }
     }
 
