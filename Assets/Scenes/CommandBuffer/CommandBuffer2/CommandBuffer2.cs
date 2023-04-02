@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
- /// <summary>
- /// CommandBuffer 例子2
- /// </summary>
+/// <summary>
+/// CommandBuffer 例子2
+/// </summary>
 [ExecuteInEditMode]
-public class CommandBuffer2 : MonoBehaviour {
- 
+public class CommandBuffer2 : MonoBehaviour
+{
+
     private CommandBuffer commandBuffer = null;
     private RenderTexture renderTexture = null;
     private Renderer targetRenderer = null;
     public GameObject targetObject = null;
     public Material replaceMaterial = null;
- 
-	void OnEnable()
+
+    void OnEnable()
     {
         targetRenderer = targetObject.GetComponentInChildren<Renderer>();
         //申请RT
@@ -33,15 +34,18 @@ public class CommandBuffer2 : MonoBehaviour {
         //直接加入相机的CommandBuffer事件队列中
         Camera.main.AddCommandBuffer(CameraEvent.AfterForwardOpaque, commandBuffer);
     }
- 
+
     void OnDisable()
     {
         //移除事件，清理资源
-        Camera.main.RemoveCommandBuffer(CameraEvent.AfterForwardOpaque, commandBuffer);
-        commandBuffer.Clear();
+        if (commandBuffer != null)
+        {
+            Camera.main.RemoveCommandBuffer(CameraEvent.AfterForwardOpaque, commandBuffer);
+            commandBuffer.Clear();
+        }
         renderTexture.Release();
     }
- 
+
     //也可以在OnPreRender中直接通过Graphics执行Command Buffer，不过OnPreRender和OnPostRender只在挂在相机的脚本上才有作用！！！
     //void OnPreRender()
     //{

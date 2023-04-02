@@ -35,4 +35,18 @@ public class PostEffectsBase : MonoBehaviour
             return material;
         return null;
     }
+
+    private void OnDisable()
+    {
+        // remove material
+        if (_material)
+        {
+#if UNITY_EDITOR
+            DestroyImmediate(_material);
+#else
+            Destroy(_material);
+#endif
+            _material = null;
+        }
+    }
 }

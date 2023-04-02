@@ -11,66 +11,64 @@ namespace LcLTools
 {
     public class FileSyncTools : Editor
     {
-        public static string modelProjectPath = "F:\\UnityProjects\\Work\\APPModelProject";
-        public static string clientProjectPath = "F:\\UnityProjects\\Work\\APPGameUnity";
+        public static string learnUnityShaderPath = "E:\\LiChangLong\\LearnUnityShader";
+        public static string learnURPPath = "E:\\LiChangLong\\LearnURP";
+        public static string lclRenderPipelinePath = "E:\\LiChangLong\\LcL-RenderPipeline";
 
-        public static List<string> excludeFiles = new List<string>(){
-        "DodAssetProcessor"
-    };
+        public static List<string> excludeFiles = new List<string>() { };
 
-        [MenuItem("Assets/LcL Sync Files/To LcLTools", false, 1)]
-        private static void SyncLcLToolsFiles()
+        [MenuItem("Assets/LcL Sync Files/To LearnUnityShader", false, 1)]
+        private static void SyncFilesToLearnShader()
         {
-            if (!Tips(modelProjectPath))
-            {
-                return;
-            }
-            ForeachSelectObjs((obj) =>
-            {
-                SyncFiles(obj, modelProjectPath);
-            });
-        }
-
-
-        [MenuItem("Assets/LcL Sync Files/To Model Project", false, 1)]
-        private static void SyncFilesToEffect()
-        {
-            if (!Tips(modelProjectPath))
+            if (!Tips(learnUnityShaderPath))
             {
                 return;
             }
             ForeachSelectObjs((obj) =>
            {
-               SyncFiles(obj, modelProjectPath);
+               SyncFiles(obj, learnUnityShaderPath);
            });
         }
 
-        [MenuItem("Assets/LcL Sync Files/To Client Project", false, 1)]
-        private static void SyncClientFiles()
+        [MenuItem("Assets/LcL Sync Files/To LearnURP", false, 1)]
+        private static void SyncFilesToLearnURP()
         {
-            if (!Tips(clientProjectPath))
+            if (!Tips(learnURPPath))
+            {
+                return;
+            }
+            ForeachSelectObjs((obj) =>
+           {
+               SyncFiles(obj, learnURPPath);
+           });
+        }
+
+        [MenuItem("Assets/LcL Sync Files/To RenderPipeline", false, 1)]
+        private static void SyncFilesToRenderPipeline()
+        {
+            if (!Tips(lclRenderPipelinePath))
             {
                 return;
             }
 
             ForeachSelectObjs((obj) =>
             {
-                SyncFiles(obj, clientProjectPath);
+                SyncFiles(obj, lclRenderPipelinePath);
             });
         }
 
         [MenuItem("Assets/LcL Sync Files/To All Project", false, 1)]
         private static void SyncFilesAll()
         {
-            if (!Tips(modelProjectPath + "和" + clientProjectPath))
+            if (!Tips(learnURPPath + "和" + lclRenderPipelinePath))
             {
                 return;
             }
 
             ForeachSelectObjs((obj) =>
             {
-                SyncFiles(obj, modelProjectPath);
-                SyncFiles(obj, clientProjectPath);
+                SyncFiles(obj, learnURPPath);
+                SyncFiles(obj, lclRenderPipelinePath);
             });
         }
         // 提示框

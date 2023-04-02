@@ -2,14 +2,15 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SnowGround
   m_Shader: {fileID: 4800000, guid: e95978149d752e0498d844261b028a8d, type: 3}
-  m_ShaderKeywords: 
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -39,6 +40,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _Displacement: 0
     - _HeightNormalPower: 10
@@ -49,3 +51,4 @@ Material:
     - _FloorColor: {r: 1, g: 1, b: 1, a: 1}
     - _GroundColor: {r: 0.0754717, g: 0.0754717, b: 0.0754717, a: 1}
     - _SnowColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

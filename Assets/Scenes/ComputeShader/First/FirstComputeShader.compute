@@ -35,8 +35,8 @@ RWStructuredBuffer<TestData> TestBuffer;
 [numthreads(8, 8, 1)]
 void CSMain(uint3 id : SV_DispatchThreadID, uint3 groupID : SV_GroupID, uint3 groupThreadID : SV_GroupThreadID, uint index : SV_GroupIndex)
 {
-    // Result[id.xy] = float4(id.x & id.y, (id.x & 15) / 15.0, (id.y & 15) / 15.0, 0.0);
-    // Result[id.xy] = float4(id.x & id.y, 0, 0, 0.0);
+    Result[id.xy] = float4(id.x & id.y, (id.x & 15) / 15.0, (id.y & 15) / 15.0, 0.0);
+    Result[id.xy] = float4(id.x & id.y, 0, 0, 0.0);
 
 
     // 计算buffer索引: 

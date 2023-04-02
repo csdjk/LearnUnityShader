@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GaussianBlur_cat : PostEffectsBase
 {
-    static readonly string shaderName = "lcl/screenEffect/Bloom";
+    static readonly string shaderName = "lcl/learnShader3/003 Gaussian Blur";
 
     // Blur iterations - larger number means more blur.
     [Range(0, 4)]

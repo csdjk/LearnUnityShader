@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-//编辑状态下也运行  
 [ExecuteInEditMode]
-//继承自PostEffectsbase
 public class OutLine : PostEffectsBase
 {
     //主相机
@@ -22,20 +20,23 @@ public class OutLine : PostEffectsBase
     //模糊扩散范围
     [Range(0.2f, 3.0f)]
     public float blurSpread = 0.6f;
-    private int downSample = 1;
+    [Range(0, 3)]
+    public int downSample = 1;
     public Color outlineColor = new Color(1, 1, 1, 1);
-    
+
     [Header("描边强度")]
     [Range(0.2f, 10.0f)]
     public float outlinePower = 2;
 
-    void Awake()
+    void OnEnable()
     {
         mainCamera = GetComponent<Camera>();
         if (mainCamera == null)
             return;
         createPurecolorRenderTexture();
     }
+
+
 
     void Update()
     {
@@ -47,8 +48,8 @@ public class OutLine : PostEffectsBase
     // ---------------------------【创建一个RenderTexture】---------------------------
     private void createPurecolorRenderTexture()
     {
-        int width = outlineCamera.pixelWidth >> downSample;
-        int height = outlineCamera.pixelHeight >> downSample;
+        int width = outlineCamera.pixelWidth;
+        int height = outlineCamera.pixelHeight;
         renderTexture = RenderTexture.GetTemporary(width, height, 0);
     }
 
@@ -91,5 +92,18 @@ public class OutLine : PostEffectsBase
 
         RenderTexture.ReleaseTemporary(temp1);
         RenderTexture.ReleaseTemporary(temp2);
+    }
+    private void OnDisable()
+    {
+        if (renderTexture)
+        {
+            RenderTexture.ReleaseTemporary(renderTexture);
+            renderTexture = null;
+        }
+        outlineCamera.targetTexture = null;
+        if (material)
+        {
+            DestroyImmediate(material);
+        }
     }
 }

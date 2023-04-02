@@ -1,5 +1,4 @@
 
-reflect
 float3 Shade(inout Ray ray, RayHit hit)
 {
 	float3 normalDir = normalize(f.worldNormal);
@@ -7,7 +6,6 @@ float3 Shade(inout Ray ray, RayHit hit)
     float3 diffuse = _LightColor0.rgb * max(dot(normalDir,lightDir),0) * _Diffuse.rgb;
 
 }
-
 
 
 float3 Shade(inout Ray ray, RayHit hit, int depth)

@@ -35,7 +35,6 @@ public class FirstComputeShader : MonoBehaviour
             return;
 
         InitBuffer();
-
         UpdateTexture();
         UpdateBuffer();
     }
@@ -90,6 +89,20 @@ public class FirstComputeShader : MonoBehaviour
         material.SetBuffer("_particleDataBuffer", testBuffer);
         if (Input.GetKeyDown(KeyCode.P))
         {
+            testBuffer.GetData(testDatas);
+            int i = 0;
+            foreach (var item in testDatas)
+            {
+                Debug.Log($"i:{i}, v1:{item.v1}, v2:{item.v2}");
+                i++;
+            }
+        }
+    }
+    private void OnGUI()
+    {
+        if (GUILayout.Button("Print Data", GUILayout.Width(100), GUILayout.Height(50)))
+        {
+            material.SetBuffer("_particleDataBuffer", testBuffer);
             testBuffer.GetData(testDatas);
             int i = 0;
             foreach (var item in testDatas)

@@ -56,6 +56,7 @@ public class CommandBufferBakeTexture : MonoBehaviour
         {
             Camera.main.RemoveCommandBuffer(CameraEvent.AfterDepthTexture, commandBuffer);
             commandBuffer.Release();
+            commandBuffer = null;
         }
     }
     // private void OnGUI()

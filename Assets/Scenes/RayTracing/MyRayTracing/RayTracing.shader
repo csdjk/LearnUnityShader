@@ -4,16 +4,16 @@
     {
         _TraceCount ("Trace Count", Int) = 5
         _Color ("Color", Color) = (1, 1, 1, 1)
-        _SkyBox("Sky Box",Cube) = "black"{}
+        _SkyBox ("Sky Box", Cube) = "black" { }
         _IOR ("IOR", Range(1, 5)) = 2.417
         _Specular ("Specular", Range(0, 1)) = 1.0
         _AbsorbIntensity ("Absorb Intensity", Range(0, 10)) = 1.0
-        _Gloss("Gloss",Range(8,200)) = 10
+        _Gloss ("Gloss", Range(8, 200)) = 10
         _FresnelScale ("Fresnel Scale", Range(0, 1)) = 0.5
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" "Queue"= "Geometry+500" }
+        Tags { "RenderType" = "Opaque" "Queue" = "Geometry+500" }
         LOD 100
         ZTest Always
 
@@ -26,13 +26,14 @@
 
             #include "UnityCG.cginc"
 
-            struct a2v {
+            struct a2v
+            {
                 float4 vertex : POSITION;
                 fixed3 normal : NORMAL;
                 fixed2 uv : TEXCOORD0;
             };
 
-            struct v2f 
+            struct v2f
             {
                 float4 pos : POSITION;
                 fixed2 uv : TEXCOORD0;
@@ -53,7 +54,7 @@
 
             uniform float4 _Vertices[800];
 
-            v2f vert (a2v v)
+            v2f vert(a2v v)
             {
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
@@ -65,12 +66,12 @@
                 o.ray = cameraRay.xyz / cameraRay.w;
 
                 return o;
-            }            
+            }
             
             // ------------------------------Ray Tracing--------------------------
             const float noIntersectionT = 1.#INF;
 
-            struct Light 
+            struct Light
             {
                 float3 position;
                 float3 color;
@@ -82,7 +83,7 @@
                 float3 energy;
                 float absorbDistance;
             };
-            struct Intersection 
+            struct Intersection
             {
                 float3 position;
                 float distance;
@@ -90,7 +91,7 @@
                 bool inside;
             };
             
-            Intersection CreateIntersection() 
+            Intersection CreateIntersection()
             {
                 Intersection intersection;
                 intersection.position = float3(0.0, 0.0, 0.0);
@@ -99,13 +100,13 @@
                 intersection.inside = false;
                 return intersection;
             }
-            bool hasIntersection(Intersection i) 
+            bool hasIntersection(Intersection i)
             {
                 return i.distance != noIntersectionT;
             }
             float4 GetSkyColor(fixed3 direction)
             {
-                fixed4  spec_env = texCUBE(_SkyBox, direction);
+                fixed4 spec_env = texCUBE(_SkyBox, direction);
                 return fixed4(spec_env.xyz, 1);
             }
 
@@ -128,12 +129,12 @@
                 float tca = dot(l, dir);
                 //if ( tca < 0.0 )
                 //return false;
-                float d2 = dot (l, l) - (tca * tca);
-                float r2 = radius*radius;
-                if ( d2 > r2 )
-                return false;
+                float d2 = dot(l, l) - (tca * tca);
+                float r2 = radius * radius;
+                if (d2 > r2)
+                    return false;
                 else
-                return true;
+                    return true;
             }
             //射线和三角形求交
             bool IntersectTriangle(float4 orig, float4 dir,
@@ -148,14 +149,14 @@
                 float4 E2 = v2 - v0;
                 
                 // P
-                float4 P = float4(cross(dir,E2), 1);
+                float4 P = float4(cross(dir, E2), 1);
                 
                 // determinant
-                float det = dot(E1,P);
+                float det = dot(E1, P);
                 
                 // keep det > 0, modify T accordingly
                 float4 T;
-                if( det >0 )
+                if (det > 0)
                 {
                     T = orig - v0;
                 }
@@ -166,24 +167,24 @@
                 }
                 
                 // If determinant is near zero, ray lies in plane of triangle
-                if( det < 0.0001f )
-                return false;
+                if (det < 0.0001f)
+                    return false;
                 
                 // Calculate u and make sure u <= 1
-                u = dot(T,P);
-                if( u < 0.0f || u > det )
-                return false;
+                u = dot(T, P);
+                if (u < 0.0f || u > det)
+                    return false;
                 
                 // Q
-                float4 Q = float4(cross(T,E1), 1);
+                float4 Q = float4(cross(T, E1), 1);
                 
                 // Calculate v and make sure u + v <= 1
-                v = dot(dir,Q);
-                if( v < 0.0f || u + v > det )
-                return false;
+                v = dot(dir, Q);
+                if (v < 0.0f || u + v > det)
+                    return false;
                 
                 // Calculate t, scale parameters, ray intersects triangle
-                t = dot(E2,Q);
+                t = dot(E2, Q);
                 
                 float fInvDet = 1.0f / det;
                 t *= fInvDet;
@@ -192,7 +193,7 @@
 
                 intersection.position = orig + dir * t;
                 intersection.distance = t;
-                intersection.normal = normalize(cross(E1,E2));
+                intersection.normal = normalize(cross(E1, E2));
                 intersection.inside = dot(intersection.normal, dir) > 0;
 
                 return true;
@@ -203,13 +204,13 @@
             {
                 bool hitAnything = false;
 
-                for (int i = 0; i < 700;)
+                for (int i = 0; i < 700; )
                 {
                     // 物体的顶点数量
-                    int length = _Vertices[i+1].x;
+                    int length = _Vertices[i + 1].x;
 
                     if (length == 0)
-                    break;
+                        break;
                     
                     // 包围求中心
                     half3 sphereOrig = _Vertices[i].xyz;
@@ -222,14 +223,14 @@
                     if (IntersectSphere(ray.origin, ray.direction, sphereOrig, radius))
                     {
                         // 遍历所有顶点
-                        for (int j = 0; j < length; j+=3)
+                        for (int j = 0; j < length; j += 3)
                         {
                             Intersection intersection = CreateIntersection();
-                            float4 v0 = float4(_Vertices[i+j].xyz, 1);
+                            float4 v0 = float4(_Vertices[i + j].xyz, 1);
                             float4 v1 = float4(_Vertices[i + j + 1].xyz, 1);
                             float4 v2 = float4(_Vertices[i + j + 2].xyz, 1);
 
-                            if (IntersectTriangle(float4(ray.origin, 1), float4(ray.direction, 0), v0,v1 ,v2 , intersection) && intersection.distance > 0.001)
+                            if (IntersectTriangle(float4(ray.origin, 1), float4(ray.direction, 0), v0, v1, v2, intersection) && intersection.distance > 0.001)
                             {
                                 hitAnything = true;
 
@@ -239,6 +240,7 @@
                                     minIntersection = intersection;
                                     // if(minIntersection.inside == inGeometry)
                                     // break;
+
                                 }
                             }
                         }
@@ -249,14 +251,14 @@
                 return hitAnything;
             }
             
-            // 
+            //
             float3 lighting(Ray ray, Intersection intersection)
             {
                 Light light;
                 light.position = _LightPos;
-                light.color = float3(1,1,1);
+                light.color = float3(1, 1, 1);
                 
-                float3 normal = intersection.normal *(intersection.inside ? -1 : 1);
+                float3 normal = intersection.normal * (intersection.inside ? - 1 : 1);
 
 
 
@@ -269,10 +271,10 @@
                 float3 reflected = normalize(reflect(-lightDir, normal));
 
                 // BlinnPhong
-                fixed3 halfDir = normalize(lightDir+eyeDir);
-                fixed3 specular = light.color * pow(max(0,dot(normal,halfDir)),1) * _Specular;
+                fixed3 halfDir = normalize(lightDir + eyeDir);
+                fixed3 specular = light.color * pow(max(0, dot(normal, halfDir)), 1) * _Specular;
                 
-                return diffuse+specular;
+                return diffuse + specular;
             }
             
             float Refract(float3 i, float3 n, float eta, inout float3 o)
@@ -293,13 +295,14 @@
                 return ret;
             }
             // 着色
-            float3 Shade(inout Ray ray, Intersection hit,int depth)
+            float3 Shade(inout Ray ray, Intersection hit, int depth)
             {
                 // 有交点
-                if(hasIntersection(hit)){
+                if (hasIntersection(hit))
+                {
                     Light light;
                     light.position = _LightPos;
-                    light.color = float3(1,1,1);
+                    light.color = float3(1, 1, 1);
                     
                     float3 lightDir = normalize(light.position - hit.position);
 
@@ -318,10 +321,10 @@
                     }
 
                     float3 viewDir = normalize(_WorldSpaceCameraPos - hit.position);
-                    float3 diffuse = max(dot(normal, lightDir),0.0);
+                    float3 diffuse = max(dot(normal, lightDir), 0.0);
 
-                    fixed3 halfDir = normalize(lightDir+viewDir);
-                    fixed3 specular = light.color * pow(max(0,dot(normal,halfDir)),_Gloss) * _Specular;
+                    fixed3 halfDir = normalize(lightDir + viewDir);
+                    fixed3 specular = light.color * pow(max(0, dot(normal, halfDir)), _Gloss) * _Specular;
 
                     // 折射
                     float3 refractRay;
@@ -333,24 +336,26 @@
                     float3 reflectDir = reflect(ray.direction, hit.normal);
                     reflectDir = normalize(reflectDir);
 
-                    specular =lerp(diffuse, GetSkyColor(reflectDir), saturate(fresnel));
+                    specular = lerp(diffuse, GetSkyColor(reflectDir), saturate(fresnel));
 
                     // 继续光线追踪
                     ray.origin = hit.position;
                     if (refracted == 1.0)
-                    ray.direction = refractRay;
+                        ray.direction = refractRay;
                     else
-                    ray.direction = reflect(ray.direction, normal);
+                        ray.direction = reflect(ray.direction, normal);
 
                     // 能量
                     float3 subEnergy = float3(0.2f, 0.2f, 0.2f);
 
                     ray.energy *= subEnergy;
                     // ray.energy *= 1 - fresnel;
-                    return diffuse;
+                    return diffuse + specular;
+                    // return diffuse;
                 }
                 // 无交点
-                else{
+                else
+                {
                     ray.energy = 0;
                     float3 cubeColor = GetSkyColor(ray.direction);
                     return cubeColor;
@@ -358,72 +363,72 @@
 
 
                 // if (hasIntersection(hit) && depth < (_TraceCount - 1)){
-                    //     float3 specular = float3(0, 0, 0);
-                    
-                    //     float3 normal;
-                    //     // 折射率
-                    //     float eta;
-                    //     // out
-                    //     if (hit.inside)
-                    //     {
-                        //         normal = -hit.normal;
-                        //         eta = _IOR;
-                    //     }
-                    //     // in
-                    //     else
-                    //     {
-                        //         normal = hit.normal;
-                        //         eta = 1.0 / _IOR;
-                    //     }
+                //     float3 specular = float3(0, 0, 0);
+                
+                //     float3 normal;
+                //     // 折射率
+                //     float eta;
+                //     // out
+                //     if (hit.inside)
+                //     {
+                //         normal = -hit.normal;
+                //         eta = _IOR;
+                //     }
+                //     // in
+                //     else
+                //     {
+                //         normal = hit.normal;
+                //         eta = 1.0 / _IOR;
+                //     }
 
-                    //     ray.origin = hit.position - normal * 0.001f;
-                    
-                    //     float3 refractRay;
-                    //     float refracted = Refract(ray.direction, normal, eta, refractRay);
-                    
-                    //     if (depth == 0.0)
-                    //     {
-                        //         float3 reflectDir = reflect(ray.direction, hit.normal);
-                        //         reflectDir = normalize(reflectDir);
-                        
-                        //         float3 reflectProb = FresnelSchlick(normal, ray.direction, eta) * _Specular;
-                        //         specular = GetSkyColor(reflectDir) * reflectProb;
-                        //         ray.energy *= 1 - reflectProb;
-                    //     }
-                    //     else
-                    //     {
-                        //         ray.absorbDistance += hit.distance;
-                    //     }
-                    
-                    //     // Refraction
-                    //     if (refracted == 1.0)
-                    //     {
-                        //         ray.direction = refractRay;
-                    //     }
-                    //     // Total Internal Reflection
-                    //     else
-                    //     {
-                        //         ray.direction = reflect(ray.direction, normal);
-                    //     }
-                    
-                    //     ray.direction = normalize(ray.direction);
-                    
-                    //     return _Specular;
-                    //     // return specular;
+                //     ray.origin = hit.position - normal * 0.001f;
+                
+                //     float3 refractRay;
+                //     float refracted = Refract(ray.direction, normal, eta, refractRay);
+                
+                //     if (depth == 0.0)
+                //     {
+                //         float3 reflectDir = reflect(ray.direction, hit.normal);
+                //         reflectDir = normalize(reflectDir);
+                
+                //         float3 reflectProb = FresnelSchlick(normal, ray.direction, eta) * _Specular;
+                //         specular = GetSkyColor(reflectDir) * reflectProb;
+                //         ray.energy *= 1 - reflectProb;
+                //     }
+                //     else
+                //     {
+                //         ray.absorbDistance += hit.distance;
+                //     }
+                
+                //     // Refraction
+                //     if (refracted == 1.0)
+                //     {
+                //         ray.direction = refractRay;
+                //     }
+                //     // Total Internal Reflection
+                //     else
+                //     {
+                //         ray.direction = reflect(ray.direction, normal);
+                //     }
+                
+                //     ray.direction = normalize(ray.direction);
+                
+                //     return _Specular;
+                //     // return specular;
 
 
                 // }
                 // else
                 // {
-                    //     ray.energy = 0.0f;
+                //     ray.energy = 0.0f;
 
-                    //     float3 cubeColor = GetSkyColor(ray.direction);
-                    //     float3 absorbColor = float3(1.0, 1.0, 1.0) - _Color;
-                    //     float3 absorb = exp(-absorbColor * ray.absorbDistance * _AbsorbIntensity);
+                //     float3 cubeColor = GetSkyColor(ray.direction);
+                //     float3 absorbColor = float3(1.0, 1.0, 1.0) - _Color;
+                //     float3 absorb = exp(-absorbColor * ray.absorbDistance * _AbsorbIntensity);
 
-                    //     return cubeColor * absorb  +  _Color;
+                //     return cubeColor * absorb  +  _Color;
                 // }
-                
+
             }
 
 
@@ -437,23 +442,23 @@
             
 
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 float4 viewPos = float4(i.ray, 1);
                 float4 worldPos = mul(unity_CameraToWorld, viewPos);
                 float3 viewDir = normalize(_WorldSpaceCameraPos - worldPos);
                 
-                float4 origin = float4(_WorldSpaceCameraPos,1);
+                float4 origin = float4(_WorldSpaceCameraPos, 1);
                 float4 dir = float4(-viewDir, 0);
 
-                Ray ray = CreateRay(origin.xyz,dir.xyz);
+                Ray ray = CreateRay(origin.xyz, dir.xyz);
                 float3 result = float3(0, 0, 0);
 
                 // [unroll(10)]
-                for (int i = 0; i < _TraceCount; i ++)
+                for (int i = 0; i < _TraceCount; i++)
                 {
                     Intersection hit = TraceRay(ray);
-                    result += ray.energy*Shade(ray, hit,i);
+                    result += ray.energy * Shade(ray, hit, i);
                 }
 
                 // Intersection hit = TraceRay(ray);

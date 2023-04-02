@@ -47,7 +47,6 @@ namespace LcLTools
         private GUIStyle disableStyle;
 
         private int grassIndex = 0;
-        private Bloom bloomV;
         private bool isTest;
         private bool isCutoff;
 

@@ -12,7 +12,7 @@ public class CommandBufferDepthFiled : MonoBehaviour
 {
     private CommandBuffer commandBuffer = null;
     private Renderer targetRenderer = null;
- 
+
     void OnEnable()
     {
         targetRenderer = this.GetComponentInChildren<Renderer>();
@@ -25,14 +25,18 @@ public class CommandBufferDepthFiled : MonoBehaviour
             targetRenderer.enabled = false;
         }
     }
- 
+
     void OnDisable()
     {
-        if (targetRenderer)
+        if (commandBuffer != null)
         {
             //移除事件，清理资源
             Camera.main.RemoveCommandBuffer(CameraEvent.AfterImageEffects, commandBuffer);
-            commandBuffer.Clear();
+            commandBuffer.Release();
+            commandBuffer = null;
+        }
+        if (targetRenderer != null)
+        {
             targetRenderer.enabled = true;
         }
     }
