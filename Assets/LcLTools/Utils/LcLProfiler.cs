@@ -2,13 +2,16 @@ using System.Collections.Generic;
 using System.Text;
 using Unity.Profiling;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
 namespace LcLTools
 {
-    [AddComponentMenu("LcLTools/FPSTools")]
+    [AddComponentMenu("LcLTools/LcLProfiler")]
     [ExecuteAlways]
-    public class FPSTools : MonoBehaviour
+    public class LcLProfiler : MonoBehaviour
     {
+        static int windowID = 100;
+
         public int targetFrameRate = 300;
 
         // GUI
@@ -35,6 +38,8 @@ namespace LcLTools
         public bool drawCallsActive = false;
         public bool trianglesActive = false;
         public bool verticesActive = false;
+
+
         private Rect uiBoxRect;
 
 
@@ -46,7 +51,16 @@ namespace LcLTools
         string powerText;
         StringBuilder powerSB;
 
+        // -----------------------------------SRP Batcher Profiler-----------------------------------
+        SRPBatcherProfiler srpBatcherProfiler;
+        public bool enableSRPBatcherProfiler = false;
+        public Vector2 srpBoxSize = new Vector2(600, 250);
+        public float srpBoxHeight = 200;
 
+        [Range(10, 100)]
+        public int srpFontSize = 20;
+
+        // -----------------------------------SRP Batcher Profiler-----------------------------------
 #if UNITY_2020_2_OR_NEWER
         ProfilerRecorder systemMemoryRecorder;
         ProfilerRecorder gcMemoryRecorder;
@@ -81,7 +95,13 @@ namespace LcLTools
     private float deltaTime = 0.0f;
 
 #endif
-
+        private void Awake()
+        {
+            if (Application.isPlaying)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+        }
 
         void OnEnable()
         {
@@ -123,6 +143,7 @@ namespace LcLTools
             statsSB = new StringBuilder(500);
             systemInfoSB = new StringBuilder(500);
             powerSB = new StringBuilder(500);
+            srpBatcherProfiler = new SRPBatcherProfiler();
         }
 
         void Clean()
@@ -153,7 +174,7 @@ namespace LcLTools
         void OnDisable()
         {
             Clean();
-
+            srpBatcherProfiler = null;
         }
 
         float e = 0;
@@ -162,6 +183,8 @@ namespace LcLTools
 
         void Update()
         {
+            srpBatcherProfiler.Update();
+
             var interval = Time.time - t;
             if (interval > 1f)
             {
@@ -232,15 +255,24 @@ namespace LcLTools
                 powerText = powerSB.ToString();
             }
         }
+        private Rect uiBoxRect2;
 
         void OnGUI()
         {
-            uiBoxRect = GUI.Window(0, uiBoxRect, WindowCallBack, "");
+            if (uiBoxRect == null)
+            {
+                return;
+            }
+            uiBoxRect = GUI.Window(windowID, uiBoxRect, WindowCallBack, "");
 
             var infoBoxH = cpuGpuInfoActive ? infoBoxHeight : 0;
             var powerBoxH = powerActive ? powerBoxHeight : 0;
+            var srpBoxH = enableSRPBatcherProfiler ? srpBoxHeight : 0;
+
             uiBoxRect.width = boxWidth;
-            uiBoxRect.height = fpsBoxHeight + infoBoxH + powerBoxH + 40;
+            uiBoxRect.height = fpsBoxHeight + infoBoxH + powerBoxH + srpBoxH + 40;
+
+
         }
 
         private void WindowCallBack(int windowID)
@@ -263,6 +295,14 @@ namespace LcLTools
                     GUI.skin.box.fontSize = powerSize;
                     GUILayout.Box(powerText, GUILayout.Height(powerBoxHeight));
                 }
+
+
+                if (enableSRPBatcherProfiler)
+                {
+                    GUI.skin.box.fontSize = srpFontSize;
+                    GUI.skin.box.alignment = TextAnchor.MiddleLeft;
+                    GUILayout.Box(srpBatcherProfiler.ToString(), GUILayout.Height(srpBoxHeight));
+                }
             }
             GUILayout.EndVertical();
 
@@ -279,10 +319,7 @@ namespace LcLTools
         {
             get
             {
-
-
 #if UNITY_ANDROID && !UNITY_EDITOR
-
             //获取电流（微安），避免频繁获取，取一次大概2毫秒
             float electricity = (float)manager.Call<int>("getIntProperty", PARAM_BATTERY);
             //小于1W就认为它的单位是毫安，否则认为是微安
@@ -290,7 +327,6 @@ namespace LcLTools
 #else
                 return -1f;
 #endif
-
             }
         }
         //获取电压 伏

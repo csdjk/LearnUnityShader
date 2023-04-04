@@ -98,6 +98,13 @@ namespace LcLTools
                 }
             }
         }
+
+        [MenuItem("Custom/Project Settings &1")]
+        static void OpenProjectSettings()
+        {
+            // 打开Project Settings窗口
+            EditorApplication.ExecuteMenuItem("Edit/Project Settings...");
+        }
         // ---------------------【Ctrl + ...】--------------------------
         [MenuItem("LcLTools/HotKeys/快速定位到Model %m")]
         static void QuickPositioningModel()

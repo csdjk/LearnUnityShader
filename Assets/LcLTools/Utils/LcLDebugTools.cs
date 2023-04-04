@@ -5,24 +5,41 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
-// using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+using UnityEngine.Experimental.Rendering;
+using System.Reflection;
+
 
 namespace LcLTools
 {
-    enum LodLevel
+    public enum LodLevel
     {
         LOD100 = 100,
         LOD200 = 200,
         LOD300 = 300,
     }
-    [ExecuteAlways, RequireComponent(typeof(Camera)), AddComponentMenu("LcLTools/LcLTest", 0)]
-    public class LcLTest : MonoBehaviour
+
+    [Serializable]
+    public struct ButtonData
+    {
+        public bool active;
+        public string name;
+        public string action;
+    }
+    [Serializable]
+    public struct SceneData
+    {
+        public bool active;
+        public string name;
+        public int index;
+    }
+
+    [ExecuteAlways, AddComponentMenu("LcLTools/LcLDebugTools", 0)]
+    public class LcLDebugTools : MonoBehaviour
     {
         //---------------------------GUI-------------------------------------
+        static int windowID = 101;
         public Vector2 uiBoxSize = new Vector2(600, 250);
         [Range(10, 200)]
         public float buttonHeight = 50;
@@ -30,39 +47,29 @@ namespace LcLTools
         public int fontSize = 25;
         private Rect uiBoxRect = new Rect(0, 0, 0, 0);
         //---------------------------GUI-------------------------------------
-        public Camera m_camera;
+        public LodLevel lodLevel = LodLevel.LOD300;
 
-        [Range(100, 300)]
-        public int lodLevel = 300;
+        public PostProcess postProcess;
 
-
-        [Header("场景跳转列表")]
-        public string[] sceneList;
-
-        [Header("单选切换对象")]
+        public List<SceneData> sceneList;
         public GameObject[] singleList;
-        [Header("显示隐藏切换对象")]
         public GameObject[] toggleList;
+
+        [Header("按钮列表")]
+        [SerializeField, HideInInspector]
+        private List<ButtonData> buttonDataList;
+
         private GUIStyle enableStyle;
         private GUIStyle disableStyle;
 
-        private int grassIndex = 0;
-        private bool isTest;
-        private bool isCutoff;
-
-        void OnEnable()
+        private void Awake()
         {
-            if (m_camera == null)
+            if (Application.isPlaying)
             {
-                m_camera = GetComponent<Camera>();
+                DontDestroyOnLoad(gameObject);
             }
-#if UNITY_EDITOR
-            sceneList = EditorBuildSettings.scenes
-                         .Where(scene => scene.enabled)
-                         .Select(scene => Path.GetFileNameWithoutExtension(scene.path))
-                         .ToArray();
-#endif
         }
+
 
         void OnDisable()
         {
@@ -77,14 +84,39 @@ namespace LcLTools
         {
             return GUILayout.Button(name, GetStyle(active), GUILayout.Height(buttonHeight));
         }
-       
+
 
         public void SRPSwitch()
         {
             GraphicsSettings.useScriptableRenderPipelineBatching = !GraphicsSettings.useScriptableRenderPipelineBatching;
         }
 
-    
+        private bool featureActive;
+        public void PostProcessSwitch()
+        {
+            featureActive = !featureActive;
+            postProcess.postAsset.GetEffect<BloomEffect>().SetActive(featureActive);
+        }
+
+        private bool postActive;
+        public void PostSwitch()
+        {
+            if (gameObject.TryGetComponent(out UniversalAdditionalCameraData camData))
+            {
+                camData.renderPostProcessing = !camData.renderPostProcessing;
+                postActive = camData.renderPostProcessing;
+            }
+
+            postProcess.FinalFeature.SetActive(!postActive);
+        }
+
+        private bool bloomFeatureActive;
+        public string GetBloomFeatureState()
+        {
+            return bloomFeatureActive ? "BloomF(ing...)" : "BloomF";
+        }
+
+
         public void GotoScene(int index)
         {
             SceneManager.LoadScene(index);
@@ -148,15 +180,24 @@ namespace LcLTools
         {
             return GraphicsSettings.useScriptableRenderPipelineBatching ? "SRP(ing...)" : "SRP";
         }
+
+        public void Test()
+        {
+            Debug.Log(11);
+        }
         void OnValidate()
         {
-            Shader.globalMaximumLOD = lodLevel;
+            Shader.globalMaximumLOD = (int)lodLevel;
         }
 
 
         bool isInit = true;
         void OnGUI()
         {
+            if (uiBoxRect == null)
+            {
+                return;
+            }
             if (isInit)
             {
                 isInit = false;
@@ -171,7 +212,7 @@ namespace LcLTools
                 disableStyle.fontSize = fontSize;
             }
 
-            uiBoxRect = GUI.Window(1, uiBoxRect, WindowCallBack, "");
+            uiBoxRect = GUI.Window(windowID, uiBoxRect, WindowCallBack, "");
             uiBoxRect.width = uiBoxSize.x;
             uiBoxRect.height = uiBoxSize.y;
         }
@@ -187,10 +228,11 @@ namespace LcLTools
             {
 
                 // 单选开关切换
-                if (singleList != null)
+                if (singleList != null && singleList.Length > 0)
                 {
                     GUILayout.BeginVertical();
                     {
+                        Button("单选开关");
                         foreach (var item in singleList)
                         {
                             if (item)
@@ -209,10 +251,11 @@ namespace LcLTools
                     GUILayout.EndVertical();
                 }
                 // 多选开关
-                if (toggleList != null)
+                if (toggleList != null && toggleList.Length > 0)
                 {
                     GUILayout.BeginVertical();
                     {
+                        Button("多选开关");
                         foreach (var item in toggleList)
                         {
                             if (item)
@@ -232,52 +275,37 @@ namespace LcLTools
                 }
 
                 // Scene List
-                if (sceneList != null)
+                if (sceneList != null && sceneList.Count > 0)
                 {
                     GUILayout.BeginVertical();
                     {
                         Button("Scene List");
-                        for (int i = 0; i < sceneList.Length; i++)
+                        foreach (var item in sceneList)
                         {
-                            var scene = sceneList[i];
-                            if (Button(scene))
+                            if (item.active && Button(item.name, item.active))
                             {
-                                GotoScene(i);
+                                GotoScene(item.index);
                             }
                         }
                     }
                     GUILayout.EndVertical();
                 }
-                // 
-
-                GUILayout.BeginVertical();
+                // Draw buttonDataList
+                if (buttonDataList != null)
                 {
-                    // if (Button(GetBloomFeatureState()))
-                    // {
-                    //     BloomFeatureSwitch();
-                    // }
-                    // if (Button("BloomV", bloomV && bloomV.active))
-                    // {
-                    //     BloomVolumeSwitch();
-                    // }
-                    // if (Button(GetTonemappingState()))
-                    // {
-                    //     ACESSwitch();
-                    // }
-                 
-                    // if (Button("TEST", isTest))
-                    // {
-                    //     isTest = !isTest;
-                    //     SwitchKeyword(isTest, "_TEST");
-                    // }
-                    // if (Button("CUTOFF", isCutoff))
-                    // {
-                    //     isCutoff = !isCutoff;
-                    //     SwitchKeyword(isCutoff, "_CUTOFF");
-                    // }
-
+                    GUILayout.BeginVertical();
+                    {
+                        foreach (var item in buttonDataList)
+                        {
+                            if (item.active && Button(item.name, item.active))
+                            {
+                                CallFunction(item.action);
+                            }
+                        }
+                    }
+                    GUILayout.EndVertical();
                 }
-                GUILayout.EndVertical();
+
 
                 GUILayout.BeginVertical();
                 {
@@ -302,5 +330,31 @@ namespace LcLTools
             GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
 
         }
+
+        public void CallFunction(string name)
+        {
+            var method = GetType().GetMethod(name);
+            if (method != null)
+            {
+                method.Invoke(this, null);
+            }
+        }
+        // ================================ Button Function ================================
+        public void EnableBlur()
+        {
+            var active = postProcess.GetEffectActive<BlurEffect>();
+            postProcess.SetEffectActive<BlurEffect>(!active);
+        }
+        public void EnableBloom()
+        {
+            var active = postProcess.GetEffectActive<BloomEffect>();
+            postProcess.SetEffectActive<BloomEffect>(!active);
+        }
+        public void EnableDof()
+        {
+            var active = postProcess.GetEffectActive<DepthOfFieldEffect>();
+            postProcess.SetEffectActive<DepthOfFieldEffect>(!active);
+        }
+
     }
 }

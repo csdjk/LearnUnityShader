@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace UnityEngine.Experimental.Rendering
 {
     [ExecuteAlways]
-    public class SRPBatcherProfiler : MonoBehaviour
+    public class SRPBatcherProfiler
     {
         [Range(10, 100)]
         public int fontSize = 10;
@@ -58,7 +58,7 @@ namespace UnityEngine.Experimental.Rendering
             new RecorderEntry() { name="PrepareBatchRendererGroupNodes" },
         };
 
-        void Awake()
+        public SRPBatcherProfiler()
         {
             for (int i = 0; i < recordersList.Length; i++)
             {
@@ -104,14 +104,12 @@ namespace UnityEngine.Experimental.Rendering
             ResetStats();
         }
 
-        void Update()
+        public void Update()
         {
-
             if (Input.GetKeyDown(KeyCode.F9))
             {
                 GraphicsSettings.useScriptableRenderPipelineBatching = !GraphicsSettings.useScriptableRenderPipelineBatching;
             }
-
             if (GraphicsSettings.useScriptableRenderPipelineBatching != m_oldBatcherEnable)
             {
                 ResetStats();
@@ -153,7 +151,7 @@ namespace UnityEngine.Experimental.Rendering
                     float RTIdleTime = recordersList[(int)SRPBMarkers.kRenderThreadIdle].accTime * ooFrameCount;
                     float avgPIRPrepareGroupNodes = recordersList[(int)SRPBMarkers.kPrepareBatchRendererGroupNodes].accTime * ooFrameCount;
 
-                    m_statsLabel = string.Format("Accumulated time for RenderLoop.Draw and ShadowLoop.Draw (all threads)\n{0:F2}ms CPU Rendering time ( incl {1:F2}ms RT idle )\n", avgStdRender + avgStdShadow + avgSRPBRender + avgSRPBShadow + avgPIRPrepareGroupNodes, RTIdleTime);
+                    m_statsLabel = string.Format("RenderLoop.Draw和ShadowLoop.Draw的累计时间(all threads)\n{0:F2}ms CPU Rendering time ( incl {1:F2}ms RT idle )\n", avgStdRender + avgStdShadow + avgSRPBRender + avgSRPBShadow + avgPIRPrepareGroupNodes, RTIdleTime);
                     if (SRPBatcher)
                     {
                         m_statsLabel += string.Format("  {0:F2}ms SRP Batcher code path\n", avgSRPBRender + avgSRPBShadow);
@@ -171,8 +169,15 @@ namespace UnityEngine.Experimental.Rendering
 
             }
         }
-
-        void OnGUI()
+        public override string ToString()
+        {
+            if (m_Enable)
+            {
+                return m_statsLabel;
+            }
+            return "";
+        }
+        public void DrawGUI(Vector2 rect)
         {
             float offset = 50;
             m_style.fontSize = fontSize;
@@ -194,6 +199,8 @@ namespace UnityEngine.Experimental.Rendering
 
                 GUILayout.EndArea();
             }
+
+
         }
     }
 }
