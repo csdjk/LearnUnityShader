@@ -5,11 +5,9 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.Experimental.Rendering;
 using System.Reflection;
-
 
 namespace LcLTools
 {
@@ -49,7 +47,6 @@ namespace LcLTools
         //---------------------------GUI-------------------------------------
         public LodLevel lodLevel = LodLevel.LOD300;
 
-        public PostProcess postProcess;
 
         public List<SceneData> sceneList;
         public GameObject[] singleList;
@@ -91,30 +88,6 @@ namespace LcLTools
             GraphicsSettings.useScriptableRenderPipelineBatching = !GraphicsSettings.useScriptableRenderPipelineBatching;
         }
 
-        private bool featureActive;
-        public void PostProcessSwitch()
-        {
-            featureActive = !featureActive;
-            postProcess.postAsset.GetEffect<BloomEffect>().SetActive(featureActive);
-        }
-
-        private bool postActive;
-        public void PostSwitch()
-        {
-            if (gameObject.TryGetComponent(out UniversalAdditionalCameraData camData))
-            {
-                camData.renderPostProcessing = !camData.renderPostProcessing;
-                postActive = camData.renderPostProcessing;
-            }
-
-            postProcess.FinalFeature.SetActive(!postActive);
-        }
-
-        private bool bloomFeatureActive;
-        public string GetBloomFeatureState()
-        {
-            return bloomFeatureActive ? "BloomF(ing...)" : "BloomF";
-        }
 
 
         public void GotoScene(int index)
@@ -339,22 +312,5 @@ namespace LcLTools
                 method.Invoke(this, null);
             }
         }
-        // ================================ Button Function ================================
-        public void EnableBlur()
-        {
-            var active = postProcess.GetEffectActive<BlurEffect>();
-            postProcess.SetEffectActive<BlurEffect>(!active);
-        }
-        public void EnableBloom()
-        {
-            var active = postProcess.GetEffectActive<BloomEffect>();
-            postProcess.SetEffectActive<BloomEffect>(!active);
-        }
-        public void EnableDof()
-        {
-            var active = postProcess.GetEffectActive<DepthOfFieldEffect>();
-            postProcess.SetEffectActive<DepthOfFieldEffect>(!active);
-        }
-
     }
 }

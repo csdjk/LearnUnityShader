@@ -92,6 +92,7 @@ namespace LcLTools
             string[] materialGuids = AssetDatabase.FindAssets("t:Material", new[] { path });
             string skyPath = RenderSettings.skybox != null ? AssetDatabase.GetAssetPath(RenderSettings.skybox) : "";
 
+            imageDic.Clear();
             foreach (string guid in materialGuids)
             {
                 string assetPath = AssetDatabase.GUIDToAssetPath(guid);
@@ -112,7 +113,8 @@ namespace LcLTools
             root.Add(scrollView);
         }
 
-
+        // 创建一个字典，用于存储所有的Image 
+        static Dictionary<Image, Material> imageDic = new Dictionary<Image, Material>();
         static Button BindItem(string name, string path, Material material)
         {
             var box = new Button(() =>
@@ -152,6 +154,7 @@ namespace LcLTools
             image.style.height = 100;
             image.image = AssetPreview.GetAssetPreview(material);
             box.Add(image);
+            imageDic.Add(image, material);
 
             Label label = new Label(name);
             label.style.flexGrow = 1.0f;
@@ -169,6 +172,14 @@ namespace LcLTools
 
         void Update()
         {
+            foreach (var item in imageDic)
+            {
+                if (item.Key.image == null)
+                {
+                    item.Key.image = AssetPreview.GetAssetPreview(item.Value);
+                }
+            }
+
             if (Application.isPlaying)
             {
                 toggle.value = true;
