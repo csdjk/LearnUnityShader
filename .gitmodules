@@ -1,0 +1,3 @@
+[submodule "Assets/LcL-Tools-Unity"]
+	path = Assets/LcL-Tools-Unity
+	url = https://github.com/csdjk/LcL-Tools-Unity.git
