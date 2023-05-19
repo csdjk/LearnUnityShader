@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 using System;
+using LcLTools;
 
 [CustomEditor(typeof(TexturePainterBaseUV))]
 public class TexturePaintBaseUVEditor : Editor
@@ -148,7 +149,7 @@ public class TexturePaintBaseUVEditor : Editor
                 path = EditorUtility.SaveFilePanel("Save Texture", path, tex ? tex.name : "", "png");
                 if (!path.Equals(String.Empty))
                 {
-                    painter.SaveRenderTextureToPng(path);
+                    LcLEditorUtilities.SaveRenderTextureToTexture(painter.compositeTexture, path);
                 }
             }
         }

@@ -84,7 +84,7 @@ public class TexturePainterBaseUV : MonoBehaviour
     }
 
     private RenderTexture _compositeTexture;
-    private RenderTexture compositeTexture
+    public RenderTexture compositeTexture
     {
         get
         {
@@ -253,14 +253,14 @@ public class TexturePainterBaseUV : MonoBehaviour
         return Mathf.Min(1, Mathf.Max(value, 0));
     }
 
-    public void SaveRenderTextureToPng(string path)
-    {
-        LcLUtility.SaveRenderTextureToTexture(compositeTexture, path);
-        var assetsPath = LcLUtility.AssetsRelativePath(path);
-        if (assetsPath != null)
-        {
-            AssetDatabase.ImportAsset(assetsPath);
-        }
-        Debug.Log("Saved to " + path);
-    }
+    // public void SaveRenderTextureToPng(string path)
+    // {
+    //     LcLEditorUtilities.SaveRenderTextureToTexture(compositeTexture, path);
+    //     var assetsPath = LcLUtility.AssetsRelativePath(path);
+    //     if (assetsPath != null)
+    //     {
+    //         AssetDatabase.ImportAsset(assetsPath);
+    //     }
+    //     Debug.Log("Saved to " + path);
+    // }
 }
