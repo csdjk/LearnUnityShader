@@ -9,6 +9,11 @@
 
 **Unity Version：2021.3.11f1**
 
+## Star趋势
+
+[![Stargazers over time](https://starchart.cc/csdjk/LearnUnityShader.svg)](https://starchart.cc/csdjk/LearnUnityShader)
+
+
 # 入门精要 Shader
 
 ## [基础光照（Lambert、半 Lambert、Phong、BlinnPhong 等） 透明度测试、透明度混合](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader1)
@@ -38,20 +43,20 @@
 ## [亮度,饱和度,对比度调整](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader3)
 
 | ![4JjFYt](https://z3.ax1x.com/2021/09/21/4JXxyD.png) | ![4JjFYt](https://z3.ax1x.com/2021/09/21/4JjFYt.png) |
-| :--------------------------------------------------: | :--------------------------------------------------: |
-|                        处理后                        |                         原图                         |
+| :------------------------------------------------: | :------------------------------------------------: |
+|                       处理后                       |                        原图                        |
 
 ## [边缘检测及提取](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader3)
 
 | ![4JjFYt](https://z3.ax1x.com/2021/09/21/4JXzOe.png) | ![4JjFYt](https://z3.ax1x.com/2021/09/21/4JjpeH.png) |
-| :--------------------------------------------------: | :--------------------------------------------------: |
-|                     在原图上叠加                     |                       边缘提取                       |
+| :------------------------------------------------: | :------------------------------------------------: |
+|                    在原图上叠加                    |                      边缘提取                      |
 
 ## [高斯模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader3)
 
 | ![4JjFYt](https://z3.ax1x.com/2021/09/21/4Jj9wd.png) | ![4JjFYt](https://z3.ax1x.com/2021/09/21/4JjFYt.png) |
-| :--------------------------------------------------: | :--------------------------------------------------: |
-|                       高斯模糊                       |                         原图                         |
+| :------------------------------------------------: | :------------------------------------------------: |
+|                      高斯模糊                      |                        原图                        |
 
 ## [运动模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/LearnShader/LearnShader3)
 
@@ -125,15 +130,15 @@
 ## [Bloom](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/Bloom)
 
 | ![Bloom.png](https://i.loli.net/2021/09/25/xVeZh7LyajuDBwm.png) | ![Bloom2.png](https://i.loli.net/2021/09/25/d1rZk6AVfUYonRg.png) |
-| :-------------------------------------------------------------: | :--------------------------------------------------------------: |
-|                              原图                               |                              Bloom                               |
+| :-----------------------------------------------------------: | :------------------------------------------------------------: |
+|                             原图                             |                             Bloom                             |
 
 ## [模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/BoxBlur)
 
-|                       ![sed.png](https://i.loli.net/2021/09/25/F1vSltjnTQ4Mu3G.png)                       |                    ![boxBlur.png](https://i.loli.net/2021/09/25/2cHnvEaR1F5DZ8M.png)                    |
-| :-------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: |
-|                                                   原图                                                    |  [均值模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/BoxBlur)   |
-|                    ![GaussBlur.png](https://i.loli.net/2021/09/25/MLubJFH5rZpcKOU.png)                    |                  ![RadialBlur.png](https://i.loli.net/2021/09/25/Jt5PTUuv8sKhRWN.png)                   |
+|                      ![sed.png](https://i.loli.net/2021/09/25/F1vSltjnTQ4Mu3G.png)                      |                   ![boxBlur.png](https://i.loli.net/2021/09/25/2cHnvEaR1F5DZ8M.png)                   |
+| :----------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: |
+|                                                  原图                                                  |  [均值模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/BoxBlur)  |
+|                   ![GaussBlur.png](https://i.loli.net/2021/09/25/MLubJFH5rZpcKOU.png)                   |                  ![RadialBlur.png](https://i.loli.net/2021/09/25/Jt5PTUuv8sKhRWN.png)                  |
 | [高斯模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/GaussianBlur) | [径向模糊](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/RadialBlur) |
 
 ## [Mask](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/ScreenEffect/Mask)
