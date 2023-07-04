@@ -21,7 +21,7 @@ RWStructuredBuffer<TestData> TestBuffer;
 // 8*8*1 : 64线程
 // SV_GroupID: 线程组ID，相当于每个组的坐标
 // SV_GroupThreadID: 每个线程组里的ID，相当于每个组里的局部坐标
-// SV_GroupIndex: 每个线程组的索引，相当于坍缩成一维坐标,类似一维数组索引
+// SV_GroupIndex: 当前线程在线程组中的线性索引，即线程在线程组中的顺序编号。
 // numthreads: 每个线程组中执行的线程数, 例如: numthreads(8, 8, 1) => 8*8*1 : 64线程
 
 // SV_GroupIndex = SV_GroupThreadID.z*dimx*dimy + SV_GroupThreadID.y*dimx + SV_GroupThreadID.x
