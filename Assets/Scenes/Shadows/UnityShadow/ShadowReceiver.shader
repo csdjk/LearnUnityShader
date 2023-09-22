@@ -59,8 +59,8 @@ Shader "lcl/Shadows/ShadowReceiver"
             fixed4 frag (v2f i) : SV_Target
             {
 
-                fixed shadow = SHADOW_ATTENUATION(i);
-                // UNITY_LIGHT_ATTENUATION(atten, i, i.worldPos);
+                // fixed shadow = SHADOW_ATTENUATION(i);
+                UNITY_LIGHT_ATTENUATION(atten, i, i.worldPos);
 
                 return _Color * shadow;
             }

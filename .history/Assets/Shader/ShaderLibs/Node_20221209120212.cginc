@@ -77,22 +77,14 @@ float3 BlendNormalsLiner(float3 N1, float3 N2)
     return normalize(N1 + N2);
 }
 // 来自ShaderGraph的 BlendNormal节点
-float3 BlendNormalWhiteout(float3 N1, float3 N2)
+float3 BlendNormalsWhiteout(float3 N1, float3 N2)
 {
     return normalize(float3(N1.rg + N2.rg, N1.b * N2.b));
 }
-
-// ref http://blog.selfshadow.com/publications/blending-in-detail/
-// ref https://gist.github.com/selfshadow/8048308
-// Reoriented Normal Mapping
-// Blending when n1 and n2 are already 'unpacked' and normalised
-// assume compositing in tangent space
-real3 BlendNormalRNM(real3 n1, real3 n2)
+// UE
+float3 BlendNormalsRNM(float3 N1, float3 N2)
 {
-    real3 t = n1.xyz + real3(0.0, 0.0, 1.0);
-    real3 u = n2.xyz * real3(-1.0, -1.0, 1.0);
-    real3 r = (t / t.z) * dot(t, u) - u;
-    return r;
+    return normalize(float3(N1.rg + N2.rg, N1.b * N2.b));
 }
 // ================================= 序列帧 =================================
 half4 SquenceImage(sampler2D tex, float2 uv, float2 amount, float speed)

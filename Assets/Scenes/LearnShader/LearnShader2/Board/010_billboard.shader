@@ -85,6 +85,20 @@ Shader "lcl/learnShader2/010_billboard"
                 o.pos = UnityObjectToClipPos(float4(localPos, 1));
                 o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
 
+
+
+
+                // https://zhuanlan.zhihu.com/p/397620652
+                // float3 centerWS = GetModelCenterWorldPos();
+                // float3 cameraTransformRightWS = UNITY_MATRIX_V[0].xyz;
+                // float3 cameraTransformUpWS = UNITY_MATRIX_V[1].xyz;
+                // float3 cameraTransformForwardWS = -UNITY_MATRIX_V[2].xyz;
+                // float3 positionOS = v.vertex.x * cameraTransformRightWS;
+                // positionOS += v.vertex.y * cameraTransformUpWS;
+
+
+                // float3 positionWS = positionOS + centerWS;
+                // o.vertex = UnityWorldToClipPos(positionWS);
                 return o;
             }
             
@@ -96,7 +110,6 @@ Shader "lcl/learnShader2/010_billboard"
             }
             
             ENDCG
-
         }
     }
     FallBack "Transparent/VertexLit"

@@ -27,6 +27,6 @@ Material:
     m_Ints: []
     m_Floats:
     - _Dither: 1
-    - _DitherSize: 0.001
+    - _DitherSize: 2.8
     m_Colors: []
   m_BuildTextureStacks: []
