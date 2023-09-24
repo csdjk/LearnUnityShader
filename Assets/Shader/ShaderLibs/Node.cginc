@@ -87,11 +87,11 @@ float3 BlendNormalWhiteout(float3 N1, float3 N2)
 // Reoriented Normal Mapping
 // Blending when n1 and n2 are already 'unpacked' and normalised
 // assume compositing in tangent space
-real3 BlendNormalRNM(real3 n1, real3 n2)
+float3 BlendNormalRNM(float3 n1, float3 n2)
 {
-    real3 t = n1.xyz + real3(0.0, 0.0, 1.0);
-    real3 u = n2.xyz * real3(-1.0, -1.0, 1.0);
-    real3 r = (t / t.z) * dot(t, u) - u;
+    float3 t = n1.xyz + float3(0.0, 0.0, 1.0);
+    float3 u = n2.xyz * float3(-1.0, -1.0, 1.0);
+    float3 r = (t / t.z) * dot(t, u) - u;
     return r;
 }
 // ================================= 序列帧 =================================
