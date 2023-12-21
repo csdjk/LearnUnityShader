@@ -48,17 +48,17 @@ public class ReconstructPositionViewPortRay : MonoBehaviour
             var forwardVec = forward * far;
 
             //构建四个角的方向向量
-            var topLeft = (forwardVec - rightVec + upVec);
-            var topRight = (forwardVec + rightVec + upVec);
-            var bottomLeft = (forwardVec - rightVec - upVec);
-            var bottomRight = (forwardVec + rightVec - upVec);
+            var topLeft = forwardVec - rightVec + upVec;
+            var topRight = forwardVec + rightVec + upVec;
+            var bottomLeft = forwardVec - rightVec - upVec;
+            var bottomRight = forwardVec + rightVec - upVec;
 
             var viewPortRay = Matrix4x4.identity;
-            viewPortRay.SetRow(0, topLeft);
-            viewPortRay.SetRow(1, topRight);
-            viewPortRay.SetRow(2, bottomLeft);
-            viewPortRay.SetRow(3, bottomRight);
 
+            viewPortRay.SetRow(0, bottomLeft);
+            viewPortRay.SetRow(1, bottomRight);
+            viewPortRay.SetRow(2, topLeft);
+            viewPortRay.SetRow(3, topRight);
             postEffectMat.SetMatrix("_ViewPortRay", viewPortRay);
             Graphics.Blit(source, destination, postEffectMat);
         }

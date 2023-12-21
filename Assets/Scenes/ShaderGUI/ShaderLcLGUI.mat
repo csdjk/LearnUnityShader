@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ShaderLWGUI
+  m_Name: ShaderLcLGUI
   m_Shader: {fileID: 4800000, guid: f5d7976413e9a6a46a5abee091e69273, type: 3}
   m_ValidKeywords:
   - _GROUP_ON
@@ -19,6 +19,7 @@ Material:
   - _HL_NPR
   - _KEYWORD
   - _OUTLINE_ENABLE_ON
+  - _OVERLAY_NONE
   - _RIM_NORMAL
   - _SKIN_MODE
   m_LightmapFlags: 4
@@ -126,6 +127,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _RampTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ShadowMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -151,6 +156,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TransmittanceColorMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WindTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -227,6 +236,9 @@ Material:
     - _HdrpVersion: 2
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
+    - _HeightCutoff: 1.2
+    - _HeightCutoff2: 1.2
+    - _HeightFactor: 1
     - _HeightMapParametrization: 0
     - _HeightMax: 1
     - _HeightMin: -1
@@ -268,6 +280,7 @@ Material:
     - _Outline_Lightness: 1
     - _Outline_Purity: 1
     - _Outline_Width: 2
+    - _Overlay: 0
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15
     - _PPDMinSamples: 5
@@ -302,6 +315,12 @@ Material:
     - _RimLightWidth3: 0.3
     - _RimLight_Enable: 0
     - _RimLight_Mode: 0
+    - _SWITCH: 0
+    - _SWITCH2: 0
+    - _SWITCH2_FoldoutState: 1
+    - _SWITCH3: 0
+    - _SWITCH3_FoldoutState: 1
+    - _SWITCH_FoldoutState: 1
     - _ShadowIntensity: 0.2
     - _ShadowMode: 0
     - _Shadow_DepthThreshold: 0
@@ -321,6 +340,7 @@ Material:
     - _SpecularHighlights: 1
     - _SpecularOcclusionMode: 1
     - _SrcBlend: 1
+    - _StencilFail: 0
     - _StencilRef: 0
     - _StencilRefDepth: 0
     - _StencilRefGBuffer: 2
@@ -349,6 +369,10 @@ Material:
     - _UVSec: 0
     - _UseEmissiveIntensity: 0
     - _UseShadowThreshold: 0
+    - _WaveAmp: 1
+    - _WaveAmp2: 1
+    - _WaveAmp3: 1
+    - _WaveSpeed: 1
     - _ZTestDepthEqualForOpaque: 4
     - _ZTestGBuffer: 4
     - _ZTestModeDistortion: 8
@@ -385,6 +409,7 @@ Material:
     - _HighColor2: {r: 1, g: 1, b: 1, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _LightDir: {r: 0, g: -0.63246673, b: -0.7745875, a: 0}
     - _Outline_Color: {r: 1, g: 1, b: 1, a: 1}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimLightColor2: {r: 1, g: 1, b: 1, a: 1}
@@ -397,6 +422,8 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
+    - _WindSpeed: {r: 1, g: 1, b: 1, a: 1}
+    - _WorldSize: {r: 1, g: 1, b: 1, a: 1}
     - _hdr: {r: 1, g: 1, b: 1, a: 1}
     - _mColor: {r: 1, g: 1, b: 1, a: 1}
     - _mColor1: {r: 1, g: 0, b: 0, a: 1}

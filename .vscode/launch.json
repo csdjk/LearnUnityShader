@@ -1,0 +1,56 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Unity Editor",
+            "type": "unity",
+            "path": "/f:/UnityProjects/Lichanglong/LearnUnityShader/Library/EditorInstance.json",
+            "request": "launch"
+        },
+        {
+            "name": "Windows Player",
+            "type": "unity",
+            "request": "launch"
+        },
+        {
+            "name": "OSX Player",
+            "type": "unity",
+            "request": "launch"
+        },
+        {
+            "name": "Linux Player",
+            "type": "unity",
+            "request": "launch"
+        },
+        {
+            "name": "iOS Player",
+            "type": "unity",
+            "request": "launch"
+        },
+        {
+            "name": "Android Player",
+            "type": "unity",
+            "request": "launch"
+        },
+        {
+            "name": "Xbox One Player",
+            "type": "unity",
+            "request": "launch"
+        },
+        {
+            "name": "PS4 Player",
+            "type": "unity",
+            "request": "launch"
+        },
+        {
+            "name": "SwitchPlayer",
+            "type": "unity",
+            "request": "launch"
+        },
+        {
+            "name": "Attach to Unity",
+            "type": "vstuc",
+            "request": "attach"
+        }
+    ]
+}

@@ -21,25 +21,27 @@ Shader "lcl/Depth/ReconstructPositionViewPortRay"
         o.pos = UnityObjectToClipPos(v.vertex);
         o.uv = v.texcoord.xy;
         
-        //用texcoord区分四个角，就四个点，if无所谓吧
-        int index = 0;
-        if (v.texcoord.x < 0.5 && v.texcoord.y > 0.5)
-            index = 0;
-        else if (v.texcoord.x > 0.5 && v.texcoord.y > 0.5)
-            index = 1;
-        else if (v.texcoord.x < 0.5 && v.texcoord.y < 0.5)
-            index = 2;
-        else
-            index = 3;
-        
+        //用texcoord区分四个角
+        // int index = 0;
+        // if (v.texcoord.x < 0.5 && v.texcoord.y < 0.5)
+        //     index = 0;
+        // else if (v.texcoord.x < 0.5 && v.texcoord.y > 0.5)
+        //     index = 1;
+        // else if (v.texcoord.x > 0.5 && v.texcoord.y > 0.5)
+        //     index = 2;
+        // else
+        //     index = 3;
+
+        // (0,0) (0,1) (1,1) (1,0)
+        // 0 2 3 1
+        int index = int(v.texcoord.x + 0.5) + 2 * int(v.texcoord.y + 0.5);
+
         o.rayDir = _ViewPortRay[index];
         return o;
     }
     
     fixed4 frag_depth(v2f i) : SV_Target
     {
-        // return fixed4(i.uv,0, 1.0);
-        
         float depthTextureValue = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv);
         float linear01Depth = Linear01Depth(depthTextureValue);
         //worldpos = campos + 射线方向 * depth
