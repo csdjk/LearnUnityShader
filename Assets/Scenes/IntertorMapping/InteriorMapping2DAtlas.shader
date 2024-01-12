@@ -3,7 +3,8 @@
     Properties
     {
         _RoomTex ("Room Atlas RGB (A - back wall depth01)", 2D) = "gray" { }
-        _Rooms ("Room Count(X count,Y count)", vector) = (1, 1, 0, 0)
+        [Toggle(_USE_ATLAS)] _USE_ATLAS ("Use Atlas", float) = 0
+        [ShowIf(_USE_ATLAS)]_Rooms ("Room Count(X count,Y count,Z seed)", vector) = (1, 1, 0, 0)
         _RoomMaxDepth01 ("Room Max Depth define(0 to 1)", range(0.001, 0.999)) = 0.5
     }
     SubShader
@@ -16,13 +17,15 @@
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma shader_feature_fragment _ _USE_ATLAS
+
             #include "Lighting.cginc"
             #include "Assets\Shader\ShaderLibs\Node.cginc"
             #include "Assets\Shader\ShaderLibs\Noise.cginc"
 
             sampler2D _RoomTex;
             float4 _RoomTex_ST;
-            float2 _Rooms;
+            float4 _Rooms;
             float _RoomMaxDepth01;
 
             struct a2v
@@ -39,7 +42,7 @@
                 float3 viewTS : TEXCOORD1;
             };
 
-           
+            
             v2f vert(a2v v)
             {
                 v2f o;
@@ -55,7 +58,7 @@
                 return o;
             }
 
-         
+            
             half4 frag(v2f i) : SV_Target
             {
                 
@@ -63,9 +66,11 @@
                 float2 roomUV = frac(i.uv);
                 float2 roomIndexUV = floor(i.uv);
 
-                // randomize the room
-                float2 n = floor(random2(roomIndexUV.x + roomIndexUV.y * (roomIndexUV.x + 1)) * _Rooms.xy);
-                roomIndexUV += n; //colin: result = index XY + random (0,0)~(3,1)
+                #if defined(_USE_ATLAS)
+                    // randomize the room
+                    float2 n = floor(random2(roomIndexUV.x + roomIndexUV.y * (roomIndexUV.x + 1) + _Rooms.z) * _Rooms.xy);
+                    roomIndexUV += n; //colin: result = index XY + random (0,0)~(3,1)
+                #endif
 
 
                 float2 interiorUV = ConvertOriginalRawUVToInteriorUV(roomUV, i.viewTS, _RoomMaxDepth01);
