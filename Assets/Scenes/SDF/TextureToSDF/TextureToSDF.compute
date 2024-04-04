@@ -1,0 +1,66 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+
+int _halfRange;
+Texture2D _MainTex;
+int4 _MainTex_Size;
+
+RWTexture2D<float4> outputTexture;
+
+uint squaredDistanceBetween(int2 uv1, int2 uv2) {
+    int2 delta = uv1 - uv2;
+    uint dist = (delta.x * delta.x) + (delta.y * delta.y);
+    return dist;
+}
+
+bool isIn(int2 coord) {
+    if (coord.x < 0 || coord.y < 0 || coord.x >= _MainTex_Size.x || coord.y >= _MainTex_Size.y)
+        return false;
+    return _MainTex[coord.xy].r > 0;
+}
+
+[numthreads(8,8,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+
+
+    int2 coord = id.xy;
+
+    const int halfRange = _halfRange;
+    const int iRange = 2 * halfRange;
+
+    const int2 startPosition = coord - int2(halfRange, halfRange);
+
+    bool fragIsIn = isIn(coord);
+    
+    uint squaredDistanceToEdge = (halfRange*halfRange)*2;
+
+    for (int dx = 0; dx <= iRange; dx++) {
+
+        for (int dy = 0; dy <= iRange; dy++) {
+            int2 scanPositionCoord = startPosition + int2(dx, dy);
+
+            bool scanIsIn = isIn(scanPositionCoord);
+            if (scanIsIn != fragIsIn) {
+                uint scanDistance = squaredDistanceBetween(coord, scanPositionCoord);
+                if (scanDistance < squaredDistanceToEdge) {
+                    squaredDistanceToEdge = scanDistance;
+                }
+            }
+        }
+    }
+
+
+    float normalised = squaredDistanceToEdge / ((halfRange*halfRange)*2.0);
+    float distanceToEdge = sqrt(normalised);
+    if (fragIsIn)
+        distanceToEdge = -distanceToEdge;
+
+    normalised = 0.5 - distanceToEdge;
+
+    outputTexture[id.xy] = float4(normalised, normalised, normalised,1);
+
+}

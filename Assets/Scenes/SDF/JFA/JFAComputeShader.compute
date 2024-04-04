@@ -1,0 +1,224 @@
+#pragma kernel CopyUVMain
+
+#define PIXEL_OFFSET 0.5
+
+Texture2D<float4> _InputTexture;
+RWTexture2D<float4> _OutputTexture;
+float4 _TextureSize;
+float _Channel;
+
+[numthreads(8, 8, 1)]
+void CopyUVMain(uint3 id : SV_DispatchThreadID)
+{
+	float2 samplePosition = id.xy + PIXEL_OFFSET;
+	if (any(samplePosition >= _TextureSize.xy))
+		return;
+
+	float4 inputTexture = _InputTexture.Load(float3(id.xy, 0));
+	float determin = 0;
+	switch((uint)_Channel)
+	{
+		case 0:
+			determin = inputTexture.r;
+			break;
+		case 1:
+			determin = inputTexture.g;
+			break;
+		case 2:
+			determin = inputTexture.b;
+			break;
+		case 3:
+			determin = inputTexture.a;
+			break;
+		default:
+			break;
+	}
+	if (determin >= 0.5)
+	{
+		_OutputTexture[id.xy] = float4(-1, -1, samplePosition.x * _TextureSize.z, samplePosition.y * _TextureSize.w);
+	}
+	else
+	{
+		_OutputTexture[id.xy] = float4(samplePosition.x * _TextureSize.z, samplePosition.y * _TextureSize.w, -1, -1);
+	}
+}
+
+
+#pragma kernel JFAMain
+
+float2 _Step;
+static int2 directions[] = {
+	int2(-1, -1),
+	int2(-1, 0),
+	int2(-1, 1),
+	int2(0, -1),
+	int2(0, 1),
+	int2(1, -1),
+	int2(1, 0),
+	int2(1, 1)
+};
+
+float4 JFAOutside(float4 inputTex, float2 idxy)
+{
+	float4 outputTex = inputTex;
+
+	//cull inside
+	if (inputTex.x != -1)
+	{
+		float2 nearestUV = inputTex.zw;
+		float minDistance = 1e16;
+
+		//if had min distance in previous flooding
+		if (inputTex.z != -1)
+		{
+			minDistance = length(idxy + PIXEL_OFFSET -nearestUV * _TextureSize.xy);
+		}
+
+
+		bool hasMin = false;
+		for (uint i = 0; i < 8; i++)
+		{
+			uint2 sampleOffset = idxy + directions[i] * _Step;
+			sampleOffset = clamp(sampleOffset, 0, _TextureSize.xy - 1);
+			float4 offsetTexture = _InputTexture.Load(float3(sampleOffset, 0));
+			//if had min distance in previous flooding
+			if (offsetTexture.z != -1)
+			{
+				float2 tempUV = offsetTexture.zw;
+				float tempDistance = length(idxy + PIXEL_OFFSET -tempUV * _TextureSize.xy);
+				if (tempDistance < minDistance)
+				{
+					hasMin = true;
+					minDistance = tempDistance;
+					nearestUV = tempUV;
+				}
+			}
+		}
+
+		if (hasMin)
+		{
+			outputTex = float4(inputTex.xy, nearestUV);
+		}
+	}
+	return outputTex;
+}
+
+float4 JFAInside(float4 inputTex, float2 idxy)
+{
+	float4 outputTex = inputTex;
+
+	//cull outside
+	if (inputTex.z != -1)
+	{
+		float2 nearestUV = inputTex.xy;
+		float minDistance = 1e16;
+
+		//if had min distance in previous flooding
+		if (inputTex.x != -1)
+		{
+			minDistance = length(idxy + PIXEL_OFFSET -nearestUV * _TextureSize.xy);
+		}
+
+
+		bool hasMin = false;
+		for (uint i = 0; i < 8; i++)
+		{
+			uint2 sampleOffset = idxy + directions[i] * _Step;
+			sampleOffset = clamp(sampleOffset, 0, _TextureSize.xy - 1);
+			float4 offsetTexture = _InputTexture.Load(float3(sampleOffset, 0));
+			//if had min distance in previous flooding
+			if (offsetTexture.x != -1)
+			{
+				float2 tempUV = offsetTexture.xy;
+				float tempDistance = length(idxy + PIXEL_OFFSET -tempUV * _TextureSize.xy);
+				if (tempDistance < minDistance)
+				{
+					hasMin = true;
+					minDistance = tempDistance;
+					nearestUV = tempUV;
+				}
+			}
+		}
+
+		if (hasMin)
+		{
+			outputTex = float4(nearestUV, inputTex.zw);
+		}
+	}
+	return outputTex;
+}
+
+[numthreads(8, 8, 1)]
+void JFAMain(uint3 id : SV_DispatchThreadID)
+{
+	float2 samplePosition = id.xy + PIXEL_OFFSET;
+	if (any(samplePosition >= _TextureSize.xy))
+		return;
+
+	float4 inputTexture = _InputTexture.Load(float3(id.xy, 0));
+	float4 outSide = JFAOutside(inputTexture, id.xy);
+	_OutputTexture[id.xy] = JFAInside(outSide, id.xy);
+}
+
+
+#pragma kernel ComposeMain
+
+Texture2D<float4> _OriginalTexture;
+
+#if UNITY_2020_2_OR_NEWER
+	#pragma multi_compile _USE_GRAYSCALE
+#else
+	#define _USE_GRAYSCALE 0
+#endif
+
+[numthreads(8, 8, 1)]
+void ComposeMain(uint3 id : SV_DispatchThreadID)
+{
+	uint2 reverseY = id.xy;
+	reverseY = uint2(id.x, _TextureSize.y - 1 - id.y);
+
+	float4 inputTexture = _InputTexture.Load(float3(reverseY, 0));
+	float4 originalTexture = _OriginalTexture.Load(float3(reverseY, 0));
+	float determin = 0;
+	switch((uint)_Channel)
+	{
+		case 0:
+			determin = originalTexture.r;
+			break;
+		case 1:
+			determin = originalTexture.g;
+			break;
+		case 2:
+			determin = originalTexture.b;
+			break;
+		case 3:
+			determin = originalTexture.a;
+			break;
+		default:
+			break;
+	}
+
+
+	#if _USE_GRAYSCALE
+		float distance = 0;
+		if (determin >= 0.5)
+		{
+			distance = -length(reverseY + PIXEL_OFFSET -inputTexture.xy * _TextureSize.xy);
+			_OutputTexture[id.xy] = float4(distance, distance, distance, 1);
+		}
+		else
+		{
+			distance = length(reverseY + PIXEL_OFFSET -inputTexture.zw * _TextureSize.xy);
+			_OutputTexture[id.xy] = float4(distance, distance, distance, 0);
+		}
+	#else
+		if (determin >= 0.5)
+		{
+			_OutputTexture[id.xy] = float4(inputTexture.xy, 0, 1);
+		}
+		else
+		{
+			_OutputTexture[id.xy] = float4(inputTexture.zw, 0, 0);
+		}
+	#endif
+}
