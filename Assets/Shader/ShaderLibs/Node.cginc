@@ -59,6 +59,7 @@ float3 BlendTexture(float4 texture1, float u1, float4 texture2, float u2)
 }
 
 // https://habr.com/en/post/180743/
+//example: half4 blend = LayerBlend(lay0.a, lay1.a, lay2.a, lay3.a, splat_control, _Weight);
 inline half4 LayerBlend(half high1, half high2, half high3, half high4, half4 control, half weight)
 {
     half4 blend;
@@ -124,6 +125,7 @@ inline float SubsurfaceScattering(float3 V, float3 L, float3 N, float distortion
     float I = pow(saturate(dot(V, -H)), power) * scale;
     return I;
 }
+
 
 // ================================= ColorRamp =================================
 // 对应Blender color ramp 节点
@@ -276,28 +278,44 @@ half DrawRing(float2 uv, float2 center, float width, float size, float smoothnes
 }
 
 // ================================= 随机值(根据坐标) =================================
-float ObjectPosRand01()
+inline float ObjectPosRand01()
 {
     return frac(UNITY_MATRIX_M[0][3] + UNITY_MATRIX_M[1][3] + UNITY_MATRIX_M[2][3]);
 }
 // ================================ 获取轴心点，也就是模型中心坐标================================
-float3 GetModelPivotPos()
+inline float3 GetModelPivotPos()
 {
     return float3(UNITY_MATRIX_M[0][3], UNITY_MATRIX_M[1][3] + 0.25, UNITY_MATRIX_M[2][3]);
 }
-float3 GetModelScale()
+// ================================ 获取模型 Right 方向 ================================
+inline float3 GetModelRightDir()
 {
-    return float3(UNITY_MATRIX_M[0][0], UNITY_MATRIX_M[1][1] + 0.25, UNITY_MATRIX_M[2][2]);
+    return float3(UNITY_MATRIX_M[0].x, UNITY_MATRIX_M[1].x, UNITY_MATRIX_M[2].x);
+}
+// ================================ 获取模型 Up 方向 ================================
+inline float3 GetModelUpDir()
+{
+    return float3(UNITY_MATRIX_M[0].y, UNITY_MATRIX_M[1].y, UNITY_MATRIX_M[2].y);
+}
+// ================================ 获取模型 Forward 方向 ================================
+inline float3 GetModelForwardDir()
+{
+    return float3(UNITY_MATRIX_M[0].z, UNITY_MATRIX_M[1].z, UNITY_MATRIX_M[2].z);
+}
+// ================================ 获取模型缩放 =================================
+inline float3 GetModelScale()
+{
+    return float3(
+        length(float3(UNITY_MATRIX_M[0].x, UNITY_MATRIX_M[1].x, UNITY_MATRIX_M[2].x)), // scale x axis
+        length(float3(UNITY_MATRIX_M[0].y, UNITY_MATRIX_M[1].y, UNITY_MATRIX_M[2].y)), // scale y axis
+        length(float3(UNITY_MATRIX_M[0].z, UNITY_MATRIX_M[1].z, UNITY_MATRIX_M[2].z))  // scale z axis
+    );
 }
 // ================================ 获取Camera Forward 方向 ================================
 float3 GetCameraForwardDir()
 {
     return normalize(UNITY_MATRIX_V[2].xyz);
 }
-// float3 GetModelCenterWorldPos()
-// {
-//     return float3(UNITY_MATRIX_M[0].w, UNITY_MATRIX_M[1].w, UNITY_MATRIX_M[2].w);
-// }
 // ================================= 根据世界坐标计算法线 =================================
 // ddx ddy计算法线
 float3 CalculateNormal(float3 positionWS)

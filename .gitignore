@@ -37,6 +37,8 @@ sysinfo.txt
 .idea/
 backup/
 
+UserSettings
+
 # 忽略文件目录
 Assets/VacuumShaders
 # Assets/Plugins

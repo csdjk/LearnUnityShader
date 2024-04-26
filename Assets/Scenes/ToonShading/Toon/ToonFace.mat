@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ToonFace
+  m_Shader: {fileID: 4800000, guid: 473a01c7b112cad41a8ae8f0b28390fb, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _TESTMODE_NONE
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _FaceSDFTex:
+        m_Texture: {fileID: 2800000, guid: 18fcdff19b480e44eb1c272c9b216e72, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 33408e2fc8b0d3242ad431e0acae924a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _FaceLightOffset: -0.018
+    - _OffsetFactor: 0
+    - _OffsetUnits: 0
+    - _OutlinePower: 0.0073
+    - _SDFThreshold: 0.074
+    - _TestMode: 0
+    - _USE_SMOOTH_NORMAL: 0
+    - _group_outline: 1
+    - _group_shadow: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _LineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ShadowColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+  m_BuildTextureStacks: []
