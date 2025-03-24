@@ -356,3 +356,14 @@
 ## [PCSS](https://github.com/csdjk/LearnUnityShader/tree/master/Assets/Scenes/Shadows/CustomShadowMap)
 
 [![oDHmfH.png](https://s4.ax1x.com/2021/12/05/oDHmfH.png)](https://imgtu.com/i/oDHmfH)
+
+# Support
+
+If you find this project helpful and would like to support me, you can donate through the following payment code. Thank you very much for your support!
+
+[Paypal](https://paypal.me/lichanglongpay?country.x=C2&locale.x=zh_XC)
+
+![mm_facetoface_collect_qrcode_1742817599763](https://github.com/user-attachments/assets/e3152b78-6469-44ba-a554-65914801af02)
+![1742818184258](https://github.com/user-attachments/assets/bfb8c7d0-42f3-4e54-9bdf-6091f15048d2)
+
+
